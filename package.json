@@ -1,0 +1,17 @@
+{
+  "name": "ecsges-theme",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build SCSS (Dart Sass) cho WordPress theme ECSGES → assets/css/main.css. Theme chạy không cần Node.",
+  "scripts": {
+    "build:scss": "sass src/scss/main.scss assets/css/main.css --style=compressed --no-source-map",
+    "watch:scss": "sass --watch src/scss/main.scss:assets/css/main.css --style=compressed --no-source-map",
+    "build:scss:dev": "sass src/scss/main.scss assets/css/main.css --style=expanded",
+    "build": "npm run build:scss",
+    "dev": "npm run watch:scss",
+    "start": "npm run watch:scss"
+  },
+  "devDependencies": {
+    "sass": "^1.101.0"
+  }
+}

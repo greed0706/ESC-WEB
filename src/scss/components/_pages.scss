@@ -1,0 +1,523 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+// Shared page banner (PageHero) — used by page-hero.php on
+// /linh-vuc-hoat-dong/ and /phat-trien-ben-vung/. Mirrors .ecs-ve-hero
+// (Phase 2 Task 11) 1:1 — kept as its own partial per plan.
+
+
+.ecs-page-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: calc(100svh - 64px);
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  padding-bottom: 56px;
+
+  @include bp(lg) {
+    min-height: calc(100svh - 72px);
+    padding-bottom: 152px;
+  }
+
+  &__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -10;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -10;
+  }
+
+  &__content {
+    text-align: center;
+  }
+
+  &__title {
+    font-family: $font-display;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #fff;
+    padding-inline-start: 40px;
+    font-size: 40px;
+
+    @include bp(sm) {
+      font-size: 60px;
+    }
+
+    @include bp(lg) {
+      font-size: 80px;
+    }
+  }
+}
+
+// Linh vực hoạt động — page-hero.php sibling section (Phase 2 Task 14),
+// following the method established in components/_footer.scss (Task 2).
+//
+// JS coupling: shares initEcosystemTabs() (assets/js/main.js) with
+// `.ecs-ecosystem` (Task 8) via the same `data-ecosystem`/`data-tab`/
+// `data-panel` contract — the JS toggles ONLY `.is-active`, so tab + panel
+// states below must reproduce the same visuals via that one class.
+
+
+.ecs-lv {
+  background: #fff;
+  padding-bottom: 56px;
+
+  @include bp(lg) {
+    padding-bottom: 80px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  // Visually-hidden heading (was Tailwind `sr-only`).
+  &__visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  &__tablist {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    row-gap: 12px;
+  }
+
+  &__tab {
+    padding-inline: 24px;
+    padding-block: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    background: #fff;
+    color: $ink;
+
+    &.is-active {
+      background: $brand;
+      color: #fff;
+    }
+  }
+
+  &__panel {
+    display: none;
+    margin-top: 40px;
+
+    &.is-active {
+      display: grid;
+    }
+  }
+
+  &__panel-inner {
+    position: relative;
+
+    @include bp(md) {
+      min-height: 480px;
+    }
+  }
+
+  &__image {
+    height: 256px;
+    width: 100%;
+    object-fit: cover;
+
+    @include bp(md) {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      width: 66%;
+    }
+  }
+
+  &__box {
+    position: relative;
+    z-index: 10;
+    margin-top: 24px;
+    background: $surface-2;
+    padding: 24px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    @include bp(md) {
+      margin-block: 48px;
+      margin-left: 50%;
+      width: 50%;
+      padding: 40px;
+    }
+
+    @include bp(lg) {
+      padding: 48px;
+    }
+  }
+
+  &__text {
+    text-align: justify;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 32px;
+    color: $body;
+  }
+}
+
+// Phát triển bền vững — team carousel, values, guides (Phase 2 Task 15),
+// following the method established in components/_footer.scss (Task 2).
+//
+// JS coupling: initPtbvCarousel() (assets/js/main.js) sets inline
+// `style.transform` on [data-ptbv-track] and measures card width via
+// getBoundingClientRect — it does NOT toggle any class. The
+// data-ptbv-carousel/-track/-prev/-next hooks are left untouched in markup;
+// only the surrounding utility classes were swapped for BEM here. Card width
+// (the calc() below) must stay exact since JS reads the rendered width.
+
+
+// Shared visually-hidden heading helper (was Tailwind `sr-only`) — mirrors
+// the pattern already used in components/_linh-vuc.scss.
+@mixin ptbv-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* .ecs-team — carousel nhân sự                                        */
+/* ------------------------------------------------------------------ */
+.ecs-team {
+  background: #fff;
+  padding-block: 56px;
+
+  @include bp(lg) {
+    padding-block: 80px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__visually-hidden {
+    @include ptbv-visually-hidden;
+  }
+
+  &__carousel {
+    position: relative;
+    padding-inline: 40px;
+  }
+
+  &__viewport {
+    overflow: hidden;
+  }
+
+  &__track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.5s ease-out;
+  }
+
+  &__card {
+    position: relative;
+    width: 100%;
+    flex-shrink: 0;
+
+    @include bp(sm) {
+      width: calc((100% - 24px) / 2);
+    }
+
+    @include bp(lg) {
+      width: calc((100% - 48px) / 3);
+    }
+  }
+
+  &__photo {
+    aspect-ratio: 399 / 508;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &__info {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    background: rgba($brand, 0.8);
+    padding: 16px;
+    text-align: center;
+    color: #fff;
+  }
+
+  &__name {
+    font-family: $font-display;
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+
+  &__title {
+    margin-top: 4px;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  &__arrow {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    width: 44px;
+    height: 44px;
+    translate: 0 -50%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid $placeholder;
+    background: #fff;
+    color: $muted-2;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      border-color: $brand;
+      background: $brand;
+      color: #fff;
+    }
+  }
+
+  &__arrow--prev {
+    left: -4px;
+
+    @include bp(lg) {
+      left: -8px;
+    }
+  }
+
+  &__arrow--next {
+    right: -4px;
+
+    @include bp(lg) {
+      right: -8px;
+    }
+  }
+
+  &__arrow-icon {
+    font-size: 24px;
+    line-height: 1;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* .ecs-values — 3 giá trị (TẬN TÂM / ĐỒNG HÀNH / ĐỔI MỚI)              */
+/* ------------------------------------------------------------------ */
+.ecs-values {
+  background: $surface-2;
+  padding-block: 56px;
+
+  @include bp(lg) {
+    padding-block: 80px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__visually-hidden {
+    @include ptbv-visually-hidden;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 40px;
+
+    @include bp(sm) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__icon {
+    width: 192px;
+    height: 192px;
+
+    @include bp(lg) {
+      width: 224px;
+      height: 224px;
+    }
+  }
+
+  &__title {
+    margin-top: 16px;
+    font-family: $font-display;
+    font-size: 24px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    color: $ink;
+  }
+
+  &__text {
+    margin-top: 16px;
+    text-align: justify;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 28px;
+    color: $body;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* .ecs-guides — banner "Click here" + 4 thẻ hướng dẫn                 */
+/* ------------------------------------------------------------------ */
+.ecs-guides {
+  background: #fff;
+  padding-top: 0;
+  padding-bottom: 56px;
+
+  @include bp(lg) {
+    padding-bottom: 80px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__visually-hidden {
+    @include ptbv-visually-hidden;
+  }
+
+  // Container bọc cụm promo: nền sáng, bo góc + overflow:hidden để banner (con đầu, full-bleed)
+  // được CLIP 2 góc trên theo radius container. KHÔNG padding ở đây — padding chỉ áp cho grid.
+  // TODO(Figma): xác nhận chính xác bg / border-radius / gap khi MCP hết rate-limit.
+  &__promo {
+    position: relative;
+    z-index: 1;
+    top: -40px;
+    background: $surface;
+    border-radius: 0 0 30px 30px;
+    overflow: hidden;
+  }
+
+  &__banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: $brand;
+    // Full-bleed: chạm sát mép trái/phải/trên của container; 2 góc trên do container
+    // (overflow:hidden + border-radius) tự clip, 2 góc dưới vuông. KHÔNG tự bo góc ở đây.
+    padding-inline: 40px;
+    padding-block: 5px;
+    color: #fff;
+    transition: opacity 0.15s ease;
+
+    @include bp(sm) {
+      padding-inline: 75px;
+    }
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  &__banner-icon {
+    height: 80px;
+    width: 80px;
+  }
+
+  &__banner-text {
+    font-family: $font-display;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    align-self: flex-end;
+  }
+
+  &__grid {
+    // Padding trong CHỈ cho 4 thumbnail (banner phía trên full-bleed, không dính padding này).
+    padding: 24px 40px;
+
+    @include bp(lg) {
+      padding: 32px 75px;
+    }
+
+    display: grid;
+    gap: 24px;
+
+    @include bp(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp(lg) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  &__card {
+    display: block;
+  }
+
+  &__card-media {
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  &__card-img {
+    aspect-ratio: 274 / 182;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+
+  &__card:hover &__card-img {
+    transform: scale(1.05);
+  }
+
+  &__card-title {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: $brand;
+    transition: color 0.15s ease;
+  }
+
+  &__card:hover &__card-title {
+    text-decoration: underline;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Section guides (Click here + 4 thẻ) rộng hơn max-w-page mặc định     */
+/* (1152px) để khớp mẫu Figma. Chỉnh con số max-width để tăng/giảm.     */
+/* ------------------------------------------------------------------ */
+.ecs-guides__inner {
+  max-width: 1440px;
+}

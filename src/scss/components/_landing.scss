@@ -1,0 +1,879 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+// HeroSection (landing) — ported from Tailwind utilities (Phase 2 Task 5),
+// following the method established in components/_footer.scss (Task 2).
+//
+// NOTE: hero-intro classes (`.ecsges-hero-emblem`, `.ecsges-hero-mark`,
+// `.hero-reveal`, `[data-hero-chars]`, `.hero-word`, `.hero-char`,
+// `.ecsges-earth-ping`, `.js`/`.is-in`/`.is-ripple` states) already live in
+// ../_components.scss and are intentionally left untouched — this partial
+// only supplies the layout/spacing/color utilities that used to sit inline
+// in template-parts/section-hero.php.
+
+
+.ecs-hero {
+  background: $surface; // bg-surface
+
+  &__inner {
+    @include container;    // mx-auto w-full max-w-page px-6 md:px-10
+    display: grid;
+    align-items: center;   // items-center
+    gap: 2.5rem;            // gap-10
+    padding-block: 3.5rem;  // py-14
+    @include bp(md) { padding-block: 4rem; } // md:py-16
+    @include bp(lg) {
+      grid-template-columns: minmax(0, 420px) 1fr; // lg:grid-cols-[minmax(0,420px)_1fr]
+      gap: 3.5rem;                                  // lg:gap-14
+      padding-block: 4rem;                           // lg:py-16
+    }
+  }
+
+  &__emblem {
+    order: 2;              // order-2
+    display: flex;
+    justify-content: center; // justify-center
+    @include bp(lg) { order: 1; } // lg:order-1
+  }
+
+  &__mark {
+    display: grid;
+    aspect-ratio: 1 / 1;    // aspect-square
+    width: 300px;           // w-[300px]
+    place-items: center;    // place-items-center
+    @include bp(sm) { width: 380px; } // sm:w-[380px]
+    @include bp(lg) { width: 440px; } // lg:w-[440px]
+  }
+
+  &__mark-img {
+    width: 70%; // w-[70%]
+  }
+
+  &__content {
+    order: 1;              // order-1
+    @include bp(lg) { order: 2; } // lg:order-2
+  }
+
+  &__eyebrow {
+    font-family: $font-display; // font-display
+    font-size: 1.125rem;         // text-lg
+    font-weight: 500;            // font-medium
+    letter-spacing: 0.025em;     // tracking-wide
+    color: $muted;                // text-muted
+    @include bp(md) { font-size: 22px; } // md:text-[22px]
+  }
+
+  &__script {
+    margin-top: 0.5rem;   // mt-2
+    font-family: $font-script; // font-script
+    font-size: 3rem;       // text-5xl
+    line-height: 1;        // leading-none
+    color: $blue;           // text-blue
+    @include bp(md) { font-size: 4.5rem; } // md:text-7xl
+    @include bp(lg) { font-size: 96px; }   // lg:text-[96px]
+  }
+
+  &__heading {
+    margin-top: 0.75rem;   // mt-3
+    font-family: $font-display; // font-display
+    font-weight: 600;       // font-semibold
+    line-height: 1.1;       // leading-[1.1]
+    color: $brand;           // text-brand
+    font-size: 36px;        // text-[36px]
+    text-wrap: balance;     // text-balance
+    @include bp(md) { font-size: 3rem; } // md:text-5xl
+    @include bp(lg) {
+      font-size: 66px;      // lg:text-[66px]
+      line-height: 1.15;    // lg:leading-[1.15]
+    }
+  }
+
+  &__badge {
+    margin-top: 1.5rem;     // mt-6
+    display: inline-block;  // inline-block
+    background: $blue;       // bg-blue
+    padding-inline: 1.5rem;  // px-6
+    padding-block: 0.625rem; // py-2.5
+    font-family: $font-display; // font-display
+    font-size: 1.5rem;        // text-2xl
+    font-weight: 500;         // font-medium
+    letter-spacing: 0.05em;   // tracking-[0.05em]
+    color: #fff;               // text-white
+    @include bp(md) { font-size: 1.875rem; } // md:text-3xl
+    @include bp(lg) { font-size: 40px; }      // lg:text-[40px]
+  }
+
+  &__cta-wrap {
+    margin-top: 2.25rem; // mt-9
+  }
+
+  &__cta {
+    font-family: $font-display; // font-display
+    font-size: 1.125rem;         // text-lg
+    font-weight: 500;             // font-medium
+    letter-spacing: 0.025em;      // tracking-wide
+    @include bp(md) { font-size: 22px; } // md:text-[22px]
+  }
+}
+
+// AboutSection — ported from Tailwind utilities (Phase 2 Task 6), following
+// the method established in components/_footer.scss (Task 2).
+//
+// NOTE: `.ecsges-earth-ping`, `.ecsges-pin`, `[data-pins-reveal]`,
+// `[data-chars-reveal]`/.rword/.rchar already live in ../_components.scss and
+// are intentionally left untouched — this partial only supplies the
+// layout/spacing/color utilities that used to sit inline in
+// template-parts/section-about.php.
+
+
+.ecs-about {
+  overflow: hidden; // overflow-hidden
+  background: #fff; // bg-white
+  padding-top: 7rem;    // pt-28
+  padding-bottom: 4rem; // pb-16
+  @include bp(lg) {
+    padding-top: 13rem;    // lg:pt-52
+    padding-bottom: 8rem;  // lg:pb-32
+  }
+
+  &__inner {
+    @include container;  // mx-auto w-full max-w-page px-6 md:px-10
+    display: grid;
+    align-items: center; // items-center
+    gap: 2.5rem;          // gap-10
+    @include bp(lg) {
+      grid-template-columns: repeat(2, minmax(0, 1fr)); // lg:grid-cols-2
+      gap: 4rem;                                         // lg:gap-16
+    }
+  }
+
+  &__map {
+    position: relative;      // relative
+    margin-inline: auto;     // mx-auto
+    width: 100%;             // w-full
+    max-width: 640px;        // max-w-[640px]
+  }
+
+  &__ring {
+    pointer-events: none;   // pointer-events-none
+    position: absolute;     // absolute
+    left: 50%;               // left-1/2
+    top: 50%;                // top-1/2
+    aspect-ratio: 1 / 1;     // aspect-square
+    translate: -50% -50%;    // -translate-x-1/2 -translate-y-1/2
+    border-radius: 9999px;   // rounded-full
+  }
+
+  &__ring--outer {
+    z-index: 10;                       // z-10
+    width: 94%;                        // w-[94%]
+    border: 1px solid rgba($brand, 0.2); // border border-brand/20
+  }
+
+  &__ring--inner {
+    z-index: auto;                     // z-auto
+    width: 75%;                        // w-[75%]
+    border: 2px solid rgba($brand, 0.7); // border-2 border-brand/70
+  }
+
+  &__earth {
+    position: relative; // relative
+    width: 100%;        // w-full
+  }
+
+  &__pin--lg {
+    position: absolute;   // absolute
+    z-index: 10;           // z-10
+    translate: -50% -100%; // -translate-x-1/2 -translate-y-full
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.06)); // drop-shadow
+  }
+
+  &__pin--sm {
+    position: absolute;    // absolute
+    z-index: 20;            // z-20
+    translate: -50% -100%;  // -translate-x-1/2 -translate-y-full
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05)); // drop-shadow-sm
+  }
+
+  &__pin-icon {
+    width: 100%; // w-full
+  }
+
+  &__pin-mark {
+    position: absolute; // absolute
+    left: 50%;           // left-1/2
+    top: 40%;            // top-[40%]
+    width: 46%;          // w-[46%]
+    translate: -50% -50%; // -translate-x-1/2 -translate-y-1/2
+  }
+
+  &__text {
+    margin-top: 1.5rem;   // mt-6
+    text-align: justify;  // text-justify
+    font-size: 1.125rem;  // text-lg
+    font-weight: 300;     // font-light
+    line-height: 2rem;    // leading-8
+    color: $body;          // text-body
+
+    > p + p {
+      margin-top: 0.75rem; // space-y-3
+    }
+  }
+
+  &__cta-wrap {
+    margin-top: 2rem; // mt-8
+  }
+
+  &__cta {
+    font-size: 1.125rem; // text-lg
+    font-weight: 300;    // font-light
+  }
+}
+
+// JourneySection (landing) — ported from Tailwind utilities (Phase 2 Task 7),
+// following the method established in components/_footer.scss (Task 2).
+
+
+.ecs-journey {
+  position: relative; // relative
+  overflow: hidden;   // overflow-hidden
+  background: $brand;  // bg-brand
+
+  &__gradient {
+    pointer-events: none; // pointer-events-none
+    position: absolute;    // absolute
+    inset-inline: 0;       // inset-x-0
+    top: 33.3333%;         // top-1/3
+    display: none;         // hidden
+    height: 33.3333%;      // h-1/3
+    background: linear-gradient(to right, $brand 40%, $brand-dark, #c8451b); // bg-gradient-to-r from-brand from-40% via-brand-dark to-[#c8451b]
+    @include bp(lg) { display: block; } // lg:block
+  }
+
+  &__inner {
+    position: relative;   // relative
+    display: grid;
+    align-items: stretch; // items-stretch
+    gap: 2.5rem;          // gap-10
+    padding-block: 4rem;  // py-16
+    @include bp(lg) {
+      grid-template-columns: repeat(2, minmax(0, 1fr)); // lg:grid-cols-2
+      gap: 0;             // lg:gap-0
+      padding-block: 0;   // lg:py-0
+    }
+  }
+
+  &__text-col {
+    padding-inline: 1.5rem; // px-6
+    padding-block: 4rem;    // py-16
+    @include bp(md) { padding-inline: 2.5rem; } // md:px-10
+    @include bp(lg) {
+      display: grid;
+      grid-template-rows: repeat(3, minmax(0, 1fr)); // lg:grid-rows-3
+      padding-block: 0;                               // lg:py-0
+      padding-right: 3rem;                             // lg:pr-12
+      padding-left: max(2.5rem, calc((100vw - #{$page-max}) / 2)); // lg:pl-[max(2.5rem,calc((100vw-var(--spacing-page))/2))]
+    }
+  }
+
+  &__text-inner {
+    display: flex;
+    flex-direction: column;   // flex-col
+    justify-content: center;  // justify-center
+    @include bp(lg) { grid-row: 1 / 4; } // lg:row-start-1 lg:row-end-4
+  }
+
+  &__body {
+    margin-top: 1.5rem;   // mt-6
+    max-width: 36rem;     // max-w-xl
+    text-align: justify;  // text-justify
+    font-size: 1.125rem;  // text-lg
+    font-weight: 300;     // font-light
+    line-height: 2rem;    // leading-8
+    color: #fff;           // text-white
+  }
+
+  &__cta-wrap {
+    margin-top: 2rem; // mt-8
+  }
+
+  &__cta {
+    font-size: 1.125rem; // text-lg
+    font-weight: 300;    // font-light
+  }
+
+  &__photos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); // grid-cols-2
+    gap: 0.75rem;           // gap-3
+    padding-inline: 1.5rem; // px-6
+    @include bp(md) { padding-inline: 2.5rem; } // md:px-10
+    @include bp(lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr)); // lg:grid-cols-3
+      grid-template-rows: repeat(3, minmax(0, 1fr));    // lg:grid-rows-3
+      gap: 0;             // lg:gap-0
+      padding-inline: 0;  // lg:px-0
+    }
+  }
+
+  &__photo {
+    aspect-ratio: 1 / 1; // aspect-square
+    width: 100%;         // w-full
+    object-fit: cover;   // object-cover
+  }
+
+  &__photo--1 { @include bp(lg) { grid-column-start: 3; grid-row-start: 1; } }
+  &__photo--2 { @include bp(lg) { grid-column-start: 2; grid-row-start: 2; } }
+  &__photo--3 { @include bp(lg) { grid-column-start: 1; grid-row-start: 3; } }
+  &__photo--4 { @include bp(lg) { grid-column-start: 3; grid-row-start: 3; } }
+}
+
+// EcosystemSection (+ tabs) — ported from Tailwind utilities (Phase 2 Task 8),
+// following the method established in components/_footer.scss (Task 2).
+//
+// JS coupling: initEcosystemTabs() (assets/js/main.js) toggles ONLY
+// `.is-active` on `[data-tab]` buttons and `[data-panel]` panels. The icon
+// (`[data-tab-icon]`) and caret (`[data-tab-caret]`) visuals below react to
+// that single class via descendant/sibling selectors — no JS change needed
+// for them. `linh-vuc-tabs.php` (`.ecs-lv`, Task 14) shares this exact JS via
+// the same `data-ecosystem`/`data-tab`/`data-panel` contract.
+
+
+.ecs-ecosystem {
+  background: $surface-2; // bg-surface-2
+  padding-block: 4rem;     // py-16
+  @include bp(lg) { padding-block: 6rem; } // lg:py-24
+
+  &__inner {
+    @include container; // mx-auto w-full max-w-page px-6 md:px-10
+  }
+
+  &__heading {
+    margin-inline: auto; // mx-auto
+  }
+
+  &__intro {
+    margin-inline: auto;   // mx-auto
+    margin-top: 1.5rem;    // mt-6
+    max-width: 48rem;      // max-w-3xl
+    text-align: center;    // text-center
+    font-size: 1.125rem;   // text-lg
+    font-weight: 300;      // font-light
+    line-height: 2rem;     // leading-8
+    color: $body;           // text-body
+  }
+
+  &__tabs {
+    margin-top: 3rem; // mt-12
+  }
+
+  &__tablist {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); // grid-cols-2
+    gap: 0.5rem;                                        // gap-2
+    @include bp(sm) { grid-template-columns: repeat(3, minmax(0, 1fr)); } // sm:grid-cols-3
+    @include bp(lg) { grid-template-columns: repeat(5, minmax(0, 1fr)); } // lg:grid-cols-5
+  }
+
+  &__tab-wrap {
+    position: relative; // relative
+  }
+
+  &__tab {
+    display: flex;
+    height: 100%;             // h-full
+    width: 100%;              // w-full
+    flex-direction: column;   // flex-col
+    align-items: center;      // items-center
+    justify-content: center;  // justify-center
+    gap: 0.75rem;              // gap-3
+    padding-inline: 0.5rem;    // px-2
+    padding-block: 1.5rem;     // py-6
+    transition: color 0.15s ease, background-color 0.15s ease; // transition-colors
+    background: #fff; // bg-white (inactive default)
+    color: $ink;        // text-ink (inactive default)
+
+    &.is-active {
+      background: $brand; // bg-brand
+      color: #fff;          // text-white
+    }
+  }
+
+  &__icon {
+    display: inline-block; // inline-block
+    color: #A4A4A4;         // text-[#A4A4A4] (inactive default)
+
+    svg {
+      height: 2.75rem; // [&>svg]:h-11
+      width: auto;     // [&>svg]:w-auto
+    }
+  }
+
+  &__tab.is-active &__icon {
+    color: #fff; // text-white (active)
+  }
+
+  &__label {
+    text-align: center;      // text-center
+    font-size: 1rem;          // text-base
+    font-weight: 500;         // font-medium
+    letter-spacing: 0.025em;  // tracking-wide
+    @include bp(md) { font-size: 1.125rem; } // md:text-lg
+  }
+
+  &__caret {
+    position: absolute;    // absolute
+    bottom: -0.5rem;        // -bottom-2
+    left: 50%;              // left-1/2
+    display: none;          // hidden (default)
+    translate: -50% 0;      // -translate-x-1/2
+    border-inline: 15px solid transparent; // border-x-[15px] border-x-transparent
+    border-top: 11px solid $brand;          // border-t-[11px] border-t-brand
+  }
+
+  // Caret is a sibling of the tab button (both live in &__tab-wrap), not a
+  // descendant, so it needs a sibling combinator keyed off the tab's
+  // `.is-active` state.
+  &__tab.is-active ~ &__caret {
+    @include bp(lg) { display: block; } // lg:block (only when active)
+  }
+
+  &__panel {
+    display: none;             // hidden (default)
+    margin-top: 2.5rem;         // mt-10
+    align-items: stretch;       // items-stretch
+    gap: 0;                     // gap-0
+    @include bp(md) {
+      min-height: 27.5rem;                              // md:min-h-110
+      grid-template-columns: repeat(2, minmax(0, 1fr));  // md:grid-cols-2
+    }
+
+    &.is-active {
+      display: grid; // grid (active)
+    }
+  }
+
+  &__panel-img {
+    height: 16rem;      // h-64
+    width: 100%;         // w-full
+    object-fit: cover;   // object-cover
+    @include bp(md) { height: 100%; } // md:h-full
+  }
+
+  &__panel-body {
+    display: flex;
+    flex-direction: column;  // flex-col
+    justify-content: center; // justify-center
+    background: #fff;         // bg-white
+    padding: 2rem;             // p-8
+    @include bp(lg) { padding: 3rem; } // lg:p-12
+  }
+
+  &__panel-title {
+    font-family: $font-display; // font-display
+    font-size: 1.5rem;           // text-2xl
+    font-weight: 500;            // font-medium
+    color: $brand;                // text-brand
+  }
+
+  &__panel-text {
+    margin-top: 1rem;    // mt-4
+    text-align: justify; // text-justify
+    font-size: 1.125rem; // text-lg
+    font-weight: 300;    // font-light
+    line-height: 2rem;   // leading-8
+    color: $body;         // text-body
+  }
+}
+
+// NewsSection (+ pagination) — ported from Tailwind utilities (Phase 2 Task 9),
+// following the method established in components/_footer.scss (Task 2).
+//
+// JS coupling: initNewsPagination() (assets/js/main.js) toggles ONLY
+// `.is-active` on `[data-news-page]` and `[data-news-dot]` — no more
+// `flex`/`hidden`/`bg-brand`/`bg-placeholder` toggling. `.ecsges_see_more()`
+// and `.ecsges_section_heading()` output (`.ecs-see-more` / `.ecs-heading`)
+// already live in ../_components.scss / their own partials — untouched here.
+
+
+.ecs-news {
+  background: #fff; // bg-white
+  padding-block: 4rem; // py-16
+  @include bp(lg) { padding-block: 6rem; } // lg:py-24
+
+  &__inner {
+    @include container; // mx-auto w-full max-w-page px-6 md:px-10
+  }
+
+  &__grid {
+    margin-top: 3rem; // mt-12
+    display: grid;
+    align-items: stretch; // items-stretch
+    gap: 1.5rem;           // gap-6
+    @include bp(lg) { grid-template-columns: repeat(2, minmax(0, 1fr)); } // lg:grid-cols-2
+  }
+
+  // Featured card
+  &__featured {
+    display: flex;
+    height: 100%;          // h-full
+    flex-direction: column; // flex-col
+  }
+
+  &__featured-media {
+    overflow: hidden; // overflow-hidden
+  }
+
+  &__featured-img {
+    aspect-ratio: 627 / 375; // aspect-[627/375]
+    width: 100%;              // w-full
+    object-fit: cover;        // object-cover
+    transition: transform 0.5s; // transition-transform duration-500
+
+    .ecs-news__featured:hover & {
+      transform: scale(1.05); // group-hover:scale-105
+    }
+  }
+
+  &__featured-body {
+    display: flex;
+    flex: 1 1 0%;      // flex-1
+    flex-direction: column; // flex-col
+    background: $surface-2; // bg-surface-2
+    padding: 1.75rem;        // p-7
+  }
+
+  &__featured-title {
+    font-size: 22px;    // text-[22px]
+    line-height: 1.25;  // leading-tight
+    color: $ink;         // text-ink
+  }
+
+  &__featured-excerpt {
+    margin-top: 0.75rem; // mt-3
+    font-size: 1.125rem; // text-lg
+    font-weight: 300;    // font-light
+    line-height: 1.625;  // leading-relaxed
+    color: $body;         // text-body
+  }
+
+  &__featured-footer {
+    margin-top: auto; // mt-auto
+    display: flex;
+    align-items: center;      // items-center
+    justify-content: space-between; // justify-between
+    padding-top: 1rem;         // pt-4
+  }
+
+  &__date {
+    font-family: $font-display; // font-display
+    font-size: 1rem;             // text-base
+    font-weight: 300;            // font-light
+    color: $muted-2;              // text-muted-2
+  }
+
+  // Shared title link (featured + list item)
+  &__link {
+    transition: color 0.15s ease; // transition-colors
+    &:hover { color: $brand; }     // hover:text-brand
+  }
+
+  // Paginated list
+  &__list {
+    position: relative; // relative
+  }
+
+  &__page {
+    display: none; // hidden (default)
+
+    &.is-active {
+      display: flex;             // flex (active)
+      flex-direction: column;    // flex-col
+      justify-content: space-between; // justify-between
+      height: 100%;               // h-full
+      gap: 1rem;                   // gap-4
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: stretch; // items-stretch
+    gap: 1rem;             // gap-4
+    background: $surface-2; // bg-surface-2
+    padding: 1rem;           // p-4
+  }
+
+  &__item-media {
+    height: 97px;    // h-[97px]
+    width: 160px;    // w-[160px]
+    flex-shrink: 0;  // shrink-0
+    overflow: hidden; // overflow-hidden
+  }
+
+  &__item-img {
+    height: 100%; // h-full
+    width: 100%;  // w-full
+    object-fit: cover; // object-cover
+    transition: transform 0.5s; // transition-transform duration-500
+
+    .ecs-news__item:hover & {
+      transform: scale(1.05); // group-hover:scale-105
+    }
+  }
+
+  &__item-body {
+    display: flex;
+    flex: 1 1 0%;       // flex-1
+    flex-direction: column; // flex-col
+  }
+
+  &__item-title {
+    font-size: 1.125rem; // text-lg
+    line-height: 1.375;  // leading-snug
+    color: $ink;          // text-ink
+    @include bp(md) { font-size: 22px; } // md:text-[22px]
+  }
+
+  &__item-footer {
+    margin-top: auto; // mt-auto
+    display: flex;
+    justify-content: flex-end; // justify-end
+  }
+
+  // Pagination controls
+  &__pagination {
+    margin-top: 2rem; // mt-8
+    display: flex;
+    align-items: center;      // items-center
+    justify-content: center;  // justify-center
+    gap: 1rem;                 // gap-4
+    @include bp(lg) {
+      margin-left: auto;               // lg:ml-auto
+      width: calc(50% - 0.75rem);      // lg:w-[calc(50%-0.75rem)]
+    }
+  }
+
+  &__arrow-img {
+    width: 2rem;  // size-8
+    height: 2rem;
+  }
+
+  &__arrow-img--next {
+    transform: scaleX(-1); // -scale-x-100
+  }
+
+  &__dots {
+    display: flex;
+    align-items: center; // items-center
+    gap: 0.5rem;          // gap-2
+  }
+
+  &__dot {
+    width: 0.625rem;  // size-2.5
+    height: 0.625rem;
+    border-radius: 9999px; // rounded-full
+    transition: background-color 0.15s ease; // transition-colors
+    background: $placeholder; // bg-placeholder (default)
+
+    &.is-active {
+      background: $brand; // bg-brand (active)
+    }
+  }
+}
+
+// BranchSection — ported from Tailwind utilities (Phase 2 Task 10), following
+// the method established in components/_footer.scss (Task 2).
+//
+// NOTE: this section has no interactive map pins in the current markup (no
+// `.ecsges-pin` / `[data-pins-reveal]` here — those live in `_components.scss`
+// and are used by about/ve-ecs-values instead); only a static map <img>. No
+// `translate`/`scale` reveal wiring is needed for this partial.
+
+
+.ecs-branch {
+  background: $surface-2; // bg-surface-2
+  padding-block: 4rem;     // py-16
+  @include bp(lg) { padding-block: 6rem; } // lg:py-24
+
+  &__inner {
+    @include container; // mx-auto w-full max-w-page px-6 md:px-10
+  }
+
+  &__heading {
+    margin-inline: auto; // mx-auto
+  }
+
+  &__grid {
+    margin-top: 3rem; // mt-12
+    display: grid;
+    gap: 1.5rem;       // gap-6
+    @include bp(lg) { grid-template-columns: 380px 1fr; } // lg:grid-cols-[380px_1fr]
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column; // flex-col
+    gap: 1rem;                // gap-4
+    background: #fff;         // bg-white
+    padding: 1.5rem;           // p-6
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); // shadow-sm
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;   // items-center
+    gap: 0.75rem;           // gap-3
+    border-radius: 9999px;  // rounded-full
+    background: $surface-2;  // bg-surface-2
+    padding-inline: 1rem;    // px-4
+    padding-block: 0.75rem;  // py-3
+  }
+
+  &__search-icon {
+    flex-shrink: 0;  // shrink-0
+    color: $muted-2;  // text-muted-2
+  }
+
+  &__search-input {
+    width: 100%;         // w-full
+    background: transparent; // bg-transparent
+    font-size: 1.125rem;  // text-lg
+    font-weight: 300;     // font-light
+    color: $body;          // text-body
+    &::placeholder { color: $muted-2; } // placeholder:text-muted-2
+    &:focus { outline: none; } // focus:outline-none
+  }
+
+  &__divider {
+    display: flex;
+    align-items: center; // items-center
+    gap: 0.75rem;         // gap-3
+    font-size: 15px;      // text-[15px]
+    font-weight: 300;     // font-light
+    color: $muted-2;       // text-muted-2
+  }
+
+  &__divider-line {
+    height: 1px;    // h-px
+    flex: 1 1 0%;    // flex-1
+    background: rgba(0, 0, 0, 0.1); // bg-black/10
+  }
+
+  &__select-wrap {
+    position: relative; // relative
+  }
+
+  &__select {
+    width: 100%;          // w-full
+    appearance: none;      // appearance-none
+    background: $surface-2; // bg-surface-2
+    padding-inline: 1rem;   // px-4
+    padding-block: 0.75rem; // py-3
+    font-size: 1.125rem;    // text-lg
+    font-weight: 300;       // font-light
+    color: $body;            // text-body
+    &:focus { outline: none; } // focus:outline-none
+    &:focus-visible { box-shadow: 0 0 0 2px $blue; } // focus-visible:ring-2 focus-visible:ring-blue
+  }
+
+  &__select-caret {
+    pointer-events: none; // pointer-events-none
+    position: absolute;    // absolute
+    right: 1rem;            // right-4
+    top: 50%;               // top-1/2
+    translate: 0 -50%;      // -translate-y-1/2
+    color: $muted-2;         // text-muted-2
+  }
+
+  &__suggest {
+    background: $surface-2; // bg-surface-2
+    padding: 1.25rem;        // p-5
+  }
+
+  &__suggest-title {
+    font-family: $font-display; // font-display
+    font-weight: 600;             // font-semibold
+    letter-spacing: 0.025em;      // tracking-wide
+    color: $ink;                   // text-ink
+  }
+
+  &__suggest-divider {
+    margin-block: 0.75rem;                 // my-3
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1); // border-black/10
+  }
+
+  &__suggest-divider--dashed {
+    border-top: 1px dashed rgba(0, 0, 0, 0.15); // border-dashed border-black/15
+  }
+
+  &__suggest-list {
+    display: flex;
+    flex-direction: column; // flex-col
+  }
+
+  &__suggest-link {
+    display: flex;
+    align-items: flex-start; // items-start
+    gap: 0.75rem;              // gap-3
+    font-size: 1.125rem;       // text-lg
+    font-weight: 300;           // font-light
+    color: $ink;                 // text-ink
+    text-decoration: none;
+    transition: color 0.15s ease; // transition-colors
+    &:hover { color: $brand; }      // hover:text-brand
+  }
+
+  &__suggest-dot {
+    margin-top: 0.375rem; // mt-1.5
+    width: 0.75rem;        // size-3
+    height: 0.75rem;
+    flex-shrink: 0;         // shrink-0
+    border-radius: 9999px;  // rounded-full
+    background: $brand;      // bg-brand
+  }
+
+  &__map {
+    height: 100%;      // h-full
+    min-height: 320px;  // min-h-[320px]
+    width: 100%;        // w-full
+    object-fit: cover;  // object-cover
+  }
+}
+
+// index.php — generic fallback loop template (Phase 2 Task 16), following
+// the method established in components/_footer.scss (Task 2). Minimal: only
+// the few utilities used by the fallback markup.
+
+
+.ecs-index {
+  @include container;    // mx-auto w-full max-w-page px-6 md:px-10
+  padding-block: 4rem;   // py-16
+
+  &__article {
+    margin-bottom: 3rem; // mb-12
+  }
+
+  &__title {
+    font-family: $font-display; // font-display
+    font-size: 1.875rem;         // text-3xl
+    font-weight: 600;             // font-semibold
+    color: $ink;                   // text-ink
+  }
+
+  &__content {
+    margin-top: 1rem;    // mt-4
+    font-size: 1.125rem;  // text-lg
+    font-weight: 300;     // font-light
+    line-height: 2rem;    // leading-8
+    color: $body;          // text-body
+
+    > * + * { margin-top: 0.75rem; } // space-y-3
+  }
+
+  &__empty {
+    font-size: 1.125rem; // text-lg
+    font-weight: 300;    // font-light
+    color: $body;         // text-body
+  }
+}

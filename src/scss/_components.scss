@@ -1,0 +1,184 @@
+@use 'variables' as *;
+
+/* ------------------------------------------------------------------ *\
+ * Header dính + hiệu ứng cuộn (Headroom.js).
+ * Headroom gắn các class: headroom--top / --not-top / --pinned / --unpinned.
+\* ------------------------------------------------------------------ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  will-change: transform;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.3s ease;
+}
+/* Đã rời khỏi đỉnh trang → đổ bóng nhẹ */
+.site-header.headroom--not-top {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+/* Cuộn lên → hiện lại */
+.site-header.headroom--pinned {
+  transform: translateY(0);
+}
+/* Cuộn xuống → trượt lên ẩn đi */
+.site-header.headroom--unpinned {
+  transform: translateY(-100%);
+}
+
+
+/* Nút/link gạch chân "Tìm hiểu thêm" — hover: underline chạy sang ngang. */
+.ecsges-underline > span:last-child {
+  transform-origin: right center;
+}
+.ecsges-underline:hover > span:last-child,
+.ecsges-underline:focus-visible > span:last-child {
+  animation: ecsges-underline-sweep 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* --- Hero intro (học từ Viettel): emblem vào giữa → về chỗ → text hiện sau.
+   Chỉ ẩn khi có JS; có failsafe tự hiện nếu JS không chạy kịp. --- */
+.js .ecsges-hero-emblem {
+  opacity: 0;
+  animation: ecsges-hero-failsafe 0.01s linear 5s forwards;
+}
+.js .hero-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation: ecsges-hero-failsafe 0.01s linear 5.5s forwards;
+}
+.js .hero-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Banner emblem — học từ Viettel: vòng ripple lan toả + emblem "thở". */
+.ecsges-hero-mark {
+  position: relative;
+}
+.ecsges-hero-mark::before,
+.ecsges-hero-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 9999px;
+  border: 2px solid $brand;
+  opacity: 0;
+  pointer-events: none;
+}
+/* Sóng tròn + "thở" chỉ chạy SAU khi emblem về đúng chỗ (JS gắn .is-ripple). */
+.ecsges-hero-mark.is-ripple::before,
+.ecsges-hero-mark.is-ripple::after {
+  animation: ecsges-ripple 3s linear infinite;
+}
+/* Sóng thứ 2 lệch nửa chu kỳ → sóng toả ra liên tục, đều đặn (kiểu Viettel). */
+.ecsges-hero-mark.is-ripple::after {
+  animation-delay: 0.7s;
+}
+.ecsges-hero-mark.is-ripple img {
+  animation: ecsges-breathe 6s ease-in-out infinite;
+}
+
+/* Tiêu đề hero hiện từng chữ. */
+.hero-word {
+  display: inline-block;
+}
+.js [data-hero-chars] .hero-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation: ecsges-hero-failsafe 0.01s linear 5s forwards;
+}
+.js [data-hero-chars] .hero-char.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Globe pulse (đúng công thức Viettel): 2 vòng lan toả liên tục, mượt. */
+.ecsges-earth-ping {
+  isolation: isolate;
+}
+.ecsges-earth-ping::before,
+.ecsges-earth-ping::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 90%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  border: 2px solid $brand;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+  animation: ecsges-earth-ping 3s cubic-bezier(0.5, 0, 0.34, 1) infinite;
+}
+/* Vòng thứ 2 lệch 0.3s → hai vòng nối tiếp đều đặn, không có quãng nghỉ. */
+.ecsges-earth-ping::after {
+  animation-delay: 0.3s;
+}
+
+/* Map-pin zoom-in (kiểu .partners Viettel): scale 0 → 1 khi cuộn tới.
+   Animate riêng thuộc tính `scale` để không đụng `translate` định vị pin. */
+[data-pins-reveal].pins-armed .ecsges-pin {
+  scale: 0;
+  opacity: 0;
+  transform-origin: center bottom;
+  transition:
+    scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.35s ease;
+}
+[data-pins-reveal].pins-armed .ecsges-pin.is-in {
+  scale: 1;
+  opacity: 1;
+}
+
+/* Đoạn văn hiện từng chữ (typewriter) khi cuộn tới. */
+.rword {
+  display: inline-block;
+}
+.js [data-chars-reveal] .rchar {
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: ecsges-hero-failsafe 0.01s linear 6s forwards;
+}
+.js [data-chars-reveal] .rchar.is-in {
+  opacity: 1;
+}
+
+/* Dropdown ngôn ngữ (mở bằng click). Để NGOÀI @layer để thắng utilities
+   (invisible/opacity-0). JS gắn .is-open lên .ecsges-lang. */
+.ecsges-lang-panel {
+  opacity: 0;
+  visibility: hidden;
+}
+.ecsges-lang.is-open .ecsges-lang-panel {
+  opacity: 1;
+  visibility: visible;
+}
+.ecsges-lang.is-open .ecsges-lang-caret {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Không ẩn/hiện header khi người dùng giảm chuyển động — giữ dính, chỉ đổ bóng. */
+  .site-header.headroom--unpinned {
+    transform: none !important;
+  }
+}

@@ -1,0 +1,41 @@
+@use 'variables' as *;
+
+@font-face { font-family:'Roboto'; font-style:normal; font-weight:300; font-display:swap; src:url('../fonts/Roboto-Light.ttf') format('truetype'); }
+@font-face { font-family:'Roboto'; font-style:normal; font-weight:400; font-display:swap; src:url('../fonts/Roboto-Regular.ttf') format('truetype'); }
+@font-face { font-family:'Roboto'; font-style:normal; font-weight:500; font-display:swap; src:url('../fonts/Roboto-Medium.ttf') format('truetype'); }
+@font-face { font-family:'Roboto'; font-style:normal; font-weight:700; font-display:swap; src:url('../fonts/Roboto-Bold.ttf') format('truetype'); }
+
+// Reset (thay Tailwind Preflight khi cutover) — chỉ các điểm markup theme dựa vào.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+}
+html { line-height: 1.5; -webkit-text-size-adjust: 100%; }
+h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; margin: 0; }
+p, figure, blockquote, dl, dd, hr, pre { margin: 0; }
+a { color: inherit; text-decoration: inherit; }
+ul, ol, menu { list-style: none; margin: 0; padding: 0; }
+img, svg, video, canvas, audio, iframe, embed, object { display: block; vertical-align: middle; }
+img, video { max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; margin: 0; }
+button, [type='button'], [type='submit'], [type='reset'] {
+  -webkit-appearance: button;
+  appearance: button;
+  background-color: transparent;
+  background-image: none;
+  cursor: pointer;
+}
+
+body {
+  margin: 0;
+  font-family: $font-sans;
+  color: $body;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+:focus-visible { outline: 2px solid $blue; outline-offset: 2px; }

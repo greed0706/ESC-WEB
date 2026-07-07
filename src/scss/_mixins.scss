@@ -1,0 +1,16 @@
+@use 'variables' as *;
+
+// Container căn giữa + max-width trang + padding ngang (thay 'mx-auto w-full max-w-page px-6 md:px-10').
+@mixin container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: $page-max;
+  padding-inline: 1.5rem;            // px-6
+  @media (min-width: $bp-md) { padding-inline: 2.5rem; } // md:px-10
+}
+
+@mixin bp($size) {
+  @if $size == sm { @media (min-width: $bp-sm) { @content; } }
+  @else if $size == md { @media (min-width: $bp-md) { @content; } }
+  @else if $size == lg { @media (min-width: $bp-lg) { @content; } }
+}

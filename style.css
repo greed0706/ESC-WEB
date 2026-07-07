@@ -1,0 +1,17 @@
+/*
+Theme Name: ECSGES
+Theme URI:
+Author: ECS Global
+Author URI:
+Description: Landing page ECSGES — hệ sinh thái giáo dục toàn cầu (chuyển từ bản React/Vite sang classic PHP theme). CSS được build bằng Tailwind CSS v4 (xem assets/css/main.css).
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ecsges
+*/
+
+/* Toàn bộ style thực tế nằm trong assets/css/main.css (Tailwind build).
+   File này chỉ cần header ở trên để WordPress nhận diện theme. */
