@@ -42,8 +42,25 @@ foreach ( $ecsges_langs as $ecsges_l ) {
 				<nav aria-label="Chính" class="ecs-header__nav">
 					<ul class="ecs-header__nav-list">
 						<?php foreach ( $ecsges_nav as $item ) : ?>
-							<li>
-								<a href="<?php echo esc_url( $item['href'] ); ?>" class="ecs-header__nav-link"><?php echo esc_html( $item['label'] ); ?></a>
+							<?php $has_children = ! empty( $item['children'] ); ?>
+							<li class="ecs-header__nav-item<?php echo $has_children ? ' has-children' : ''; ?>">
+								<a href="<?php echo esc_url( $item['href'] ); ?>" class="ecs-header__nav-link">
+									<?php echo esc_html( $item['label'] ); ?>
+									<?php if ( $has_children ) : ?>
+										<?php echo ecsges_icon( 'chevron-down', 13, 'ecs-header__nav-caret', 2.5 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+									<?php endif; ?>
+								</a>
+								<?php if ( $has_children ) : ?>
+									<div class="ecs-header__dropdown">
+										<ul class="ecs-header__dropdown-list">
+											<?php foreach ( $item['children'] as $child ) : ?>
+												<li>
+													<a href="<?php echo esc_url( $child['href'] ); ?>" class="ecs-header__dropdown-link"><?php echo esc_html( $child['label'] ); ?></a>
+												</li>
+											<?php endforeach; ?>
+										</ul>
+									</div>
+								<?php endif; ?>
 							</li>
 						<?php endforeach; ?>
 					</ul>
