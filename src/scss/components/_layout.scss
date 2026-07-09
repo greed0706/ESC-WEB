@@ -262,8 +262,8 @@
       visibility 0.2s ease;
   }
 
-  &__nav-item:hover > &__dropdown,
-  &__nav-item:focus-within > &__dropdown {
+  &__nav-item:hover>&__dropdown,
+  &__nav-item:focus-within>&__dropdown {
     opacity: 1;
     visibility: visible;
   }
