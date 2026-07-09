@@ -5,6 +5,10 @@
 @font-face { font-family:'Roboto'; font-style:normal; font-weight:500; font-display:swap; src:url('../fonts/Roboto-Medium.ttf') format('truetype'); }
 @font-face { font-family:'Roboto'; font-style:normal; font-weight:700; font-display:swap; src:url('../fonts/Roboto-Bold.ttf') format('truetype'); }
 
+// Font viết tay cho chữ "Kiến tạo" ($font-script) — MTD Adventures Unlimited Script.
+// Tự host: đặt file vào assets/fonts/adventures-unlimited.woff2 (và/hoặc .ttf).
+@font-face { font-family:'Adventures Unlimited'; font-style:normal; font-weight:400; font-display:swap; src:url('../fonts/adventures-unlimited.woff2') format('woff2'), url('../fonts/adventures-unlimited.ttf') format('truetype'); }
+
 // Reset (thay Tailwind Preflight khi cutover) — chỉ các điểm markup theme dựa vào.
 *,
 *::before,

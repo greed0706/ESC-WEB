@@ -19,7 +19,7 @@ function ecsges_nav_items() {
 		array( 'label' => 'Về ECS',              'href' => '/ve-ecs' ),
 		array( 'label' => 'Lĩnh vực hoạt động',   'href' => '/linh-vuc-hoat-dong/' ),
 		array( 'label' => 'Phát triển bền vững',  'href' => '/phat-trien-ben-vung/' ),
-		array( 'label' => 'Tin tức',              'href' => '#tin-tuc' ),
+		array( 'label' => 'Tin tức',              'href' => '/category/tin-tuc/' ),
 		array( 'label' => 'Tuyển dụng',           'href' => '#tuyen-dung' ),
 		array( 'label' => 'Liên hệ',              'href' => '#lien-he' ),
 	);

@@ -46,6 +46,10 @@ function ecsges_assets()
 	$aoscss_ver = file_exists($aoscss_path) ? filemtime($aoscss_path) : ECSGES_VERSION;
 	wp_enqueue_style('aos', $uri . '/assets/css/vendor/aos.css', array(), $aoscss_ver);
 
+	// Google Fonts: Roboto Flex (font-display) + Dancing Script (font-script — chữ "Kiến tạo").
+	// (Khi migrate Tailwind→SCSS, @import Google Fonts ở đầu tailwind.css bị mất; enqueue lại tại đây.)
+	wp_enqueue_style('ecsges-gfonts', 'https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..700&family=Dancing+Script:wght@500;600;700&display=swap', array(), null);
+
 	// CSS chính: SCSS build (Phase 2 — đã cutover khỏi Tailwind). Nguồn: src/scss/ → assets/css/main.css.
 	$css_path = $dir . '/assets/css/main.css';
 	$css_ver = file_exists($css_path) ? filemtime($css_path) : ECSGES_VERSION;
@@ -87,6 +91,45 @@ function ecsges_img($file)
 		$url = add_query_arg('ver', filemtime($path), $url);
 	}
 	return $url;
+}
+
+/**
+ * Ngày hiển thị của 1 post: ưu tiên ACF field 'time' (Date Time Picker);
+ * nếu người dùng chưa nhập thì fallback về ngày đăng bài.
+ *
+ * @param int|null $post_id Mặc định: post hiện tại trong loop.
+ * @param string   $format  Định dạng date_i18n (mặc định 'M j, Y' → "May 29, 2023").
+ * @return string
+ */
+function ecsges_post_time($post_id = null, $format = 'M j, Y')
+{
+	$post_id = $post_id ? $post_id : get_the_ID();
+	$acf = function_exists('get_field') ? get_field('time', $post_id) : '';
+	$ts = $acf ? strtotime($acf) : get_post_time('U', false, $post_id);
+	if (!$ts) {
+		$ts = get_post_time('U', false, $post_id);
+	}
+	return date_i18n($format, $ts);
+}
+
+/**
+ * URL ảnh đại diện của post; nếu không có featured image thì fallback ảnh tĩnh.
+ *
+ * @param int|null $post_id
+ * @param string   $size     Kích thước WP (thumbnail|medium|large|full).
+ * @param string   $fallback Tên file trong assets/img.
+ * @return string
+ */
+function ecsges_post_thumb($post_id = null, $size = 'large', $fallback = 'news.png')
+{
+	$post_id = $post_id ? $post_id : get_the_ID();
+	if (has_post_thumbnail($post_id)) {
+		$url = get_the_post_thumbnail_url($post_id, $size);
+		if ($url) {
+			return $url;
+		}
+	}
+	return ecsges_img($fallback);
 }
 
 /**
