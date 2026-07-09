@@ -380,16 +380,29 @@ function ecsges_get_nav()
 	if (!empty($locations['primary'])) {
 		$menu_items = wp_get_nav_menu_items($locations['primary']);
 		if ($menu_items) {
+			$by_id = array();
+			// Lượt 1: mục cha, giữ nguyên thứ tự menu_order.
 			foreach ($menu_items as $mi) {
-				// Bỏ qua mục con (landing nav phẳng).
 				if ((int) $mi->menu_item_parent !== 0) {
 					continue;
 				}
-				$items[] = array(
+				$by_id[(int) $mi->ID] = array(
 					'label' => $mi->title,
 					'href' => $mi->url,
 				);
 			}
+			// Lượt 2: đẩy mục con vào cha. Cháu (cấp 3) bị bỏ qua có chủ đích.
+			foreach ($menu_items as $mi) {
+				$parent = (int) $mi->menu_item_parent;
+				if (0 === $parent || !isset($by_id[$parent])) {
+					continue;
+				}
+				$by_id[$parent]['children'][] = array(
+					'label' => $mi->title,
+					'href' => $mi->url,
+				);
+			}
+			$items = array_values($by_id);
 		}
 	}
 	$items = $items ? $items : ecsges_nav_items();

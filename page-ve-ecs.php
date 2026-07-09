@@ -99,7 +99,7 @@ get_header();
 		<section aria-label="Tầm nhìn và sứ mệnh" class="ecs-ve-vm">
 			<div class="ecs-ve-vm__inner">
 				<!-- Tầm nhìn — chữ trái, ảnh phải -->
-				<div class="ecs-ve-vm__row">
+				<div id="tam-nhin" class="ecs-ve-vm__row">
 					<div data-aos="fade-up">
 						<?php
 						ecsges_section_heading(
@@ -115,7 +115,7 @@ get_header();
 				</div>
 
 				<!-- Sứ mệnh — ảnh trái, chữ phải -->
-				<div class="ecs-ve-vm__row">
+				<div id="su-menh" class="ecs-ve-vm__row">
 					<div class="ecs-ve-vm__row-text ecs-ve-vm__row-text--mission" data-aos="fade-up">
 						<?php
 						ecsges_section_heading(

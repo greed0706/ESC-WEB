@@ -16,12 +16,39 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function ecsges_nav_items() {
 	return array(
-		array( 'label' => 'Về ECS',              'href' => '/ve-ecs' ),
-		array( 'label' => 'Lĩnh vực hoạt động',   'href' => '/linh-vuc-hoat-dong/' ),
-		array( 'label' => 'Phát triển bền vững',  'href' => '/phat-trien-ben-vung/' ),
-		array( 'label' => 'Tin tức',              'href' => '/category/tin-tuc/' ),
-		array( 'label' => 'Tuyển dụng',           'href' => '#tuyen-dung' ),
-		array( 'label' => 'Liên hệ',              'href' => '#lien-he' ),
+		array(
+			'label'    => 'Về ECS',
+			'href'     => '/ve-ecs',
+			'children' => array(
+				array( 'label' => 'Hành trình phát triển', 'href' => '/ve-ecs#hanh-trinh-phat-trien' ),
+				array( 'label' => 'Tầm nhìn',              'href' => '/ve-ecs#tam-nhin' ),
+				array( 'label' => 'Sứ mệnh',               'href' => '/ve-ecs#su-menh' ),
+				array( 'label' => 'Giá trị cốt lõi',       'href' => '/ve-ecs#gia-tri-cot-loi' ),
+			),
+		),
+		array(
+			'label'    => 'Lĩnh vực hoạt động',
+			'href'     => '/linh-vuc-hoat-dong/',
+			'children' => array(
+				array( 'label' => 'Hướng nghiệp',  'href' => '/linh-vuc-hoat-dong/' ),
+				array( 'label' => 'Tuyển sinh',    'href' => '/linh-vuc-hoat-dong/' ),
+				array( 'label' => 'Đào tạo',       'href' => '/linh-vuc-hoat-dong/' ),
+				array( 'label' => 'Việc làm',      'href' => '/linh-vuc-hoat-dong/' ),
+				array( 'label' => 'Truyền thông',  'href' => '/linh-vuc-hoat-dong/' ),
+			),
+		),
+		array(
+			'label'    => 'Phát triển bền vững',
+			'href'     => '/phat-trien-ben-vung/',
+			'children' => array(
+				array( 'label' => 'Văn hoá ECS',        'href' => '/phat-trien-ben-vung/' ),
+				array( 'label' => 'Con người ECS',      'href' => '/phat-trien-ben-vung/' ),
+				array( 'label' => 'Trách nhiệm xã hội', 'href' => '/phat-trien-ben-vung/' ),
+			),
+		),
+		array( 'label' => 'Tin tức',    'href' => '/category/tin-tuc/' ),
+		array( 'label' => 'Tuyển dụng', 'href' => '#tuyen-dung' ),
+		array( 'label' => 'Liên hệ',    'href' => '#lien-he' ),
 	);
 }
 
