@@ -95,9 +95,26 @@ foreach ( $ecsges_langs as $ecsges_l ) {
 		<nav id="mobile-menu" aria-label="Chính (di động)" class="ecs-header__mobile is-hidden">
 			<div class="ecs-header__mobile-inner">
 				<ul class="ecs-header__mobile-list">
-					<?php foreach ( $ecsges_nav as $item ) : ?>
-						<li>
-							<a href="<?php echo esc_url( $item['href'] ); ?>" class="ecs-header__mobile-link" data-menu-link><?php echo esc_html( $item['label'] ); ?></a>
+					<?php foreach ( $ecsges_nav as $i => $item ) : ?>
+						<?php $has_children = ! empty( $item['children'] ); ?>
+						<li class="ecs-header__mobile-item">
+							<div class="ecs-header__mobile-row">
+								<a href="<?php echo esc_url( $item['href'] ); ?>" class="ecs-header__mobile-link" data-menu-link><?php echo esc_html( $item['label'] ); ?></a>
+								<?php if ( $has_children ) : ?>
+									<button type="button" data-submenu-toggle aria-expanded="false" aria-controls="submenu-<?php echo esc_attr( $i ); ?>" aria-label="Mở menu con <?php echo esc_attr( $item['label'] ); ?>" class="ecs-header__mobile-sub-toggle">
+										<?php echo ecsges_icon( 'chevron-down', 16, '', 2.5 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+									</button>
+								<?php endif; ?>
+							</div>
+							<?php if ( $has_children ) : ?>
+								<ul id="submenu-<?php echo esc_attr( $i ); ?>" class="ecs-header__mobile-sublist is-hidden">
+									<?php foreach ( $item['children'] as $child ) : ?>
+										<li>
+											<a href="<?php echo esc_url( $child['href'] ); ?>" class="ecs-header__mobile-sublink" data-menu-link><?php echo esc_html( $child['label'] ); ?></a>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
 					<li class="ecs-header__mobile-lang">

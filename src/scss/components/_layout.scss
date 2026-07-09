@@ -441,6 +441,52 @@
     // hover:text-brand
   }
 
+  &__mobile-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__mobile-sub-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0.5rem;
+    border: 0;
+    background: none;
+    color: $ink;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  &__mobile-item.is-open &__mobile-sub-toggle {
+    transform: rotate(180deg);
+  }
+
+  &__mobile-sublist {
+    padding-left: 1rem;
+    padding-bottom: 0.5rem;
+
+    // .is-hidden KHÔNG phải utility toàn cục trong theme này — phải khai báo ở đây.
+    &.is-hidden {
+      display: none;
+    }
+  }
+
+  &__mobile-sublink {
+    display: block;
+    padding-block: 0.375rem;
+    font-size: 14px;
+    color: $ink;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $brand;
+    }
+  }
+
   &__mobile-lang {
     margin-top: 0.25rem; // mt-1
     border-top: 1px solid rgba(0, 0, 0, 0.05); // border-t border-black/5

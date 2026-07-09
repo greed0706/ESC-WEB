@@ -19,6 +19,7 @@
     initPinsReveal();
     initPtbvCarousel();
     initLangDropdown();
+    initMobileSubmenu();
   });
 
   /* ---------------------------------------------------------------- */
@@ -49,6 +50,27 @@
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') close();
+    });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /**
+   * Accordion menu con trong menu di động (mobile không có hover). Bấm caret để
+   * xổ/thu; bấm vào chữ vẫn điều hướng tới trang cha. Không đóng các mục khác —
+   * ba mục ngắn, mở cùng lúc không sao.
+   */
+  function initMobileSubmenu() {
+    var toggles = document.querySelectorAll('[data-submenu-toggle]');
+    Array.prototype.forEach.call(toggles, function (btn) {
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      var item = btn.closest('.ecs-header__mobile-item');
+      if (!panel || !item) return;
+
+      btn.addEventListener('click', function () {
+        var open = item.classList.toggle('is-open');
+        panel.classList.toggle('is-hidden', !open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
     });
   }
 
