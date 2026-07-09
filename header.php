@@ -46,9 +46,6 @@ foreach ( $ecsges_langs as $ecsges_l ) {
 							<li class="ecs-header__nav-item<?php echo $has_children ? ' has-children' : ''; ?>">
 								<a href="<?php echo esc_url( $item['href'] ); ?>" class="ecs-header__nav-link">
 									<?php echo esc_html( $item['label'] ); ?>
-									<?php if ( $has_children ) : ?>
-										<?php echo ecsges_icon( 'chevron-down', 13, 'ecs-header__nav-caret', 2.5 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-									<?php endif; ?>
 								</a>
 								<?php if ( $has_children ) : ?>
 									<div class="ecs-header__dropdown">

@@ -246,17 +246,6 @@
     position: relative;
   }
 
-  &__nav-caret {
-    margin-left: 0.25rem;
-    vertical-align: middle;
-    transition: transform 0.2s;
-  }
-
-  &__nav-item:hover &__nav-caret,
-  &__nav-item:focus-within &__nav-caret {
-    transform: rotate(180deg);
-  }
-
   // Panel: padding-top là "cầu chuột" bắc qua khoảng hở giữa link và panel,
   // nếu không :hover sẽ đứt khi rê chuột xuống. Cùng thủ thuật .ecsges-lang-panel.
   // Dùng visibility (không display:none) để transition được và để :focus-within bắt focus.
