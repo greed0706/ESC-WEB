@@ -13,28 +13,28 @@ ecsges/
 ├── front-page.php             # Trang chủ: compose 6 section
 ├── header.php / footer.php    # SiteHeader / SiteFooter
 ├── template-parts/section-*.php  # 6 section (hero, about, journey, ecosystem, news, branch)
-├── inc/data.php               # Nội dung tĩnh (port từ my-web/src/.../data.ts)
+├── inc/data.php               # Nội dung tĩnh HARDCODE (port từ my-web/src/.../data.ts)
 ├── assets/
-│   ├── css/main.css           # Tailwind build (KHÔNG sửa tay)
+│   ├── css/main.css           # Output SCSS (KHÔNG sửa tay — sửa src/scss/*)
 │   ├── js/main.js             # Tabs + hamburger + phân trang tin tức (thay React state)
 │   ├── fonts/Roboto-*.ttf     # Font self-host
 │   └── img/                   # Ảnh + SVG
-├── src/tailwind.css           # Nguồn Tailwind (input build)
-└── package.json               # Chỉ để build CSS
+├── src/scss/                  # Nguồn SCSS: _variables/_mixins/_base/_keyframes/_components + components/_<section>.scss
+└── package.json               # Fallback build SCSS (Node)
 ```
 
-## Build CSS (chỉ cần khi đổi class Tailwind trong .php)
+## Build CSS (chỉ cần khi đổi giao diện — SCSS, KHÔNG còn Tailwind)
 
-Cần Node.js. Sau khi build ra `assets/css/main.css`, theme chạy trên WP không cần Node.
+Styling = **SCSS viết tay** với class BEM ngữ nghĩa (`.ecs-<block>__<part>`, state `.is-active`/`.is-hidden`).
+**Chỉ sửa file `.scss`; đừng sửa `main.css`.**
 
-```bash
-npm install          # cài @tailwindcss/cli một lần
-npm run build:css    # build 1 lần (minify)
-npm run watch:css    # build + watch khi đang dev
-```
+- **Cách chính:** extension VS Code **"Live Sass Compiler" (Watch Sass)** biên dịch `src/scss/main.scss` → `assets/css/main.css`, đã chạy **autoprefixer** (nên `main.css` có sẵn vendor prefix `-webkit-*`, `-o-*`…).
+- **Fallback khi không có extension:** `npm run build:scss` / `npm run watch:scss` (Dart Sass thuần, **KHÔNG có autoprefixer**).
 
-Tailwind v4 quét class trong toàn bộ file `.php` qua chỉ thị `@source "../**/*.php"` trong `src/tailwind.css`.
-Design tokens (màu brand/blue, font Roboto/Roboto Flex/Dancing Script, `max-w-page` 1274px) nằm trong khối `@theme`.
+> ⚠️ ĐỪNG chạy `npm run build:scss` khi đang dùng extension — nó ghi đè `main.css` mất vendor prefix và hai trình biên dịch tranh nhau cùng 1 file.
+
+Design tokens (màu brand, font Roboto/Roboto Flex/Dancing Script, `$page-max` 1274px) là biến SCSS trong `src/scss/_variables.scss`; reset nằm ở `_base.scss`.
+`main.css` là stylesheet duy nhất của theme, enqueue với handle `ecsges-main`.
 
 ## Cài trên WordPress
 
@@ -49,7 +49,11 @@ Dùng **ACF Free** (không có Options Page / Repeater), nên nội dung gắn v
 - Field group đăng ký bằng PHP tại [inc/acf-fields.php](inc/acf-fields.php) — 63 field, chia tab: Chung / Hero / Về ECS / Hành trình / Lĩnh vực / Chi nhánh / Footer. Location = **Page Type: Front Page**.
 - Mỗi field có **default_value = nội dung hiện tại**; nếu client để trống, theme **fallback về nội dung mặc định** (trong `inc/data.php`), nên trang không bao giờ trống.
 - Nội dung lặp không cần Repeater: tab lĩnh vực dùng field phẳng (Tab 1..5), danh sách (tỉnh/thành, gợi ý địa chỉ, link cột footer) dùng **textarea — mỗi dòng 1 mục**.
-- Menu header: dùng **WP Menu** (Appearance → Menus, vị trí "Menu chính"/`primary`), theme `ecsges_get_nav()` đọc menu này, fallback về nav tĩnh.
+- Menu header: `ecsges_get_nav()` **tự nhận menu do admin tạo**. Thứ tự ưu tiên:
+  1. Menu gán vào vị trí `primary` (Appearance → Menus → Manage Locations).
+  2. Nếu chưa gán vị trí nhưng admin đã tạo menu bất kỳ → dùng **menu đầu tiên**.
+  3. Nếu **chưa có menu nào** → fallback về **nav hardcode** (`ecsges_nav_items()` trong `inc/data.php`).
+  → Nói cách khác: **có menu trong admin thì header dùng menu đó; chưa có menu mới hardcode.**
 - Tin tức: **vẫn để tĩnh** (theo yêu cầu), sẽ chuyển Custom Post Type ở bước sau.
 
 ### Client sửa nội dung ở đâu?
@@ -58,7 +62,7 @@ Dùng **ACF Free** (không có Options Page / Repeater), nên nội dung gắn v
 
 ### Đã cấu hình sẵn (local ecs.test)
 - Trang "Trang chủ" (ID 14) đặt làm front page (Settings → Reading → *A static page*).
-- Menu "Menu chính" gán vào vị trí `primary`.
+- Menu "Menu chính" (6 mục) đã tạo trong admin — theme tự nhận (chưa cần gán vị trí `primary`).
 
 Khi bê theme sang site khác: tạo 1 Page, Settings → Reading chọn Page đó làm Trang chủ; tạo Menu và gán vị trí "Menu chính". Field ACF tự hiện trên Page đó (cần plugin **Advanced Custom Fields** kích hoạt).
 
@@ -83,7 +87,25 @@ Port từ `VeEcsPage.tsx` — 5 section: Hero → Hành trình phát triển (ti
 
 > Nếu bê sang site mới: tạo Page slug `ve-ecs`, bật Permalinks = *Post name*, và đảm bảo `.htaccess` (Apache) / rewrite (nginx) có rule WordPress.
 
+## `inc/data.php` — nội dung HARDCODE (chưa phải post)
+
+⚠️ **Toàn bộ `inc/data.php` là dữ liệu tĩnh viết cứng trong PHP**, port từ `my-web/.../data.ts`. Đây là
+**fallback** cho các helper `ecsges_field*()` (khi ACF trống) và là nguồn dữ liệu cho các phần chưa gắn ACF.
+Muốn client tự quản lý, một số phần nên chuyển thành **post / Custom Post Type (CPT)** thay vì hardcode:
+
+| Hàm trong `inc/data.php` | Đang hardcode | Nên chuyển thành |
+|---|---|---|
+| `ecsges_news_items()`, `ecsges_featured_news()` | Danh sách tin tức + tin nổi bật | **CPT `news`** + WP Loop + phân trang *(ưu tiên cao nhất)* |
+| `ecsges_milestones()` | Timeline "Hành trình phát triển" (/ve-ecs) | CPT `milestone` (sắp theo năm) hoặc ACF Repeater |
+| `ecsges_ecosystem_tabs()`, `ecsges_linh_vuc_tabs()` | Tab lĩnh vực hoạt động | CPT `linh_vuc` + taxonomy, hoặc ACF |
+| `ecsges_core_values()`, `ecsges_ptbv_values()`, `ecsges_ptbv_team()`, `ecsges_ptbv_guides()` | Giá trị cốt lõi / phát triển bền vững | CPT tương ứng hoặc ACF |
+| `ecsges_branch_provinces()`, `ecsges_branch_addresses()` | Danh sách chi nhánh | CPT `chi_nhanh` hoặc ACF list |
+| `ecsges_nav_items()` | Nav dự phòng | Đã có WP Menu ghi đè (xem phần Menu header ở trên) |
+
+> Nguyên tắc: **hardcode để trang không bao giờ trống**; khi cần client tự đăng/sửa thì bọc bằng ACF
+> hoặc nâng lên CPT. Các phần `ecsges_ve_ecs_*` của trang "Về ECS" hiện vẫn tĩnh, chưa gắn ACF.
+
 ## Bước tiếp theo (tùy chọn)
 
 - News → Custom Post Type + WP Loop + phân trang để client tự đăng bài.
-- Đưa nội dung trang "Về ECS" vào ACF (hiện đang tĩnh trong `inc/data.php`).
+- Đưa nội dung trang "Về ECS" (`ecsges_ve_ecs_*`, `ecsges_milestones`, `ecsges_core_values`) vào ACF/CPT (hiện đang tĩnh trong `inc/data.php`).

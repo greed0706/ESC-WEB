@@ -376,9 +376,20 @@ function ecsges_field_img($name, $default_file)
 function ecsges_get_nav()
 {
 	$items = array();
+	// Ưu tiên vị trí 'primary' nếu đã gán; nếu chưa gán mà admin đã tạo menu thì
+	// dùng menu đó (menu đầu tiên). Chỉ hardcode khi HOÀN TOÀN chưa có menu nào.
+	$menu_id = 0;
 	$locations = get_nav_menu_locations();
 	if (!empty($locations['primary'])) {
-		$menu_items = wp_get_nav_menu_items($locations['primary']);
+		$menu_id = (int) $locations['primary'];
+	} else {
+		$menus = wp_get_nav_menus();
+		if (!empty($menus)) {
+			$menu_id = (int) $menus[0]->term_id;
+		}
+	}
+	if ($menu_id) {
+		$menu_items = wp_get_nav_menu_items($menu_id);
 		if ($menu_items) {
 			$by_id = array();
 			// Lượt 1: mục cha, giữ nguyên thứ tự menu_order.
