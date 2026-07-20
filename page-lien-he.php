@@ -1,0 +1,37 @@
+<?php
+/**
+ * Template Name: Liên hệ
+ * Trang "Liên hệ". Gán tự động cho Page slug 'lien-he' (nhờ tên file
+ * page-lien-he.php) hoặc chọn template "Liên hệ".
+ *
+ * Bố cục (theo Figma node 288:147):
+ *   1. Banner ảnh (assets/img/lien-he/image.png) — "LIÊN HỆ" + icon đã bake sẵn.
+ *   2. section-contact — form liên hệ + thông tin trụ sở.
+ *   3. section-branch — hệ thống chi nhánh (dùng lại từ trang chủ).
+ *
+ * GHI CHÚ: form ở section-contact hiện là tĩnh (chưa gửi mail). Để nối backend,
+ * cắm plugin Contact Form 7 (hoặc admin-post handler) và trỏ action tương ứng.
+ *
+ * @package ECSGES
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+get_header();
+?>
+	<main>
+		<!-- ============================ Banner ============================ -->
+		<section aria-label="<?php echo esc_attr( ecsges_t( 'Liên hệ' ) ); ?>" class="ecs-contact-banner">
+			<h1 class="ecs-contact-banner__title"><?php echo esc_html( ecsges_t( 'Liên hệ' ) ); ?></h1>
+			<img src="<?php echo esc_url( ecsges_img( 'lien-he/image.png' ) ); ?>" alt="<?php echo esc_attr( ecsges_t( 'Liên hệ với ECSGES' ) ); ?>" class="ecs-contact-banner__img">
+		</section>
+
+		<?php
+		get_template_part( 'template-parts/section', 'contact' );
+		get_template_part( 'template-parts/section', 'branch' );
+		?>
+	</main>
+<?php
+get_footer();

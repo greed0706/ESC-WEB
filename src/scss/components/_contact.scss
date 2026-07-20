@@ -1,0 +1,173 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+// Trang Liên hệ (page-lien-he.php, Figma node 288:147):
+//   .ecs-contact-banner — banner ảnh (LIÊN HỆ + icon bake sẵn)
+//   .ecs-contact         — form liên hệ (trái) + thông tin trụ sở (phải)
+// Section chi nhánh dùng lại .ecs-branch (components/_landing.scss).
+
+/* ------------------------------------------------------------------ */
+/* Banner ảnh                                                          */
+/* ------------------------------------------------------------------ */
+.ecs-contact-banner {
+  @include container;
+  padding-block: 24px 0;
+
+  // Tiêu đề ẩn (chữ "LIÊN HỆ" đã nằm trong ảnh) — giữ cho SEO/screen reader.
+  &__title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Form liên hệ + trụ sở                                               */
+/* ------------------------------------------------------------------ */
+.ecs-contact {
+  background: #fff;
+  padding-block: 48px;
+
+  @include bp(lg) {
+    padding-block: 72px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 40px;
+
+    @include bp(lg) {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 80px;
+      align-items: start;
+    }
+  }
+
+  &__title {
+    font-family: $font-display;
+    font-size: 24px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: $body;
+
+    @include bp(lg) {
+      font-size: 28px;
+    }
+  }
+
+  /* ---- Form (cột trái) ---- */
+  &__form {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__label {
+    font-size: 14px;
+    font-weight: 400;
+    color: $muted;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: $font-sans;
+    font-size: 15px;
+    color: $body;
+    background: #fff;
+    border: 1px solid $placeholder;
+    border-radius: 2px;
+    transition: border-color 0.15s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $brand;
+    }
+
+    &--textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
+  }
+
+  &__actions {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__submit {
+    padding: 12px 40px;
+    font-family: $font-display;
+    font-size: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: $brand;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background: $brand-dark;
+    }
+  }
+
+  /* ---- Trụ sở (cột phải) ---- */
+  &__office {
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__office-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: $body;
+  }
+
+  &__office-icon {
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: $brand;
+  }
+
+  &__office-link {
+    color: $body;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $brand;
+    }
+  }
+}

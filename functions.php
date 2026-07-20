@@ -434,7 +434,12 @@ function ecsges_get_nav()
  */
 function ecsges_ve_ecs_url()
 {
-	$ref = 16; // trang ve-ecs (bản tiếng Anh gốc); Polylang trả bản dịch theo ngôn ngữ.
+	// Tra theo slug, không hardcode ID: mỗi site (local/production) có ID khác nhau.
+	$page = get_page_by_path('ve-ecs');
+	$ref  = $page ? (int) $page->ID : 0;
+	if (!$ref) {
+		return home_url('/ve-ecs/');
+	}
 	if (function_exists('pll_get_post') && function_exists('pll_current_language')) {
 		$id = pll_get_post($ref, pll_current_language('slug'));
 		if ($id) {

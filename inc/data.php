@@ -48,7 +48,7 @@ function ecsges_nav_items() {
 		),
 		array( 'label' => 'Tin tức',    'href' => '/category/tin-tuc/' ),
 		array( 'label' => 'Tuyển dụng', 'href' => '#tuyen-dung' ),
-		array( 'label' => 'Liên hệ',    'href' => '#lien-he' ),
+		array( 'label' => 'Liên hệ',    'href' => '/lien-he/' ),
 	);
 }
 
