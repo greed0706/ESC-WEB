@@ -56,10 +56,6 @@ $hero_link    = ecsges_field( 'hero_cta_link', '#ve-ecs' );
 			</h1>
 
 			<p class="hero-reveal ecs-hero__badge"><?php echo esc_html( $hero_badge ); ?></p>
-
-			<div class="hero-reveal ecs-hero__cta-wrap">
-				<?php ecsges_underline_link( $hero_link, $hero_label, 'brand', 'ecs-hero__cta' ); ?>
-			</div>
 		</div>
 	</div>
 </section>
