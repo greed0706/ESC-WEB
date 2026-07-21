@@ -11,12 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $ecsges_pins   = ecsges_about_pins();
 $about_eyebrow = ecsges_field( 'about_eyebrow', 'ECSGES' );
-$about_lines   = ecsges_field_lines( 'about_heading', array( 'KIẾN TẠO HỆ SINH THÁI', 'GIÁO DỤC TOÀN CẦU' ) );
+$about_lines   = ecsges_field_lines( 'about_heading', array( 'VƯƠN RA THẾ GIỚI', 'VỚI HỆ SINH THÁI GIÁO DỤC KẾT NỐI' ) );
 $about_paras   = ecsges_field_paragraphs(
 	'about_body',
 	array(
-		'ECS Global phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm của đội ngũ lãnh đạo trẻ, cùng với sự năng động, sáng tạo, đoàn kết của nhiều lớp nhân viên.',
-		'Sau hơn 9 năm, ECS Global đã khẳng định được vị thế trên thị trường ở các lĩnh vực tuyển sinh, hướng nghiệp khởi nghiệp, việc làm, giáo dục, truyền thông và công nghệ số.',
+		'ECSGES phát triển hệ sinh thái giáo dục với mạng lưới đơn vị thành viên, đối tác và các lĩnh vực hoạt động được kết nối trong một chiến lược thống nhất, hướng tới nâng cao chất lượng giáo dục và phát triển nguồn nhân lực Việt Nam.'
 	)
 );
 $about_label   = ecsges_field( 'about_cta_label', 'Tìm hiểu thêm' );
@@ -24,22 +23,6 @@ $about_link    = ecsges_field( 'about_cta_link', '#linh-vuc' );
 ?>
 <section id="ve-ecs" aria-labelledby="about-heading" class="ecs-about">
 	<div class="ecs-about__inner">
-		<div class="ecsges-earth-ping ecs-about__map" data-aos="fade-up" data-pins-reveal>
-			<span aria-hidden="true" class="ecs-about__ring ecs-about__ring--outer"></span>
-			<span aria-hidden="true" class="ecs-about__ring ecs-about__ring--inner"></span>
-			<img src="<?php echo esc_url( ecsges_img( 'earth.svg' ) ); ?>" alt="" class="ecs-about__earth">
-			<?php foreach ( $ecsges_pins as $p ) : ?>
-				<?php if ( ! empty( $p['lg'] ) ) : ?>
-					<span aria-hidden="true" class="ecsges-pin ecs-about__pin--lg" style="left:<?php echo esc_attr( $p['x'] ); ?>%;top:<?php echo esc_attr( $p['y'] ); ?>%;width:7%">
-						<img src="<?php echo esc_url( ecsges_img( 'map-pin-center.svg' ) ); ?>" alt="" class="ecs-about__pin-icon">
-						<img src="<?php echo esc_url( ecsges_img( 'hero-mark.svg' ) ); ?>" alt="" class="ecs-about__pin-mark">
-					</span>
-				<?php else : ?>
-					<img src="<?php echo esc_url( ecsges_img( 'map-pin.svg' ) ); ?>" alt="" aria-hidden="true" class="ecsges-pin ecs-about__pin--sm" style="left:<?php echo esc_attr( $p['x'] ); ?>%;top:<?php echo esc_attr( $p['y'] ); ?>%;width:3%">
-				<?php endif; ?>
-			<?php endforeach; ?>
-		</div>
-
 		<div class="ecs-about__content">
 			<?php
 			ecsges_section_heading(
@@ -76,6 +59,22 @@ $about_link    = ecsges_field( 'about_cta_link', '#linh-vuc' );
 			<div class="ecs-about__cta-wrap">
 				<?php ecsges_underline_link( $about_link, $about_label, 'brand', 'ecs-about__cta' ); ?>
 			</div>
+		</div>
+
+		<div class="ecsges-earth-ping ecs-about__map" data-aos="fade-up" data-pins-reveal>
+			<span aria-hidden="true" class="ecs-about__ring ecs-about__ring--outer"></span>
+			<span aria-hidden="true" class="ecs-about__ring ecs-about__ring--inner"></span>
+			<img src="<?php echo esc_url( ecsges_img( 'earth.svg' ) ); ?>" alt="" class="ecs-about__earth">
+			<?php foreach ( $ecsges_pins as $p ) : ?>
+				<?php if ( ! empty( $p['lg'] ) ) : ?>
+					<span aria-hidden="true" class="ecsges-pin ecs-about__pin--lg" style="left:<?php echo esc_attr( $p['x'] ); ?>%;top:<?php echo esc_attr( $p['y'] ); ?>%;width:7%">
+						<img src="<?php echo esc_url( ecsges_img( 'map-pin-center.svg' ) ); ?>" alt="" class="ecs-about__pin-icon">
+						<img src="<?php echo esc_url( ecsges_img( 'hero-mark.svg' ) ); ?>" alt="" class="ecs-about__pin-mark">
+					</span>
+				<?php else : ?>
+					<img src="<?php echo esc_url( ecsges_img( 'map-pin.svg' ) ); ?>" alt="" aria-hidden="true" class="ecsges-pin ecs-about__pin--sm" style="left:<?php echo esc_attr( $p['x'] ); ?>%;top:<?php echo esc_attr( $p['y'] ); ?>%;width:3%">
+				<?php endif; ?>
+			<?php endforeach; ?>
 		</div>
 	</div>
 </section>

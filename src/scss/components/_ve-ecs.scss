@@ -11,49 +11,49 @@
  * .ecs-ve-hero — VeEcsHero.tsx
 \* ------------------------------------------------------------------ */
 .ecs-ve-hero {
-  position: relative; // relative
-  isolation: isolate;  // isolate
+  position: relative;
+  isolation: isolate;
   display: flex;
-  min-height: calc(100svh - 64px); // min-h-[calc(100svh-64px)]
-  align-items: flex-end;            // items-end
-  justify-content: center;          // justify-center
-  overflow: hidden;                 // overflow-hidden
-  padding-bottom: 3.5rem;           // pb-14
+  min-height: calc(100svh - 64px);
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  padding-bottom: 56px;
   @include bp(lg) {
-    min-height: calc(100svh - 72px); // lg:min-h-[calc(100svh-72px)]
-    padding-bottom: 9.5rem;          // lg:pb-38
+    min-height: calc(100svh - 72px);
+    padding-bottom: 152px;
   }
 
   &__bg {
-    position: absolute; // absolute
-    inset: 0;            // inset-0
-    z-index: -10;         // -z-10
-    height: 100%;         // h-full
-    width: 100%;          // w-full
-    object-fit: cover;    // object-cover
-    object-position: center; // object-center
+    position: absolute;
+    inset: 0;
+    z-index: -10;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   &__overlay {
-    position: absolute; // absolute
-    inset: 0;            // inset-0
-    z-index: -10;         // -z-10
+    position: absolute;
+    inset: 0;
+    z-index: -10;
   }
 
   &__content {
-    text-align: center; // text-center
+    text-align: center;
   }
 
   &__title {
-    font-family: $font-display; // font-display
-    font-weight: 600;             // font-semibold
-    text-transform: uppercase;    // uppercase
-    letter-spacing: 0.06em;       // tracking-[0.06em]
-    color: #fff;                   // text-white
-    padding-inline-start: 2.5rem;  // ps-10
-    font-size: 40px;               // text-[40px]
-    @include bp(sm) { font-size: 3.75rem; } // sm:text-6xl
-    @include bp(lg) { font-size: 80px; }    // lg:text-[80px]
+    font-family: $font-display;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #fff;
+    padding-inline-start: 40px;
+    font-size: 40px;
+    @include bp(sm) { font-size: 60px; }
+    @include bp(lg) { font-size: 80px; }
   }
 }
 
@@ -61,138 +61,138 @@
  * .ecs-ve-journey — VeEcsJourney.tsx
 \* ------------------------------------------------------------------ */
 .ecs-ve-journey {
-  background: #fff;       // bg-white
-  padding-block: 4rem;    // py-16
-  @include bp(lg) { padding-block: 6rem; } // lg:py-24
+  background: #fff;
+  padding-block: 64px;
+  @include bp(lg) { padding-block: 96px; }
 
   &__inner {
-    @include container; // mx-auto w-full max-w-page px-6 md:px-10
+    @include container;
   }
 
   &__intro {
-    position: relative;   // relative
-    margin-inline: auto;  // mx-auto
-    margin-top: 1.5rem;   // mt-6
-    max-width: 56rem;     // max-w-4xl
-    padding-inline: 2rem; // px-8
-    @include bp(lg) { padding-inline: 3rem; } // lg:px-12
+    position: relative;
+    margin-inline: auto;
+    margin-top: 24px;
+    max-width: 896px;
+    padding-inline: 32px;
+    @include bp(lg) { padding-inline: 48px; }
   }
 
   &__intro-icon {
-    position: absolute; // absolute
-    left: 1rem;          // left-4
-    top: 0;              // top-0
-    width: 1.5rem;       // w-6
-    @include bp(lg) { width: 2.375rem; } // lg:w-9.5
+    position: absolute;
+    left: 16px;
+    top: 0;
+    width: 24px;
+    @include bp(lg) { width: 38px; }
   }
 
   &__intro-text {
-    text-align: center;  // text-center
-    font-size: 1.125rem; // text-lg
-    font-weight: 500;    // font-medium
-    line-height: 2rem;   // leading-8
-    color: $ink;          // text-ink
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 32px;
+    color: $ink;
   }
 
   // Desktop stage: milestones absolutely positioned around the stairs image.
   &__stage {
-    position: relative;    // relative
-    margin-inline: auto;   // mx-auto
-    margin-top: 2.5rem;    // mt-10
-    display: none;         // hidden
-    width: 100%;           // w-full
-    max-width: 1920px;     // max-w-[1920px]
-    container-type: inline-size; // container-type:inline-size
-    aspect-ratio: 1920 / 1416;   // aspect-ratio:1920/1416
-    @include bp(lg) { display: block; } // lg:block
+    position: relative;
+    margin-inline: auto;
+    margin-top: 40px;
+    display: none;
+    width: 100%;
+    max-width: 1920px;
+    container-type: inline-size;
+    aspect-ratio: 1920 / 1416;
+    @include bp(lg) { display: block; }
   }
 
   &__stairs-img {
-    position: absolute; // absolute
-    inset-inline: 0;     // inset-x-0
-    object-fit: contain; // object-contain
+    position: absolute;
+    inset-inline: 0;
+    object-fit: contain;
     top: 8.8%;
     height: 91.2%;
   }
 
   &__milestone {
-    position: absolute; // absolute
+    position: absolute;
   }
 
-  &__milestone--left  { text-align: left; }  // text-left
-  &__milestone--right { text-align: right; } // text-right
+  &__milestone--left  { text-align: left; }
+  &__milestone--right { text-align: right; }
 
   &__year {
-    font-family: $font-display; // font-display
-    font-weight: 600;             // font-semibold
-    line-height: 1.25;            // leading-tight
-    color: $brand;                 // text-brand
+    font-family: $font-display;
+    font-weight: 600;
+    line-height: 1.25;
+    color: $brand;
     font-size: clamp(20px, 2.6cqw, 50px);
   }
 
   &__milestone-title {
-    margin-top: 0.375rem;        // mt-1.5
-    font-family: $font-display;  // font-display
-    font-weight: 500;             // font-medium
-    line-height: 1.25;            // leading-tight
-    letter-spacing: 0.025em;      // tracking-wide
-    color: $ink;                   // text-ink
+    margin-top: 6px;
+    font-family: $font-display;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: 0.025em;
+    color: $ink;
     font-size: clamp(15px, 1.46cqw, 28px);
   }
 
   &__milestone-body {
-    margin-top: 0.5rem;   // mt-2
-    font-weight: 400;     // font-normal
-    line-height: 1.5;     // leading-normal
-    color: #323232;        // text-[#323232]
+    margin-top: 8px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #323232;
     font-size: clamp(11px, 0.83cqw, 16px);
   }
 
-  &__milestone-body--justify { text-align: justify; } // text-justify
-  &__milestone-body--right   { text-align: right; }   // text-right
+  &__milestone-body--justify { text-align: justify; }
+  &__milestone-body--right   { text-align: right; }
 
   // Mobile/tablet: image on top, milestones stacked vertically.
   &__mobile {
-    @include container; // mx-auto w-full max-w-page px-6 md:px-10
-    @include bp(lg) { display: none; } // lg:hidden
+    @include container;
+    @include bp(lg) { display: none; }
   }
 
   &__mobile-img {
-    margin-inline: auto; // mx-auto
-    margin-top: 2rem;    // mt-8
-    width: 100%;         // w-full
-    max-width: 28rem;    // max-w-md
+    margin-inline: auto;
+    margin-top: 32px;
+    width: 100%;
+    max-width: 448px;
   }
 
   &__mobile-list {
-    margin-top: 2rem; // mt-8
-    > * + * { margin-top: 2rem; } // space-y-8
+    margin-top: 32px;
+    > * + * { margin-top: 32px; }
   }
 
   &__mobile-year {
-    font-family: $font-display; // font-display
-    font-size: 1.875rem;         // text-3xl
-    font-weight: 600;             // font-semibold
-    line-height: 1.25;            // leading-tight
-    color: $brand;                 // text-brand
+    font-family: $font-display;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: $brand;
   }
 
   &__mobile-title {
-    margin-top: 0.25rem;         // mt-1
-    font-family: $font-display;  // font-display
-    font-size: 1.125rem;          // text-lg
-    font-weight: 500;              // font-medium
-    letter-spacing: 0.025em;       // tracking-wide
-    color: $ink;                    // text-ink
+    margin-top: 4px;
+    font-family: $font-display;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    color: $ink;
   }
 
   &__mobile-body {
-    margin-top: 0.5rem;  // mt-2
-    text-align: justify; // text-justify
-    font-size: 15px;     // text-[15px]
-    font-weight: 300;    // font-light
-    line-height: 1.75rem; // leading-7
-    color: $body;          // text-body
+    margin-top: 8px;
+    text-align: justify;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 28px;
+    color: $body;
   }
 }
 
@@ -200,25 +200,25 @@
  * .ecs-ve-vm — VeEcsVisionMission.tsx
 \* ------------------------------------------------------------------ */
 .ecs-ve-vm {
-  background: #fff;    // bg-white
-  padding-block: 2rem; // py-8
-  @include bp(lg) { padding-block: 3rem; } // lg:py-12
+  background: #fff;
+  padding-block: 32px;
+  @include bp(lg) { padding-block: 48px; }
 
   &__inner {
-    @include container; // mx-auto w-full max-w-page px-6 md:px-10
+    @include container;
     display: flex;
-    flex-direction: column; // flex-col
-    gap: 3.5rem;             // gap-14
-    @include bp(lg) { gap: 6rem; } // lg:gap-24
+    flex-direction: column;
+    gap: 56px;
+    @include bp(lg) { gap: 96px; }
   }
 
   &__row {
     display: grid;
-    align-items: center; // items-center
-    gap: 2rem;            // gap-8
+    align-items: center;
+    gap: 32px;
     @include bp(lg) {
-      grid-template-columns: repeat(2, minmax(0, 1fr)); // lg:grid-cols-2
-      gap: 3.5rem;                                        // lg:gap-14
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 56px;
     }
   }
 
@@ -227,27 +227,27 @@
   &__row-text { }
 
   &__row-text--mission {
-    @include bp(lg) { order: 2; } // lg:order-2
+    @include bp(lg) { order: 2; }
   }
 
   &__text {
-    margin-top: 1.25rem;  // mt-5
-    text-align: justify;  // text-justify
-    font-size: 1.125rem;  // text-lg
-    font-weight: 300;     // font-light
-    line-height: 2rem;    // leading-8
-    color: rgba($ink, 0.8); // text-ink/80
+    margin-top: 20px;
+    text-align: justify;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 32px;
+    color: rgba($ink, 0.8);
   }
 
   &__img {
-    aspect-ratio: 16 / 10; // aspect-[16/10]
-    width: 100%;           // w-full
-    border-radius: 1rem;   // rounded-2xl
-    object-fit: cover;     // object-cover
+    aspect-ratio: 16 / 10;
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
   }
 
   &__img--mission {
-    @include bp(lg) { order: 1; } // lg:order-1
+    @include bp(lg) { order: 1; }
   }
 }
 
@@ -255,56 +255,56 @@
  * .ecs-ve-stats — VeEcsStats.tsx
 \* ------------------------------------------------------------------ */
 .ecs-ve-stats {
-  background: #fff;    // bg-white
-  padding-block: 4rem; // py-16
-  @include bp(lg) { padding-block: 6rem; } // lg:py-24
+  background: #fff;
+  padding-block: 64px;
+  @include bp(lg) { padding-block: 96px; }
 
   &__inner {
-    @include container; // mx-auto w-full max-w-page px-6 md:px-10
+    @include container;
   }
 
   &__grid {
-    margin-top: 3rem; // mt-12
+    margin-top: 48px;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); // grid-cols-2
-    column-gap: 1.5rem; // gap-x-6
-    row-gap: 3rem;      // gap-y-12
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+    row-gap: 48px;
     @include bp(lg) {
-      margin-top: 4rem; // lg:mt-16
-      grid-template-columns: repeat(4, minmax(0, 1fr)); // lg:grid-cols-4
+      margin-top: 64px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
   &__item {
     display: flex;
-    flex-direction: column; // flex-col
-    align-items: center;    // items-center
-    text-align: center;     // text-center
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   &__icon {
-    height: 3.5rem;    // h-14
-    width: 3.5rem;     // w-14
-    object-fit: contain; // object-contain
+    height: 56px;
+    width: 56px;
+    object-fit: contain;
   }
 
   &__value {
-    margin-top: 1rem;            // mt-4
-    font-family: $font-display;  // font-display
-    font-size: 34px;              // text-[34px]
-    font-weight: 600;              // font-semibold
-    line-height: 1;                // leading-none
-    color: $brand;                  // text-brand
-    @include bp(lg) { font-size: 40px; } // lg:text-[40px]
+    margin-top: 16px;
+    font-family: $font-display;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1;
+    color: $brand;
+    @include bp(lg) { font-size: 40px; }
   }
 
   &__label {
-    margin-top: 0.5rem;  // mt-2
-    max-width: 12.5rem;  // max-w-50
-    font-size: 15px;     // text-[15px]
-    font-weight: 300;    // font-light
-    line-height: 1.5rem; // leading-6
-    color: $ink;          // text-ink
+    margin-top: 8px;
+    max-width: 200px;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 24px;
+    color: $ink;
   }
 }
 
@@ -318,30 +318,30 @@
  * the static Tailwind utility classes are ported below.
 \* ------------------------------------------------------------------ */
 .ecs-ve-values {
-  background: $surface; // bg-surface
-  padding-block: 4rem;   // py-16
-  @include bp(lg) { padding-block: 0; } // lg:py-0
+  background: $surface;
+  padding-block: 64px;
+  @include bp(lg) { padding-block: 0; }
 
   // Desktop: fan container (position/aspect-ratio come from inline style).
   &__fan {
-    position: relative; // relative
-    margin-inline: auto; // mx-auto
-    display: none;        // hidden
-    width: 100%;           // w-full
-    max-width: 1920px;      // max-w-[1920px]
-    @include bp(lg) { display: block; } // lg:block
+    position: relative;
+    margin-inline: auto;
+    display: none;
+    width: 100%;
+    max-width: 1920px;
+    @include bp(lg) { display: block; }
   }
 
   &__heading {
-    position: absolute;    // absolute
-    left: 50%;              // left-1/2
-    top: 8%;                // top-[8%]
-    translate: -50% 0;      // -translate-x-1/2
-    white-space: nowrap;    // whitespace-nowrap
-    font-family: $font-display; // font-display
-    font-weight: 500;              // font-medium
-    letter-spacing: 0.5px;         // tracking-[0.5px]
-    color: $ink;                    // text-ink
+    position: absolute;
+    left: 50%;
+    top: 8%;
+    translate: -50% 0;
+    white-space: nowrap;
+    font-family: $font-display;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: $ink;
   }
 
   // Wedge fills, fan outline, icons, arrows: all absolutely positioned
@@ -351,88 +351,88 @@
   &__fan-img,
   &__icon,
   &__arrow {
-    position: absolute; // absolute
+    position: absolute;
   }
 
   &__fan-img {
-    object-fit: contain; // object-contain
+    object-fit: contain;
   }
 
   &__label {
-    position: absolute; // absolute
-    translate: -50% 0;   // -translate-x-1/2
-    text-align: center;  // text-center
+    position: absolute;
+    translate: -50% 0;
+    text-align: center;
   }
 
   &__label-key {
-    font-family: $font-display; // font-display
-    font-weight: 600;             // font-semibold
-    line-height: 1.25;            // leading-tight
-    color: $brand;                 // text-brand
+    font-family: $font-display;
+    font-weight: 600;
+    line-height: 1.25;
+    color: $brand;
   }
 
   &__label-phrase {
-    margin-top: 0.25rem;         // mt-1
-    font-family: $font-display;  // font-display
-    font-weight: 500;              // font-medium
-    line-height: 1.375;            // leading-snug
-    color: $ink;                    // text-ink
+    margin-top: 4px;
+    font-family: $font-display;
+    font-weight: 500;
+    line-height: 1.375;
+    color: $ink;
   }
 
   &__label-body {
-    margin-top: 0.25rem; // mt-1
-    font-weight: 300;     // font-light
-    line-height: 1.375;   // leading-snug
-    color: $ink;           // text-ink
+    margin-top: 4px;
+    font-weight: 300;
+    line-height: 1.375;
+    color: $ink;
   }
 
   // Mobile/tablet: stacked icon + text.
   &__mobile {
-    @include container; // mx-auto w-full max-w-page px-6 md:px-10
-    @include bp(lg) { display: none; } // lg:hidden
+    @include container;
+    @include bp(lg) { display: none; }
   }
 
   &__grid {
-    margin-top: 2.5rem; // mt-10
+    margin-top: 40px;
     display: grid;
-    gap: 2.5rem;          // gap-10
-    @include bp(sm) { grid-template-columns: repeat(2, minmax(0, 1fr)); } // sm:grid-cols-2
+    gap: 40px;
+    @include bp(sm) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
   &__item {
     display: flex;
-    flex-direction: column; // flex-col
-    align-items: center;    // items-center
-    text-align: center;     // text-center
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   &__item-icon {
-    height: 3.5rem;      // h-14
-    width: 3.5rem;        // w-14
-    object-fit: contain;  // object-contain
+    height: 56px;
+    width: 56px;
+    object-fit: contain;
   }
 
   &__item-key {
-    margin-top: 1rem;           // mt-4
-    font-family: $font-display; // font-display
-    font-size: 1.25rem;          // text-xl
-    font-weight: 600;             // font-semibold
-    color: $brand;                 // text-brand
+    margin-top: 16px;
+    font-family: $font-display;
+    font-size: 20px;
+    font-weight: 600;
+    color: $brand;
   }
 
   &__item-phrase {
-    margin-top: 0.25rem;        // mt-1
-    font-family: $font-display; // font-display
-    font-size: 1rem;              // text-base
-    font-weight: 500;              // font-medium
-    color: $ink;                    // text-ink
+    margin-top: 4px;
+    font-family: $font-display;
+    font-size: 16px;
+    font-weight: 500;
+    color: $ink;
   }
 
   &__item-body {
-    margin-top: 0.5rem;   // mt-2
-    font-size: 0.875rem;   // text-sm
-    font-weight: 300;       // font-light
-    line-height: 1.5rem;   // leading-6
-    color: $ink;             // text-ink
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 24px;
+    color: $ink;
   }
 }

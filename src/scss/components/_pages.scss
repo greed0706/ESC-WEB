@@ -5,7 +5,6 @@
 // /linh-vuc-hoat-dong/ and /phat-trien-ben-vung/. Mirrors .ecs-ve-hero
 // (Phase 2 Task 11) 1:1 — kept as its own partial per plan.
 
-
 .ecs-page-hero {
   position: relative;
   isolation: isolate;
@@ -67,7 +66,6 @@
 // `.ecs-ecosystem` (Task 8) via the same `data-ecosystem`/`data-tab`/
 // `data-panel` contract — the JS toggles ONLY `.is-active`, so tab + panel
 // states below must reproduce the same visuals via that one class.
-
 
 .ecs-lv {
   background: #fff;
@@ -189,7 +187,6 @@
 // data-ptbv-carousel/-track/-prev/-next hooks are left untouched in markup;
 // only the surrounding utility classes were swapped for BEM here. Card width
 // (the calc() below) must stay exact since JS reads the rendered width.
-
 
 // Shared visually-hidden heading helper (was Tailwind `sr-only`) — mirrors
 // the pattern already used in components/_linh-vuc.scss.

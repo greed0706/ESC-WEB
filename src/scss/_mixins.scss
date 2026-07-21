@@ -5,8 +5,8 @@
   margin-inline: auto;
   width: 100%;
   max-width: $page-max;
-  padding-inline: 1.5rem;            // px-6
-  @media (min-width: $bp-md) { padding-inline: 2.5rem; } // md:px-10
+  padding-inline: 24px;
+  @media (min-width: $bp-md) { padding-inline: 40px; }
 }
 
 @mixin bp($size) {

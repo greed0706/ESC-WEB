@@ -30,7 +30,6 @@ if ( ! empty( $ecsges_posts ) ) :
 	$pages           = $ecsges_rest ? array_chunk( $ecsges_rest, $per_page ) : array();
 	$page_count      = count( $pages );
 	$arrow           = ecsges_img( 'arrow.svg' );
-	$archive_url     = get_category_link( $ecsges_news_cat );
 	?>
 <section id="tin-tuc" aria-labelledby="news-heading" class="ecs-news">
 	<div class="ecs-news__inner">
@@ -105,10 +104,6 @@ if ( ! empty( $ecsges_posts ) ) :
 				</button>
 			</div>
 		<?php endif; ?>
-
-		<div class="ecs-news__more" data-aos="fade-up">
-			<a href="<?php echo esc_url( $archive_url ); ?>" class="ecs-news__more-link">Xem tất cả tin tức</a>
-		</div>
 	</div>
 </section>
 	<?php

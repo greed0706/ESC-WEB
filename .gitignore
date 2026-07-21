@@ -11,3 +11,7 @@ Thumbs.db
 
 # Live Sass output lạc (nếu extension cấu hình sai)
 src/scss/main.css
+
+# Công cụ dev cục bộ (không đẩy lên)
+.claude/
+.playwright-mcp/
