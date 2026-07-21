@@ -518,3 +518,354 @@
 .ecs-guides__inner {
   max-width: 1440px;
 }
+.ecs-recruit-hero {
+  position: relative;
+  overflow: hidden;
+
+  &__bg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__title {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: $font-display;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: $brand;
+    text-shadow: 0 4px 4px rgba(255, 255, 255, 0.45);
+    font-size: 32px;
+
+    @include bp(sm) { font-size: 56px; }
+    @include bp(lg) { font-size: 98px; }
+  }
+}
+
+.ecs-jobs {
+  background: #fff;
+  padding-block: 64px;
+
+  @include bp(lg) {
+    padding-block: 96px;
+  }
+
+  &__inner {
+    @include container;
+    display: grid;
+    gap: 40px;
+
+    @include bp(lg) {
+      grid-template-columns: 448px 1fr;
+      gap: 64px;
+    }
+  }
+
+  &__filters-title,
+  &__list-title {
+    font-family: $font-display;
+    font-weight: 500;
+    font-size: 32px;
+    color: $ink;
+
+    @include bp(lg) {
+      font-size: 50px;
+    }
+  }
+
+  &__field {
+    margin-top: 24px;
+  }
+
+  &__label {
+    display: block;
+    font-weight: 300;
+    font-size: 18px;
+    color: $ink;
+  }
+
+  &__select {
+    margin-top: 12px;
+    width: 100%;
+    height: 51px;
+    border: 0.5px solid $placeholder;
+    background: #fff;
+    padding-inline: 16px;
+    font-size: 18px;
+    color: $muted-2;
+  }
+
+  &__list-col {
+    min-width: 0;
+  }
+
+  &__list {
+    position: relative;
+    margin-top: 24px;
+  }
+
+  &__page {
+    display: none;
+
+    &.is-active {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+
+  &__card {
+    position: relative;
+    border: 0.5px solid $placeholder;
+    background: #fff;
+    padding: 24px;
+  }
+
+  &__card-title {
+    font-family: $font-display;
+    font-weight: 500;
+    font-size: 22px;
+    color: $ink;
+    padding-right: 80px;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &__badge-star {
+    width: 66px;
+    height: 67px;
+  }
+
+  &__badge-label {
+    position: absolute;
+    font-family: $font-display;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  &__badge--hot &__badge-label {
+    color: #fff;
+  }
+
+  &__badge--new &__badge-label {
+    color: $brand;
+  }
+
+  &__info {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-weight: 300;
+    font-size: 18px;
+    color: $ink;
+  }
+
+  &__info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__info-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+  }
+
+  // Là <button> (mở modal) chứ không phải link — khử padding/căn giữa mặc định
+  // của trình duyệt để trông y hệt một text link theo thiết kế.
+  &__apply {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 0;
+    text-align: left;
+    font-family: $font-display;
+    font-weight: 500;
+    font-size: 18px;
+    color: $brand;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__pagination {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  &__arrow-img {
+    width: 32px;
+    height: 32px;
+  }
+
+  &__arrow-img--next {
+    transform: scaleX(-1);
+  }
+
+  &__dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background: $placeholder;
+    transition: background-color 0.15s ease;
+
+    &.is-active {
+      background: $brand;
+    }
+  }
+}
+
+.ecs-job-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 48px 24px;
+
+  &.is-open {
+    display: flex;
+  }
+
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  &__panel {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    background: #fff;
+    padding: 32px;
+
+    @include bp(sm) {
+      padding: 48px;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    background: none;
+    font-size: 24px;
+    line-height: 1;
+    color: $ink;
+    cursor: pointer;
+  }
+
+  &__title {
+    text-align: center;
+  }
+
+  &__title-line {
+    display: block;
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: 24px;
+    color: $brand;
+  }
+
+  &__form {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+      font-weight: 300;
+      font-size: 18px;
+      color: $ink;
+    }
+
+    input {
+      height: 51px;
+      border: 0.5px solid $placeholder;
+      padding-inline: 16px;
+      font-size: 18px;
+      color: $ink;
+
+      &::placeholder {
+        color: $muted-2;
+      }
+    }
+  }
+
+  &__upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border: 1px dashed $placeholder;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  &__upload-title {
+    font-weight: 300;
+    font-size: 18px;
+    color: $ink;
+  }
+
+  &__upload-hint {
+    font-weight: 300;
+    font-size: 18px;
+    color: $muted-2;
+  }
+
+  &__submit {
+    height: 51px;
+    border: 0;
+    background: $brand;
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}

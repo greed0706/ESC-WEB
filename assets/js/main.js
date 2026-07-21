@@ -12,6 +12,8 @@
     initMobileMenu();
     initEcosystemTabs();
     initNewsPagination();
+    initJobsPagination();
+    initJobModal();
     initStickyHeader();
     initAOS();
     initHeroIntro();
@@ -389,4 +391,143 @@
     window.addEventListener('resize', function () { go(index); });
     go(0);
   }
+  /* ---------------------------------------------------------------- */
+  function initJobsPagination() {
+    var list = document.querySelector('[data-jobs]');
+    var nav = document.querySelector('[data-jobs-pagination]');
+    if (!list || !nav) return;
+
+    var pages = Array.prototype.slice.call(list.querySelectorAll('[data-jobs-page]'));
+    var dots = Array.prototype.slice.call(nav.querySelectorAll('[data-jobs-dot]'));
+    var count = pages.length;
+    if (count <= 1) return;
+
+    var current = 0;
+
+    function show(index) {
+      current = ((index % count) + count) % count;
+      pages.forEach(function (page, i) {
+        page.classList.toggle('is-active', i === current);
+      });
+      dots.forEach(function (dot, i) {
+        var on = i === current;
+        dot.classList.toggle('is-active', on);
+        dot.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+
+    var prev = nav.querySelector('[data-jobs-prev]');
+    var next = nav.querySelector('[data-jobs-next]');
+    if (prev) prev.addEventListener('click', function () { show(current - 1); });
+    if (next) next.addEventListener('click', function () { show(current + 1); });
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { show(i); });
+    });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /**
+   * Modal "Nộp đơn ứng tuyển": mở khi bấm [data-job-apply], đóng bằng nút X /
+   * click overlay / Esc. Submit chỉ reset + đóng modal (chưa nối backend).
+   *
+   * Bàn phím: khi mở thì chuyển focus vào panel và giam focus trong đó (Tab
+   * xoay vòng), khi đóng thì trả focus về đúng nút đã mở — nếu không, người
+   * dùng bàn phím sẽ tab thẳng xuống trang nằm dưới lớp overlay.
+   */
+  function initJobModal() {
+    var modal = document.querySelector('[data-job-modal]');
+    if (!modal) return;
+
+    var panel = modal.querySelector('[data-job-modal-panel]');
+    var positionEl = modal.querySelector('[data-job-modal-position]');
+    var form = modal.querySelector('[data-job-modal-form]');
+    var lastFocused = null;
+    var fileFields = Array.prototype.slice.call(modal.querySelectorAll('[data-job-modal-file]')).map(function (input) {
+      var label = input.closest('label');
+      var hint = label ? label.querySelector('[data-job-modal-filename]') : null;
+      return { input: input, hint: hint, placeholder: hint ? hint.textContent : '' };
+    });
+
+    function focusables() {
+      if (!panel) return [];
+      return Array.prototype.slice.call(
+        panel.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+      ).filter(function (el) {
+        return !el.disabled && el.offsetParent !== null;
+      });
+    }
+
+    function open(title) {
+      if (positionEl) positionEl.textContent = 'VỊ TRÍ ' + title.toUpperCase();
+      lastFocused = document.activeElement;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      if (panel) panel.focus();
+    }
+
+    function close() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+      lastFocused = null;
+    }
+
+    function trapTab(e) {
+      var items = focusables();
+      if (!items.length) return;
+      var first = items[0];
+      var last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    function resetFileHints() {
+      fileFields.forEach(function (field) {
+        if (field.hint) field.hint.textContent = field.placeholder;
+      });
+    }
+
+    Array.prototype.slice.call(document.querySelectorAll('[data-job-apply]')).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        open(btn.getAttribute('data-job-title') || '');
+      });
+    });
+
+    Array.prototype.slice.call(modal.querySelectorAll('[data-job-modal-close]')).forEach(function (el) {
+      el.addEventListener('click', close);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (!modal.classList.contains('is-open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'Tab') trapTab(e);
+    });
+
+    fileFields.forEach(function (field) {
+      field.input.addEventListener('change', function () {
+        if (field.hint && field.input.files && field.input.files[0]) {
+          field.hint.textContent = field.input.files[0].name;
+        }
+      });
+    });
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        // TODO: nối backend nhận hồ sơ. Khi làm, nhớ kèm nonce + check_ajax_referer()
+        // và validate/giới hạn kiểu file phía server trước khi nhận CV/Portfolio.
+        form.reset();
+        resetFileHints();
+        close();
+      });
+    }
+  }
+
 })();

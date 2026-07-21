@@ -400,3 +400,42 @@ function ecsges_ptbv_guides()
 		array('image' => $base . '4.png', 'title' => 'Hướng dẫn kích hoạt gói trả góp', 'href' => '#'),
 	);
 }
+
+/** Danh sách việc làm đang tuyển (trang Tuyển dụng). */
+function ecsges_jobs() {
+	return array(
+		array(
+			'title'      => 'Nhân viên Digital Marketing',
+			'location'   => 'Hà Nội',
+			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
+			'type'       => 'Toàn thời gian',
+			'deadline'   => 'Thời hạn: 20/7/2026',
+			'tag'        => 'hot',
+		),
+		array(
+			'title'      => 'Nhân viên Digital Marketing',
+			'location'   => 'Hà Nội',
+			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
+			'type'       => 'Toàn thời gian',
+			'deadline'   => 'Thời hạn: 20/7/2026',
+			'tag'        => 'new',
+		),
+		array(
+			'title'      => 'Nhân viên Media',
+			'location'   => 'Hà Nội',
+			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
+			'type'       => 'Toàn thời gian',
+			'deadline'   => 'Thời hạn: 20/7/2026',
+			'tag'        => 'new',
+		),
+		array(
+			'title'      => 'Nhân viên Designer',
+			'location'   => 'Hà Nội',
+			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
+			'type'       => 'Toàn thời gian',
+			'deadline'   => 'Thời hạn: 20/7/2026',
+			'tag'        => 'new',
+		),
+	);
+}
+
