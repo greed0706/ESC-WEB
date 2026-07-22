@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $ecsges_pins   = ecsges_about_pins();
 $about_eyebrow = ecsges_field( 'about_eyebrow', 'ECSGES' );
-$about_lines   = ecsges_field_lines( 'about_heading', array( 'VƯƠN RA THẾ GIỚI', 'VỚI HỆ SINH THÁI GIÁO DỤC KẾT NỐI' ) );
+$about_lines   = ecsges_field_lines( 'about_heading', array( 'VƯƠN RA THẾ GIỚI', 'VỚI HỆ SINH THÁI GIÁO DỤC KẾT NỐI' ) );
 $about_paras   = ecsges_field_paragraphs(
 	'about_body',
 	array(

@@ -13,7 +13,7 @@ $hero_mark    = ecsges_field_img( 'hero_mark', 'hero-mark.svg' );
 $hero_eyebrow = ecsges_field( 'hero_eyebrow', 'ECS GLOBAL EDUCATION SYSTEM' );
 $hero_script  = ecsges_field( 'hero_script', 'Kiến tạo' );
 $hero_lines   = ecsges_field_lines( 'hero_heading', array( 'HỆ SINH THÁI', 'GIÁO DỤC TOÀN CẦU' ) );
-$hero_badge   = ecsges_field( 'hero_badge', 'Vì Tương Lai Việt Nam' );
+$hero_badge   = ecsges_field( 'hero_badge', 'Vì tương lai Việt Nam' );
 $hero_label   = ecsges_field( 'hero_cta_label', 'TÌM HIỂU THÊM' );
 $hero_link    = ecsges_field( 'hero_cta_link', '#ve-ecs' );
 ?>

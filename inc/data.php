@@ -235,7 +235,7 @@ Mở rộng các pháp nhân
 		),
 		array(
 			'years' => '2026',
-			'title' => 'pHÁT TRIỂN BỀN VỮNG',
+			'title' => 'PHÁT TRIỂN BỀN VỮNG',
 			'body' => 'Năm 2026, đổi tên thành Công ty cổ phần hỗ trợ và phát triển ECSGES, phát triển hệ thống chuỗi văn phòng',
 		),
 	);
@@ -244,15 +244,14 @@ Mở rộng các pháp nhân
 /** Nội dung Tầm nhìn. */
 function ecsges_ve_ecs_vision()
 {
-	return ecsges_t('Trở thành hệ sinh thái giáo dục tiên phong tại Việt Nam, kết nối giáo dục, doanh nghiệp và xã hội trong một chuỗi giá trị toàn diện; góp phần phát triển nguồn nhân lực chất lượng cao, có năng lực hội nhập quốc tế và thích ứng với sự thay đổi của thời đại.');
+	return ecsges_t('Trở thành một tổ chức hàng đầu cung cấp sản phẩm, dịch vụ và giải pháp trong lĩnh vực hướng nghiệp, tuyển sinh, đào tạo, việc làm, truyền thông. ECSGES sẽ là doanh nghiệp đáng tin cậy và chuyên nghiệp trong cung cấp nguồn nhân lực chất lượng quốc tế.');
 }
 
 /** Các đoạn Sứ mệnh. */
 function ecsges_ve_ecs_mission()
 {
 	return array(
-		'Kiến tạo hệ sinh thái giáo dục toàn diện, đồng hành cùng người học trên hành trình từ định hướng nghề nghiệp, lựa chọn ngành học, phát triển năng lực đến kết nối việc làm.',
-		'Ứng dụng công nghệ, đổi mới sáng tạo và mở rộng hợp tác trong nước, quốc tế nhằm mang đến những giải pháp giáo dục hiệu quả, góp phần nâng cao chất lượng nguồn nhân lực và tạo ra giá trị bền vững cho cộng đồng.',
+		'Với sứ mệnh nâng tầm nguồn nhân lực Việt Nam, chúng tôi cam kết không ngừng nỗ lực xây dựng những sản phẩm, dịch vụ, giải pháp, có tính thực tiễn, sáng tạo, chuyên nghiệp và giá trị nhất đáp ứng nhu cầu phát triển nguồn nhân lực chất lượng cho xã hội. ',
 	);
 }
 
@@ -292,14 +291,14 @@ function ecsges_core_values()
 function ecsges_ve_ecs_stats()
 {
 	return array(
-		array('value' => '18 năm', 'label' => 'Thành lập và phát triển', 'icon' => '1.svg'),
-		array('value' => '5', 'label' => 'Lĩnh vực hoạt động', 'icon' => '2.svg'),
-		array('value' => '20+', 'label' => 'Chi nhánh văn phòng quốc tế', 'icon' => '3.svg'),
-		array('value' => '235000+', 'label' => 'HSSV được tư vấn', 'icon' => '4.svg'),
-		array('value' => '1000+', 'label' => 'SV đã đào tạo', 'icon' => '5.svg'),
-		array('value' => '50+', 'label' => 'Trường ĐH, CĐ, TC được tư vấn', 'icon' => '6.svg'),
-		array('value' => '50+', 'label' => 'Đơn vị hỗ trợ và phát triển', 'icon' => '7.svg'),
-		array('value' => '150+', 'label' => 'Nhân sự', 'icon' => '8.svg'),
+		array('value' => '20+ năm', 'label' => 'Thành lập', 'icon' => '1.svg'),
+		array('value' => '05', 'label' => 'Lĩnh vực hoạt động', 'icon' => '2.svg'),
+		array('value' => '50+', 'label' => 'Chi nhánh văn phòng quốc tế', 'icon' => '3.svg'),
+		array('value' => '235.000+', 'label' => 'Tư vấn, định hướng nghề nghiệp cho học sinh, sinh viên', 'icon' => '4.svg'),
+		array('value' => '20.000+', 'label' => 'Đào tạo sinh viên Đại học, Cao đẳng', 'icon' => '5.svg'),
+		array('value' => '50+', 'label' => 'Hỗ trợ và tư vấn trường Đại học, Cao đẳng, Trung cấp, liên cấp', 'icon' => '6.svg'),
+		array('value' => '2000+', 'label' => 'Đối tác, tổ chức hỗ trợ và phát triển', 'icon' => '7.svg'),
+		array('value' => '150+', 'label' => 'Tiến sĩ, Thạc sĩ', 'icon' => '8.svg'),
 	);
 }
 
@@ -335,12 +334,67 @@ function ecsges_linh_vuc_tabs()
 			'id' => 'huong-nghiep',
 			'label' => 'HƯỚNG NGHIỆP',
 			'image' => $img,
-			'paragraph' => 'Định hướng tương lai từ sự thấu hiểu năng lực. ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại và hội nhập. Các dịch vụ nổi bật: - Định hướng nghề nghiệp - Lựa chọn ngành học - Phát triển kỹ năng.',
+			'paragraph' => 'Định hướng tương lai từ sự thấu hiểu năng lực
+							ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại và hội nhập.
+							Các dịch vụ nổi bật:
+							- Định hướng nghề nghiệp
+							- Lựa chọn ngành học
+							- Phát triển kỹ năng',
 		),
-		array('id' => 'tuyen-sinh', 'label' => 'TUYỂN SINH', 'image' => $img, 'paragraph' => 'Nội dung đang cập nhật.'),
-		array('id' => 'dao-tao', 'label' => 'ĐÀO TẠO', 'image' => $img, 'paragraph' => 'Nội dung đang cập nhật.'),
-		array('id' => 'viec-lam', 'label' => 'VIỆC LÀM', 'image' => $img, 'paragraph' => 'Nội dung đang cập nhật.'),
-		array('id' => 'truyen-thong', 'label' => 'TRUYỀN THÔNG', 'image' => $img, 'paragraph' => 'Nội dung đang cập nhật.'),
+		array(
+			'id' => 'tuyen-sinh',
+			'label' => 'TUYỂN SINH',
+			'image' => $img,
+			'paragraph' => 'Kết nối người học với cơ hội phát triển toàn diện
+							Với mạng lưới đối tác giáo dục đa dạng và hệ thống tư vấn chuyên nghiệp, ECSGES triển khai các giải pháp tuyển sinh linh hoạt, đáp ứng nhu cầu học tập ở nhiều cấp độ và lĩnh vực khác nhau. Chúng tôi hướng tới việc mở rộng cơ hội tiếp cận giáo dục chất lượng cho mọi đối tượng người học.
+							Các chương trình tuyển sinh:
+							- Chính quy Đại học, Cao đẳng
+							- Du học
+							- Liên thông
+							- Chương trình 9+
+							- E-Learning
+							- Các khóa học ngắn hạn'
+		),
+		array(
+			'id' => 'dao-tao',
+			'label' => 'ĐÀO TẠO',
+			'image' => $img,
+			'paragraph' => 'Nâng cao năng lực, gia tăng giá trị nghề nghiệp
+							ECSGES phát triển các chương trình đào tạo đa dạng theo định hướng ứng dụng, kết hợp giữa kiến thức chuyên môn, kỹ năng thực tiễn và yêu cầu của thị trường lao động. Chúng tôi chú trọng xây dựng môi trường học tập hiện đại, linh hoạt và phù hợp với xu hướng phát triển của thời đại số.
+							Các lĩnh vực đào tạo: 
+							- Chính quy Đại học, Cao đẳng
+							- Du học
+							- Liên thông
+							- Kỹ năng
+							- Chương trình 9+
+							- E-Learning'
+		),
+		array(
+			'id' => 'viec-lam',
+			'label' => 'VIỆC LÀM',
+			'image' => $img,
+			'paragraph' => 'Kết nối nguồn nhân lực với cơ hội nghề nghiệp
+							Là cầu nối giữa người lao động và doanh nghiệp, ECSGES cung cấp các giải pháp việc làm trong nước và quốc tế, góp phần nâng cao chất lượng nguồn nhân lực và thúc đẩy phát triển nghề nghiệp bền vững. Chúng tôi đồng hành cùng người lao động từ quá trình định hướng, đào tạo đến tìm kiếm cơ hội việc làm phù hợp.
+							Việc làm trong nước:
+							- Lao động phổ thông
+							- Lao động thời vụ
+							- Lao động tay nghề cao
+							- Lao động có kinh nghiệm
+							Việc làm quốc tế:
+							- Xuất khẩu lao động phổ thông
+							- Xuất khẩu lao động kỹ sư'
+		),
+		array(
+			'id' => 'truyen-thong',
+			'label' => 'TRUYỀN THÔNG',
+			'image' => $img,
+			'paragraph' => 'Lan tỏa giá trị bằng sức mạnh kết nối
+							ECSGES cung cấp các giải pháp truyền thông toàn diện cho lĩnh vực giáo dục, góp phần nâng cao hình ảnh thương hiệu, tăng cường kết nối với người học và mở rộng sức ảnh hưởng tới cộng đồng. Chúng tôi kết hợp giữa truyền thông hiện đại và tổ chức sự kiện để tạo nên những chiến dịch hiệu quả và bền vững.
+							Các dịch vụ chính:
+							- Truyền thông online
+							- Truyền thông offline
+							- Tổ chức sự kiện'
+		),
 	);
 }
 
@@ -387,6 +441,53 @@ function ecsges_ptbv_values()
 }
 
 /**
+ * Phát triển bền vững — VĂN HÓA ECS (carousel). Figma chỉ thiết kế slide "HỌC HỎI"
+ * + 3 chấm phân trang; 2 slide còn lại là nội dung tiếng Việt hợp lý (chỉnh sau).
+ * 'title' + 'text' đổi theo từng chấm; ảnh bên trái giữ cố định.
+ */
+function ecsges_ptbv_culture()
+{
+	return array(
+		array(
+			'title' => 'HỌC HỎI',
+			'text'  => 'ECSGES xây dựng môi trường khuyến khích học tập và phát triển liên tục. Thông qua các chương trình đào tạo nội bộ, hoạt động chia sẻ chuyên môn và cơ hội tham gia các khóa học nâng cao, đội ngũ cán bộ, giảng viên và nhân viên luôn được tạo điều kiện để cập nhật kiến thức, rèn luyện kỹ năng và phát triển năng lực nghề nghiệp.',
+		),
+		array(
+			'title' => 'HỢP TÁC',
+			'text'  => 'Chúng tôi đề cao tinh thần làm việc nhóm và sự phối hợp giữa các bộ phận. Mỗi thành viên đều được lắng nghe, tôn trọng và cùng nhau kiến tạo giá trị chung, biến sự khác biệt thành sức mạnh tập thể để hoàn thành những mục tiêu lớn.',
+		),
+		array(
+			'title' => 'CHÍNH TRỰC',
+			'text'  => 'Sự minh bạch và trung thực là nền tảng trong mọi hoạt động của ECSGES. Chúng tôi giữ vững cam kết với người học, đối tác và cộng đồng bằng thái độ làm việc chuẩn mực, có trách nhiệm và luôn đặt chữ tín lên hàng đầu.',
+		),
+	);
+}
+
+/**
+ * Phát triển bền vững — TRÁCH NHIỆM XÃ HỘI (3 thẻ). Thẻ đầu tô nền cam (accent).
+ */
+function ecsges_ptbv_responsibility()
+{
+	return array(
+		array(
+			'title'  => 'TRI THỨC',
+			'text'   => 'Lan tỏa cơ hội học tập và tiếp cận giáo dục cho nhiều đối tượng trong cộng đồng.',
+			'accent' => true,
+		),
+		array(
+			'title'  => 'NHÂN LỰC',
+			'text'   => 'Góp phần đào tạo và phát triển nguồn nhân lực chất lượng cao phục vụ sự phát triển của đất nước.',
+			'accent' => false,
+		),
+		array(
+			'title'  => 'TƯƠNG LAI',
+			'text'   => 'Đồng hành cùng thế hệ trẻ trên hành trình hội nhập, sáng tạo và kiến tạo giá trị cho xã hội.',
+			'accent' => false,
+		),
+	);
+}
+
+/**
  * Phát triển bền vững — 4 thẻ hướng dẫn (dưới banner "Click here").
  * 'image' = tên file trong assets/img.
  */
@@ -402,39 +503,40 @@ function ecsges_ptbv_guides()
 }
 
 /** Danh sách việc làm đang tuyển (trang Tuyển dụng). */
-function ecsges_jobs() {
+function ecsges_jobs()
+{
 	return array(
 		array(
-			'title'      => 'Nhân viên Digital Marketing',
-			'location'   => 'Hà Nội',
+			'title' => 'Nhân viên Digital Marketing',
+			'location' => 'Hà Nội',
 			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
-			'type'       => 'Toàn thời gian',
-			'deadline'   => 'Thời hạn: 20/7/2026',
-			'tag'        => 'hot',
+			'type' => 'Toàn thời gian',
+			'deadline' => 'Thời hạn: 20/7/2026',
+			'tag' => 'hot',
 		),
 		array(
-			'title'      => 'Nhân viên Digital Marketing',
-			'location'   => 'Hà Nội',
+			'title' => 'Nhân viên Digital Marketing',
+			'location' => 'Hà Nội',
 			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
-			'type'       => 'Toàn thời gian',
-			'deadline'   => 'Thời hạn: 20/7/2026',
-			'tag'        => 'new',
+			'type' => 'Toàn thời gian',
+			'deadline' => 'Thời hạn: 20/7/2026',
+			'tag' => 'new',
 		),
 		array(
-			'title'      => 'Nhân viên Media',
-			'location'   => 'Hà Nội',
+			'title' => 'Nhân viên Media',
+			'location' => 'Hà Nội',
 			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
-			'type'       => 'Toàn thời gian',
-			'deadline'   => 'Thời hạn: 20/7/2026',
-			'tag'        => 'new',
+			'type' => 'Toàn thời gian',
+			'deadline' => 'Thời hạn: 20/7/2026',
+			'tag' => 'new',
 		),
 		array(
-			'title'      => 'Nhân viên Designer',
-			'location'   => 'Hà Nội',
+			'title' => 'Nhân viên Designer',
+			'location' => 'Hà Nội',
 			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
-			'type'       => 'Toàn thời gian',
-			'deadline'   => 'Thời hạn: 20/7/2026',
-			'tag'        => 'new',
+			'type' => 'Toàn thời gian',
+			'deadline' => 'Thời hạn: 20/7/2026',
+			'tag' => 'new',
 		),
 	);
 }

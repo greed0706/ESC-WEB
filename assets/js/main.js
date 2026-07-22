@@ -20,6 +20,7 @@
     initCharsReveal();
     initPinsReveal();
     initPtbvCarousel();
+    initPtbvCulture();
     initLangDropdown();
     initMobileSubmenu();
   });
@@ -390,6 +391,32 @@
     if (next) next.addEventListener('click', function () { go(index + 1); });
     window.addEventListener('resize', function () { go(index); });
     go(0);
+  }
+  /* ---------------------------------------------------------------- */
+  /**
+   * VĂN HÓA ECS — carousel đổi nội dung thẻ theo chấm phân trang. Chỉ bật/tắt
+   * lớp .is-active trên slide + chấm tương ứng (SCSS lo hiện/ẩn).
+   */
+  function initPtbvCulture() {
+    var root = document.querySelector('[data-ptbv-culture]');
+    if (!root) return;
+    var slides = Array.prototype.slice.call(root.querySelectorAll('[data-culture-slide]'));
+    var dots = Array.prototype.slice.call(root.querySelectorAll('[data-culture-dot]'));
+    if (slides.length === 0 || dots.length !== slides.length) return;
+
+    function show(i) {
+      slides.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
+      dots.forEach(function (d, n) {
+        var on = n === i;
+        d.classList.toggle('is-active', on);
+        d.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { show(i); });
+    });
+    show(0);
   }
   /* ---------------------------------------------------------------- */
   function initJobsPagination() {

@@ -14,7 +14,10 @@ $ptbv_team = ecsges_ptbv_team();
 ?>
 <section aria-labelledby="ptbv-team-heading" class="ecs-team">
 	<div class="ecs-team__inner">
-		<h2 id="ptbv-team-heading" class="ecs-team__visually-hidden">Đội ngũ ECSGES</h2>
+		<div class="ecs-team__header" data-aos="fade-up">
+			<h2 id="ptbv-team-heading" class="ecs-team__heading">CON NGƯỜI ECS</h2>
+			<p class="ecs-team__subheading">ĐỘI NGŨ LÃNH ĐẠO</p>
+		</div>
 
 		<div class="ecs-team__carousel" data-aos="fade-up" data-ptbv-carousel>
 			<div class="ecs-team__viewport">

@@ -15,10 +15,20 @@ get_header();
 ?>
 	<main>
 		<?php
-		get_template_part( 'template-parts/page', 'hero', array( 'title' => 'PHÁT TRIỂN BỀN VỮNG', 'id' => 'ptbv-hero' ) );
+		get_template_part(
+			'template-parts/page',
+			'hero',
+			array(
+				'title'   => 'PHÁT TRIỂN BỀN VỮNG',
+				'id'      => 'ptbv-hero',
+				'bg'      => 'phat-trien-ben-vung/hero-bg.png',
+				'variant' => 'banner',
+			)
+		);
 		get_template_part( 'template-parts/ptbv', 'team' );
 		get_template_part( 'template-parts/ptbv', 'values' );
-		get_template_part( 'template-parts/ptbv', 'guides' );
+		get_template_part( 'template-parts/ptbv', 'culture' );
+		get_template_part( 'template-parts/ptbv', 'responsibility' );
 		?>
 	</main>
 <?php

@@ -47,7 +47,38 @@ $lv_tabs = ecsges_linh_vuc_tabs();
 					<div class="ecs-lv__panel-inner">
 						<img src="<?php echo esc_url( ecsges_img( $tab['image'] ) ); ?>" alt="<?php echo esc_attr( $tab['label'] ); ?>" class="ecs-lv__image">
 						<div class="ecs-lv__box">
-							<p class="ecs-lv__text"><?php echo esc_html( $tab['paragraph'] ); ?></p>
+							<div class="ecs-lv__text">
+								<?php
+								// Đoạn paragraph là chuỗi nhiều dòng (title, mô tả, nhãn "Các dịch vụ:", rồi các dòng "- ...").
+								// Tách từng dòng, bỏ khoảng trắng thừa; gom các dòng "- ..." liền nhau thành <ul>, còn lại là <p>.
+								$lv_lines = preg_split( '/\r\n|\r|\n/', (string) $tab['paragraph'] );
+								$lv_bullets = array();
+								$flush_bullets = static function () use ( &$lv_bullets ) {
+									if ( empty( $lv_bullets ) ) {
+										return;
+									}
+									echo '<ul class="ecs-lv__list">';
+									foreach ( $lv_bullets as $bullet ) {
+										echo '<li>' . esc_html( $bullet ) . '</li>';
+									}
+									echo '</ul>';
+									$lv_bullets = array();
+								};
+								foreach ( $lv_lines as $line ) {
+									$line = trim( $line );
+									if ( '' === $line ) {
+										continue;
+									}
+									if ( 0 === strpos( $line, '-' ) ) {
+										$lv_bullets[] = trim( ltrim( $line, '-' ) );
+										continue;
+									}
+									$flush_bullets();
+									echo '<p>' . esc_html( $line ) . '</p>';
+								}
+								$flush_bullets();
+								?>
+							</div>
 						</div>
 					</div>
 				</div>
