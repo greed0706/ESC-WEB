@@ -228,6 +228,11 @@
     }
   }
 
+  &__title {
+    font-weight: 700;
+    color: $ink;
+  }
+
   &__list {
     margin: 8px 0 0;
     padding-left: 24px;

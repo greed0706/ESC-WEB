@@ -48,6 +48,9 @@ $lv_tabs = ecsges_linh_vuc_tabs();
 						<img src="<?php echo esc_url( ecsges_img( $tab['image'] ) ); ?>" alt="<?php echo esc_attr( $tab['label'] ); ?>" class="ecs-lv__image">
 						<div class="ecs-lv__box">
 							<div class="ecs-lv__text">
+								<?php if ( ! empty( $tab['title'] ) ) : ?>
+									<p class="ecs-lv__title"><?php echo esc_html( $tab['title'] ); ?></p>
+								<?php endif; ?>
 								<?php
 								// Đoạn paragraph là chuỗi nhiều dòng (title, mô tả, nhãn "Các dịch vụ:", rồi các dòng "- ...").
 								// Tách từng dòng, bỏ khoảng trắng thừa; gom các dòng "- ..." liền nhau thành <ul>, còn lại là <p>.
