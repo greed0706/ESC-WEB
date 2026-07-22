@@ -224,7 +224,7 @@ function ecsges_milestones()
 		array(
 			'years' => '2008 - 2018',
 			'title' => 'CHUYỂN ĐỔI LĨNH VỰC',
-			'body' => 'Năm 2008, đổi tên thành công ty cổ phần truyền thông BTS Việt NamChuyển đổi sang các lĩnh vực hướng nghiệp, tuyển sinh và đào tạo.',
+			'body' => 'Năm 2008, đổi tên thành công ty cổ phần truyền thông BTS Việt Nam. Chuyển đổi sang các lĩnh vực hướng nghiệp, tuyển sinh và đào tạo.',
 		),
 		array(
 			'years' => '2019 - 2025',
@@ -293,10 +293,10 @@ function ecsges_ve_ecs_stats()
 	return array(
 		array('value' => '20+ năm', 'label' => 'Thành lập', 'icon' => '1.svg'),
 		array('value' => '05', 'label' => 'Lĩnh vực hoạt động', 'icon' => '2.svg'),
-		array('value' => '50+', 'label' => 'Chi nhánh văn phòng quốc tế', 'icon' => '3.svg'),
-		array('value' => '235.000+', 'label' => 'Tư vấn, định hướng nghề nghiệp cho học sinh, sinh viên', 'icon' => '4.svg'),
-		array('value' => '20.000+', 'label' => 'Đào tạo sinh viên Đại học, Cao đẳng', 'icon' => '5.svg'),
-		array('value' => '50+', 'label' => 'Hỗ trợ và tư vấn trường Đại học, Cao đẳng, Trung cấp, liên cấp', 'icon' => '6.svg'),
+		array('value' => '50+', 'label' => 'Chi nhánh văn phòng toàn quốc', 'icon' => '3.svg'),
+		array('value' => '235.000+', 'label' => 'Học sinh, sinh viên được tư vấn, định hướng nghề nghiệp', 'icon' => '4.svg'),
+		array('value' => '20.000+', 'label' => 'Sinh viên Đại học, Cao đẳng được đào tạo', 'icon' => '5.svg'),
+		array('value' => '50+', 'label' => 'Trường Đại học, Cao đẳng, Trung cấp, liên cấp được hỗ trợ và tư vấn', 'icon' => '6.svg'),
 		array('value' => '2000+', 'label' => 'Đối tác, tổ chức hỗ trợ và phát triển', 'icon' => '7.svg'),
 		array('value' => '200+', 'label' => 'CBGVNV với 50+ tiến sĩ, thạc sĩ','icon' => '8.svg'),
 	);
