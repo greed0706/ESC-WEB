@@ -65,35 +65,35 @@ function ecsges_ecosystem_tabs()
 			'icon' => 'icon-huongnghiep',
 			'label' => 'HƯỚNG NGHIỆP',
 			'title' => 'HƯỚNG NGHIỆP',
-			'body' => 'ECS Global phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm của đội ngũ lãnh đạo trẻ, cùng với sự năng động, sáng tạo, đoàn kết của nhiều lớp nhân viên. Sau hơn 9 năm, ECS Global đã khẳng định được vị thế trên thị trường ở các lĩnh vực tuyển sinh, hướng nghiệp khởi nghiệp, việc làm, giáo dục, truyền thông và công nghệ số.',
+			'body' => 'ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại và hội nhập.',
 		),
 		array(
 			'id' => 'tuyen-sinh',
 			'icon' => 'icon-tuyensinh',
 			'label' => 'TUYỂN SINH',
 			'title' => 'TUYỂN SINH',
-			'body' => 'Kết nối người học với các chương trình đào tạo trong và ngoài nước, ECSGES tư vấn lộ trình phù hợp với năng lực, nguyện vọng và điều kiện của từng cá nhân trên hành trình chinh phục tri thức.',
+			'body' => 'Với mạng lưới đối tác giáo dục đa dạng và hệ thống tư vấn chuyên nghiệp, ECSGES triển khai các giải pháp tuyển sinh linh hoạt, đáp ứng nhu cầu học tập ở nhiều cấp độ và lĩnh vực khác nhau. Chúng tôi hướng tới việc mở rộng cơ hội tiếp cận giáo dục chất lượng cho mọi đối tượng người học.',
 		),
 		array(
 			'id' => 'dao-tao',
 			'icon' => 'icon-daotao',
 			'label' => 'ĐÀO TẠO',
 			'title' => 'ĐÀO TẠO',
-			'body' => 'Hệ thống chương trình đào tạo bám sát thực tiễn, trang bị kiến thức và kỹ năng cần thiết giúp người học sẵn sàng thích ứng và phát triển trong môi trường làm việc hiện đại.',
+			'body' => 'ECSGES phát triển các chương trình đào tạo đa dạng theo định hướng ứng dụng, kết hợp giữa kiến thức chuyên môn, kỹ năng thực tiễn và yêu cầu của thị trường lao động. Chúng tôi chú trọng xây dựng môi trường học tập hiện đại, linh hoạt và phù hợp với xu hướng phát triển của thời đại số.',
 		),
 		array(
 			'id' => 'viec-lam',
 			'icon' => 'icon-vieclam',
 			'label' => 'VIỆC LÀM',
 			'title' => 'VIỆC LÀM',
-			'body' => 'Mạng lưới đối tác doanh nghiệp rộng khắp mở ra cơ hội thực tập và việc làm, đồng hành cùng người học từ khi rời ghế nhà trường đến khi vững vàng trong sự nghiệp.',
+			'body' => 'Là cầu nối giữa người lao động và doanh nghiệp, ECSGES cung cấp các giải pháp việc làm trong nước và quốc tế, góp phần nâng cao chất lượng nguồn nhân lực và thúc đẩy phát triển nghề nghiệp bền vững. Chúng tôi đồng hành cùng người lao động từ quá trình định hướng, đào tạo đến tìm kiếm cơ hội việc làm phù hợp.',
 		),
 		array(
 			'id' => 'truyen-thong',
 			'icon' => 'icon-truyenthong',
 			'label' => 'TRUYỀN THÔNG',
 			'title' => 'TRUYỀN THÔNG',
-			'body' => 'Lan toả tri thức và giá trị tích cực tới cộng đồng thông qua các kênh truyền thông và nền tảng công nghệ số, kết nối con người với cơ hội học tập và phát triển.',
+			'body' => 'ECSGES cung cấp các giải pháp truyền thông toàn diện cho lĩnh vực giáo dục, góp phần nâng cao hình ảnh thương hiệu, tăng cường kết nối với người học và mở rộng sức ảnh hưởng tới cộng đồng. Chúng tôi kết hợp giữa truyền thông hiện đại và tổ chức sự kiện để tạo nên những chiến dịch hiệu quả và bền vững.',
 		),
 	);
 }
@@ -298,7 +298,7 @@ function ecsges_ve_ecs_stats()
 		array('value' => '20.000+', 'label' => 'Đào tạo sinh viên Đại học, Cao đẳng', 'icon' => '5.svg'),
 		array('value' => '50+', 'label' => 'Hỗ trợ và tư vấn trường Đại học, Cao đẳng, Trung cấp, liên cấp', 'icon' => '6.svg'),
 		array('value' => '2000+', 'label' => 'Đối tác, tổ chức hỗ trợ và phát triển', 'icon' => '7.svg'),
-		array('value' => '150+', 'label' => 'Tiến sĩ, Thạc sĩ', 'icon' => '8.svg'),
+		array('value' => '200+', 'label' => 'CBGVNV với 50+ tiến sĩ, thạc sĩ','icon' => '8.svg'),
 	);
 }
 
