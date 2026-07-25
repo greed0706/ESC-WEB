@@ -20,7 +20,6 @@ get_header();
 		get_template_part( 'template-parts/section', 'journey' );
 		get_template_part( 'template-parts/section', 'ecosystem' );
 		get_template_part( 'template-parts/section', 'news' );
-		get_template_part( 'template-parts/section', 'branch' );
 		?>
 	</main>
 <?php
