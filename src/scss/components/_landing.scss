@@ -11,6 +11,38 @@
 // only supplies the layout/spacing/color utilities that used to sit inline
 // in template-parts/section-hero.php.
 
+// HeroSection — biến thể BANNER (template-parts/section-hero-banner.php).
+// Figma node 2:34: ảnh full-bleed 1920x792 nằm ngay dưới header (y=79), KHÔNG
+// bị bó trong $page-max và không có overlay chữ (chữ đã bake trong ảnh).
+// aspect-ratio khai đúng 1920/792 để không nhảy layout (CLS) khi ảnh chưa tải.
+
+.ecs-hero-banner {
+  display: block;
+  background: $surface;
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1920 / 792;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+
+  // Tiêu đề chỉ dành cho screen reader / SEO — chữ hiển thị nằm trong ảnh.
+  &__visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
 .ecs-hero {
   background: $surface;
 

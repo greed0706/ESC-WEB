@@ -13,7 +13,9 @@ get_header();
 ?>
 	<main>
 		<?php
-		get_template_part( 'template-parts/section', 'hero' );
+		// Hero = banner ảnh (Figma 2:13). Bản hero cũ vẫn còn ở
+		// template-parts/section-hero.php — đổi 'hero-banner' -> 'hero' để dùng lại.
+		get_template_part( 'template-parts/section', 'hero-banner' );
 		get_template_part( 'template-parts/section', 'about' );
 		get_template_part( 'template-parts/section', 'journey' );
 		get_template_part( 'template-parts/section', 'ecosystem' );

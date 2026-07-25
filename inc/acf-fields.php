@@ -81,6 +81,8 @@ add_action(
 
 		/* ---------------- HERO ---------------- */
 		$fields[] = $tab( 'hero', 'Hero' );
+		$fields[] = $image( 'hero_banner', 'Ảnh banner (1920x792)', 'Ảnh banner trang chủ — chữ đã nằm sẵn trong ảnh. Để trống dùng mặc định.' );
+		// Các field dưới đây chỉ dùng cho bản hero cũ (template-parts/section-hero.php).
 		$fields[] = $text( 'hero_eyebrow', 'Dòng nhỏ trên', 'ECS GLOBAL EDUCATION SYSTEM' );
 		$fields[] = $text( 'hero_script', 'Chữ script (xanh)', 'Kiến tạo' );
 		$fields[] = $textarea( 'hero_heading', 'Tiêu đề lớn (mỗi dòng 1 hàng)', "HỆ SINH THÁI\nGIÁO DỤC TOÀN CẦU", 'Mỗi dòng sẽ xuống hàng.', 2 );
