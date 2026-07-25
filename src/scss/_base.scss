@@ -24,7 +24,16 @@ a { color: inherit; text-decoration: inherit; }
 ul, ol, menu { list-style: none; margin: 0; padding: 0; }
 img, svg, video, canvas, audio, iframe, embed, object { display: block; vertical-align: middle; }
 img, video { max-width: 100%; height: auto; }
-button, input, select, textarea { font: inherit; color: inherit; margin: 0; }
+// letter-spacing/word-spacing: UA stylesheet của Chrome đặt cứng `normal` cho
+// các control này nên chúng KHÔNG thừa kế $ls-base từ body — phải ép inherit,
+// nếu không tab/nút/ô input sẽ lệch tracking so với phần chữ còn lại.
+button, input, select, textarea {
+  font: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+  color: inherit;
+  margin: 0;
+}
 button, [type='button'], [type='submit'], [type='reset'] {
   -webkit-appearance: button;
   appearance: button;
@@ -36,6 +45,10 @@ button, [type='button'], [type='submit'], [type='reset'] {
 body {
   margin: 0;
   font-family: $font-sans;
+  // Nền của thang cỡ chữ: mọi chữ không khai báo riêng đều là 18px/32px/0.25px.
+  font-size: $fs-sm;
+  line-height: $lh-base;
+  letter-spacing: $ls-base;
   color: $body;
   background: #fff;
   -webkit-font-smoothing: antialiased;

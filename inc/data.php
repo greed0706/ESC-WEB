@@ -172,6 +172,16 @@ function ecsges_footer_columns()
 		array(
 			'title' => 'LĨNH VỰC HOẠT ĐỘNG',
 			'links' => array('Hướng nghiệp', 'Tuyển sinh', 'Đào tạo', 'Việc làm', 'Truyền thông'),
+			// 'cats' = nhãn VN gốc → slug category. Footer dò theo nhãn VN (không phải
+			// nhãn đã dịch/ACF ghi đè) rồi lấy link archive thật qua ecsges_category_link();
+			// category chưa tồn tại thì tự rơi về '#'.
+			'cats' => array(
+				'Hướng nghiệp' => 'huong-nghiep',
+				'Tuyển sinh' => 'tuyen-sinh',
+				'Đào tạo' => 'dao-tao',
+				'Việc làm' => 'viec-lam',
+				'Truyền thông' => 'truyen-thong',
+			),
 		),
 		array(
 			'title' => 'PHÁT TRIỂN BỀN VỮNG',
@@ -338,6 +348,7 @@ function ecsges_linh_vuc_tabs()
 		array(
 			'id' => 'huong-nghiep',
 			'label' => 'HƯỚNG NGHIỆP',
+			'icon' => 'icon-huongnghiep',
 			'image' => $img,
 			'title' => 'Định hướng tương lai từ sự thấu hiểu năng lực',
 			'paragraph' => 'ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại và hội nhập.
@@ -349,6 +360,7 @@ function ecsges_linh_vuc_tabs()
 		array(
 			'id' => 'tuyen-sinh',
 			'label' => 'TUYỂN SINH',
+			'icon' => 'icon-tuyensinh',
 			'image' => $img,
 			'title' => 'Kết nối người học với cơ hội phát triển toàn diện',
 			'paragraph' => 'Với mạng lưới đối tác giáo dục đa dạng và hệ thống tư vấn chuyên nghiệp, ECSGES triển khai các giải pháp tuyển sinh linh hoạt, đáp ứng nhu cầu học tập ở nhiều cấp độ và lĩnh vực khác nhau. Chúng tôi hướng tới việc mở rộng cơ hội tiếp cận giáo dục chất lượng cho mọi đối tượng người học.
@@ -363,6 +375,7 @@ function ecsges_linh_vuc_tabs()
 		array(
 			'id' => 'dao-tao',
 			'label' => 'ĐÀO TẠO',
+			'icon' => 'icon-daotao',
 			'image' => $img,
 			'title' => 'Nâng cao năng lực, gia tăng giá trị nghề nghiệp',
 			'paragraph' => 'ECSGES phát triển các chương trình đào tạo đa dạng theo định hướng ứng dụng, kết hợp giữa kiến thức chuyên môn, kỹ năng thực tiễn và yêu cầu của thị trường lao động. Chúng tôi chú trọng xây dựng môi trường học tập hiện đại, linh hoạt và phù hợp với xu hướng phát triển của thời đại số.
@@ -377,6 +390,7 @@ function ecsges_linh_vuc_tabs()
 		array(
 			'id' => 'viec-lam',
 			'label' => 'VIỆC LÀM',
+			'icon' => 'icon-vieclam',
 			'image' => $img,
 			'title' => 'Kết nối nguồn nhân lực với cơ hội nghề nghiệp',
 			'paragraph' => 'Là cầu nối giữa người lao động và doanh nghiệp, ECSGES cung cấp các giải pháp việc làm trong nước và quốc tế, góp phần nâng cao chất lượng nguồn nhân lực và thúc đẩy phát triển nghề nghiệp bền vững. Chúng tôi đồng hành cùng người lao động từ quá trình định hướng, đào tạo đến tìm kiếm cơ hội việc làm phù hợp.
@@ -392,6 +406,7 @@ function ecsges_linh_vuc_tabs()
 		array(
 			'id' => 'truyen-thong',
 			'label' => 'TRUYỀN THÔNG',
+			'icon' => 'icon-truyenthong',
 			'image' => $img,
 			'title' => 'Lan tỏa giá trị bằng sức mạnh kết nối',
 			'paragraph' => 'ECSGES cung cấp các giải pháp truyền thông toàn diện cho lĩnh vực giáo dục, góp phần nâng cao hình ảnh thương hiệu, tăng cường kết nối với người học và mở rộng sức ảnh hưởng tới cộng đồng. Chúng tôi kết hợp giữa truyền thông hiện đại và tổ chức sự kiện để tạo nên những chiến dịch hiệu quả và bền vững.
@@ -684,4 +699,64 @@ function ecsges_partner_groups()
 			),
 		),
 	);
+}
+
+/**
+ * Trang Tin tức — 6 tab chủ đề (Figma node 548:9518, hàng y=766).
+ *
+ * 'cat' = slug category; rỗng = chính trang này (tab "ECSGES" = tất cả tin).
+ * Tab render bằng <a> trỏ tới archive category thật (render bởi category.php),
+ * KHÔNG phải tab chuyển nội dung tại chỗ.
+ */
+function ecsges_news_tabs()
+{
+	return array(
+		array('label' => 'ECSGES', 'cat' => ''),
+		array('label' => 'HƯỚNG NGHIỆP', 'cat' => 'huong-nghiep'),
+		array('label' => 'TUYỂN SINH', 'cat' => 'tuyen-sinh'),
+		array('label' => 'ĐÀO TẠO', 'cat' => 'dao-tao'),
+		array('label' => 'VIỆC LÀM', 'cat' => 'viec-lam'),
+		array('label' => 'TRUYỀN THÔNG', 'cat' => 'truyen-thong'),
+	);
+}
+
+/**
+ * Khối "TIN NỔI BẬT": 1 bài lớn (cột trái 816px) + 2 bài nhỏ (cột phải 413px).
+ *
+ * GIAI ĐOẠN 1: hardcode theo nội dung placeholder trong Figma. GIAI ĐOẠN 2: đổi
+ * thân hàm sang WP_Query (markup và SCSS không phải sửa).
+ */
+function ecsges_news_featured()
+{
+	$title   = 'Lễ ký kết hợp tác ECS GLOBAL và Học viện Quản lý NanYang';
+	$excerpt = 'ECS Global phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm.';
+	$img     = 'tin-tuc/news-placeholder.jpg';
+
+	return array(
+		'main' => array('title' => $title, 'excerpt' => $excerpt, 'img' => $img, 'href' => '#'),
+		'side' => array(
+			array('title' => $title, 'img' => $img, 'href' => '#'),
+			array('title' => $title, 'img' => $img, 'href' => '#'),
+		),
+	);
+}
+
+/**
+ * Khối "KIẾN THỨC": lưới 3 card/trang, phân trang bằng JS thuần
+ * (dùng lại initNewsPagination() qua các attribute data-news*).
+ *
+ * Figma vẽ 6 dot → 18 item = 6 trang x 3. Cùng ghi chú GIAI ĐOẠN 1/2 như trên.
+ */
+function ecsges_news_knowledge()
+{
+	$items = array();
+	for ($i = 0; $i < 18; $i++) {
+		$items[] = array(
+			'title' => 'Lễ ký kết hợp tác ECS GLOBAL và Học viện Quản lý NanYang',
+			'excerpt' => 'ECS Global phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm.',
+			'img' => 'tin-tuc/news-placeholder.jpg',
+			'href' => '#',
+		);
+	}
+	return $items;
 }

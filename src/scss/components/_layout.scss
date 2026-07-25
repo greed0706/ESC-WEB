@@ -1,6 +1,20 @@
 @use '../variables' as *;
 @use '../mixins' as *;
 
+// Ngăn kéo tìm kiếm ở header.
+//
+// Thanh dọc xám và ô nhập trượt CÙNG một quãng đường ($header-search-w), nên
+// khoảng hở giữa chúng luôn đúng bằng khoảng hở lúc đóng (icon + gap). Đây là
+// điểm mấu chốt: nếu cho hai thứ chạy hai quãng khác nhau thì giữa animation
+// khoảng hở co giãn, và phần nav-list lọt vào khe đó sẽ nhấp nháy lộ ra.
+$header-search-w: 320px; // bề ngang ô nhập khi mở
+$header-search-btn: 32px; // icon kính lúp
+$header-actions-gap: 24px; // gap của .ecs-header__actions tại bp(lg)
+// Khoảng hở cố định giữa thanh dọc và mép trái ô nhập. Ô nhập phải tự "sơn"
+// trắng khoảng này (box-shadow đặc, không blur) thì chữ nav mới bị che kín —
+// nền ô nhập chỉ phủ đúng phần thân nó.
+$header-search-cap: $header-search-btn + $header-actions-gap;
+
 // SiteFooter — ported from Tailwind utilities (Phase 2 Task 2, method reference).
 // Mapping: see docs/superpowers/plans/2026-07-07-phase2-tailwind-to-scss.md (Task 2) +
 // scratchpad/p2-task2-report.md for the full utility -> property table.
@@ -46,7 +60,7 @@
 
   &__col-title {
     font-family: $font-display;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 600;
   }
 
@@ -97,9 +111,17 @@
     gap: 12px;
   }
 
+  // 3 file SVG (footer-pin/mail/phone) có kích thước gốc lệch nhau (16x17,
+  // 16x15, 13x13) nên phải ép về CÙNG một ô 18x18 + object-fit:contain, nếu
+  // không 3 dòng sẽ thụt ra thụt vào. Màu trắng đã bake sẵn trong file SVG.
+  // margin-top canh icon vào GIỮA DÒNG CHỮ ĐẦU TIÊN: (32px dòng - 18px icon)/2.
+  // Không dùng align-items:center vì địa chỉ dài 3 dòng sẽ đẩy icon xuống giữa khối.
   &__contact-icon {
-    margin-top: 4px;
+    margin-top: calc((#{$lh-base} - 18px) / 2);
     flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
   }
 
   &__contact-link {
@@ -198,7 +220,7 @@
     gap: 20px;
 
     @include bp(lg) {
-      gap: 24px;
+      gap: $header-actions-gap;
     }
 
   }
@@ -220,7 +242,7 @@
   }
 
   &__nav-link {
-    font-size: 17px;
+    @include text-sm;
     color: $ink;
     transition: color 0.15s ease;
 
@@ -272,7 +294,7 @@
   &__dropdown-link {
     display: block;
     padding: 8px 16px;
-    font-size: 15px;
+    @include text-sm;
     color: $ink;
     transition: color 0.15s ease;
 
@@ -281,6 +303,8 @@
     }
   }
 
+  // Thanh dọc xám = mép ngoài của "ngăn kéo" tìm kiếm. position:relative +
+  // z-index để nó nổi trên nav-list khi trượt qua, nếu không chữ nav sẽ đè lên.
   &__divider {
     display: none;
 
@@ -288,25 +312,133 @@
       display: block;
     }
 
+    position: relative;
+    z-index: 61;
     height: 21px;
     width: 2px;
     background: rgba($ink, 0.3);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // Ngăn kéo mở: thanh dọc trượt sang trái đúng bằng bề ngang ô nhập, tức là
+  // cùng quãng đường với mép trái ô nhập → cả cụm dịch chuyển như một khối
+  // cứng. Class .is-search-open do JS gắn lên __actions vì thanh dọc là ANH EM
+  // ĐỨNG TRƯỚC form — CSS không có bộ chọn "sibling ngược".
+  .js &__actions.is-search-open &__divider {
+    transform: translateX(-$header-search-w);
+  }
+
+  // Form tìm kiếm ở header: chỉ hiện icon. Ô nhập nằm ABSOLUTE, neo phải vào
+  // đúng chỗ icon và bung SANG TRÁI đè lên nav-list (không chiếm chỗ trong
+  // hàng header nên bố cục không đổi dù CSS/JS có hay không). Bấm icon → JS
+  // thêm .is-open: ô nhập trượt ra, icon biến mất.
+  //
+  // Ô nhập có viền mảnh + bo góc để nhìn ra là ô nhập, nhưng không đổ bóng —
+  // bóng làm nó thành "khối bay" đè lên header thay vì một ngăn kéo nằm trong
+  // hàng header.
+  &__search {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__search-input {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    z-index: 60;
+    transform: translateY(-50%);
+    width: $header-search-w;
+    max-width: calc(100vw - 48px);
+    height: 44px;
+    border: 1px solid $placeholder;
+    border-radius: 8px;
+    padding-inline: 18px 12px;
+    @include text-sm;
+    font-size: 16px;
+    color: $ink;
+    background: #fff;
+    // Vệt trắng đặc kéo dài sang trái, lấp kín khoảng hở tới thanh dọc. Bo góc
+    // 8px của vệt này nằm ở mép trên/dưới ô 44px, không chạm vùng chữ nav (cao
+    // ~21px, canh giữa) nên không có chữ nào ló ra ở góc.
+    box-shadow: (-$header-search-cap) 0 0 #fff;
+    // input[type=search] của WebKit tự vẽ nút xoá (X) và có min-width nội tại;
+    // ở trạng thái thu (width:0) mà có sẵn từ khoá thì nó lòi ra ngoài.
+    appearance: none;
+
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-decoration {
+      appearance: none;
+    }
+
+    &::placeholder {
+      color: $muted-2;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  // Mặc định thu về 0 (chỉ còn icon); JS mở bằng .is-open. Không có .js thì ô
+  // nhập vẫn hiện (progressive enhancement) — người dùng vẫn gõ + submit được.
+  // Animate width/padding chứ không dùng transform: scaleX để chữ không bị méo.
+  // Lúc đóng phải tắt cả viền lẫn vệt trắng: width:0 + box-sizing:border-box
+  // vẫn để lại 2px viền, còn vệt trắng thì nằm chồng lên đúng chỗ icon và xoá
+  // trắng nó đi.
+  .js &__search-input {
+    width: 0;
+    padding-inline: 0;
+    border-color: transparent;
+    box-shadow: none;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .js &__search.is-open &__search-input {
+    width: $header-search-w;
+    padding-inline: 18px 12px;
+    border-color: $placeholder;
+    box-shadow: (-$header-search-cap) 0 0 #fff;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // Đặc hiệu phải khớp rule .is-open ở trên, nếu không viền xám sẽ thắng và ô
+  // đang focus không bao giờ đổi sang màu thương hiệu.
+  .js &__search.is-open &__search-input:focus-visible {
+    border-color: $brand;
   }
 
   &__search-btn {
     display: grid;
-    width: 32px;
+    flex: none;
+    width: $header-search-btn;
     height: 32px;
     cursor: pointer;
     place-items: center;
+    border: 0;
+    background: none;
     border-radius: 9999px;
     color: $ink;
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, opacity 0.15s ease;
 
     &:hover {
       color: $brand;
     }
 
+  }
+
+  // Khi ô tìm kiếm đang mở, icon biến mất (ô nhập chiếm đúng chỗ của nó).
+  // Giữ visibility thay vì display:none để không làm co hàng header.
+  .js &__search.is-open &__search-btn {
+    opacity: 0;
+    visibility: hidden;
   }
 
   // Lang toggle button (inside .ecsges-lang, which stays untouched).
@@ -315,7 +447,7 @@
     cursor: pointer;
     align-items: center;
     gap: 4px;
-    font-size: 15px;
+    @include text-sm;
     color: $ink;
     transition: color 0.15s ease;
 
@@ -341,7 +473,7 @@
     display: block;
     padding-inline: 16px;
     padding-block: 10px;
-    font-size: 15px;
+    @include text-sm;
     transition: color 0.15s ease;
     color: $ink;
 
@@ -412,7 +544,7 @@
   &__mobile-link {
     display: block;
     padding-block: 12px;
-    font-size: 18px;
+    @include text-sm;
     color: $ink;
     transition: color 0.15s ease;
 
@@ -459,7 +591,7 @@
   &__mobile-sublink {
     display: block;
     padding-block: 6px;
-    font-size: 14px;
+    @include text-sm;
     color: $ink;
     transition: color 0.15s ease;
 
@@ -477,17 +609,16 @@
   &__mobile-lang-title {
     display: block;
     padding-block: 4px;
-    font-size: 13px;
+    @include text-sm;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.025em;
     color: $muted;
   }
 
   &__mobile-lang-link {
     display: block;
     padding-block: 8px;
-    font-size: 17px;
+    @include text-sm;
     transition: color 0.15s ease;
     color: $ink;
 

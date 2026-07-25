@@ -9,11 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$ptbv_guides = ecsges_ptbv_guides();
+$ptbv_guides = ecsges_tr_deep( ecsges_ptbv_guides() );
 ?>
 <section aria-labelledby="ptbv-guides-heading" class="ecs-guides">
 	<div class="ecs-guides__inner">
-		<h2 id="ptbv-guides-heading" class="ecs-guides__visually-hidden">Hướng dẫn</h2>
+		<h2 id="ptbv-guides-heading" class="ecs-guides__visually-hidden"><?php echo esc_html( ecsges_t( 'Hướng dẫn' ) ); ?></h2>
 
 		<!-- Cụm promo: banner "Click here" + 4 thẻ, bọc trong container bo góc nền sáng -->
 		<div class="ecs-guides__promo" data-aos="fade-up">

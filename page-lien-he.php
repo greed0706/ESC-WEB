@@ -23,10 +23,18 @@ get_header();
 ?>
 	<main>
 		<!-- ============================ Banner ============================ -->
-		<section aria-label="<?php echo esc_attr( ecsges_t( 'Liên hệ' ) ); ?>" class="ecs-contact-banner">
-			<h1 class="ecs-contact-banner__title"><?php echo esc_html( ecsges_t( 'Liên hệ' ) ); ?></h1>
-			<img src="<?php echo esc_url( ecsges_img( 'lien-he/image.png' ) ); ?>" alt="<?php echo esc_attr( ecsges_t( 'Liên hệ với ECSGES' ) ); ?>" class="ecs-contact-banner__img">
-		</section>
+		<?php
+		get_template_part(
+			'template-parts/page',
+			'hero',
+			array(
+				'title'   => 'Liên hệ',
+				'id'      => 'lien-he-hero',
+				'bg'      => 'lien-he/banner.png',
+				'variant' => 'banner',
+			)
+		);
+		?>
 
 		<?php
 		get_template_part( 'template-parts/section', 'contact' );

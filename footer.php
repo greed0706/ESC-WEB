@@ -12,10 +12,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 $ecsges_default_cols = ecsges_footer_columns();
 $ecsges_cols         = array();
 foreach ( $ecsges_default_cols as $i => $col ) {
-	$n             = $i + 1;
+	$n              = $i + 1;
+	$ecsges_labels  = ecsges_field_lines( "footer_col{$n}_links", $col['links'] );
+	$ecsges_hrefs   = array();
+	// Nhãn hiển thị có thể đã dịch (EN) hoặc bị ACF ghi đè, nên href dò theo nhãn VN
+	// gốc CÙNG VỊ TRÍ trong $col['links']. Nếu ACF đổi số dòng thì lệch vị trí → '#'.
+	foreach ( $ecsges_labels as $ecsges_li => $ecsges_unused ) {
+		$ecsges_vn   = isset( $col['links'][ $ecsges_li ] ) ? $col['links'][ $ecsges_li ] : '';
+		$ecsges_slug = ( ! empty( $col['cats'] ) && isset( $col['cats'][ $ecsges_vn ] ) ) ? $col['cats'][ $ecsges_vn ] : '';
+		$ecsges_hrefs[ $ecsges_li ] = $ecsges_slug ? ecsges_category_link( $ecsges_slug, '#' ) : '#';
+	}
 	$ecsges_cols[] = array(
 		'title' => ecsges_field( "footer_col{$n}_title", $col['title'] ),
-		'links' => ecsges_field_lines( "footer_col{$n}_links", $col['links'] ),
+		'links' => $ecsges_labels,
+		'hrefs' => $ecsges_hrefs,
 	);
 }
 
@@ -43,9 +53,9 @@ $ecsges_tel = preg_replace( '/\./', '', $ecsges_contact['phone'] );
 					<nav class="ecs-footer__col" aria-label="<?php echo esc_attr( $col['title'] ); ?>">
 						<h2 class="ecs-footer__col-title"><?php echo esc_html( $col['title'] ); ?></h2>
 						<ul class="ecs-footer__list">
-							<?php foreach ( $col['links'] as $link ) : ?>
+							<?php foreach ( $col['links'] as $li => $link ) : ?>
 								<li>
-									<a href="#" class="ecs-footer__link">
+									<a href="<?php echo esc_url( isset( $col['hrefs'][ $li ] ) ? $col['hrefs'][ $li ] : '#' ); ?>" class="ecs-footer__link">
 										<span aria-hidden="true" class="ecs-footer__dot"></span>
 										<?php echo esc_html( $link ); ?>
 									</a>
@@ -59,15 +69,15 @@ $ecsges_tel = preg_replace( '/\./', '', $ecsges_contact['phone'] );
 					<h2 class="ecs-footer__col-title"><?php echo esc_html( ecsges_t( 'ĐỊA CHỈ' ) ); ?></h2>
 					<ul class="ecs-footer__contact">
 						<li class="ecs-footer__contact-item">
-							<?php echo ecsges_icon( 'map-pin', 18, 'ecs-footer__contact-icon' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<img src="<?php echo esc_url( ecsges_img( 'footer-pin.svg' ) ); ?>" alt="" aria-hidden="true" class="ecs-footer__contact-icon">
 							<span><?php echo esc_html( ecsges_t( 'Địa chỉ:' ) ); ?> <?php echo esc_html( $ecsges_contact['address'] ); ?></span>
 						</li>
 						<li class="ecs-footer__contact-item">
-							<?php echo ecsges_icon( 'mail', 18, 'ecs-footer__contact-icon' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<img src="<?php echo esc_url( ecsges_img( 'footer-mail.svg' ) ); ?>" alt="" aria-hidden="true" class="ecs-footer__contact-icon">
 							<a href="mailto:<?php echo esc_attr( $ecsges_contact['email'] ); ?>" class="ecs-footer__contact-link">Email: <?php echo esc_html( $ecsges_contact['email'] ); ?></a>
 						</li>
 						<li class="ecs-footer__contact-item">
-							<?php echo ecsges_icon( 'phone', 18, 'ecs-footer__contact-icon' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<img src="<?php echo esc_url( ecsges_img( 'footer-phone.svg' ) ); ?>" alt="" aria-hidden="true" class="ecs-footer__contact-icon">
 							<a href="tel:<?php echo esc_attr( $ecsges_tel ); ?>" class="ecs-footer__contact-link"><?php echo esc_html( ecsges_t( 'Điện thoại:' ) ); ?> <?php echo esc_html( $ecsges_contact['phone'] ); ?></a>
 						</li>
 					</ul>

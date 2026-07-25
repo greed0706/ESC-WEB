@@ -11,26 +11,50 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$lv_tabs = ecsges_linh_vuc_tabs();
+$lv_tabs = ecsges_tr_deep( ecsges_linh_vuc_tabs() );
 ?>
 <section aria-labelledby="linh-vuc-heading" class="ecs-lv">
 	<div class="ecs-lv__inner">
-		<h2 id="linh-vuc-heading" class="ecs-lv__visually-hidden">Lĩnh vực hoạt động</h2>
+		<h2 id="linh-vuc-heading" class="ecs-lv__visually-hidden"><?php echo esc_html( ecsges_t( 'Lĩnh vực hoạt động' ) ); ?></h2>
 
 		<div data-aos="fade-up" data-ecosystem>
 			<!-- Tab bar -->
-			<div role="tablist" aria-label="Lĩnh vực hoạt động" class="ecs-lv__tablist">
+			<?php
+			// Dùng LẠI tablist của trang chủ (section-ecosystem.php): các class
+			// .ecs-ecosystem__tablist/__tab-wrap/__tab/__icon/__label/__caret là BEM
+			// phẳng nên áp được ngoài .ecs-ecosystem, không cần SCSS mới.
+			// Hành vi giữ nguyên: vẫn là <button data-tab> đổi panel tại chỗ qua
+			// initEcosystemTabs(), KHÔNG điều hướng (cả trang này là các panel đó).
+			?>
+			<?php
+			// KHÔNG dùng lại class .ecs-lv__tablist ở đây: nó có `display: flex` và
+			// _pages.scss nạp SAU _landing.scss nên sẽ ghi đè `display: grid` của
+			// .ecs-ecosystem__tablist (cùng độ đặc hiệu 1 class → thứ tự quyết định).
+			// Hệ quả kèm theo: mất luôn đường kẻ xám dưới hàng tab của thiết kế cũ —
+			// đúng ý, vì tablist trang chủ là các thẻ rời có gap, không có đường kẻ.
+			?>
+			<div role="tablist" aria-label="<?php echo esc_attr( ecsges_t( 'Lĩnh vực hoạt động' ) ); ?>" class="ecs-ecosystem__tablist">
 				<?php foreach ( $lv_tabs as $i => $tab ) : ?>
 					<?php $active = ( 0 === $i ); ?>
-					<button
-						type="button"
-						role="tab"
-						id="lv-tab-<?php echo esc_attr( $tab['id'] ); ?>"
-						data-tab="<?php echo esc_attr( $tab['id'] ); ?>"
-						aria-selected="<?php echo $active ? 'true' : 'false'; ?>"
-						aria-controls="lv-panel-<?php echo esc_attr( $tab['id'] ); ?>"
-						class="ecs-lv__tab<?php echo $active ? ' is-active' : ''; ?>"
-					><?php echo esc_html( $tab['label'] ); ?></button>
+					<div class="ecs-ecosystem__tab-wrap">
+						<button
+							type="button"
+							role="tab"
+							id="lv-tab-<?php echo esc_attr( $tab['id'] ); ?>"
+							data-tab="<?php echo esc_attr( $tab['id'] ); ?>"
+							aria-selected="<?php echo $active ? 'true' : 'false'; ?>"
+							aria-controls="lv-panel-<?php echo esc_attr( $tab['id'] ); ?>"
+							class="ecs-ecosystem__tab<?php echo $active ? ' is-active' : ''; ?>"
+						>
+							<?php if ( ! empty( $tab['icon'] ) ) : ?>
+								<span data-tab-icon aria-hidden="true" class="ecs-ecosystem__icon">
+									<?php echo ecsges_inline_svg( $tab['icon'] . '.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								</span>
+							<?php endif; ?>
+							<span class="ecs-ecosystem__label"><?php echo esc_html( $tab['label'] ); ?></span>
+						</button>
+						<span data-tab-caret aria-hidden="true" class="ecs-ecosystem__caret"></span>
+					</div>
 				<?php endforeach; ?>
 			</div>
 

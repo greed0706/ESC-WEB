@@ -22,7 +22,7 @@ get_header();
 						?>
 						<article <?php post_class( 'ecs-single__article' ); ?>>
 							<nav class="ecs-single__breadcrumb" aria-label="Breadcrumb">
-								<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Trang chủ</a>
+								<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( ecsges_t( 'Trang chủ' ) ); ?></a>
 								<span aria-hidden="true">/</span>
 								<?php
 								$ecsges_cats = get_the_category();

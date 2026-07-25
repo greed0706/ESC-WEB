@@ -86,7 +86,7 @@ add_action(
 		$fields[] = $textarea( 'hero_heading', 'Tiêu đề lớn (mỗi dòng 1 hàng)', "HỆ SINH THÁI\nGIÁO DỤC TOÀN CẦU", 'Mỗi dòng sẽ xuống hàng.', 2 );
 		$fields[] = $text( 'hero_badge', 'Nhãn xanh', 'Vì Tương Lai Việt Nam' );
 		$fields[] = $text( 'hero_cta_label', 'Nút — chữ', 'TÌM HIỂU THÊM' );
-		$fields[] = $text( 'hero_cta_link', 'Nút — link', '#ve-ecs' );
+		$fields[] = $text( 'hero_cta_link', 'Nút — link', '', 'Để trống = tự trỏ về chuyên mục "ve-ecs" (/category/ve-ecs/).' );
 		$fields[] = $image( 'hero_mark', 'Biểu tượng trong vòng tròn', 'Để trống dùng mặc định.' );
 
 		/* ---------------- ABOUT ---------------- */
@@ -95,14 +95,14 @@ add_action(
 		$fields[] = $textarea( 'about_heading', 'Tiêu đề (mỗi dòng 1 hàng)', "KIẾN TẠO HỆ SINH THÁI\nGIÁO DỤC TOÀN CẦU", 'Dòng cuối tô màu cam.', 2 );
 		$fields[] = $textarea( 'about_body', 'Nội dung (mỗi đoạn cách nhau 1 dòng trống)', "ECS Global phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm của đội ngũ lãnh đạo trẻ, cùng với sự năng động, sáng tạo, đoàn kết của nhiều lớp nhân viên.\n\nSau hơn 9 năm, ECS Global đã khẳng định được vị thế trên thị trường ở các lĩnh vực tuyển sinh, hướng nghiệp khởi nghiệp, việc làm, giáo dục, truyền thông và công nghệ số.", '', 6 );
 		$fields[] = $text( 'about_cta_label', 'Link — chữ', 'Tìm hiểu thêm' );
-		$fields[] = $text( 'about_cta_link', 'Link — địa chỉ', '#linh-vuc' );
+		$fields[] = $text( 'about_cta_link', 'Link — địa chỉ', '', 'Để trống = tự trỏ về chuyên mục "linh-vuc-hoat-dong".' );
 
 		/* ---------------- JOURNEY ---------------- */
 		$fields[] = $tab( 'journey', 'Hành trình' );
 		$fields[] = $textarea( 'journey_heading', 'Tiêu đề (mỗi dòng 1 hàng)', "ĐỒNG HÀNH CÙNG NHỮNG\nHÀNH TRÌNH PHÁT TRIỂN", '', 2 );
 		$fields[] = $textarea( 'journey_body', 'Nội dung', 'ECSGES đồng hành cùng cá nhân, tổ chức và cộng đồng trên hành trình học tập, phát triển năng lực và mở rộng cơ hội trong bối cảnh hiện đại toàn cầu.', '', 4 );
 		$fields[] = $text( 'journey_cta_label', 'Link — chữ', 'Tìm hiểu thêm' );
-		$fields[] = $text( 'journey_cta_link', 'Link — địa chỉ', '#linh-vuc' );
+		$fields[] = $text( 'journey_cta_link', 'Link — địa chỉ', '', 'Để trống = tự trỏ về chuyên mục "phat-trien-ben-vung".' );
 		$fields[] = $image( 'journey_img_1', 'Ảnh 1 (góc trên phải)' );
 		$fields[] = $image( 'journey_img_2', 'Ảnh 2 (giữa)' );
 		$fields[] = $image( 'journey_img_3', 'Ảnh 3 (dưới trái)' );

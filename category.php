@@ -37,7 +37,7 @@ get_header();
 										<span class="ecs-archive__card-date"><?php echo esc_html( ecsges_post_time() ); ?></span>
 									</div>
 									<p class="ecs-archive__card-excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 34 ) ); ?></p>
-									<?php ecsges_underline_link( get_permalink(), 'Xem thêm' ); ?>
+									<?php ecsges_see_more( get_permalink(), 'Xem thêm' ); ?>
 								</div>
 							</article>
 						<?php endwhile; ?>

@@ -20,9 +20,9 @@ foreach ( $ecsges_defaults as $i => $t ) {
 		'label' => ecsges_field( "ecosystem_tab{$n}_label", $t['label'] ),
 		'title' => ecsges_field( "ecosystem_tab{$n}_title", $t['title'] ),
 		'body'  => ecsges_field( "ecosystem_tab{$n}_body", $t['body'] ),
+		'image' => ecsges_field_img( "ecosystem_tab{$n}_image", $t['image'] ),
 	);
 }
-$ecsges_content = ecsges_field_img( 'ecosystem_image', 'ecosystem-content.png' );
 $eco_lines      = ecsges_field_lines( 'ecosystem_heading', array( 'HỆ SINH THÁI', 'KẾT NỐI ĐA LĨNH VỰC' ) );
 $eco_intro      = ecsges_field( 'ecosystem_intro', 'Mỗi lĩnh vực hoạt động của ECSGES là một mắt xích quan trọng, cùng đồng hành với người học trên hành trình học tập, rèn luyện và lập nghiệp.' );
 ?>
@@ -77,7 +77,7 @@ $eco_intro      = ecsges_field( 'ecosystem_intro', 'Mỗi lĩnh vực hoạt đ�
 					aria-labelledby="tab-<?php echo esc_attr( $tab['id'] ); ?>"
 					class="ecs-ecosystem__panel<?php echo $active ? ' is-active' : ''; ?>"
 				>
-					<img src="<?php echo esc_url( $ecsges_content ); ?>" alt="Hình ảnh minh hoạ lĩnh vực <?php echo esc_attr( mb_strtolower( $tab['label'] ) ); ?>" class="ecs-ecosystem__panel-img">
+					<img src="<?php echo esc_url( $tab['image'] ); ?>" alt="<?php echo esc_attr( ecsges_t( 'Hình ảnh minh hoạ lĩnh vực' ) . ' ' . mb_strtolower( $tab['label'] ) ); ?>" class="ecs-ecosystem__panel-img">
 					<div class="ecs-ecosystem__panel-body">
 						<h3 class="ecs-ecosystem__panel-title"><?php echo esc_html( $tab['title'] ); ?></h3>
 						<p class="ecs-ecosystem__panel-text"><?php echo esc_html( $tab['body'] ); ?></p>

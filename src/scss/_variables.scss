@@ -15,6 +15,18 @@ $placeholder: #d9d9d9;
 $font-sans: 'Roboto', system-ui, 'Segoe UI', sans-serif;
 $font-display: 'Roboto Flex', 'Roboto', system-ui, sans-serif;
 $font-script: 'Adventures Unlimited', 'Dancing Script', cursive;
+
+// Thang cỡ chữ đồng bộ toàn site — CHỈ dùng 3 cỡ này cho chữ nội dung.
+// Chữ display (hero trang chủ, banner tiêu đề trang, số liệu thống kê) cố ý
+// nằm NGOÀI thang này và giữ cỡ riêng.
+$fs-lg: 50px; // text lớn — tiêu đề section (desktop)
+$fs-lg-md: 40px; //   ... tablet (>=768px)
+$fs-lg-sm: 32px; //   ... mobile (<768px)
+$fs-md: 28px; // cỡ thứ 2 — tiêu đề phụ trong section
+$fs-sm: 18px; // text nhỏ — body, nhãn, input, nút, meta
+$lh-base: 32px; // dãn dòng chuẩn (áp cho 18px và 28px)
+$lh-lg: 1.2; // dãn dòng cho cỡ lớn — 32px sẽ chồng dòng ở 40/50px
+$ls-base: 0.25px; // khoảng cách chữ chuẩn
 // Layout
 $page-max: 1300px;
 // Breakpoints (khớp Tailwind mặc định đang dùng: sm/md/lg)

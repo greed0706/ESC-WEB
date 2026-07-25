@@ -61,23 +61,25 @@
 
   &__title {
     font-family: $font-display;
-    font-size: 24px;
+    @include text-md;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
     color: $body;
-
-    @include bp(lg) {
-      font-size: 28px;
-    }
   }
 
   /* ---- Form (cột trái) ---- */
+  // Theo Figma: khối form nằm trên nền xám, tiêu đề để bên ngoài (phía trên).
   &__form {
     margin-top: 28px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    background: $surface-2;
+    padding: 24px;
+
+    @include bp(md) {
+      padding: 40px;
+    }
   }
 
   &__field {
@@ -87,7 +89,7 @@
   }
 
   &__label {
-    font-size: 14px;
+    @include text-sm;
     font-weight: 400;
     color: $muted;
   }
@@ -96,7 +98,7 @@
     width: 100%;
     padding: 10px 12px;
     font-family: $font-sans;
-    font-size: 15px;
+    @include text-sm;
     color: $body;
     background: #fff;
     border: 1px solid $placeholder;
@@ -123,14 +125,13 @@
   &__submit {
     padding: 12px 40px;
     font-family: $font-display;
-    font-size: 15px;
+    @include text-sm;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
     color: #fff;
     background: $brand;
     border: 0;
-    border-radius: 2px;
+    border-radius: 9999px; // Figma: nút pill bo tròn.
     cursor: pointer;
     transition: background-color 0.15s ease;
 
@@ -151,8 +152,7 @@
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    font-size: 15px;
-    line-height: 1.6;
+    @include text-sm;
     color: $body;
   }
 

@@ -19,7 +19,9 @@ $about_paras   = ecsges_field_paragraphs(
 	)
 );
 $about_label   = ecsges_field( 'about_cta_label', 'Tìm hiểu thêm' );
-$about_link    = ecsges_field( 'about_cta_link', '#linh-vuc' );
+// Để trống field trong admin → nút trỏ về chuyên mục riêng
+// (/category/linh-vuc-hoat-dong/); chưa tạo chuyên mục thì lùi về neo cũ.
+$about_link    = ecsges_field( 'about_cta_link', ecsges_category_link( 'linh-vuc-hoat-dong', '#linh-vuc' ) );
 ?>
 <section id="ve-ecs" aria-labelledby="about-heading" class="ecs-about">
 	<div class="ecs-about__inner">
@@ -57,7 +59,7 @@ $about_link    = ecsges_field( 'about_cta_link', '#linh-vuc' );
 				<?php endforeach; ?>
 			</div>
 			<div class="ecs-about__cta-wrap">
-				<?php ecsges_underline_link( $about_link, $about_label, 'brand', 'ecs-about__cta' ); ?>
+				<?php ecsges_see_more( $about_link, $about_label, 'ecs-about__cta' ); ?>
 			</div>
 		</div>
 

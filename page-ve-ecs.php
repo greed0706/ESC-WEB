@@ -19,14 +19,18 @@ get_header();
 	<main>
 
 		<!-- ============================ Hero ============================ -->
-		<section id="top" aria-labelledby="ve-ecs-hero-heading" class="ecs-ve-hero">
-			<img src="<?php echo esc_url( ecsges_img( 've-ecs/ve-ecs-hero-bg.jpg' ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-hero__bg">
-			<div aria-hidden="true" class="ecs-ve-hero__overlay"></div>
-
-			<div class="ecs-ve-hero__content">
-				<h1 id="ve-ecs-hero-heading" data-aos="fade-up" class="ecs-ve-hero__title"><?php echo esc_html( ecsges_t( 'Về ECS' ) ); ?></h1>
-			</div>
-		</section>
+		<?php
+		get_template_part(
+			'template-parts/page',
+			'hero',
+			array(
+				'title'   => 'Về ECS',
+				'id'      => 'top',
+				'bg'      => 've-ecs/banner.png',
+				'variant' => 'banner',
+			)
+		);
+		?>
 
 		<!-- ==================== Hành trình phát triển ==================== -->
 		<?php
@@ -35,12 +39,19 @@ get_header();
 		$stairs     = ecsges_img( 've-ecs/ve-ecs-journey-stairs.png' );
 
 		// Vị trí từng mốc (% theo khung 1920×1416). side: neo trái/phải; align: canh chữ body.
+		//
+		// Thẻ được đẩy RA XA tâm và nới rộng để chứa cỡ chữ 28/18px. Cách tính: giảm
+		// left (thẻ trái) / right (thẻ phải) để dịch ra mép, đồng thời tăng width
+		// đúng bằng lượng đã giảm — nhờ vậy MÉP TRONG (phía ảnh bậc thang) gần như
+		// đứng yên, chữ không lấn vào ảnh:
+		//   trái:  left 16.8% + w 19%  ->  left 11% + w 24%   (mép phải 35.8% -> 35%)
+		//   phải:  right 15.8% + w 21% ->  right 10% + w 25%  (mép trái 63.2% -> 65%)
 		$positions = array(
-			array( 'side' => 'left',  'align' => 'text-justify', 'box' => 'left:16.8%;top:71%;width:18%' ),
-			array( 'side' => 'right', 'align' => 'text-right',   'box' => 'right:15.8%;top:59.8%;width:21%' ),
-			array( 'side' => 'left',  'align' => 'text-justify', 'box' => 'left:16.8%;top:36.1%;width:19%' ),
-			array( 'side' => 'right', 'align' => 'text-justify', 'box' => 'right:14.8%;top:25.3%;width:22%' ),
-			array( 'side' => 'left',  'align' => 'text-justify', 'box' => 'left:26.1%;top:2.7%;width:22%' ),
+			array( 'side' => 'left',  'align' => 'text-justify', 'box' => 'left:8%;top:71%;width:23%' ),
+			array( 'side' => 'right', 'align' => 'text-justify', 'box' => 'right:10%;top:59.8%;width:25%' ),
+			array( 'side' => 'left',  'align' => 'text-justify', 'box' => 'left:10%;top:34.5%;width:24%' ),
+			array( 'side' => 'right', 'align' => 'text-justify', 'box' => 'right:10%;top:25.3%;width:26%' ),
+			array( 'side' => 'left',  'align' => 'text-justify', 'box' => 'left:20%;top:2.7%;width:26%' ),
 		);
 		?>
 		<section id="hanh-trinh-phat-trien" aria-labelledby="ve-ecs-journey-heading" class="ecs-ve-journey">
@@ -65,7 +76,7 @@ get_header();
 
 			<!-- Desktop: mốc đặt quanh ảnh cầu thang -->
 			<div class="ecs-ve-journey__stage">
-				<img src="<?php echo esc_url( $stairs ); ?>" alt="Biểu đồ tăng trưởng của ECSGES qua các giai đoạn, trên nền bản đồ thế giới" class="ecs-ve-journey__stairs-img">
+				<img src="<?php echo esc_url( $stairs ); ?>" alt="<?php echo esc_attr( ecsges_t( 'Biểu đồ tăng trưởng của ECSGES qua các giai đoạn, trên nền bản đồ thế giới' ) ); ?>" class="ecs-ve-journey__stairs-img">
 				<?php foreach ( $milestones as $i => $m ) : ?>
 					<?php $pos = $positions[ $i ]; ?>
 					<div class="ecs-ve-journey__milestone ecs-ve-journey__milestone--<?php echo 'right' === $pos['side'] ? 'right' : 'left'; ?>" style="<?php echo esc_attr( $pos['box'] ); ?>" data-aos="fade-up" data-aos-delay="<?php echo esc_attr( $i * 120 ); ?>">
@@ -78,7 +89,7 @@ get_header();
 
 			<!-- Mobile/tablet: ảnh trên, mốc xếp dọc -->
 			<div class="ecs-ve-journey__mobile">
-				<img src="<?php echo esc_url( $stairs ); ?>" alt="Biểu đồ tăng trưởng của ECSGES qua các giai đoạn" class="ecs-ve-journey__mobile-img">
+				<img src="<?php echo esc_url( $stairs ); ?>" alt="<?php echo esc_attr( ecsges_t( 'Biểu đồ tăng trưởng của ECSGES qua các giai đoạn' ) ); ?>" class="ecs-ve-journey__mobile-img">
 				<div class="ecs-ve-journey__mobile-list">
 					<?php foreach ( $milestones as $mi => $m ) : ?>
 						<div data-aos="fade-up" data-aos-delay="<?php echo esc_attr( $mi * 80 ); ?>">
@@ -111,7 +122,7 @@ get_header();
 						?>
 						<p class="ecs-ve-vm__text"><?php echo esc_html( $vision ); ?></p>
 					</div>
-					<img src="<?php echo esc_url( ecsges_img( 've-ecs/ve-ecs-vision.png' ) ); ?>" alt="Tầm nhìn ECSGES" loading="lazy" data-aos="fade-up" data-aos-delay="100" class="ecs-ve-vm__img">
+					<img src="<?php echo esc_url( ecsges_img( 've-ecs/ve-ecs-vision.png' ) ); ?>" alt="<?php echo esc_attr( ecsges_t( 'Tầm nhìn ECSGES' ) ); ?>" loading="lazy" data-aos="fade-up" data-aos-delay="100" class="ecs-ve-vm__img">
 				</div>
 
 				<!-- Sứ mệnh — ảnh trái, chữ phải -->
@@ -129,7 +140,7 @@ get_header();
 							<p class="ecs-ve-vm__text"><?php echo esc_html( $para ); ?></p>
 						<?php endforeach; ?>
 					</div>
-					<img src="<?php echo esc_url( ecsges_img( 've-ecs/ve-ecs-mission.png' ) ); ?>" alt="Sứ mệnh ECSGES" loading="lazy" data-aos="fade-up" data-aos-delay="100" class="ecs-ve-vm__img ecs-ve-vm__img--mission">
+					<img src="<?php echo esc_url( ecsges_img( 've-ecs/ve-ecs-mission.png' ) ); ?>" alt="<?php echo esc_attr( ecsges_t( 'Sứ mệnh ECSGES' ) ); ?>" loading="lazy" data-aos="fade-up" data-aos-delay="100" class="ecs-ve-vm__img ecs-ve-vm__img--mission">
 				</div>
 			</div>
 		</section>
@@ -164,44 +175,60 @@ get_header();
 			array( 'src' => 'arrow/arrow-sang.svg', 'left' => '68.0%', 'top' => '75.5%', 'width' => '3.59%' ),
 		);
 		$labels = array(
-			array( 'key' => 'TÂM',  'left' => '22.8%', 'top' => '67.4%', 'width' => '15%' ),
-			array( 'key' => 'BỀN',  'left' => '28%',   'top' => '40.7%', 'width' => '19%' ),
-			array( 'key' => 'HỢP',  'left' => '50%',   'top' => '21.6%', 'width' => '23%' ),
-			array( 'key' => 'TRÍ',  'left' => '73.2%', 'top' => '37.4%', 'width' => '19.5%' ),
-			array( 'key' => 'SÁNG', 'left' => '76.9%', 'top' => '66%',   'width' => '15%' ),
+			// left = TÂM của ô (ô có translate:-50% 0), tính theo % khung quạt.
+			//
+			// Số đo Figma (node 7:1756, khung 1920x852) KHÔNG bê nguyên được: khung
+			// quạt co theo màn hình còn chữ đã cố định 28/18px + dãn dòng 32px, nên ở
+			// 1521px các khối chữ cao gấp ~1,4 lần Figma và tràn vào hình quạt.
+			// Bù lại bằng cách NỚI RỘNG ô (bớt 1-2 dòng mỗi khối) và ĐẨY RA MÉP:
+			//   - trái  : mép phải <= 32%   (hình quạt bắt đầu ở 32,97%)
+			//   - phải  : mép trái  >= 67%  (hình quạt kết thúc ở 67,34%)
+			//   - HỢP   : đáy <= 48%        (đỉnh hình quạt ở 48,6%)
+			array( 'key' => 'TÂM',  'left' => '15%', 'top' => '67%', 'width' => '20%' ),
+			array( 'key' => 'BỀN',  'left' => '22%', 'top' => '28%', 'width' => '25%' ),
+			array( 'key' => 'HỢP',  'left' => '50%', 'top' => '5%', 'width' => '22.5%' ),
+			array( 'key' => 'TRÍ',  'left' => '80%', 'top' => '28%', 'width' => '25%' ),
+			array( 'key' => 'SÁNG', 'left' => '85%', 'top' => '67%', 'width' => '20%' ),
 		);
-		$key_fs  = 'font-size:clamp(15px, 1.35cqw, 26px)';
-		$text_fs = 'font-size:clamp(11px, 0.94cqw, 18px)';
-
+		// Cỡ chữ của nhãn hình quạt KHÔNG còn đặt inline (trước đây là clamp cqw
+		// co giãn theo container) — đã chuyển hẳn sang thang cỡ chữ cố định trong
+		// src/scss/components/_ve-ecs.scss (.ecs-ve-values__label-*). Inline style
+		// ở đây chỉ còn lo phần vị trí/kích thước tính bằng %.
 		$centered = 'transform:translate(-50%, -50%)';
 		?>
 		<section id="gia-tri-cot-loi" aria-labelledby="ve-ecs-values-heading" class="ecs-ve-values">
 			<!-- Desktop: hình quạt -->
 			<div class="ecs-ve-values__fan" style="container-type:inline-size;aspect-ratio:1920 / 852" data-aos="fade-up">
-				<h2 id="ve-ecs-values-heading" class="ecs-ve-values__heading" style="font-size:clamp(24px, 2.6cqw, 50px)">GIÁ TRỊ CỐT LÕI</h2>
+				<h2 id="ve-ecs-values-heading" class="ecs-ve-values__heading"><?php echo esc_html( ecsges_t( 'GIÁ TRỊ CỐT LÕI' ) ); ?></h2>
 
-				<?php foreach ( $wedge_fills as $f ) : ?>
-					<img src="<?php echo esc_url( ecsges_img( 've-ecs/' . $f['src'] ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-values__wedge" style="left:<?php echo esc_attr( $f['left'] ); ?>;top:<?php echo esc_attr( $f['top'] ); ?>;width:<?php echo esc_attr( $f['width'] ); ?>;<?php echo esc_attr( $centered ); ?>">
-				<?php endforeach; ?>
+				<?php // Cụm hình quạt (nền cánh + viền + icon + mũi tên) bọc chung 1 lớp để
+					// phóng to như MỘT KHỐI bằng transform trong SCSS (.ecs-ve-values__art),
+					// khỏi phải tính lại toạ độ % của từng phần tử. Lớp bọc phủ đúng khung
+					// cha (inset:0) nên mọi % bên trong giữ nguyên ý nghĩa. ?>
+				<div class="ecs-ve-values__art" aria-hidden="true">
+					<?php foreach ( $wedge_fills as $f ) : ?>
+						<img src="<?php echo esc_url( ecsges_img( 've-ecs/' . $f['src'] ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-values__wedge" style="left:<?php echo esc_attr( $f['left'] ); ?>;top:<?php echo esc_attr( $f['top'] ); ?>;width:<?php echo esc_attr( $f['width'] ); ?>;<?php echo esc_attr( $centered ); ?>">
+					<?php endforeach; ?>
 
-				<img src="<?php echo esc_url( ecsges_img( 've-ecs/list.svg' ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-values__fan-img" style="<?php echo esc_attr( $fan_box ); ?>">
+					<img src="<?php echo esc_url( ecsges_img( 've-ecs/list.svg' ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-values__fan-img" style="<?php echo esc_attr( $fan_box ); ?>">
 
-				<?php foreach ( $icons as $ic ) : ?>
-					<img src="<?php echo esc_url( ecsges_img( 've-ecs/' . $ic['src'] ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-values__icon" style="left:<?php echo esc_attr( $ic['left'] ); ?>;top:<?php echo esc_attr( $ic['top'] ); ?>;width:<?php echo esc_attr( $ic['width'] ); ?>;<?php echo esc_attr( $centered ); ?>">
-				<?php endforeach; ?>
+					<?php foreach ( $icons as $ic ) : ?>
+						<img src="<?php echo esc_url( ecsges_img( 've-ecs/' . $ic['src'] ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-values__icon" style="left:<?php echo esc_attr( $ic['left'] ); ?>;top:<?php echo esc_attr( $ic['top'] ); ?>;width:<?php echo esc_attr( $ic['width'] ); ?>;<?php echo esc_attr( $centered ); ?>">
+					<?php endforeach; ?>
 
-				<?php foreach ( $arrows as $a ) : ?>
-					<img src="<?php echo esc_url( ecsges_img( 've-ecs/' . $a['src'] ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-values__arrow" style="left:<?php echo esc_attr( $a['left'] ); ?>;top:<?php echo esc_attr( $a['top'] ); ?>;width:<?php echo esc_attr( $a['width'] ); ?>;<?php echo esc_attr( $centered ); ?>">
-				<?php endforeach; ?>
+					<?php foreach ( $arrows as $a ) : ?>
+						<img src="<?php echo esc_url( ecsges_img( 've-ecs/' . $a['src'] ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-values__arrow" style="left:<?php echo esc_attr( $a['left'] ); ?>;top:<?php echo esc_attr( $a['top'] ); ?>;width:<?php echo esc_attr( $a['width'] ); ?>;<?php echo esc_attr( $centered ); ?>">
+					<?php endforeach; ?>
+				</div>
 
 				<?php
 				foreach ( $labels as $lb ) :
 					$v = $values[ $lb['key'] ];
 					?>
 					<div class="ecs-ve-values__label" style="left:<?php echo esc_attr( $lb['left'] ); ?>;top:<?php echo esc_attr( $lb['top'] ); ?>;width:<?php echo esc_attr( $lb['width'] ); ?>">
-						<p class="ecs-ve-values__label-key" style="<?php echo esc_attr( $key_fs ); ?>"><?php echo esc_html( ecsges_t( $v['key'] ) ); ?></p>
-						<p class="ecs-ve-values__label-phrase" style="<?php echo esc_attr( $text_fs ); ?>"><?php echo esc_html( ecsges_t( $v['phrase'] ) ); ?></p>
-						<p class="ecs-ve-values__label-body" style="<?php echo esc_attr( $text_fs ); ?>"><?php echo esc_html( ecsges_t( $v['body'] ) ); ?></p>
+						<p class="ecs-ve-values__label-key"><?php echo esc_html( ecsges_t( $v['key'] ) ); ?></p>
+						<p class="ecs-ve-values__label-phrase"><?php echo esc_html( ecsges_t( $v['phrase'] ) ); ?></p>
+						<p class="ecs-ve-values__label-body"><?php echo esc_html( ecsges_t( $v['body'] ) ); ?></p>
 					</div>
 				<?php endforeach; ?>
 			</div>

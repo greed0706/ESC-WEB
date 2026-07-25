@@ -88,6 +88,12 @@ function ecsges_en_map() {
 		'ECS Global phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm.'
 			=> 'ECS Global has grown strongly under dedicated leadership and deep experience.',
 
+		/* Tin tức (page-tin-tuc.php) */
+		'TIN NỔI BẬT'                    => 'FEATURED NEWS',
+		'KIẾN THỨC'                      => 'KNOWLEDGE',
+		'Chủ đề tin tức'                 => 'News topics',
+		'Trang kiến thức'                => 'Knowledge pages',
+
 		/* Đối tác (page-doi-tac.php) */
 		'ĐỐI TÁC'                        => 'PARTNERS',
 		'ĐỐI TÁC GIÁO DỤC TRONG NƯỚC'    => 'DOMESTIC EDUCATION PARTNERS',

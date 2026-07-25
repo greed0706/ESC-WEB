@@ -49,7 +49,7 @@
     padding: 14px 20px;
     border-left: 4px solid $brand;
     font-family: $font-display;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 600;
     text-transform: uppercase;
     color: $ink;
@@ -64,7 +64,7 @@
     gap: 14px;
     padding: 14px 0;
 
-    & + & {
+    &+& {
       border-top: 1px solid $surface-2;
     }
   }
@@ -100,8 +100,8 @@
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    @include text-sm;
     font-weight: 500;
-    line-height: 1.4;
     color: $ink;
     transition: color 0.15s ease;
 
@@ -111,7 +111,7 @@
   }
 
   &-date {
-    font-size: 13px;
+    @include text-sm;
     color: $muted;
   }
 }
@@ -136,10 +136,23 @@
     border-bottom: 3px solid $brand;
     padding-bottom: 8px;
     font-family: $font-display;
-    font-size: 28px;
+    @include text-lg;
     font-weight: 700;
     text-transform: uppercase;
     color: $brand;
+  }
+
+  // Từ khoá đang tìm, in trong tiêu đề trang kết quả (search.php).
+  &__term {
+    text-transform: none;
+    color: $ink;
+  }
+
+  &__count {
+    margin-top: 12px;
+    @include text-sm;
+    font-weight: 300;
+    color: $muted-2;
   }
 
   &__layout {
@@ -161,7 +174,7 @@
       grid-template-columns: 260px 1fr;
     }
 
-    & + & {
+    &+& {
       margin-top: 28px;
       border-top: 1px solid $surface-2;
       padding-top: 28px;
@@ -187,9 +200,8 @@
 
   &__card-title {
     font-family: $font-display;
-    font-size: 22px;
+    @include text-sm;
     font-weight: 600;
-    line-height: 1.35;
 
     a {
       color: $ink;
@@ -203,18 +215,18 @@
 
   &__card-meta {
     margin-top: 8px;
-    font-size: 14px;
+    @include text-sm;
     color: $muted;
   }
 
   &__card-excerpt {
     margin-top: 12px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 1.7;
     color: $body;
   }
 
-  &__card-body :where(.ecs-underline) {
+  &__card-body :where(.ecs-see-more) {
     display: flex;
     width: fit-content;
     margin: 16px 0 0 auto; // "Xem thêm" (kiểu Tìm hiểu thêm) đẩy sang phải
@@ -279,7 +291,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    font-size: 14px;
+    @include text-sm;
     color: $muted;
 
     a {
@@ -295,19 +307,14 @@
   &__title {
     margin-top: 12px;
     font-family: $font-display;
-    font-size: 32px;
+    @include text-lg;
     font-weight: 700;
-    line-height: 1.25;
     color: $ink;
-
-    @include bp(lg) {
-      font-size: 40px;
-    }
   }
 
   &__meta {
     margin-top: 12px;
-    font-size: 14px;
+    @include text-sm;
     color: $muted;
   }
 
@@ -324,30 +331,32 @@
 
   // Prose: nội dung the_content() — heading bị reset nên style lại tối thiểu.
   &__content {
+    @include text-sm;
     font-weight: 300;
-    line-height: 1.8;
     color: $body;
 
     p {
       margin: 16px 0;
     }
 
+    // the_content() chỉ có 3 cỡ để dùng: h2 lấy cỡ thứ 2 (28px), h3/h4 về cỡ
+    // body và chỉ còn font-weight 600 để phân biệt với đoạn văn (weight 300).
     h2,
     h3,
     h4 {
       margin: 28px 0 12px;
       font-family: $font-display;
       font-weight: 600;
-      line-height: 1.3;
       color: $ink;
     }
 
     h2 {
-      font-size: 24px;
+      @include text-md;
     }
 
-    h3 {
-      font-size: 20px;
+    h3,
+    h4 {
+      @include text-sm;
     }
 
     a {
@@ -387,6 +396,72 @@
       border-left: 4px solid $brand;
       color: $muted-2;
       font-style: italic;
+    }
+  }
+}
+/* ------------------------------------------------------------------ */
+/* Form tìm kiếm dùng chung (searchform.php) — hiện ở đầu trang kết quả */
+/* ------------------------------------------------------------------ */
+.ecs-search {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+
+  // Nhãn chỉ dành cho trình đọc màn hình.
+  &__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  &__input {
+    flex: 1 1 240px;
+    min-width: 0;
+    height: 51px;
+    border: 0.5px solid $placeholder;
+    background: #fff;
+    padding-inline: 16px;
+    @include text-sm;
+    color: $ink;
+
+    &::placeholder {
+      color: $muted-2;
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: $brand;
+    }
+  }
+
+  // Cùng kiểu nút cam đảo màu như .ecs-see-more ("Tìm hiểu thêm").
+  &__submit {
+    flex: none;
+    padding: 3px 43px;
+    border: 1px solid $brand;
+    border-radius: 9999px;
+    background: $brand;
+    color: #fff;
+    font-family: $font-display;
+    @include text-sm;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: #fff;
+      color: $brand;
     }
   }
 }

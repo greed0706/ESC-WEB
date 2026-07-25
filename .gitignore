@@ -9,6 +9,9 @@ node_modules/
 Thumbs.db
 .DS_Store
 
+# Tên thiết bị Windows (`> nul` lỡ tay tạo ra file ảo — git luôn thấy nó tồn tại)
+nul
+
 # Live Sass output lạc (nếu extension cấu hình sai)
 src/scss/main.css
 

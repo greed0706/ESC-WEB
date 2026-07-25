@@ -1,0 +1,315 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+// Trang Tin tức (page-tin-tuc.php + template-parts/tin-tuc-*.php).
+// Figma node 548:9518, frame 1920 — content x 323→1596 (1273px).
+//
+// Như trang Đối tác, content map về @include container (1220px ở >=768) — mapping
+// 1920→$page-max dùng chung toàn theme. Vì vậy mọi bề rộng/chiều cao theo trục
+// ngang dùng TỈ LỆ (fr, aspect-ratio, %) chứ không px cứng, để giữ đúng tỉ lệ Figma
+// ở mọi bề rộng. Khoảng cách dọc giữ px tuyệt đối như Figma.
+
+$newsroom-hairline: #a4a4a4; // Figma: đường kẻ đáy thanh tab (1px).
+
+// Cả 3 cỡ ảnh trong Figma cùng tỉ lệ: 816/488 = 413/247 = 408/244 = 1.6721.
+// Tách tử/mẫu rồi nội suy (giống _doi-tac.scss) để aspect-ratio ra literal
+// "816 / 488" — viết '816 / 488' trực tiếp sẽ bị Sass hiểu là phép chia (slash-div).
+$newsroom-media-w: 816;
+$newsroom-media-h: 488;
+
+.ecs-newsroom {
+  &__inner {
+    @include container;
+  }
+
+  // --- Thanh tab chủ đề (Figma y 766–834, cao 68) -----------------------
+  &__tabs {
+    // Tách nhẹ khỏi ảnh banner full-bleed phía trên (Figma để 6px).
+    // Đường kẻ xám KHÔNG đặt ở thẻ bọc này mà ở từng thẻ tab bên trong
+    // (xem &__tab) để nó chỉ chạy dưới các tab, không tràn ra vùng padding
+    // ngang của container.
+    padding-block-start: 4px;
+  }
+
+  &__tabs-inner {
+    @include container;
+  }
+
+  &__tablist {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0; // không gap — các tab dính liền nhau, chia đều bề rộng
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    // Figma: đường kẻ 1px #a4a4a4 ở đáy hàng tab. Đặt ở đây (thẻ <ul>) chứ không
+    // ở thẻ bọc ngoài &__tabs — &__tabs nằm ngoài container nên border sẽ tràn hết
+    // bề rộng viewport; ở &__tablist thì kẻ chạy đúng bề rộng content, thẳng mép tab.
+    border-block-end: 1px solid $newsroom-hairline;
+  }
+
+  // Mọi tab rộng bằng nhau (flex-basis 0 + grow 1). Ở màn nhỏ 6 nhãn hoa không
+  // vừa một hàng nên cho wrap: 2 cột → 3 cột → 6 cột đều nhau ở >=1024px.
+  &__tabitem {
+    display: flex;
+    flex: 1 1 50%;
+    min-width: 0;
+
+    @include bp(sm) {
+      flex: 1 1 33.3333%;
+    }
+
+    @include bp(lg) {
+      flex: 1 1 0;
+    }
+  }
+
+  &__tab {
+    display: flex;
+    width: 100%; // chiếm hết ô của tabitem → nền cam phủ trọn ô khi active/hover
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    // Figma: 24px/32px, ls 1px. Thu cỡ ở mobile vì 6 nhãn hoa không vừa màn nhỏ.
+    font-size: 16px;
+    line-height: 32px;
+    letter-spacing: 1px;
+    font-family: $font-display;
+    font-weight: 400;
+    color: $ink;
+    padding-block: 8px;
+    padding-inline: 12px;
+    text-decoration: none;
+    transition: color 0.15s ease, background-color 0.15s ease;
+
+    @include bp(md) {
+      font-size: 20px;
+    }
+
+    // Từ >=1024px thanh tab về 6 cột đều nhau (mỗi cột = 1/6 content, đúng bằng
+    // pill active 203px của Figma khi content = 1220px). Nhãn dài nhất
+    // "TRUYỀN THÔNG" rộng ~180px ở 24px — cộng padding là vượt 203px nên bị xuống
+    // dòng; ở viewport 1024 cột chỉ còn ~157px nên còn tệ hơn. Vì vậy:
+    //   - nowrap: tuyệt đối không xuống dòng;
+    //   - cỡ chữ tỉ lệ theo bề rộng content thay vì 24px cứng, đúng tỉ lệ Figma
+    //     (24px trên content 1273px) → 23px khi content đạt 1220px, nhỏ dần xuống
+    //     tới 1024px, luôn hẹp hơn cột nên nhãn luôn nằm gọn một dòng;
+    //   - padding hẹp lại (8px) để chừa thêm biên an toàn cho nhãn dài.
+    // clamp: 24 * (min(100vw,1300) - 80) / 1273 = 1.885vw - 1.5px, chặn trên 23px.
+    @include bp(lg) {
+      font-size: clamp(17px, 1.885vw - 1.5px, 23px);
+      padding-inline: 8px;
+      white-space: nowrap;
+    }
+
+    // Tab thường CHỈ đổi sang cam khi hover/focus — cùng kiểu nền cam chữ trắng
+    // như pill của tab đang xem, để hai trạng thái đọc thống nhất.
+    &:hover,
+    &:focus-visible {
+      background-color: $brand;
+      color: #fff;
+    }
+
+    // Tab đang xem = ô cam, chữ trắng, không bo góc (Figma). KHÔNG đặt
+    // padding-inline riêng ở đây: các tab chia đều bề rộng nên padding thêm sẽ
+    // làm ô active rộng hơn các ô còn lại.
+    &.is-active {
+      background-color: $brand;
+      color: #fff;
+
+      &:hover,
+      &:focus-visible {
+        color: #fff;
+      }
+    }
+  }
+
+  // --- Tiêu đề khối (TIN NỔI BẬT / KIẾN THỨC) ---------------------------
+  // Figma: Roboto Flex Medium 50px / lh 68px / ls 1px, #000, căn trái.
+  &__heading {
+    @include text-lg;
+    line-height: 1.36; // 50px → 68px
+    margin: 0 0 32px;
+    font-family: $font-display;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: $ink;
+
+    @include bp(lg) {
+      // Figma: TIN NỔI BẬT đáy 949 → lưới featured 992.
+      margin-block-end: 43px;
+    }
+  }
+
+  &__section {
+    padding-block: 48px 0;
+
+    @include bp(lg) {
+      // Figma: thanh tab đáy y=834 → tiêu đề y=881 (47px).
+      padding-block-start: 47px;
+    }
+  }
+
+  // --- Khối TIN NỔI BẬT (Figma y 992–1699) ------------------------------
+  &__featured {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+
+    @include bp(lg) {
+      // Figma: 816px | 44px | 413px trong 1273px.
+      grid-template-columns: minmax(0, 816fr) minmax(0, 413fr);
+      gap: 44px;
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &__lead-media,
+  &__side-media,
+  &__card-media {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: #{$newsroom-media-w} / #{$newsroom-media-h};
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      color: $brand;
+    }
+  }
+
+  // Bài lớn. Figma vẽ title 40px / excerpt 28px, nhưng thang cỡ chữ của theme chỉ
+  // có 3 cỡ cho chữ nội dung ($fs-lg 50 / $fs-md 28 / $fs-sm 18 — xem _variables).
+  // Theo yêu cầu: text lớn = 28 ($fs-md), text nhỏ = 18 ($fs-sm).
+  &__lead-title {
+    margin: 24px 0 0; // Figma: ảnh đáy 1480 → title 1504
+    font-family: $font-sans;
+    font-weight: 400;
+    @include text-md;
+    letter-spacing: 0.25px;
+    color: $ink;
+  }
+
+  &__lead-excerpt {
+    margin: 17px 0 0; // Figma: title text đáy ~1604 → excerpt 1621
+    font-family: $font-sans;
+    font-weight: 300;
+    @include text-sm;
+    color: $body;
+    text-align: justify;
+  }
+
+  // Cột phải: 2 bài nhỏ, cách nhau 49px (Figma 1289 → 1338).
+  &__side {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    @include bp(lg) {
+      gap: 49px;
+    }
+  }
+
+  &__side-title {
+    margin: 14px 0 0; // Figma: ảnh đáy 1239 → title 1253
+    font-family: $font-sans;
+    font-weight: 300;
+    @include text-sm; // Figma 22px → thang theme: text nhỏ = 18px
+    letter-spacing: 0.25px;
+    color: $ink;
+  }
+
+  // --- Khối KIẾN THỨC (Figma y 1748–2502, dải #f0f0f0 full-bleed) -------
+  &__knowledge {
+    margin-block-start: 49px; // Figma: excerpt đáy ~1699 → dải 1748
+    background-color: $surface-2;
+    padding-block: 48px;
+
+    @include bp(lg) {
+      // Figma: đỉnh dải 1748 → heading 1809 (61px); phân trang đáy 2449 → 2502 (53px).
+      padding-block: 61px 53px;
+    }
+
+    // Figma: KIẾN THỨC đáy 1877 → lưới 1925 (48px) — khác featured (43px).
+    .ecs-newsroom__heading {
+      @include bp(lg) {
+        margin-block-end: 48px;
+      }
+    }
+  }
+
+  &__grid {
+    display: none;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+
+    &.is-active {
+      display: grid;
+    }
+
+    @include bp(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp(lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  // Card: Figma 408x426, bg trắng, padding ngang 19px, ảnh tràn sát mép.
+  &__card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+  }
+
+  &__card-body {
+    padding: 15px 19px 19px; // Figma: ảnh đáy 2169 → title 2184
+  }
+
+  &__card-title {
+    margin: 0;
+    font-family: $font-sans;
+    font-weight: 400;
+    @include text-sm; // Figma 22px → thang theme: text nhỏ = 18px
+    letter-spacing: 0.25px;
+    color: $ink;
+  }
+
+  &__card-excerpt {
+    margin: 30px 0 0; // Figma: title box đáy 2220 → excerpt 2250
+    font-family: $font-sans;
+    font-weight: 300;
+    @include text-sm;
+    color: $body;
+    text-align: justify;
+  }
+
+  // Phân trang dùng lại markup + style .ecs-news__pagination của trang chủ.
+  // NHƯNG _landing.scss đặt `margin-left: auto; width: calc(50% - 12px)` ở >=1024px
+  // để nó nằm dưới cột tin bên PHẢI của trang chủ. Ở đây lưới 3 cột chiếm cả bề
+  // rộng nên phải căn GIỮA → huỷ cả margin-left lẫn width.
+  // Selector ghép 2 class (.ecs-newsroom__pagination.ecs-news__pagination) để thắng
+  // độ đặc hiệu của .ecs-news__pagination bất kể thứ tự @use trong main.scss.
+  &__pagination.ecs-news__pagination {
+    margin-block-start: 32px;
+
+    @include bp(lg) {
+      margin-block-start: 48px; // Figma: card đáy 2351 → phân trang 2399
+      margin-inline: auto;
+      width: 100%;
+    }
+  }
+}

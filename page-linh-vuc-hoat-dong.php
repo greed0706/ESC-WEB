@@ -21,12 +21,11 @@ get_header();
 			array(
 				'title'   => 'LĨNH VỰC HOẠT ĐỘNG',
 				'id'      => 'linh-vuc-hero',
-				'bg'      => 'linh-vuc-hoat-dong/hero-bg.png',
+				'bg'      => 'linh-vuc-hoat-dong/banner.png',
 				'variant' => 'banner',
 			)
 		);
 		get_template_part( 'template-parts/linh-vuc', 'tabs' );
-		get_template_part( 'template-parts/section', 'news' );
 		?>
 	</main>
 <?php

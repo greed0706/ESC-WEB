@@ -71,16 +71,13 @@
 
   &__eyebrow {
     font-family: $font-display;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 500;
-    letter-spacing: 0.025em;
     color: $muted;
-
-    @include bp(md) {
-      font-size: 22px;
-    }
   }
 
+  // __script / __heading / __badge: chữ display của hero trang chủ — CỐ Ý nằm
+  // ngoài thang $fs-* (xem _variables.scss), giữ nguyên cỡ theo thiết kế.
   &__script {
     margin-top: 8px;
     font-family: $font-script;
@@ -123,6 +120,9 @@
     padding-inline: 24px;
     font-family: $font-display;
     font-size: 24px;
+    // $lh-base là ĐỘ DÀI (32px) nên nếu thừa kế từ body thì chữ 40px sẽ bị bóp
+    // nghẹt trong nền xanh. Chữ display luôn phải tự khai line-height theo TỈ LỆ.
+    line-height: 1.5;
     font-weight: 500;
     letter-spacing: 0.05em;
     color: #fff;
@@ -142,13 +142,8 @@
 
   &__cta {
     font-family: $font-display;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 500;
-    letter-spacing: 0.025em;
-
-    @include bp(md) {
-      font-size: 22px;
-    }
   }
 }
 
@@ -246,9 +241,8 @@
   &__text {
     margin-top: 24px;
     text-align: justify;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 32px;
     color: $body;
 
     >p+p {
@@ -261,7 +255,6 @@
   }
 
   &__cta {
-    font-size: 18px;
     font-weight: 300;
   }
 }
@@ -333,9 +326,8 @@
     margin-top: 24px;
     max-width: 576px;
     text-align: justify;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 32px;
     color: #fff;
   }
 
@@ -344,7 +336,6 @@
   }
 
   &__cta {
-    font-size: 18px;
     font-weight: 300;
   }
 
@@ -432,9 +423,8 @@
     margin-top: 24px;
     max-width: 768px;
     text-align: center;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 32px;
     color: $body;
   }
 
@@ -496,13 +486,8 @@
 
   &__label {
     text-align: center;
-    font-size: 16px;
+    @include text-sm;
     font-weight: 500;
-    letter-spacing: 0.025em;
-
-    @include bp(md) {
-      font-size: 18px;
-    }
   }
 
   &__caret {
@@ -562,9 +547,10 @@
     }
   }
 
+  // Tiêu đề phụ trong section -> cỡ thứ 2 (28px).
   &__panel-title {
     font-family: $font-display;
-    font-size: 24px;
+    @include text-md;
     font-weight: 500;
     color: $brand;
   }
@@ -572,9 +558,8 @@
   &__panel-text {
     margin-top: 16px;
     text-align: justify;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 32px;
     color: $body;
   }
 }
@@ -641,17 +626,19 @@
     padding: 28px;
   }
 
+  // Tiêu đề thẻ về cùng cỡ body (18px) theo thang chung — font-weight 500 là
+  // thứ duy nhất còn tách tiêu đề khỏi đoạn tóm tắt (weight 300).
   &__featured-title {
     font-size: 22px;
-    line-height: 1.25;
+    line-height: 32px;
+    font-weight: 500;
     color: $ink;
   }
 
   &__featured-excerpt {
     margin-top: 12px;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 1.625;
     color: $body;
   }
 
@@ -665,7 +652,7 @@
 
   &__date {
     font-family: $font-display;
-    font-size: 16px;
+    @include text-sm;
     font-weight: 300;
     color: $muted-2;
   }
@@ -729,13 +716,9 @@
   }
 
   &__item-title {
-    font-size: 18px;
-    line-height: 1.375;
+    @include text-sm;
+    font-weight: 500;
     color: $ink;
-
-    @include bp(md) {
-      font-size: 22px;
-    }
   }
 
   &__item-footer {
@@ -848,7 +831,7 @@
   &__search-input {
     width: 100%;
     background: transparent;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
     color: $body;
 
@@ -865,7 +848,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 15px;
+    @include text-sm;
     font-weight: 300;
     color: $muted-2;
   }
@@ -886,7 +869,7 @@
     background: $surface-2;
     padding-inline: 16px;
     padding-block: 12px;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
     color: $body;
 
@@ -913,10 +896,11 @@
     padding: 20px;
   }
 
+  // Tiêu đề phụ trong section -> cỡ thứ 2 (28px).
   &__suggest-title {
     font-family: $font-display;
+    @include text-md;
     font-weight: 600;
-    letter-spacing: 0.025em;
     color: $ink;
   }
 
@@ -939,7 +923,7 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
     color: $ink;
     text-decoration: none;
@@ -981,16 +965,15 @@
 
   &__title {
     font-family: $font-display;
-    font-size: 30px;
+    @include text-md;
     font-weight: 600;
     color: $ink;
   }
 
   &__content {
     margin-top: 16px;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 32px;
     color: $body;
 
     >*+* {
@@ -999,7 +982,7 @@
   }
 
   &__empty {
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
     color: $body;
   }

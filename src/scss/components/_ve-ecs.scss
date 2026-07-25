@@ -52,6 +52,7 @@
     color: #fff;
     padding-inline-start: 40px;
     font-size: 40px;
+    line-height: 1.5; // tỉ lệ, KHÔNG thừa kế $lh-base (32px) từ body
     @include bp(sm) { font-size: 60px; }
     @include bp(lg) { font-size: 80px; }
   }
@@ -88,9 +89,8 @@
 
   &__intro-text {
     text-align: center;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 500;
-    line-height: 32px;
     color: $ink;
   }
 
@@ -122,30 +122,30 @@
   &__milestone--left  { text-align: left; }
   &__milestone--right { text-align: right; }
 
+  // Mốc thời gian trên "sân khấu" desktop: dùng ĐÚNG thang cỡ chữ chung, không
+  // còn clamp()/cqw co giãn theo container — cỡ chữ phải đồng nhất với phần còn
+  // lại của site. Khối &__stage chỉ hiện từ lg trở lên (dưới đó là &__mobile),
+  // nên ở đây luôn là cỡ desktop 50/28/18.
   &__year {
     font-family: $font-display;
+    @include text-lg;
     font-weight: 600;
-    line-height: 1.25;
     color: $brand;
-    font-size: clamp(20px, 2.6cqw, 50px);
   }
 
   &__milestone-title {
     margin-top: 6px;
     font-family: $font-display;
+    @include text-md;
     font-weight: 500;
-    line-height: 1.25;
-    letter-spacing: 0.025em;
     color: $ink;
-    font-size: clamp(15px, 1.46cqw, 28px);
   }
 
   &__milestone-body {
     margin-top: 8px;
+    @include text-sm;
     font-weight: 400;
-    line-height: 1.5;
     color: #323232;
-    font-size: clamp(11px, 0.83cqw, 16px);
   }
 
   &__milestone-body--justify { text-align: justify; }
@@ -171,27 +171,24 @@
 
   &__mobile-year {
     font-family: $font-display;
-    font-size: 30px;
+    @include text-md;
     font-weight: 600;
-    line-height: 1.25;
     color: $brand;
   }
 
   &__mobile-title {
     margin-top: 4px;
     font-family: $font-display;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 500;
-    letter-spacing: 0.025em;
     color: $ink;
   }
 
   &__mobile-body {
     margin-top: 8px;
     text-align: justify;
-    font-size: 15px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 28px;
     color: $body;
   }
 }
@@ -233,9 +230,8 @@
   &__text {
     margin-top: 20px;
     text-align: justify;
-    font-size: 18px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 32px;
     color: rgba($ink, 0.8);
   }
 
@@ -301,9 +297,8 @@
   &__label {
     margin-top: 8px;
     max-width: 200px;
-    font-size: 15px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 24px;
     color: $ink;
   }
 }
@@ -320,7 +315,9 @@
 .ecs-ve-values {
   background: $surface;
   padding-block: 64px;
-  @include bp(lg) { padding-block: 0; }
+  // Desktop: tiêu đề "GIÁ TRỊ CỐT LÕI" được kéo lên trên đỉnh khung quạt (translate
+  // -110%) nên cần chừa khoảng đệm trên, nếu không nó tràn lên section Sứ mệnh.
+  @include bp(lg) { padding-block: 96px 0; }
 
   // Desktop: fan container (position/aspect-ratio come from inline style).
   &__fan {
@@ -335,13 +332,28 @@
   &__heading {
     position: absolute;
     left: 50%;
-    top: 8%;
-    translate: -50% 0;
+    // Kéo lên trên đỉnh khung quạt (top âm) để không chồng lên nhãn HỢP (top 18%).
+    // translate phần Y kéo tiêu đề lên đúng bằng chiều cao của nó.
+    top: 0;
+    translate: -50% -110%;
     white-space: nowrap;
     font-family: $font-display;
+    @include text-lg;
     font-weight: 500;
-    letter-spacing: 0.5px;
     color: $ink;
+  }
+
+  // Lớp bọc cụm hình quạt. Phủ đúng khung cha (inset:0) nên toạ độ % của các
+  // phần tử con giữ nguyên ý nghĩa; nhờ vậy chỉ cần đổi 1 con số scale là phóng
+  // to/thu nhỏ cả cụm 16 phần tử.
+  // transform-origin đặt tại TÂM hình quạt (fan-img: left 32,97% + nửa bề rộng
+  // 34,375% = 50,16%; top 48,6% + nửa chiều cao 38,4% = 67,8%) để quạt nở đều
+  // ra hai bên và không xê dịch khỏi vị trí cũ.
+  &__art {
+    position: absolute;
+    inset: 0;
+    transform: scale(1.18);
+    transform-origin: 50.16% 67.8%;
   }
 
   // Wedge fills, fan outline, icons, arrows: all absolutely positioned
@@ -364,25 +376,30 @@
     text-align: center;
   }
 
+  // Nhãn quanh hình quạt: cỡ chữ trước đây đặt inline bằng clamp(...cqw...) ở
+  // page-ve-ecs.php, nay chuyển về thang cố định tại đây. Inline style trong PHP
+  // chỉ còn giữ left/top/width tính bằng %.
   &__label-key {
     font-family: $font-display;
+    @include text-md;
     font-weight: 600;
-    line-height: 1.25;
     color: $brand;
   }
 
   &__label-phrase {
     margin-top: 4px;
     font-family: $font-display;
+    @include text-sm;
     font-weight: 500;
-    line-height: 1.375;
     color: $ink;
   }
 
+  // Chỉ đoạn mô tả căng đều 2 biên; key + phrase giữ căn giữa như thiết kế.
   &__label-body {
     margin-top: 4px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 1.375;
+    text-align: justify;
     color: $ink;
   }
 
@@ -415,7 +432,7 @@
   &__item-key {
     margin-top: 16px;
     font-family: $font-display;
-    font-size: 20px;
+    @include text-md;
     font-weight: 600;
     color: $brand;
   }
@@ -423,16 +440,15 @@
   &__item-phrase {
     margin-top: 4px;
     font-family: $font-display;
-    font-size: 16px;
+    @include text-sm;
     font-weight: 500;
     color: $ink;
   }
 
   &__item-body {
     margin-top: 8px;
-    font-size: 14px;
+    @include text-sm;
     font-weight: 300;
-    line-height: 24px;
     color: $ink;
   }
 }

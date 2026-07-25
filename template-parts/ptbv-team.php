@@ -10,13 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$ptbv_team = ecsges_ptbv_team();
+$ptbv_team = ecsges_tr_deep( ecsges_ptbv_team() );
 ?>
 <section aria-labelledby="ptbv-team-heading" class="ecs-team">
 	<div class="ecs-team__inner">
 		<div class="ecs-team__header" data-aos="fade-up">
-			<h2 id="ptbv-team-heading" class="ecs-team__heading">CON NGƯỜI ECS</h2>
-			<p class="ecs-team__subheading">ĐỘI NGŨ LÃNH ĐẠO</p>
+			<h2 id="ptbv-team-heading" class="ecs-team__heading"><?php echo esc_html( ecsges_t( 'CON NGƯỜI ECS' ) ); ?></h2>
+			<p class="ecs-team__subheading"><?php echo esc_html( ecsges_t( 'ĐỘI NGŨ LÃNH ĐẠO' ) ); ?></p>
 		</div>
 
 		<div class="ecs-team__carousel" data-aos="fade-up" data-ptbv-carousel>

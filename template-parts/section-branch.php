@@ -71,7 +71,7 @@ $branch_map       = ecsges_field_img( 'branch_map', 'branch-map.png' );
 				</div>
 			</div>
 
-			<img src="<?php echo esc_url( $branch_map ); ?>" alt="Bản đồ vị trí chi nhánh ECSGES" data-aos="fade-up" data-aos-delay="120" class="ecs-branch__map">
+			<img src="<?php echo esc_url( $branch_map ); ?>" alt="<?php echo esc_attr( ecsges_t( 'Bản đồ vị trí chi nhánh ECSGES' ) ); ?>" data-aos="fade-up" data-aos-delay="120" class="ecs-branch__map">
 		</div>
 	</div>
 </section>

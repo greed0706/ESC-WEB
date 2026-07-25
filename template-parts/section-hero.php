@@ -15,13 +15,15 @@ $hero_script  = ecsges_field( 'hero_script', 'Kiến tạo' );
 $hero_lines   = ecsges_field_lines( 'hero_heading', array( 'HỆ SINH THÁI', 'GIÁO DỤC TOÀN CẦU' ) );
 $hero_badge   = ecsges_field( 'hero_badge', 'Vì tương lai Việt Nam' );
 $hero_label   = ecsges_field( 'hero_cta_label', 'TÌM HIỂU THÊM' );
-$hero_link    = ecsges_field( 'hero_cta_link', '#ve-ecs' );
+// Để trống field trong admin → nút trỏ về chuyên mục riêng (/category/ve-ecs/);
+// chuyên mục chưa tạo thì lùi về neo #ve-ecs như cũ.
+$hero_link    = ecsges_field( 'hero_cta_link', ecsges_category_link( 've-ecs', '#ve-ecs' ) );
 ?>
 <section id="top" aria-labelledby="hero-heading" class="ecs-hero">
 	<div class="ecs-hero__inner">
 		<div class="ecsges-hero-emblem ecs-hero__emblem">
 			<div class="ecsges-hero-mark ecs-hero__mark">
-				<img src="<?php echo esc_url( $hero_mark ); ?>" alt="Biểu tượng ECS Global" class="ecs-hero__mark-img">
+				<img src="<?php echo esc_url( $hero_mark ); ?>" alt="<?php echo esc_attr( ecsges_t( 'Biểu tượng ECS Global' ) ); ?>" class="ecs-hero__mark-img">
 			</div>
 		</div>
 

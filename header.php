@@ -34,7 +34,7 @@ foreach ( $ecsges_langs as $ecsges_l ) {
 <div class="ecs-page">
 	<header class="site-header ecs-header">
 		<div class="ecs-header__row">
-			<a href="<?php echo esc_url( function_exists( 'pll_home_url' ) ? pll_home_url() : home_url( '/' ) ); ?>" class="ecs-header__logo-link" aria-label="ECSGES — Trang chủ">
+			<a href="<?php echo esc_url( function_exists( 'pll_home_url' ) ? pll_home_url() : home_url( '/' ) ); ?>" class="ecs-header__logo-link" aria-label="<?php echo esc_attr( 'ECSGES — ' . ecsges_t( 'Trang chủ' ) ); ?>">
 				<img src="<?php echo esc_url( $ecsges_logo ); ?>" alt="ECSGES" class="ecs-header__logo">
 			</a>
 
@@ -65,9 +65,13 @@ foreach ( $ecsges_langs as $ecsges_l ) {
 
 				<span class="ecs-header__divider"></span>
 
-				<button type="button" aria-label="Tìm kiếm" class="ecs-header__search-btn">
-					<?php echo ecsges_icon( 'search', 17, '', 2 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-				</button>
+				<?php // Icon kính lúp = nút mở ô nhập (JS), bấm lần 2 khi đã mở = submit về /?s=... ?>
+				<form role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="ecs-header__search" data-header-search>
+					<input type="search" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="<?php echo esc_attr( ecsges_t( 'Nhập từ khoá...' ) ); ?>" aria-label="<?php echo esc_attr( ecsges_t( 'Tìm kiếm' ) ); ?>" class="ecs-header__search-input" data-header-search-input tabindex="-1">
+					<button type="submit" aria-label="<?php echo esc_attr( ecsges_t( 'Tìm kiếm' ) ); ?>" class="ecs-header__search-btn" data-header-search-btn>
+						<?php echo ecsges_icon( 'search', 17, '', 2 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					</button>
+				</form>
 				<div class="ecsges-lang" data-lang>
 					<button type="button" data-lang-toggle class="ecs-header__lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Đổi ngôn ngữ">
 						<?php echo esc_html( $ecsges_cur_lang ); ?> <?php echo ecsges_icon( 'chevron-down', 13, 'ecsges-lang-caret', 2.5 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -101,7 +105,7 @@ foreach ( $ecsges_langs as $ecsges_l ) {
 							<div class="ecs-header__mobile-row">
 								<a href="<?php echo esc_url( $item['href'] ); ?>" class="ecs-header__mobile-link" data-menu-link><?php echo esc_html( $item['label'] ); ?></a>
 								<?php if ( $has_children ) : ?>
-									<button type="button" data-submenu-toggle aria-expanded="false" aria-controls="submenu-<?php echo esc_attr( $i ); ?>" aria-label="Mở menu con <?php echo esc_attr( $item['label'] ); ?>" class="ecs-header__mobile-sub-toggle">
+									<button type="button" data-submenu-toggle aria-expanded="false" aria-controls="submenu-<?php echo esc_attr( $i ); ?>" aria-label="<?php echo esc_attr( ecsges_t( 'Mở menu con' ) . ' ' . $item['label'] ); ?>" class="ecs-header__mobile-sub-toggle">
 										<?php echo ecsges_icon( 'chevron-down', 16, '', 2.5 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</button>
 								<?php endif; ?>

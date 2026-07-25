@@ -14,3 +14,25 @@
   @else if $size == md { @media (min-width: $bp-md) { @content; } }
   @else if $size == lg { @media (min-width: $bp-lg) { @content; } }
 }
+
+// --- Thang cỡ chữ (xem $fs-* trong _variables.scss) -------------------
+// Text lớn: tiêu đề section. 50px ở desktop, thu về 40/32 cho tablet/mobile
+// (50px trên màn 375px chỉ vừa ~7 ký tự nên bắt buộc phải thu).
+@mixin text-lg {
+  font-size: $fs-lg-sm;
+  line-height: $lh-lg;
+  @include bp(md) { font-size: $fs-lg-md; }
+  @include bp(lg) { font-size: $fs-lg; }
+}
+
+// Cỡ thứ 2: tiêu đề phụ trong section. Cố định mọi màn hình.
+@mixin text-md {
+  font-size: $fs-md;
+  line-height: $lh-base;
+}
+
+// Text nhỏ: mặc định cho mọi chữ nội dung. Cố định mọi màn hình.
+@mixin text-sm {
+  font-size: $fs-sm;
+  line-height: $lh-base;
+}

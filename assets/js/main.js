@@ -12,7 +12,7 @@
     initMobileMenu();
     initEcosystemTabs();
     initNewsPagination();
-    initJobsPagination();
+    initJobsFilter();
     initJobModal();
     initStickyHeader();
     initAOS();
@@ -23,7 +23,72 @@
     initPtbvCulture();
     initLangDropdown();
     initMobileSubmenu();
+    initHeaderSearch();
   });
+
+  /* ---------------------------------------------------------------- */
+  /**
+   * Ô tìm kiếm ở header hoạt động như một NGĂN KÉO: bấm icon kính lúp thì
+   * thanh dọc xám (.ecs-header__divider) trượt sang trái, ô nhập bung ra lấp
+   * vào chỗ đó và che bớt .ecs-header__nav-list; icon biến mất. Enter submit
+   * về /?s=... do search.php render. Esc hoặc click ra ngoài (bất kỳ chỗ nào
+   * không thuộc form) thì ngăn kéo đóng lại về đúng vị trí cũ.
+   *
+   * Thanh dọc là ANH EM ĐỨNG TRƯỚC form nên CSS không chọn ngược lên nó được
+   * từ .is-open của form — vì vậy phải gắn thêm .is-search-open lên
+   * .ecs-header__actions (cha chung) để SCSS có chỗ bám.
+   *
+   * Không JS thì form vẫn submit bình thường — SCSS chỉ thu nhỏ ô nhập dưới
+   * lớp .js nên trang vẫn dùng được.
+   */
+  function initHeaderSearch() {
+    var form = document.querySelector('[data-header-search]');
+    if (!form) return;
+
+    var input = form.querySelector('[data-header-search-input]');
+    var btn = form.querySelector('[data-header-search-btn]');
+    if (!input || !btn) return;
+
+    var actions = form.closest ? form.closest('.ecs-header__actions') : form.parentNode;
+
+    function open() {
+      form.classList.add('is-open');
+      if (actions) actions.classList.add('is-search-open');
+      input.removeAttribute('tabindex');
+      input.focus();
+    }
+
+    function close() {
+      form.classList.remove('is-open');
+      if (actions) actions.classList.remove('is-search-open');
+      input.setAttribute('tabindex', '-1');
+      input.blur();
+    }
+
+    // Icon chỉ có một việc: mở ngăn kéo.
+    //
+    // TUYỆT ĐỐI KHÔNG preventDefault() vô điều kiện ở đây. Khi ngăn kéo đang mở
+    // và người dùng bấm Enter trong ô nhập, trình duyệt submit ngầm bằng cách
+    // BẮN MỘT SỰ KIỆN CLICK vào nút submit — click đó chạy qua handler này.
+    // Chặn nó = chặn luôn việc tìm kiếm (gõ xong Enter không có gì xảy ra).
+    btn.addEventListener('click', function (e) {
+      if (form.classList.contains('is-open')) return; // để nút submit làm việc của nó
+      e.preventDefault();
+      open();
+    });
+
+    form.addEventListener('submit', function (e) {
+      if (input.value.trim() === '') e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && form.classList.contains('is-open')) close();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (form.classList.contains('is-open') && !form.contains(e.target)) close();
+    });
+  }
 
   /* ---------------------------------------------------------------- */
   /**
@@ -419,20 +484,38 @@
     show(0);
   }
   /* ---------------------------------------------------------------- */
-  function initJobsPagination() {
+  /**
+   * Bộ lọc + phân trang việc làm (trang Tuyển dụng).
+   *
+   * Các thẻ job mang data-location / data-department / data-type là giá trị
+   * GỐC tiếng Việt, khớp với value của <option> trong 3 select — nên bộ lọc
+   * chạy đúng cả khi giao diện đang hiển thị tiếng Anh.
+   *
+   * Bấm TÌM KIẾM → lọc thẻ khớp cả 3 điều kiện (bỏ trống = không lọc), rồi
+   * xếp lại thành các trang 4 thẻ và dựng lại chấm phân trang. Thẻ được DI
+   * CHUYỂN (không clone) nên listener của nút "Ứng tuyển ngay" vẫn còn.
+   */
+  function initJobsFilter() {
     var list = document.querySelector('[data-jobs]');
+    if (!list) return;
+
+    var cards = Array.prototype.slice.call(list.querySelectorAll('[data-job]'));
+    if (cards.length === 0) return;
+
+    var per = parseInt(list.getAttribute('data-jobs-per'), 10) || 4;
     var nav = document.querySelector('[data-jobs-pagination]');
-    if (!list || !nav) return;
+    var dotsWrap = nav ? nav.querySelector('[data-jobs-dots]') : null;
+    var empty = document.querySelector('[data-jobs-empty]');
+    var selects = Array.prototype.slice.call(document.querySelectorAll('[data-jobs-filter]'));
+    var search = document.querySelector('[data-jobs-search]');
 
-    var pages = Array.prototype.slice.call(list.querySelectorAll('[data-jobs-page]'));
-    var dots = Array.prototype.slice.call(nav.querySelectorAll('[data-jobs-dot]'));
-    var count = pages.length;
-    if (count <= 1) return;
-
+    var pages = [];
+    var dots = [];
     var current = 0;
 
     function show(index) {
-      current = ((index % count) + count) % count;
+      if (pages.length === 0) return;
+      current = ((index % pages.length) + pages.length) % pages.length;
       pages.forEach(function (page, i) {
         page.classList.toggle('is-active', i === current);
       });
@@ -443,13 +526,78 @@
       });
     }
 
-    var prev = nav.querySelector('[data-jobs-prev]');
-    var next = nav.querySelector('[data-jobs-next]');
-    if (prev) prev.addEventListener('click', function () { show(current - 1); });
-    if (next) next.addEventListener('click', function () { show(current + 1); });
-    dots.forEach(function (dot, i) {
-      dot.addEventListener('click', function () { show(i); });
+    function buildDots(count) {
+      if (!nav) return;
+      dots = [];
+      nav.hidden = count <= 1;
+      if (!dotsWrap) return;
+      dotsWrap.innerHTML = '';
+      if (count <= 1) return;
+
+      var label = nav.getAttribute('data-page-label') || 'Trang';
+      for (var i = 0; i < count; i++) {
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'ecs-jobs__dot';
+        dot.setAttribute('data-jobs-dot', i);
+        dot.setAttribute('aria-label', label + ' ' + (i + 1));
+        dot.setAttribute('aria-selected', 'false');
+        dot.addEventListener('click', (function (n) {
+          return function () { show(n); };
+        })(i));
+        dotsWrap.appendChild(dot);
+        dots.push(dot);
+      }
+    }
+
+    function layout(visible) {
+      Array.prototype.slice.call(list.querySelectorAll('[data-jobs-page]')).forEach(function (page) {
+        page.parentNode.removeChild(page);
+      });
+      pages = [];
+
+      var count = Math.ceil(visible.length / per);
+      for (var i = 0; i < count; i++) {
+        var page = document.createElement('div');
+        page.className = 'ecs-jobs__page';
+        page.setAttribute('data-jobs-page', i);
+        visible.slice(i * per, (i + 1) * per).forEach(function (card) {
+          page.appendChild(card);
+        });
+        list.appendChild(page);
+        pages.push(page);
+      }
+
+      if (empty) empty.hidden = visible.length > 0;
+      buildDots(count);
+      show(0);
+    }
+
+    function apply() {
+      var criteria = selects.map(function (select) {
+        return { key: select.getAttribute('data-jobs-filter'), value: select.value };
+      }).filter(function (c) { return c.value !== ''; });
+
+      layout(cards.filter(function (card) {
+        return criteria.every(function (c) {
+          return card.getAttribute('data-' + c.key) === c.value;
+        });
+      }));
+    }
+
+    if (search) search.addEventListener('click', apply);
+    selects.forEach(function (select) {
+      select.addEventListener('change', apply);
     });
+
+    if (nav) {
+      var prev = nav.querySelector('[data-jobs-prev]');
+      var next = nav.querySelector('[data-jobs-next]');
+      if (prev) prev.addEventListener('click', function () { show(current - 1); });
+      if (next) next.addEventListener('click', function () { show(current + 1); });
+    }
+
+    layout(cards);
   }
 
   /* ---------------------------------------------------------------- */

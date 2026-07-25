@@ -28,8 +28,7 @@
   }
 
   &__eyebrow {
-    font-size: 16px;
-    letter-spacing: 0.025em;
+    @include text-sm;
     color: $body;
   }
 
@@ -47,15 +46,8 @@
 
   &__title {
     font-family: $font-display;
-    font-size: 30px;
     font-weight: 500;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-    @include bp(md) { font-size: 40px; }
-    @include bp(lg) {
-      font-size: 50px;
-      line-height: 1.36;
-    }
+    @include text-lg;
   }
 
   &__line {
@@ -86,8 +78,13 @@
   flex-direction: column;
   gap: 6px;
 
-  &--brand { color: $brand; }
-  &--white { color: #fff; }
+  &--brand {
+    color: $brand;
+  }
+
+  &--white {
+    color: #fff;
+  }
 
   &__bar {
     height: 3px;
@@ -97,21 +94,35 @@
   }
 }
 
+// Nút "Xem thêm" / "Tìm hiểu thêm" — style DUY NHẤT cho mọi nút loại này
+// (section-about, section-journey, section-news, category.php). Viền cam 1px là
+// bắt buộc: nút nền trắng đặt trên thẻ nền trắng (archive) sẽ vô hình nếu chỉ
+// dựa vào box-shadow. Viền luôn tồn tại (đổi màu chứ không bật/tắt) để hover
+// không làm xê dịch layout.
 .ecs-see-more {
   display: inline-flex;
   align-items: center;
   border-radius: 9999px;
   background: #fff;
+  border: 1px solid $brand;
   padding-inline: 16px;
-  padding-block: 4px;
-  font-size: 16px;
+  padding-block: 0px;
+  @include text-sm;
   font-weight: 300;
   color: $brand;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 
   &:hover {
     background: $brand;
+    color: #fff;
+  }
+
+  // Trên nền cam (.ecs-journey): hover đảo sang nền cam sẽ chìm vào nền, nên
+  // đảo sang nền trong suốt + viền trắng thay vì đảo màu như mặc định.
+  &--on-brand:hover {
+    background: transparent;
+    border-color: #fff;
     color: #fff;
   }
 }
