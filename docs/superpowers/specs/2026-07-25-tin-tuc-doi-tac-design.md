@@ -7,6 +7,16 @@ Nguồn thiết kế: Figma `Website ECSGES` (`N1rYl9k1gxRsXuQQsKWYFM`)
 
 Số đo dưới đây đọc trực tiếp từ Figma plugin API (`figma-console` MCP), không ước lượng.
 
+> **Trạng thái thực thi (2026-07-25):**
+> - **Mục 2 — trang Đối tác: ĐÃ XONG.**
+> - **Mục 3 — trang Tin tức: phương án đã ĐỔI, chưa code.** Chốt mới của chủ dự án:
+>   Tin tức là **một trang riêng** (`page-tin-tuc.php`), **`category.php` giữ nguyên**
+>   (không viết lại). Ngoài ra các mục menu *Hướng nghiệp / Tuyển sinh / Đào tạo /
+>   Việc làm / Truyền thông* phải trỏ vào **category thật** (render bằng `category.php`
+>   hiện có), không phải chuyển tab trong trang.
+>   → Số đo Figma ở mục 3 vẫn dùng được; phần "viết lại category.php" và
+>   "6 tab = bộ lọc trong trang" ở mục 3.1–3.2 **đã lỗi thời**, cần soạn lại trước khi code.
+
 ---
 
 ## 1. Quyết định đã chốt

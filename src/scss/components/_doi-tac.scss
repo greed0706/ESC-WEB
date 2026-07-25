@@ -1,0 +1,89 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+// Trang Đối tác (page-doi-tac.php + template-parts/doi-tac-groups.php).
+// Figma node 539:372, frame 1920 — content x 324→1594 (1270px), ô logo 233x153,
+// gap 27/28, nhịp dọc banner→114→tiêu đề→52→lưới→114→khối sau→120→footer.
+//
+// Ô logo dùng aspect-ratio 233/153 thay vì height cứng, và bề rộng logo tính theo
+// PHẦN TRĂM bề rộng ô (calc(--logo-w / 233 * 100%)) nên tỉ lệ logo-so-với-ô giữ
+// đúng Figma ở mọi bề rộng container — kể cả khi @include container thu content
+// về 1220px (mapping 1920→$page-max dùng chung toàn theme).
+
+$partners-hairline: #a4a4a4; // Figma stroke ô logo (0.5px).
+$partners-cell-w: 233; // bề rộng ô trong Figma — mẫu số của tỉ lệ logo.
+
+.ecs-partners {
+  padding-block-end: 72px;
+
+  @include bp(lg) {
+    padding-block-end: 120px;
+  }
+
+  &__group {
+    padding-block-start: 64px;
+
+    @include bp(lg) {
+      padding-block-start: 114px;
+    }
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__heading {
+    @include text-lg;
+    line-height: 1.1; // Figma: 50px / 55px
+    margin: 0 0 32px;
+    font-family: $font-display;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: $ink;
+    text-align: center;
+
+    @include bp(lg) {
+      margin-block-end: 52px;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 27px;
+    row-gap: 28px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include bp(sm) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @include bp(md) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    @include bp(lg) {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  &__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: #{$partners-cell-w} / 153;
+    background-color: #fff;
+    border: 0.5px solid $partners-hairline;
+  }
+
+  &__logo {
+    display: block;
+    width: calc(var(--logo-w) / #{$partners-cell-w} * 100%);
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+}

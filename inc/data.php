@@ -63,6 +63,7 @@ function ecsges_ecosystem_tabs()
 		array(
 			'id' => 'huong-nghiep',
 			'icon' => 'icon-huongnghiep',
+			'image' => 'he-sinh-thai/huong-nghiep.jpg',
 			'label' => 'HƯỚNG NGHIỆP',
 			'title' => 'HƯỚNG NGHIỆP',
 			'body' => 'ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại và hội nhập.',
@@ -70,6 +71,7 @@ function ecsges_ecosystem_tabs()
 		array(
 			'id' => 'tuyen-sinh',
 			'icon' => 'icon-tuyensinh',
+			'image' => 'he-sinh-thai/tuyen-sinh.jpg',
 			'label' => 'TUYỂN SINH',
 			'title' => 'TUYỂN SINH',
 			'body' => 'Với mạng lưới đối tác giáo dục đa dạng và hệ thống tư vấn chuyên nghiệp, ECSGES triển khai các giải pháp tuyển sinh linh hoạt, đáp ứng nhu cầu học tập ở nhiều cấp độ và lĩnh vực khác nhau. Chúng tôi hướng tới việc mở rộng cơ hội tiếp cận giáo dục chất lượng cho mọi đối tượng người học.',
@@ -77,6 +79,7 @@ function ecsges_ecosystem_tabs()
 		array(
 			'id' => 'dao-tao',
 			'icon' => 'icon-daotao',
+			'image' => 'he-sinh-thai/dao-tao.jpg',
 			'label' => 'ĐÀO TẠO',
 			'title' => 'ĐÀO TẠO',
 			'body' => 'ECSGES phát triển các chương trình đào tạo đa dạng theo định hướng ứng dụng, kết hợp giữa kiến thức chuyên môn, kỹ năng thực tiễn và yêu cầu của thị trường lao động. Chúng tôi chú trọng xây dựng môi trường học tập hiện đại, linh hoạt và phù hợp với xu hướng phát triển của thời đại số.',
@@ -84,6 +87,7 @@ function ecsges_ecosystem_tabs()
 		array(
 			'id' => 'viec-lam',
 			'icon' => 'icon-vieclam',
+			'image' => 'he-sinh-thai/viec-lam.jpg',
 			'label' => 'VIỆC LÀM',
 			'title' => 'VIỆC LÀM',
 			'body' => 'Là cầu nối giữa người lao động và doanh nghiệp, ECSGES cung cấp các giải pháp việc làm trong nước và quốc tế, góp phần nâng cao chất lượng nguồn nhân lực và thúc đẩy phát triển nghề nghiệp bền vững. Chúng tôi đồng hành cùng người lao động từ quá trình định hướng, đào tạo đến tìm kiếm cơ hội việc làm phù hợp.',
@@ -91,6 +95,7 @@ function ecsges_ecosystem_tabs()
 		array(
 			'id' => 'truyen-thong',
 			'icon' => 'icon-truyenthong',
+			'image' => 'he-sinh-thai/truyen-thong.png',
 			'label' => 'TRUYỀN THÔNG',
 			'title' => 'TRUYỀN THÔNG',
 			'body' => 'ECSGES cung cấp các giải pháp truyền thông toàn diện cho lĩnh vực giáo dục, góp phần nâng cao hình ảnh thương hiệu, tăng cường kết nối với người học và mở rộng sức ảnh hưởng tới cộng đồng. Chúng tôi kết hợp giữa truyền thông hiện đại và tổ chức sự kiện để tạo nên những chiến dịch hiệu quả và bền vững.',
@@ -230,8 +235,8 @@ function ecsges_milestones()
 			'years' => '2019 - 2025',
 			'title' => 'PHÁT TRIỂN NỘI LỰC VÀ KIỆN TOÀN TỔ CHỨC',
 			'body' => 'Năm 2019, đổi tên thành Công ty cổ phần hỗ trợ và phát triển chọn nghề khởi nghiệp ECS Global
-Mở rộng các pháp nhân
-Ứng dụng công nghệ và kiện toàn tổ chức',
+. Mở rộng các pháp nhân
+. Ứng dụng công nghệ và kiện toàn tổ chức',
 		),
 		array(
 			'years' => '2026',
@@ -416,49 +421,64 @@ function ecsges_ptbv_team()
 }
 
 /**
- * Phát triển bền vững — 3 giá trị, mỗi giá trị 1 icon tròn. Chỉ TẬN TÂM có mô tả (theo Figma).
- * 'icon' = tên file svg trong assets/img.
+ * Phát triển bền vững — 3 giá trị (TẬN TÂM / ĐỒNG HÀNH / ĐỔI MỚI). Theo Figma:
+ * thẻ có viền + icon line + ảnh; mô tả ẩn, chỉ hiện khi hover (nền cam + "Xem thêm").
+ * 'icon' = file svg icon line trong assets/img; 'image' = ảnh minh hoạ; 'href' = link "Xem thêm".
  */
 function ecsges_ptbv_values()
 {
+	$img  = 'phat-trien-ben-vung/van-hoa.png'; // ảnh minh hoạ (Rectangle 306 trong Figma).
+	$base = 'phat-trien-ben-vung/';
 	return array(
 		array(
 			'title' => 'TẬN TÂM',
-			'icon' => 'phat-trien-ben-vung/tan-tam.svg',
+			'icon' => $base . '1.svg',
+			'image' => $img,
+			'href' => '#',
+			'category' => 'tan-tam', // nút "Xem thêm" → /category/tan-tam/ (tạo trong admin)
 			'text' => 'Chúng tôi tin rằng sự tận tâm là nền tảng của mọi giá trị bền vững. Mỗi cán bộ, giảng viên và chuyên gia của ECSGES luôn làm việc bằng trách nhiệm, sự chân thành và tinh thần phụng sự, hướng đến lợi ích của người học, đối tác và cộng đồng.',
 		),
 		array(
 			'title' => 'ĐỒNG HÀNH',
-			'icon' => 'phat-trien-ben-vung/dong-hanh.svg',
+			'icon' => $base . '2.svg',
+			'image' => $img,
+			'href' => '#',
+			'category' => 'dong-hanh', // nút "Xem thêm" → /category/dong-hanh/ (tạo trong admin)
 			'text' => 'ECSGES không chỉ cung cấp dịch vụ giáo dục mà còn đồng hành cùng người học trên từng chặng đường phát triển. Từ định hướng nghề nghiệp, lựa chọn ngành học đến quá trình học tập và phát triển sự nghiệp, chúng tôi luôn là người bạn đồng hành đáng tin cậy.',
 		),
 		array(
 			'title' => 'ĐỔI MỚI',
-			'icon' => 'phat-trien-ben-vung/doi-moi.svg',
+			'icon' => $base . '3.svg',
+			'image' => $img,
+			'href' => '#',
+			'category' => 'doi-moi', // nút "Xem thêm" → /category/doi-moi/ (tạo trong admin)
 			'text' => 'Đổi mới là động lực để ECSGES không ngừng phát triển. Với tư duy mở và tinh thần tiên phong, chúng tôi liên tục cập nhật xu hướng, nâng cao chất lượng và kiến tạo những giá trị mới nhằm đáp ứng yêu cầu của thời đại hội nhập.',
 		),
 	);
 }
 
 /**
- * Phát triển bền vững — VĂN HÓA ECS (carousel). Figma chỉ thiết kế slide "HỌC HỎI"
- * + 3 chấm phân trang; 2 slide còn lại là nội dung tiếng Việt hợp lý (chỉnh sau).
- * 'title' + 'text' đổi theo từng chấm; ảnh bên trái giữ cố định.
+ * Phát triển bền vững — VĂN HÓA ECS. Theo Figma: 3 thẻ hiện cùng lúc, mỗi thẻ = ảnh
+ * trên cùng + tiêu đề + mô tả (không còn carousel). 'image' = ảnh minh hoạ trên thẻ.
  */
 function ecsges_ptbv_culture()
 {
+	$img = 'phat-trien-ben-vung/van-hoa.png';
 	return array(
 		array(
 			'title' => 'HỌC HỎI',
+			'image' => $img,
 			'text'  => 'ECSGES xây dựng môi trường khuyến khích học tập và phát triển liên tục. Thông qua các chương trình đào tạo nội bộ, hoạt động chia sẻ chuyên môn và cơ hội tham gia các khóa học nâng cao, đội ngũ cán bộ, giảng viên và nhân viên luôn được tạo điều kiện để cập nhật kiến thức, rèn luyện kỹ năng và phát triển năng lực nghề nghiệp.',
 		),
 		array(
-			'title' => 'HỢP TÁC',
-			'text'  => 'Chúng tôi đề cao tinh thần làm việc nhóm và sự phối hợp giữa các bộ phận. Mỗi thành viên đều được lắng nghe, tôn trọng và cùng nhau kiến tạo giá trị chung, biến sự khác biệt thành sức mạnh tập thể để hoàn thành những mục tiêu lớn.',
+			'title' => 'ĐỒNG HÀNH',
+			'image' => $img,
+			'text'  => 'ECSGES không chỉ cung cấp dịch vụ giáo dục mà còn đồng hành cùng người học trên từng chặng đường phát triển. Từ định hướng nghề nghiệp, lựa chọn ngành học đến quá trình học tập và phát triển sự nghiệp, chúng tôi luôn là người bạn đồng hành đáng tin cậy.',
 		),
 		array(
-			'title' => 'CHÍNH TRỰC',
-			'text'  => 'Sự minh bạch và trung thực là nền tảng trong mọi hoạt động của ECSGES. Chúng tôi giữ vững cam kết với người học, đối tác và cộng đồng bằng thái độ làm việc chuẩn mực, có trách nhiệm và luôn đặt chữ tín lên hàng đầu.',
+			'title' => 'ĐỔI MỚI',
+			'image' => $img,
+			'text'  => 'Đổi mới là động lực để ECSGES không ngừng phát triển. Với tư duy mở và tinh thần tiên phong, chúng tôi liên tục cập nhật xu hướng, nâng cao chất lượng và kiến tạo những giá trị mới nhằm đáp ứng yêu cầu của thời đại hội nhập.',
 		),
 	);
 }
@@ -502,6 +522,47 @@ function ecsges_ptbv_guides()
 	);
 }
 
+/** Bộ lọc Tuyển dụng — danh sách khu vực. */
+function ecsges_job_areas()
+{
+	return array(
+		'Hà Nội',
+		'Bắc Ninh',
+		'Hải Phòng',
+		'Hải Dương',
+	);
+}
+
+/** Bộ lọc Tuyển dụng — danh sách phòng ban. */
+function ecsges_job_departments()
+{
+	return array(
+		'Phòng Tuyển sinh',
+		'Phòng Đào tạo',
+		'Phòng Hành chính',
+		'Phòng Nhân sự',
+		'Phòng Tài chính kế toán',
+		'Phòng Dịch vụ công tác học sinh sinh viên',
+		'Phòng Hỗ trợ doanh nghiệp và khởi nghiệp',
+		'Phòng Hợp tác quốc tế',
+		'Phòng Marketing',
+		'Phòng Công nghệ thông tin và Truyền thông',
+		'Phòng Khảo thí và đảm bảo chất lượng',
+		'Phòng Pháp chế',
+		'Khối giảng viên',
+	);
+}
+
+/** Bộ lọc Tuyển dụng — danh sách loại công việc. */
+function ecsges_job_types()
+{
+	return array(
+		'Toàn thời gian',
+		'Bán thời gian',
+		'Thực tập',
+	);
+}
+
 /** Danh sách việc làm đang tuyển (trang Tuyển dụng). */
 function ecsges_jobs()
 {
@@ -541,3 +602,86 @@ function ecsges_jobs()
 	);
 }
 
+
+/**
+ * Trang Đối tác — 4 khối logo (Figma node 539:372).
+ *
+ * 'logos' theo đúng thứ tự đọc trong Figma (trái→phải, trên→dưới). Mỗi logo giữ
+ * 'w'/'h' = kích thước px riêng của nó trong Figma; ô card luôn 233x153 nên logo
+ * KHÔNG scale đồng loạt, chỉ căn giữa trong ô ở đúng cỡ thiết kế.
+ *
+ * File ảnh export trực tiếp từ Figma (@2x) vào assets/img/doi-tac/, đặt tên theo
+ * <khối>-<số thứ tự> để thêm/bớt logo không phải đổi tên file đang có.
+ *
+ * GHI CHÚ: trong Figma khối 1 vẽ 7 ô nhưng 4 ô chưa có logo — đã bỏ, chỉ render
+ * logo thật. Thêm logo mới = thêm phần tử vào mảng, không cần sửa template/SCSS.
+ */
+function ecsges_partner_groups()
+{
+	return array(
+		array(
+			'title' => 'ĐỐI TÁC GIÁO DỤC TRONG NƯỚC',
+			'logos' => array(
+				array('file' => 'gd-trong-nuoc-01.png', 'alt' => 'Đại học Đông Đô', 'w' => 146, 'h' => 147),
+				array('file' => 'gd-trong-nuoc-02.png', 'alt' => 'Đại học Sao Đỏ', 'w' => 107, 'h' => 115),
+				array('file' => 'gd-trong-nuoc-03.png', 'alt' => 'Đại học Công nghệ Giao thông Vận tải', 'w' => 179, 'h' => 110),
+			),
+		),
+		array(
+			'title' => 'ĐỐI TÁC GIÁO DỤC QUỐC TẾ',
+			'logos' => array(
+				array('file' => 'gd-quoc-te-01.png', 'alt' => 'Royal Roads University', 'w' => 146, 'h' => 106),
+				array('file' => 'gd-quoc-te-02.png', 'alt' => 'Griffith University', 'w' => 118, 'h' => 111),
+				array('file' => 'gd-quoc-te-03.png', 'alt' => 'Trine University', 'w' => 178, 'h' => 119),
+				array('file' => 'gd-quoc-te-04.png', 'alt' => 'Nanyang Institute of Management', 'w' => 130, 'h' => 118),
+				array('file' => 'gd-quoc-te-05.png', 'alt' => 'Academies Australasia', 'w' => 193, 'h' => 109),
+				array('file' => 'gd-quoc-te-06.png', 'alt' => 'Guangdong City Technician College', 'w' => 182, 'h' => 120),
+				array('file' => 'gd-quoc-te-07.png', 'alt' => 'Junior Achievement', 'w' => 204, 'h' => 68),
+				array('file' => 'gd-quoc-te-08.png', 'alt' => 'Cheongam College', 'w' => 193, 'h' => 61),
+				array('file' => 'gd-quoc-te-09.png', 'alt' => 'LAS Liberal Arts School', 'w' => 200, 'h' => 77),
+				array('file' => 'gd-quoc-te-10.png', 'alt' => 'Gyeonggi University of Science and Technology', 'w' => 218, 'h' => 81),
+				// TODO: logo không chứa tên đầy đủ, cần client xác nhận tên đối tác.
+				array('file' => 'gd-quoc-te-11.png', 'alt' => 'Đối tác giáo dục quốc tế', 'w' => 173, 'h' => 116),
+				array('file' => 'gd-quoc-te-12.png', 'alt' => 'Mohawk College', 'w' => 198, 'h' => 42),
+				array('file' => 'gd-quoc-te-13.png', 'alt' => 'Songgok University', 'w' => 114, 'h' => 114),
+				array('file' => 'gd-quoc-te-14.svg', 'alt' => 'Suseong University', 'w' => 105, 'h' => 105),
+				array('file' => 'gd-quoc-te-15.png', 'alt' => 'Gimhae College', 'w' => 99, 'h' => 100),
+			),
+		),
+		array(
+			'title' => 'ĐỐI TÁC DOANH NGHIỆP TRONG NƯỚC',
+			'logos' => array(
+				array('file' => 'dn-trong-nuoc-01.png', 'alt' => 'HiUPWork', 'w' => 188, 'h' => 81),
+				array('file' => 'dn-trong-nuoc-02.svg', 'alt' => 'BYD', 'w' => 149, 'h' => 29),
+				array('file' => 'dn-trong-nuoc-03.png', 'alt' => 'Chery', 'w' => 176, 'h' => 67),
+				array('file' => 'dn-trong-nuoc-04.png', 'alt' => 'FPT Shop', 'w' => 209, 'h' => 57),
+				array('file' => 'dn-trong-nuoc-05.png', 'alt' => 'Bell System24', 'w' => 178, 'h' => 49),
+				array('file' => 'dn-trong-nuoc-06.png', 'alt' => 'Viettel', 'w' => 183, 'h' => 39),
+				array('file' => 'dn-trong-nuoc-07.png', 'alt' => 'VPBank', 'w' => 197, 'h' => 45),
+				array('file' => 'dn-trong-nuoc-08.png', 'alt' => 'TPBank', 'w' => 197, 'h' => 51),
+				array('file' => 'dn-trong-nuoc-09.png', 'alt' => 'FAST', 'w' => 179, 'h' => 54),
+				array('file' => 'dn-trong-nuoc-10.png', 'alt' => 'Nét Huế', 'w' => 183, 'h' => 114),
+				// TODO: logo không chứa tên đầy đủ, cần client xác nhận tên đối tác.
+				array('file' => 'dn-trong-nuoc-11.png', 'alt' => 'Đối tác doanh nghiệp trong nước', 'w' => 141, 'h' => 88),
+				array('file' => 'dn-trong-nuoc-12.png', 'alt' => 'Hanoi Tax', 'w' => 209, 'h' => 53),
+				array('file' => 'dn-trong-nuoc-13.png', 'alt' => 'Sen Tây Hồ', 'w' => 161, 'h' => 95),
+				array('file' => 'dn-trong-nuoc-14.png', 'alt' => 'WinCommerce', 'w' => 194, 'h' => 27),
+				array('file' => 'dn-trong-nuoc-15.png', 'alt' => 'Vinpearl', 'w' => 179, 'h' => 116),
+			),
+		),
+		array(
+			'title' => 'ĐỐI TÁC DOANH NGHIỆP QUỐC TẾ',
+			'logos' => array(
+				array('file' => 'dn-quoc-te-01.png', 'alt' => 'Honda', 'w' => 188, 'h' => 80),
+				array('file' => 'dn-quoc-te-02.png', 'alt' => 'InterContinental', 'w' => 204, 'h' => 73),
+				array('file' => 'dn-quoc-te-03.png', 'alt' => 'Goertek', 'w' => 186, 'h' => 72),
+				array('file' => 'dn-quoc-te-04.png', 'alt' => 'LG Display', 'w' => 198, 'h' => 81),
+				array('file' => 'dn-quoc-te-05.png', 'alt' => 'LG Electronics', 'w' => 195, 'h' => 29),
+				array('file' => 'dn-quoc-te-06.png', 'alt' => 'Daikin', 'w' => 199, 'h' => 43),
+				array('file' => 'dn-quoc-te-07.png', 'alt' => 'Foxconn', 'w' => 206, 'h' => 116),
+				array('file' => 'dn-quoc-te-08.png', 'alt' => 'Lotte Hotels', 'w' => 186, 'h' => 82),
+				array('file' => 'dn-quoc-te-09.png', 'alt' => 'AEON', 'w' => 158, 'h' => 53),
+			),
+		),
+	);
+}
