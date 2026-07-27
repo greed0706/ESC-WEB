@@ -348,6 +348,29 @@ function ecsges_field($name, $default = '')
 }
 
 /**
+ * Lấy giá trị 1 ACF field trên Page bất kỳ (không phải Trang chủ); nếu ACF
+ * chưa cài / field trống → $default. Dùng cho template gán field group
+ * riêng qua location "page_template" (vd Chi tiết tuyển dụng), khác với
+ * ecsges_field() ở trên vốn luôn đọc Trang chủ.
+ *
+ * @param int    $post_id
+ * @param string $name
+ * @param mixed  $default
+ * @return mixed
+ */
+function ecsges_field_page($post_id, $name, $default = '')
+{
+	if (!function_exists('get_field') || !$post_id) {
+		return ecsges_t($default);
+	}
+	$value = get_field($name, $post_id);
+	if (null === $value || '' === $value || false === $value || array() === $value) {
+		return ecsges_t($default);
+	}
+	return ecsges_t($value);
+}
+
+/**
  * Field text tách theo dòng → mảng (bỏ dòng trống). Dùng cho tiêu đề nhiều dòng / danh sách.
  *
  * @param string   $name
