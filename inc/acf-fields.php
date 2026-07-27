@@ -169,5 +169,73 @@ add_action(
 				'hide_on_screen'        => array( 'the_content' ),
 			)
 		);
+
+		/* ---------------- CHI TIẾT TUYỂN DỤNG ---------------- */
+		acf_add_local_field_group(
+			array(
+				'key'            => 'group_ecsges_job_detail',
+				'title'          => 'Chi tiết tuyển dụng — Nội dung',
+				'fields'         => array(
+					$text( 'job_salary', 'Mức lương', 'Thoả thuận' ),
+					$text( 'job_location', 'Địa điểm', 'Hà Nội' ),
+					$text( 'job_department', 'Phòng ban', 'Phòng Công nghệ thông tin và Truyền thông' ),
+					$text( 'job_type', 'Loại công việc', 'Toàn thời gian' ),
+					$text( 'job_deadline', 'Hạn nộp hồ sơ', 'Thời hạn: 20/7/2026' ),
+					array(
+						'key'           => 'field_ecsges_job_hot',
+						'label'         => 'Đánh dấu Hot',
+						'name'          => 'job_hot',
+						'type'          => 'true_false',
+						'default_value' => 0,
+						'ui'            => 1,
+						'instructions'  => 'Bật để hiện badge "Hot" trên card ngoài trang danh sách.',
+					),
+					$textarea(
+						'job_description',
+						'Mô tả công việc (mỗi dòng 1 ý)',
+						"Xây dựng và triển khai kế hoạch digital marketing theo tháng/quý.\nQuản lý các kênh quảng cáo Facebook, Google, TikTok.\nTheo dõi, đo lường hiệu quả chiến dịch và đề xuất tối ưu.\nPhối hợp với đội Content/Design để sản xuất ấn phẩm truyền thông.",
+						'',
+						5
+					),
+					$textarea(
+						'job_requirements',
+						'Yêu cầu ứng viên (mỗi dòng 1 ý)',
+						"Tốt nghiệp Cao đẳng/Đại học chuyên ngành Marketing, Truyền thông hoặc liên quan.\nCó ít nhất 1 năm kinh nghiệm ở vị trí tương đương.\nThành thạo Facebook Ads Manager, Google Ads.\nCó tư duy sáng tạo, chủ động trong công việc.",
+						'',
+						5
+					),
+					$textarea(
+						'job_benefits',
+						'Quyền lợi (mỗi dòng 1 ý)',
+						"Lương thoả thuận theo năng lực, review 6 tháng/lần.\nBảo hiểm đầy đủ theo quy định, thưởng lễ Tết.\nMôi trường làm việc trẻ, năng động, nhiều cơ hội đào tạo.\nĐược tham gia các hoạt động team building định kỳ.",
+						'',
+						5
+					),
+					$textarea(
+						'job_how_to_apply',
+						'Cách ứng tuyển (mỗi dòng 1 ý)',
+						"Nộp CV trực tiếp qua nút \"Ứng tuyển ngay\" trên trang này.\nHoặc gửi CV về email tuyendung@ecs.edu.vn, tiêu đề: [Vị trí] - Họ tên.\nỨng viên phù hợp sẽ được liên hệ phỏng vấn trong vòng 5 ngày làm việc.",
+						'',
+						4
+					),
+				),
+				'location'       => array(
+					array(
+						array(
+							'param'    => 'page_template',
+							'operator' => '==',
+							'value'    => 'page-tuyen-dung-chi-tiet.php',
+						),
+					),
+				),
+				'menu_order'     => 1,
+				'position'       => 'normal',
+				'style'          => 'default',
+				'label_placement' => 'top',
+				'active'         => true,
+				'description'    => 'Nội dung 1 tin tuyển dụng. Gán template "Chi tiết tuyển dụng" cho Page này để field group xuất hiện.',
+				'hide_on_screen' => array( 'the_content' ),
+			)
+		);
 	}
 );
