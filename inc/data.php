@@ -635,7 +635,12 @@ function ecsges_jobs_list()
 	));
 
 	if (empty($q->posts)) {
-		return ecsges_jobs();
+		$fallback = ecsges_jobs();
+		foreach ($fallback as &$job) {
+			$job['href'] = '';
+		}
+		unset($job);
+		return $fallback;
 	}
 
 	$jobs = array();
