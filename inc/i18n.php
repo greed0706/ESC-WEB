@@ -401,6 +401,11 @@ Applied technology and consolidated the organisation',
 		'Loại công việc'         => 'Job type',
 		'- Chọn loại công việc -' => '- Select job type -',
 		'Không có công việc nào phù hợp với bộ lọc.' => 'No jobs match the selected filters.',
+		'Mô tả công việc'        => 'Job description',
+		'Yêu cầu ứng viên'       => 'Requirements',
+		'Quyền lợi'              => 'Benefits',
+		'Cách ứng tuyển'         => 'How to apply',
+		'Thoả thuận'             => 'Negotiable',
 
 		/* Trang Tuyển dụng — giá trị trong 3 select bộ lọc */
 		'Bắc Ninh'                               => 'Bac Ninh',

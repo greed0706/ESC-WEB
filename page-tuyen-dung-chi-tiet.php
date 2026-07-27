@@ -28,4 +28,6 @@ get_header();
 		</div>
 	</main>
 <?php
+get_template_part( 'template-parts/job', 'modal' );
+
 get_footer();

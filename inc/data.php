@@ -621,12 +621,17 @@ function ecsges_jobs()
  * template "Chi tiết tuyển dụng" (page-tuyen-dung-chi-tiet.php) — có Page
  * thật thì BỎ HẲN hardcode, không merge. Chưa có Page nào → fallback
  * ecsges_jobs() để trang không bao giờ trống.
+ *
+ * Nếu Polylang đang hoạt động, WP_Query này tự lọc theo ngôn ngữ hiện tại —
+ * một job Page chỉ tồn tại ở 1 ngôn ngữ sẽ không hiện ở danh sách ngôn ngữ
+ * kia (rơi về fallback hardcode ở ngôn ngữ đó). Đây là hành vi mong muốn/an
+ * toàn, chỉ ghi chú lại vì không hiển nhiên.
  */
 function ecsges_jobs_list()
 {
 	$q = new WP_Query(array(
 		'post_type'      => 'page',
-		'posts_per_page' => -1,
+		'posts_per_page' => 100,
 		'no_found_rows'  => true,
 		'meta_key' => '_wp_page_template',
 		'meta_value' => 'page-tuyen-dung-chi-tiet.php',
@@ -651,7 +656,7 @@ function ecsges_jobs_list()
 			'department' => ecsges_field_page($p->ID, 'job_department', ''),
 			'type' => ecsges_field_page($p->ID, 'job_type', ''),
 			'deadline' => ecsges_field_page($p->ID, 'job_deadline', ''),
-			'tag' => get_field('job_hot', $p->ID) ? 'hot' : '',
+			'tag' => (function_exists('get_field') && get_field('job_hot', $p->ID)) ? 'hot' : '',
 			'href' => get_permalink($p),
 		);
 	}

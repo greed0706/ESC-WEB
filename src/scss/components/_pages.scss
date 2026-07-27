@@ -1172,6 +1172,13 @@
     text-decoration: none;
     transition: background-color 0.15s ease, color 0.15s ease;
 
+    @include bp(md) {
+      grid-column: 2;
+      grid-row: 3;
+      justify-self: end;
+      margin-inline-start: 0;
+    }
+
     &:hover {
       background: $brand;
       color: #fff;
@@ -1424,7 +1431,6 @@
     @include bp(lg) {
       grid-template-columns: 1fr 380px;
       gap: 64px;
-      align-items: start;
     }
   }
 
