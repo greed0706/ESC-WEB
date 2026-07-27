@@ -234,7 +234,13 @@
     }
   }
 
+  // Tiêu đề nằm TRONG &__text (đang `text-align: justify`) nên thừa hưởng justify:
+  // tiêu đề nào dài quá 1 dòng thì dòng đầu bị kéo căng, chữ giãn xa nhau
+  // (Tuyển sinh) trong khi tiêu đề 1 dòng lại bình thường (Hướng nghiệp).
+  // Trả tiêu đề về canh trái — justify chỉ dành cho các đoạn văn bên dưới.
   &__title {
+    text-align: start;
+    text-transform: uppercase;
     font-size: 24px;
     font-weight: 700;
     color: $brand;
@@ -577,31 +583,6 @@
     @include text-sm;
     font-weight: 300;
     color: #fff;
-  }
-
-  // Nút "Xem thêm": pill trắng, chữ cam, nằm góc dưới (Figma: bo 20px, cao 28px).
-  &__more {
-    align-self: flex-end;
-    margin-top: auto;
-    display: inline-flex;
-    align-items: center;
-    height: 28px;
-    padding-inline: 18px;
-    border-radius: 20px;
-    background: #fff;
-    color: $brand;
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 1;
-    white-space: nowrap;
-    text-decoration: none;
-    transition: color 0.15s ease, background-color 0.15s ease;
-
-    &:hover,
-    &:focus-visible {
-      background: $surface-2;
-      color: $brand-dark;
-    }
   }
 
   &__item:hover &__overlay,

@@ -1,15 +1,16 @@
 <?php
 /**
- * Trang Tin tức — thanh 6 tab chủ đề (Figma node 548:9518, hàng y=766 cao 68).
+ * Trang Tin tức — thanh 6 tab chủ đề. Cùng kiểu thẻ tab (icon trên, nhãn dưới,
+ * nền cam + caret khi active) với "Lĩnh vực hoạt động" (template-parts/linh-vuc-tabs.php)
+ * và "Hệ sinh thái" trang chủ (template-parts/section-ecosystem.php) — dùng lại
+ * NGUYÊN các class .ecs-ecosystem__tablist/__tab-wrap/__tab/__icon/__label/__caret
+ * (src/scss/components/_landing.scss), chỉ thêm biến thể 6 cột riêng cho trang
+ * này trong _tin-tuc.scss.
  *
- * Mỗi tab là một <a> ĐIỀU HƯỚNG tới archive category thật (render bởi category.php),
- * KHÔNG phải tab đổi nội dung tại chỗ. Tab "ECSGES" (cat rỗng) = chính trang này.
- *
- * Bố cục dùng justify-content: space-between thay vì hardcode toạ độ x của Figma.
- * Lý do: pill active phải đúng 203px và các nhãn còn lại giãn đều — toạ độ Figma
- * chỉ đúng cho trạng thái "ECSGES active" và cho nhãn tiếng Việt; bản EN nhãn dài
- * khác nên toạ độ cứng sẽ lệch. space-between giữ tab đầu sát lề trái và tab cuối
- * sát lề phải đúng như Figma, phần giữa tự chia.
+ * Khác với 2 nơi trên: đây là <a> ĐIỀU HƯỚNG tới archive category thật (render
+ * bởi category.php), KHÔNG phải tab đổi nội dung tại chỗ — nên không có
+ * role="tablist"/role="tab" hay JS, chỉ class .is-active + aria-current="page".
+ * Tab "ECSGES" (cat rỗng) = chính trang này, không có icon riêng.
  *
  * @package ECSGES
  */
@@ -23,20 +24,36 @@ $tt_current = isset( $args['current'] ) ? $args['current'] : '';
 ?>
 <nav class="ecs-newsroom__tabs" aria-label="<?php echo esc_attr( ecsges_t( 'Chủ đề tin tức' ) ); ?>">
 	<div class="ecs-newsroom__tabs-inner">
-		<ul class="ecs-newsroom__tablist">
+		<ul class="ecs-newsroom__tablist ecs-ecosystem__tablist">
 			<?php foreach ( $tt_tabs as $tab ) : ?>
 				<?php
-				$is_active = ( $tab['cat'] === $tt_current );
+				// Tab "ECSGES" (cat rỗng) không bao giờ tô cam — nó là lối về
+				// trang Tin tức chung, không phải một chủ đề lọc như 5 tab kia.
+				$is_active = ( '' !== $tab['cat'] ) && ( $tab['cat'] === $tt_current );
 				// cat rỗng = trang Tin tức; ngược lại lấy link category thật,
 				// category chưa tồn tại thì rơi về trang Tin tức.
 				$tt_home = ecsges_translate_path( '/tin-tuc/' );
 				$tt_href = '' === $tab['cat'] ? $tt_home : ecsges_category_link( $tab['cat'], $tt_home );
 				?>
-				<li class="ecs-newsroom__tabitem">
+				<li class="ecs-ecosystem__tab-wrap">
 					<a
 						href="<?php echo esc_url( $tt_href ); ?>"
-						class="ecs-newsroom__tab<?php echo $is_active ? ' is-active' : ''; ?>"
-						<?php echo $is_active ? ' aria-current="page"' : ''; ?>><?php echo esc_html( ecsges_t( $tab['label'] ) ); ?></a>
+						class="ecs-ecosystem__tab<?php echo $is_active ? ' is-active' : ''; ?>"
+						<?php echo $is_active ? ' aria-current="page"' : ''; ?>>
+						<?php if ( ! empty( $tab['icon'] ) ) : ?>
+							<?php
+							// hero-mark.svg tô đặc (fill) chứ không phải icon outline (stroke)
+							// như 5 icon lĩnh vực kia — cần ép fill theo currentColor mới ăn
+							// màu ghi/trắng-khi-hover chung, xem &__icon--fill trong _tin-tuc.scss.
+							$tt_icon_class = 'ecs-ecosystem__icon' . ( 'hero-mark' === $tab['icon'] ? ' ecs-ecosystem__icon--fill' : '' );
+							?>
+							<span aria-hidden="true" class="<?php echo esc_attr( $tt_icon_class ); ?>">
+								<?php echo ecsges_inline_svg( $tab['icon'] . '.svg' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							</span>
+						<?php endif; ?>
+						<span class="ecs-ecosystem__label"><?php echo esc_html( ecsges_t( $tab['label'] ) ); ?></span>
+					</a>
+					<span aria-hidden="true" class="ecs-ecosystem__caret"></span>
 				</li>
 			<?php endforeach; ?>
 		</ul>

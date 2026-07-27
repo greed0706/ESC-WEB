@@ -312,10 +312,10 @@ Deployed training management solutions for IT centres.
 Built the management foundation and development direction in the education field.',
 		'Năm 2008, đổi tên thành công ty cổ phần truyền thông BTS Việt Nam. Chuyển đổi sang các lĩnh vực hướng nghiệp, tuyển sinh và đào tạo.'
 			=> 'In 2008, renamed BTS Vietnam Media Joint Stock Company. Shifted into career guidance, admissions and training.',
-		'Năm 2019, đổi tên thành Công ty cổ phần hỗ trợ và phát triển chọn nghề khởi nghiệp ECS Global . Mở rộng các pháp nhân . Ứng dụng công nghệ và kiện toàn tổ chức'
-			=> 'In 2019, renamed ECS Global Career & Startup Support and Development Joint Stock Company
-. Expanded the group of legal entities
-. Applied technology and consolidated the organisation',
+		'Năm 2019, đổi tên thành Công ty cổ phần hỗ trợ và phát triển chọn nghề khởi nghiệp ECS Global. Mở rộng các pháp nhân. Ứng dụng công nghệ và kiện toàn tổ chức'
+			=> 'In 2019, renamed ECS Global Career & Startup Support and Development Joint Stock Company.
+Expanded the group of legal entities.
+Applied technology and consolidated the organisation',
 		'Năm 2026, đổi tên thành Công ty cổ phần hỗ trợ và phát triển ECSGES, phát triển hệ thống chuỗi văn phòng'
 			=> 'In 2026, renamed ECSGES Support and Development Joint Stock Company, expanding the chain of offices',
 

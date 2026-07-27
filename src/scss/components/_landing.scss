@@ -617,150 +617,16 @@
     @include container;
   }
 
-  &__grid {
+  // Khối tin (lead + side) dùng chung .ecs-newsroom__featured/lead/side
+  // (src/scss/components/_tin-tuc.scss) — giống hệt khối "TIN NỔI BẬT" của
+  // trang Tin tức (xem template-parts/section-news.php). Chỉ cần nối
+  // khoảng cách heading→khối, giữ đúng 48px của lưới trang chủ trước đây.
+  .ecs-newsroom__featured {
     margin-top: 48px;
-    display: grid;
-    align-items: stretch;
-    gap: 24px;
-
-    @include bp(lg) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
   }
 
-  // Featured card
-  &__featured {
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-  }
-
-  &__featured-media {
-    overflow: hidden;
-  }
-
-  &__featured-img {
-    aspect-ratio: 627 / 375;
-    width: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-
-    .ecs-news__featured:hover & {
-      transform: scale(1.05);
-    }
-  }
-
-  &__featured-body {
-    display: flex;
-    flex: 1 1 0%;
-    flex-direction: column;
-    background: $surface-2;
-    padding: 28px;
-  }
-
-  // Tiêu đề thẻ về cùng cỡ body (18px) theo thang chung — font-weight 500 là
-  // thứ duy nhất còn tách tiêu đề khỏi đoạn tóm tắt (weight 300).
-  &__featured-title {
-    font-size: 22px;
-    line-height: 32px;
-    font-weight: 500;
-    color: $ink;
-  }
-
-  &__featured-excerpt {
-    margin-top: 12px;
-    @include text-sm;
-    font-weight: 300;
-    color: $body;
-  }
-
-  &__featured-footer {
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 16px;
-  }
-
-  &__date {
-    font-family: $font-display;
-    @include text-sm;
-    font-weight: 300;
-    color: $muted-2;
-  }
-
-  // Shared title link (featured + list item)
-  &__link {
-    transition: color 0.15s ease;
-
-    &:hover {
-      color: $brand;
-    }
-  }
-
-  // Paginated list
-  &__list {
-    position: relative;
-  }
-
-  &__page {
-    display: none;
-
-    &.is-active {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      gap: 16px;
-    }
-  }
-
-  &__item {
-    display: flex;
-    align-items: stretch;
-    gap: 16px;
-    background: $surface-2;
-    padding: 16px;
-  }
-
-  &__item-media {
-    height: 97px;
-    width: 160px;
-    flex-shrink: 0;
-    overflow: hidden;
-  }
-
-  &__item-img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-
-    .ecs-news__item:hover & {
-      transform: scale(1.05);
-    }
-  }
-
-  &__item-body {
-    display: flex;
-    flex: 1 1 0%;
-    flex-direction: column;
-  }
-
-  &__item-title {
-    @include text-sm;
-    font-weight: 500;
-    color: $ink;
-  }
-
-  &__item-footer {
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  // Pagination controls
+  // Pagination controls (dùng chung với khối KIẾN THỨC ở trang Tin tức,
+  // xem template-parts/tin-tuc-knowledge.php).
   &__pagination {
     margin-top: 32px;
     display: flex;

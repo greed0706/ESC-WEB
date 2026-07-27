@@ -244,9 +244,9 @@ function ecsges_milestones()
 		array(
 			'years' => '2019 - 2025',
 			'title' => 'PHÁT TRIỂN NỘI LỰC VÀ KIỆN TOÀN TỔ CHỨC',
-			'body' => 'Năm 2019, đổi tên thành Công ty cổ phần hỗ trợ và phát triển chọn nghề khởi nghiệp ECS Global
-. Mở rộng các pháp nhân
-. Ứng dụng công nghệ và kiện toàn tổ chức',
+			'body' => 'Năm 2019, đổi tên thành Công ty cổ phần hỗ trợ và phát triển chọn nghề khởi nghiệp ECS Global.
+						Mở rộng các pháp nhân.
+						Ứng dụng công nghệ và kiện toàn tổ chức',
 		),
 		array(
 			'years' => '2026',
@@ -266,7 +266,7 @@ function ecsges_ve_ecs_vision()
 function ecsges_ve_ecs_mission()
 {
 	return array(
-		'Với sứ mệnh nâng tầm nguồn nhân lực Việt Nam, chúng tôi cam kết không ngừng nỗ lực xây dựng những sản phẩm, dịch vụ, giải pháp, có tính thực tiễn, sáng tạo, chuyên nghiệp và giá trị nhất đáp ứng nhu cầu phát triển nguồn nhân lực chất lượng cho xã hội. ',
+		'Với sứ mệnh nâng tầm nguồn nhân lực Việt Nam, chúng tôi cam kết không ngừng nỗ lực xây dựng những sản phẩm, dịch vụ, giải pháp, có tính thực tiễn, sáng tạo, chuyên nghiệp và giá trị nhất đáp ứng nhu cầu phát triển nguồn nhân lực chất lượng cho xã hội.',
 	);
 }
 
@@ -379,7 +379,7 @@ function ecsges_linh_vuc_tabs()
 			'image' => $img,
 			'title' => 'Nâng cao năng lực, gia tăng giá trị nghề nghiệp',
 			'paragraph' => 'ECSGES phát triển các chương trình đào tạo đa dạng theo định hướng ứng dụng, kết hợp giữa kiến thức chuyên môn, kỹ năng thực tiễn và yêu cầu của thị trường lao động. Chúng tôi chú trọng xây dựng môi trường học tập hiện đại, linh hoạt và phù hợp với xu hướng phát triển của thời đại số.
-							Các lĩnh vực đào tạo: 
+							Các lĩnh vực đào tạo:
 							- Chính quy Đại học, Cao đẳng
 							- Du học
 							- Liên thông
@@ -442,13 +442,12 @@ function ecsges_ptbv_team()
  */
 function ecsges_ptbv_values()
 {
-	$img  = 'phat-trien-ben-vung/van-hoa.png'; // ảnh minh hoạ (Rectangle 306 trong Figma).
 	$base = 'phat-trien-ben-vung/';
 	return array(
 		array(
 			'title' => 'TẬN TÂM',
 			'icon' => $base . '1.svg',
-			'image' => $img,
+			'image' => $base.'tan-tan.jpg',
 			'href' => '#',
 			'category' => 'tan-tam', // nút "Xem thêm" → /category/tan-tam/ (tạo trong admin)
 			'text' => 'Chúng tôi tin rằng sự tận tâm là nền tảng của mọi giá trị bền vững. Mỗi cán bộ, giảng viên và chuyên gia của ECSGES luôn làm việc bằng trách nhiệm, sự chân thành và tinh thần phụng sự, hướng đến lợi ích của người học, đối tác và cộng đồng.',
@@ -456,7 +455,7 @@ function ecsges_ptbv_values()
 		array(
 			'title' => 'ĐỒNG HÀNH',
 			'icon' => $base . '2.svg',
-			'image' => $img,
+			'image' => $base.'dong-hanh.jpg',
 			'href' => '#',
 			'category' => 'dong-hanh', // nút "Xem thêm" → /category/dong-hanh/ (tạo trong admin)
 			'text' => 'ECSGES không chỉ cung cấp dịch vụ giáo dục mà còn đồng hành cùng người học trên từng chặng đường phát triển. Từ định hướng nghề nghiệp, lựa chọn ngành học đến quá trình học tập và phát triển sự nghiệp, chúng tôi luôn là người bạn đồng hành đáng tin cậy.',
@@ -464,7 +463,7 @@ function ecsges_ptbv_values()
 		array(
 			'title' => 'ĐỔI MỚI',
 			'icon' => $base . '3.svg',
-			'image' => $img,
+			'image' => $base.'doi-moi.jpg',
 			'href' => '#',
 			'category' => 'doi-moi', // nút "Xem thêm" → /category/doi-moi/ (tạo trong admin)
 			'text' => 'Đổi mới là động lực để ECSGES không ngừng phát triển. Với tư duy mở và tinh thần tiên phong, chúng tôi liên tục cập nhật xu hướng, nâng cao chất lượng và kiến tạo những giá trị mới nhằm đáp ứng yêu cầu của thời đại hội nhập.',
@@ -478,21 +477,21 @@ function ecsges_ptbv_values()
  */
 function ecsges_ptbv_culture()
 {
-	$img = 'phat-trien-ben-vung/van-hoa.png';
+	$img = 'phat-trien-ben-vung/';
 	return array(
 		array(
 			'title' => 'HỌC HỎI',
-			'image' => $img,
+			'image' => $img . 'hoc-hoi.jpg',
 			'text'  => 'ECSGES xây dựng môi trường khuyến khích học tập và phát triển liên tục. Thông qua các chương trình đào tạo nội bộ, hoạt động chia sẻ chuyên môn và cơ hội tham gia các khóa học nâng cao, đội ngũ cán bộ, giảng viên và nhân viên luôn được tạo điều kiện để cập nhật kiến thức, rèn luyện kỹ năng và phát triển năng lực nghề nghiệp.',
 		),
 		array(
 			'title' => 'ĐỒNG HÀNH',
-			'image' => $img,
+			'image' => $img . 'dong-hanh.jpg',
 			'text'  => 'ECSGES không chỉ cung cấp dịch vụ giáo dục mà còn đồng hành cùng người học trên từng chặng đường phát triển. Từ định hướng nghề nghiệp, lựa chọn ngành học đến quá trình học tập và phát triển sự nghiệp, chúng tôi luôn là người bạn đồng hành đáng tin cậy.',
 		),
 		array(
 			'title' => 'ĐỔI MỚI',
-			'image' => $img,
+			'image' => $img . 'doi-moi.jpg',
 			'text'  => 'Đổi mới là động lực để ECSGES không ngừng phát triển. Với tư duy mở và tinh thần tiên phong, chúng tôi liên tục cập nhật xu hướng, nâng cao chất lượng và kiến tạo những giá trị mới nhằm đáp ứng yêu cầu của thời đại hội nhập.',
 		),
 	);
@@ -707,16 +706,21 @@ function ecsges_partner_groups()
  * 'cat' = slug category; rỗng = chính trang này (tab "ECSGES" = tất cả tin).
  * Tab render bằng <a> trỏ tới archive category thật (render bởi category.php),
  * KHÔNG phải tab chuyển nội dung tại chỗ.
+ * 'icon' = tên file svg (không đuôi) trong assets/img — dùng lại đúng 5 icon
+ * của "Lĩnh vực hoạt động" (ecsges_ecosystem_tabs()) vì 5 tab sau trùng tên;
+ * tab "ECSGES" dùng logo mark (hero-mark.svg, vốn tô đặc màu cam) thay vì icon
+ * outline — template gắn thêm class .ecs-ecosystem__icon--fill để ép fill
+ * theo currentColor, ăn theo đúng màu ghi/trắng-khi-hover của các icon kia.
  */
 function ecsges_news_tabs()
 {
 	return array(
-		array('label' => 'ECSGES', 'cat' => ''),
-		array('label' => 'HƯỚNG NGHIỆP', 'cat' => 'huong-nghiep'),
-		array('label' => 'TUYỂN SINH', 'cat' => 'tuyen-sinh'),
-		array('label' => 'ĐÀO TẠO', 'cat' => 'dao-tao'),
-		array('label' => 'VIỆC LÀM', 'cat' => 'viec-lam'),
-		array('label' => 'TRUYỀN THÔNG', 'cat' => 'truyen-thong'),
+		array('label' => 'ECSGES', 'cat' => '', 'icon' => 'hero-mark'),
+		array('label' => 'HƯỚNG NGHIỆP', 'cat' => 'huong-nghiep', 'icon' => 'icon-huongnghiep'),
+		array('label' => 'TUYỂN SINH', 'cat' => 'tuyen-sinh', 'icon' => 'icon-tuyensinh'),
+		array('label' => 'ĐÀO TẠO', 'cat' => 'dao-tao', 'icon' => 'icon-daotao'),
+		array('label' => 'VIỆC LÀM', 'cat' => 'viec-lam', 'icon' => 'icon-vieclam'),
+		array('label' => 'TRUYỀN THÔNG', 'cat' => 'truyen-thong', 'icon' => 'icon-truyenthong'),
 	);
 }
 

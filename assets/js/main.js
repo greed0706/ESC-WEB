@@ -19,6 +19,7 @@
     initHeroIntro();
     initCharsReveal();
     initPinsReveal();
+    initStatsOdometer();
     initPtbvCarousel();
     initPtbvCulture();
     initLangDropdown();
@@ -167,6 +168,114 @@
       entries.forEach(function (e) {
         if (e.isIntersecting) {
           revealPins(e.target);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.25 });
+    Array.prototype.forEach.call(blocks, function (b) { io.observe(b); });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /**
+   * Odometer cho "NHỮNG CON SỐ ẤN TƯỢNG" (.ecs-ve-stats): mỗi chữ số là một ô
+   * cao 1em, bên trong là dải số xếp dọc trượt XUỐNG rồi dừng đúng số đích —
+   * giống mặt công-tơ-mét. Chạy 1 lần khi khối cuộn vào viewport.
+   *
+   * Progressive enhancement: PHP in ra text thật ('235.000+'); hàm này mới
+   * dựng các cột. Tắt JS / reduced-motion → DOM không bị đụng, số vẫn hiện.
+   *
+   * Ký tự không phải chữ số ('.', '+', ' ', 'năm') giữ nguyên, không quay.
+   */
+  function initStatsOdometer() {
+    var blocks = document.querySelectorAll('[data-stats-odometer]');
+    if (!blocks.length) return;
+
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return; // giữ nguyên text thật
+
+    var SPINS = 2; // số vòng 0-9 quay trước khi dừng — càng lớn càng "lâu tới đích"
+
+    /**
+     * Dựng lại 1 ô số thành các cột chữ số. Dải số xếp theo thứ tự GIẢM DẦN và
+     * chữ số đích nằm TRÊN CÙNG; strip bắt đầu ở đáy (translateY âm) rồi chạy
+     * về 0 — nhờ vậy các con số trôi xuống chứ không trượt lên.
+     */
+    function build(el) {
+      var text = el.textContent;
+      var frag = document.createDocumentFragment();
+      var digits = [];
+
+      for (var i = 0; i < text.length; i++) {
+        var ch = text.charAt(i);
+        if (ch < '0' || ch > '9') {
+          var sep = document.createElement('span');
+          sep.className = 'ecs-ve-stats__sep';
+          sep.textContent = ch;
+          frag.appendChild(sep);
+          continue;
+        }
+
+        var cell = document.createElement('span');
+        cell.className = 'ecs-ve-stats__digit';
+        var strip = document.createElement('span');
+        strip.className = 'ecs-ve-stats__strip';
+
+        // [đích, 9, 8, … 0] x SPINS vòng. Số phần tử phía DƯỚI đích = độ dài cần trượt.
+        var target = Number(ch);
+        var seq = [target];
+        for (var s = 0; s < SPINS * 10; s++) {
+          seq.push((target + s + 1) % 10);
+        }
+        for (var k = 0; k < seq.length; k++) {
+          var d = document.createElement('span');
+          d.className = 'ecs-ve-stats__num';
+          d.textContent = String(seq[k]);
+          strip.appendChild(d);
+        }
+
+        cell.appendChild(strip);
+        frag.appendChild(cell);
+        digits.push({ strip: strip, offset: seq.length - 1 });
+      }
+
+      if (!digits.length) return null; // ô không có chữ số nào → để yên
+
+      el.textContent = '';
+      el.appendChild(frag);
+      el.classList.add('is-odometer');
+      return digits;
+    }
+
+    /** Đặt strip ở đáy rồi thả về 0; chữ số bên phải quay lâu hơn bên trái. */
+    function spin(digits) {
+      digits.forEach(function (d) {
+        d.strip.style.transform = 'translateY(-' + d.offset + 'em)';
+      });
+
+      // Ép trình duyệt nhận vị trí xuất phát trước khi gắn transition, nếu không
+      // nó gộp 2 lần ghi style vào cùng 1 frame và chữ số nhảy thẳng tới đích.
+      void digits[0].strip.offsetHeight;
+
+      digits.forEach(function (d, i) {
+        d.strip.style.transition = 'transform ' + (800 + i * 150) + 'ms cubic-bezier(.16,1,.3,1)';
+        d.strip.style.transform = 'translateY(0)';
+      });
+    }
+
+    function run(block) {
+      var values = block.querySelectorAll('[data-odometer]');
+      Array.prototype.forEach.call(values, function (el, i) {
+        var digits = build(el);
+        if (!digits) return;
+        // Lệch nhau theo thẻ, khớp với data-aos-delay (si * 80) của chính các thẻ đó.
+        setTimeout(function () { spin(digits); }, i * 80);
+      });
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          run(e.target);
           io.unobserve(e.target);
         }
       });

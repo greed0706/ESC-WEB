@@ -281,11 +281,16 @@ get_header();
 					?>
 				</div>
 
-				<dl class="ecs-ve-stats__grid">
+				<?php
+				// data-stats-odometer: mốc để initStatsOdometer() (assets/js/main.js) gắn
+				// IntersectionObserver. Giá trị vẫn in ra dạng text thật — JS mới là thứ
+				// dựng các cột chữ số, nên tắt JS thì con số vẫn hiện đúng, không vỡ.
+				?>
+				<dl class="ecs-ve-stats__grid" data-stats-odometer>
 					<?php foreach ( $stats as $si => $stat ) : ?>
 						<div class="ecs-ve-stats__item" data-aos="fade-up" data-aos-delay="<?php echo esc_attr( $si * 80 ); ?>">
 							<img src="<?php echo esc_url( ecsges_img( 've-ecs/last-section/' . $stat['icon'] ) ); ?>" alt="" aria-hidden="true" class="ecs-ve-stats__icon">
-							<dd class="ecs-ve-stats__value"><?php echo esc_html( $stat['value'] ); ?></dd>
+							<dd class="ecs-ve-stats__value" data-odometer><?php echo esc_html( $stat['value'] ); ?></dd>
 							<dt class="ecs-ve-stats__label"><?php echo esc_html( $stat['label'] ); ?></dt>
 						</div>
 					<?php endforeach; ?>

@@ -294,6 +294,47 @@
     @include bp(lg) { font-size: 40px; }
   }
 
+  // ---- Odometer -------------------------------------------------------
+  // Chỉ có tác dụng sau khi initStatsOdometer() (assets/js/main.js) dựng xong
+  // các cột chữ số và gắn .is-odometer. Chưa chạy JS thì &__value vẫn là text
+  // thường, không rule nào dưới đây bám vào.
+  //
+  // `tabular-nums` là bắt buộc: font mặc định cho '1' hẹp hơn '8', nên trong lúc
+  // dải số quay, bề rộng ô sẽ co giật và cả dòng nhảy ngang.
+  &__value.is-odometer {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Khung ngó vào dải số: cao đúng 1 chữ số nhờ line-height: 1 kế thừa ở trên.
+  &__digit {
+    display: inline-block;
+    height: 1em;
+    overflow: hidden;
+    vertical-align: baseline;
+  }
+
+  // Dải số xếp dọc. `transform`/`transition` do JS đặt (thời lượng khác nhau
+  // theo vị trí chữ số) nên ở đây chỉ khai báo phần tĩnh.
+  &__strip {
+    display: block;
+    will-change: transform;
+  }
+
+  &__num {
+    display: block;
+    height: 1em;
+    line-height: 1;
+  }
+
+  // '.', '+', khoảng trắng, chữ 'năm' — đứng yên, không quay.
+  &__sep {
+    display: inline-block;
+    white-space: pre;
+  }
+
   &__label {
     margin-top: 8px;
     max-width: 200px;
