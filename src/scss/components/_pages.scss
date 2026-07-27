@@ -1327,3 +1327,138 @@
     }
   }
 }
+
+// Trang Chi tiết tuyển dụng (page-tuyen-dung-chi-tiet.php) — template dùng
+// lại cho nhiều Page (mỗi Page 1 tin), không gắn với 1 Figma node cụ thể;
+// bố cục tham khảo trang chi tiết job phổ biến (header tóm tắt → nội dung
+// 2 cột: khối mô tả trái, sidebar công ty phải, sticky ở màn rộng).
+.ecs-job-detail {
+  &__inner {
+    @include container;
+  }
+
+  &__header {
+    background: $surface-2;
+    padding-block: 40px;
+
+    @include bp(lg) {
+      padding-block: 56px;
+    }
+  }
+
+  &__header-inner {
+    @include container;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: $font-display;
+    font-weight: 500;
+    @include text-lg;
+    color: $ink;
+  }
+
+  &__meta {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+  }
+
+  &__meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 300;
+    @include text-sm;
+    color: $body;
+
+    &--salary {
+      font-weight: 500;
+      color: $brand;
+    }
+  }
+
+  &__meta-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  &__apply {
+    margin-top: 24px;
+  }
+
+  &__grid {
+    padding-block: 48px;
+    display: grid;
+    gap: 40px;
+
+    @include bp(lg) {
+      grid-template-columns: 1fr 380px;
+      gap: 64px;
+      align-items: start;
+    }
+  }
+
+  &__block + &__block {
+    margin-top: 32px;
+  }
+
+  &__block-title {
+    margin: 0 0 16px;
+    font-family: $font-display;
+    font-weight: 500;
+    @include text-md;
+    color: $ink;
+  }
+
+  &__block-list {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: 300;
+    @include text-sm;
+    color: $body;
+  }
+
+  &__sidebar-card {
+    background: $surface-2;
+    padding: 24px;
+
+    @include bp(lg) {
+      position: sticky;
+      top: 24px;
+    }
+  }
+
+  &__sidebar-logo {
+    display: block;
+    height: 32px;
+    width: auto;
+  }
+
+  &__sidebar-name {
+    margin: 16px 0 0;
+    font-family: $font-display;
+    font-weight: 500;
+    @include text-sm;
+    color: $ink;
+  }
+
+  &__sidebar-line {
+    margin: 8px 0 0;
+    font-weight: 300;
+    @include text-sm;
+    color: $body;
+  }
+
+  &__sidebar-apply {
+    margin-top: 20px;
+    width: 100%;
+  }
+}
