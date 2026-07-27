@@ -172,6 +172,7 @@
 
     @include bp(sm) {
       grid-template-columns: 260px 1fr;
+      align-items: stretch; // ảnh cao bằng cột text, không bị hụt so với nội dung
     }
 
     &+& {
@@ -185,13 +186,22 @@
     display: block;
     overflow: hidden;
     border-radius: 8px;
+
+    @include bp(sm) {
+      height: 100%;
+    }
   }
 
   &__card-img {
-    aspect-ratio: 16 / 10; // chữ nhật ngang (rộng hơn cao)
+    aspect-ratio: 16 / 10; // chữ nhật ngang (rộng hơn cao), chỉ áp dụng khi ảnh nằm trên text (mobile)
     width: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+
+    @include bp(sm) {
+      height: 100%;
+      aspect-ratio: auto; // để ảnh giãn full chiều cao cột thay vì bị giới hạn theo tỉ lệ
+    }
 
     .ecs-archive__card-media:hover & {
       transform: scale(1.05);

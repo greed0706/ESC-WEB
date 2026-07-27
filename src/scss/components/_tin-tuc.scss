@@ -66,6 +66,59 @@ $newsroom-media-h: 488;
         }
       }
     }
+
+    // Mũi nhọn (caret) dưới tab: _landing.scss chỉ bật nó cho .is-active — ở
+    // đây không có tab nào active nên phải bật thêm cho hover/focus và cho tab
+    // "mặc định", để hàng tab này trông giống Lĩnh vực hoạt động / Phát triển
+    // bền vững. Giữ nguyên bp(lg) như bản gốc: dưới lg tab xuống 2–3 cột, caret
+    // sẽ đè lên hàng dưới.
+    // Caret nằm NGOÀI thẻ <a> (là sibling trong __tab-wrap) nên nếu ăn chuột
+    // thì lúc trỏ vào nó: tablist :hover = true nhưng tab :hover = false → cam
+    // mặc định tắt → caret ẩn → chuột rơi ra ngoài → nhấp nháy. Nó chỉ là trang
+    // trí (aria-hidden) nên cho bỏ qua chuột hẳn.
+    .ecs-ecosystem__caret {
+      pointer-events: none;
+    }
+
+    .ecs-ecosystem__tab:hover ~ .ecs-ecosystem__caret,
+    .ecs-ecosystem__tab:focus-visible ~ .ecs-ecosystem__caret,
+    .ecs-ecosystem__tab.is-default ~ .ecs-ecosystem__caret {
+      @include bp(lg) {
+        display: block;
+      }
+    }
+
+    // Tab đầu tiên tô cam sẵn khi vào trang (.is-default gắn từ
+    // template-parts/tin-tuc-tabs.php) — không có nó thì cả hàng tab trắng
+    // trơn, người dùng không biết là bấm được.
+    .ecs-ecosystem__tab.is-default {
+      background: $brand;
+      color: #fff;
+
+      .ecs-ecosystem__icon {
+        color: #fff;
+      }
+    }
+
+    // …nhưng ngay khi rê chuột (hoặc tab bàn phím) sang thẻ khác thì màu cam
+    // "mặc định" đó tắt, trả tab đầu về trạng thái trắng như 5 tab kia — chỉ
+    // thẻ đang hover mới cam. Đặt SAU khối .is-default và có độ đặc hiệu cao
+    // hơn nên thắng; :not(:hover) để lúc hover chính tab đầu vẫn cam.
+    &:hover,
+    &:focus-within {
+      .ecs-ecosystem__tab.is-default:not(:hover):not(:focus-visible) {
+        background: #fff;
+        color: $ink;
+
+        .ecs-ecosystem__icon {
+          color: #A4A4A4;
+        }
+
+        ~ .ecs-ecosystem__caret {
+          display: none;
+        }
+      }
+    }
   }
 
   // Icon tab "ECSGES" = logo mark (assets/img/hero-mark.svg), vốn tô đặc màu
@@ -156,6 +209,11 @@ $newsroom-media-h: 488;
 
   &__lead-excerpt {
     margin: 17px 0 0; // Figma: title text đáy ~1604 → excerpt 1621
+    display: -webkit-box;
+    -webkit-line-clamp: 4; // bài lớn: tối đa 4 dòng
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     font-family: $font-sans;
     font-weight: 300;
     @include text-sm;
@@ -176,6 +234,11 @@ $newsroom-media-h: 488;
 
   &__side-title {
     margin: 14px 0 0; // Figma: ảnh đáy 1239 → title 1253
+    display: -webkit-box;
+    -webkit-line-clamp: 2; // 2 bài nhỏ: tối đa 2 dòng
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     font-family: $font-sans;
     font-weight: 300;
     @include text-sm; // Figma 22px → thang theme: text nhỏ = 18px

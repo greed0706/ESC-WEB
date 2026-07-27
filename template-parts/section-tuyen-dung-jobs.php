@@ -108,12 +108,10 @@ $ecsges_job_types = ecsges_job_types();
 									</li>
 								</ul>
 
-								<button type="button" class="ecs-jobs__apply" data-job-apply data-job-title="<?php echo esc_attr( $ecsges_job['title'] ); ?>" aria-haspopup="dialog"><?php echo esc_html( ecsges_t( 'Ứng tuyển ngay' ) ); ?></button>
-
 								<?php if ( ! empty( $ecsges_job['href'] ) ) : ?>
-									<a href="<?php echo esc_url( $ecsges_job['href'] ); ?>" class="ecs-jobs__more"><?php echo esc_html( ecsges_t( 'Tìm hiểu thêm' ) ); ?></a>
+									<a href="<?php echo esc_url( $ecsges_job['href'] ); ?>" class="ecs-jobs__apply"><?php echo esc_html( ecsges_t( 'Tìm hiểu thêm' ) ); ?></a>
 								<?php else : ?>
-									<a class="ecs-jobs__more ecs-jobs__more--inert"><?php echo esc_html( ecsges_t( 'Tìm hiểu thêm' ) ); ?></a>
+									<a class="ecs-jobs__apply ecs-jobs__apply--inert"><?php echo esc_html( ecsges_t( 'Tìm hiểu thêm' ) ); ?></a>
 								<?php endif; ?>
 							</article>
 						<?php endforeach; ?>
@@ -142,6 +140,4 @@ $ecsges_job_types = ecsges_job_types();
 			<?php endif; ?>
 		</div>
 	</div>
-
-	<?php get_template_part( 'template-parts/job', 'modal' ); ?>
 </section>

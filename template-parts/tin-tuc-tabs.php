@@ -21,15 +21,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $tt_tabs    = ecsges_news_tabs();
 $tt_current = isset( $args['current'] ) ? $args['current'] : '';
+
+// Có tab nào thực sự đang active không? Trên chính trang Tin tức thì KHÔNG
+// (current = ''), nên tab đầu được tô cam "mặc định" (.is-default) để người
+// dùng nhận ra hàng tab bấm được — rê chuột sang tab khác thì màu cam mặc định
+// đó tắt, xem &__tablist trong src/scss/components/_tin-tuc.scss.
+$tt_has_active = false;
+foreach ( $tt_tabs as $tt_tab ) {
+	if ( '' !== $tt_tab['cat'] && $tt_tab['cat'] === $tt_current ) {
+		$tt_has_active = true;
+		break;
+	}
+}
 ?>
 <nav class="ecs-newsroom__tabs" aria-label="<?php echo esc_attr( ecsges_t( 'Chủ đề tin tức' ) ); ?>">
 	<div class="ecs-newsroom__tabs-inner">
 		<ul class="ecs-newsroom__tablist ecs-ecosystem__tablist">
-			<?php foreach ( $tt_tabs as $tab ) : ?>
+			<?php foreach ( $tt_tabs as $tt_i => $tab ) : ?>
 				<?php
 				// Tab "ECSGES" (cat rỗng) không bao giờ tô cam — nó là lối về
 				// trang Tin tức chung, không phải một chủ đề lọc như 5 tab kia.
 				$is_active = ( '' !== $tab['cat'] ) && ( $tab['cat'] === $tt_current );
+				// Cam "mặc định" (chỉ CSS, không phải trạng thái chọn): tab đầu
+				// tiên khi cả hàng chưa có tab nào active.
+				$is_default = ( 0 === $tt_i ) && ! $tt_has_active;
 				// cat rỗng = trang Tin tức; ngược lại lấy link category thật,
 				// category chưa tồn tại thì rơi về trang Tin tức.
 				$tt_home = ecsges_translate_path( '/tin-tuc/' );
@@ -38,7 +53,7 @@ $tt_current = isset( $args['current'] ) ? $args['current'] : '';
 				<li class="ecs-ecosystem__tab-wrap">
 					<a
 						href="<?php echo esc_url( $tt_href ); ?>"
-						class="ecs-ecosystem__tab<?php echo $is_active ? ' is-active' : ''; ?>"
+						class="ecs-ecosystem__tab<?php echo $is_active ? ' is-active' : ''; ?><?php echo $is_default ? ' is-default' : ''; ?>"
 						<?php echo $is_active ? ' aria-current="page"' : ''; ?>>
 						<?php if ( ! empty( $tab['icon'] ) ) : ?>
 							<?php

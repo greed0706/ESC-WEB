@@ -343,13 +343,17 @@ function ecsges_about_pins()
  */
 function ecsges_linh_vuc_tabs()
 {
-	$img = 'ecosystem-content.png'; // placeholder ảnh panel — thay ảnh thật sau
+	// Ảnh panel dùng CHUNG với khối "Hệ sinh thái" trang chủ
+	// (template-parts/section-ecosystem.php → ecsges_ecosystem_tabs()): lấy theo
+	// 'id' để hai nơi không bao giờ lệch nhau khi đổi ảnh. Không hardcode lại
+	// tên file, và bỏ placeholder 'ecosystem-content.png' cũ.
+	$eco_img = array_column(ecsges_ecosystem_tabs(), 'image', 'id');
 	return array(
 		array(
 			'id' => 'huong-nghiep',
 			'label' => 'HƯỚNG NGHIỆP',
 			'icon' => 'icon-huongnghiep',
-			'image' => $img,
+			'image' => $eco_img['huong-nghiep'],
 			'title' => 'Định hướng tương lai từ sự thấu hiểu năng lực',
 			'paragraph' => 'ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại và hội nhập.
 							Các dịch vụ nổi bật:
@@ -361,7 +365,7 @@ function ecsges_linh_vuc_tabs()
 			'id' => 'tuyen-sinh',
 			'label' => 'TUYỂN SINH',
 			'icon' => 'icon-tuyensinh',
-			'image' => $img,
+			'image' => $eco_img['tuyen-sinh'],
 			'title' => 'Kết nối người học với cơ hội phát triển toàn diện',
 			'paragraph' => 'Với mạng lưới đối tác giáo dục đa dạng và hệ thống tư vấn chuyên nghiệp, ECSGES triển khai các giải pháp tuyển sinh linh hoạt, đáp ứng nhu cầu học tập ở nhiều cấp độ và lĩnh vực khác nhau. Chúng tôi hướng tới việc mở rộng cơ hội tiếp cận giáo dục chất lượng cho mọi đối tượng người học.
 							Các chương trình tuyển sinh:
@@ -376,7 +380,7 @@ function ecsges_linh_vuc_tabs()
 			'id' => 'dao-tao',
 			'label' => 'ĐÀO TẠO',
 			'icon' => 'icon-daotao',
-			'image' => $img,
+			'image' => $eco_img['dao-tao'],
 			'title' => 'Nâng cao năng lực, gia tăng giá trị nghề nghiệp',
 			'paragraph' => 'ECSGES phát triển các chương trình đào tạo đa dạng theo định hướng ứng dụng, kết hợp giữa kiến thức chuyên môn, kỹ năng thực tiễn và yêu cầu của thị trường lao động. Chúng tôi chú trọng xây dựng môi trường học tập hiện đại, linh hoạt và phù hợp với xu hướng phát triển của thời đại số.
 							Các lĩnh vực đào tạo:
@@ -391,7 +395,7 @@ function ecsges_linh_vuc_tabs()
 			'id' => 'viec-lam',
 			'label' => 'VIỆC LÀM',
 			'icon' => 'icon-vieclam',
-			'image' => $img,
+			'image' => $eco_img['viec-lam'],
 			'title' => 'Kết nối nguồn nhân lực với cơ hội nghề nghiệp',
 			'paragraph' => 'Là cầu nối giữa người lao động và doanh nghiệp, ECSGES cung cấp các giải pháp việc làm trong nước và quốc tế, góp phần nâng cao chất lượng nguồn nhân lực và thúc đẩy phát triển nghề nghiệp bền vững. Chúng tôi đồng hành cùng người lao động từ quá trình định hướng, đào tạo đến tìm kiếm cơ hội việc làm phù hợp.
 							Việc làm trong nước:
@@ -407,7 +411,7 @@ function ecsges_linh_vuc_tabs()
 			'id' => 'truyen-thong',
 			'label' => 'TRUYỀN THÔNG',
 			'icon' => 'icon-truyenthong',
-			'image' => $img,
+			'image' => $eco_img['truyen-thong'],
 			'title' => 'Lan tỏa giá trị bằng sức mạnh kết nối',
 			'paragraph' => 'ECSGES cung cấp các giải pháp truyền thông toàn diện cho lĩnh vực giáo dục, góp phần nâng cao hình ảnh thương hiệu, tăng cường kết nối với người học và mở rộng sức ảnh hưởng tới cộng đồng. Chúng tôi kết hợp giữa truyền thông hiện đại và tổ chức sự kiện để tạo nên những chiến dịch hiệu quả và bền vững.
 							Các dịch vụ chính:
@@ -691,6 +695,8 @@ function ecsges_partner_groups()
 				array('file' => 'gd-trong-nuoc-06.png', 'alt' => 'Đại học Đại Nam', 'w' => 132, 'h' => 120),
 				array('file' => 'gd-trong-nuoc-07.png', 'alt' => 'Cao đẳng Y Dược Tuệ Tĩnh Hà Nội', 'w' => 125, 'h' => 125),
 				array('file' => 'gd-trong-nuoc-08.png', 'alt' => 'Cao đẳng Quốc tế Hà Nội', 'w' => 186, 'h' => 80),
+				array('file' => 'gd-trong-nuoc-09.png', 'alt' => 'Đại học Hòa Bình', 'w' => 312, 'h' => 272),
+				array('file' => 'gd-trong-nuoc-10.png', 'alt' => 'Học viện Báo chí và Tuyên truyền', 'w' => 228, 'h' => 230),
 			),
 		),
 		array(

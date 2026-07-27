@@ -1157,37 +1157,14 @@
       background: #fff;
       color: $brand;
     }
-  }
 
-  &__more {
-    display: inline-block;
-    margin-top: 12px;
-    margin-inline-start: 16px;
-    border: 1px solid $brand;
-    padding: 8px 16px;
-    font-family: $font-display;
-    font-weight: 500;
-    @include text-sm;
-    color: $brand;
-    text-decoration: none;
-    transition: background-color 0.15s ease, color 0.15s ease;
-
-    @include bp(md) {
-      grid-column: 2;
-      grid-row: 3;
-      justify-self: end;
-      margin-inline-start: 0;
-    }
-
-    &:hover {
-      background: $brand;
-      color: #fff;
-    }
-
+    // Card hardcode (chưa có Page thật, ecsges_jobs_list() fallback) chưa có
+    // href thật — vẫn hiện nút nhưng bất hoạt (markup là <a> không có href,
+    // xem section-tuyen-dung-jobs.php), chỉ đổi con trỏ chuột cho rõ.
     &--inert {
       cursor: default;
       opacity: 0.5;
-      pointer-events: none;
+      pointer-events: none; // chặn cả hover đảo màu ở trên, vì nút không điều hướng đi đâu
     }
   }
 

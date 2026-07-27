@@ -19,6 +19,7 @@
   justify-content: center;
   overflow: hidden;
   padding-bottom: 56px;
+
   @include bp(lg) {
     min-height: calc(100svh - 72px);
     padding-bottom: 152px;
@@ -53,8 +54,14 @@
     padding-inline-start: 40px;
     font-size: 40px;
     line-height: 1.5; // tỉ lệ, KHÔNG thừa kế $lh-base (32px) từ body
-    @include bp(sm) { font-size: 60px; }
-    @include bp(lg) { font-size: 80px; }
+
+    @include bp(sm) {
+      font-size: 60px;
+    }
+
+    @include bp(lg) {
+      font-size: 80px;
+    }
   }
 }
 
@@ -64,7 +71,10 @@
 .ecs-ve-journey {
   background: #fff;
   padding-block: 64px;
-  @include bp(lg) { padding-block: 96px; }
+
+  @include bp(lg) {
+    padding-block: 96px;
+  }
 
   &__inner {
     @include container;
@@ -76,7 +86,10 @@
     margin-top: 24px;
     max-width: 896px;
     padding-inline: 32px;
-    @include bp(lg) { padding-inline: 48px; }
+
+    @include bp(lg) {
+      padding-inline: 48px;
+    }
   }
 
   &__intro-icon {
@@ -84,7 +97,10 @@
     left: 16px;
     top: 0;
     width: 24px;
-    @include bp(lg) { width: 38px; }
+
+    @include bp(lg) {
+      width: 38px;
+    }
   }
 
   &__intro-text {
@@ -104,7 +120,10 @@
     max-width: 1920px;
     container-type: inline-size;
     aspect-ratio: 1920 / 1416;
-    @include bp(lg) { display: block; }
+
+    @include bp(lg) {
+      display: block;
+    }
   }
 
   &__stairs-img {
@@ -119,8 +138,13 @@
     position: absolute;
   }
 
-  &__milestone--left  { text-align: left; }
-  &__milestone--right { text-align: right; }
+  &__milestone--left {
+    text-align: left;
+  }
+
+  &__milestone--right {
+    text-align: right;
+  }
 
   // Mốc thời gian trên "sân khấu" desktop: dùng ĐÚNG thang cỡ chữ chung, không
   // còn clamp()/cqw co giãn theo container — cỡ chữ phải đồng nhất với phần còn
@@ -144,17 +168,25 @@
   &__milestone-body {
     margin-top: 8px;
     @include text-sm;
-    font-weight: 400;
+    font-weight: 300;
     color: #323232;
   }
 
-  &__milestone-body--justify { text-align: justify; }
-  &__milestone-body--right   { text-align: right; }
+  &__milestone-body--justify {
+    text-align: justify;
+  }
+
+  &__milestone-body--right {
+    text-align: right;
+  }
 
   // Mobile/tablet: image on top, milestones stacked vertically.
   &__mobile {
     @include container;
-    @include bp(lg) { display: none; }
+
+    @include bp(lg) {
+      display: none;
+    }
   }
 
   &__mobile-img {
@@ -166,7 +198,10 @@
 
   &__mobile-list {
     margin-top: 32px;
-    > * + * { margin-top: 32px; }
+
+    >*+* {
+      margin-top: 32px;
+    }
   }
 
   &__mobile-year {
@@ -199,20 +234,27 @@
 .ecs-ve-vm {
   background: #fff;
   padding-block: 32px;
-  @include bp(lg) { padding-block: 48px; }
+
+  @include bp(lg) {
+    padding-block: 48px;
+  }
 
   &__inner {
     @include container;
     display: flex;
     flex-direction: column;
     gap: 56px;
-    @include bp(lg) { gap: 96px; }
+
+    @include bp(lg) {
+      gap: 96px;
+    }
   }
 
   &__row {
     display: grid;
     align-items: center;
     gap: 32px;
+
     @include bp(lg) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 56px;
@@ -221,10 +263,12 @@
 
   // No utilities were applied to the vision row's text wrapper directly
   // (layout comes from __row); element kept only for symmetry with mission.
-  &__row-text { }
+  &__row-text {}
 
   &__row-text--mission {
-    @include bp(lg) { order: 2; }
+    @include bp(lg) {
+      order: 2;
+    }
   }
 
   &__text {
@@ -243,7 +287,9 @@
   }
 
   &__img--mission {
-    @include bp(lg) { order: 1; }
+    @include bp(lg) {
+      order: 1;
+    }
   }
 }
 
@@ -253,7 +299,10 @@
 .ecs-ve-stats {
   background: #fff;
   padding-block: 64px;
-  @include bp(lg) { padding-block: 96px; }
+
+  @include bp(lg) {
+    padding-block: 96px;
+  }
 
   &__inner {
     @include container;
@@ -265,6 +314,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 24px;
     row-gap: 48px;
+
     @include bp(lg) {
       margin-top: 64px;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -291,7 +341,10 @@
     font-weight: 600;
     line-height: 1;
     color: $brand;
-    @include bp(lg) { font-size: 40px; }
+
+    @include bp(lg) {
+      font-size: 40px;
+    }
   }
 
   // ---- Odometer -------------------------------------------------------
@@ -356,9 +409,12 @@
 .ecs-ve-values {
   background: $surface;
   padding-block: 64px;
+
   // Desktop: tiêu đề "GIÁ TRỊ CỐT LÕI" được kéo lên trên đỉnh khung quạt (translate
   // -110%) nên cần chừa khoảng đệm trên, nếu không nó tràn lên section Sứ mệnh.
-  @include bp(lg) { padding-block: 96px 0; }
+  @include bp(lg) {
+    padding-block: 96px 0;
+  }
 
   // Desktop: fan container (position/aspect-ratio come from inline style).
   &__fan {
@@ -367,7 +423,10 @@
     display: none;
     width: 100%;
     max-width: 1920px;
-    @include bp(lg) { display: block; }
+
+    @include bp(lg) {
+      display: block;
+    }
   }
 
   &__heading {
@@ -447,14 +506,20 @@
   // Mobile/tablet: stacked icon + text.
   &__mobile {
     @include container;
-    @include bp(lg) { display: none; }
+
+    @include bp(lg) {
+      display: none;
+    }
   }
 
   &__grid {
     margin-top: 40px;
     display: grid;
     gap: 40px;
-    @include bp(sm) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    @include bp(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   &__item {
