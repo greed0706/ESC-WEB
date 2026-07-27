@@ -616,6 +616,43 @@ function ecsges_jobs()
 	);
 }
 
+/**
+ * Danh sách job hiển thị ở trang Tuyển dụng. Ưu tiên Page thật đã gán
+ * template "Chi tiết tuyển dụng" (page-tuyen-dung-chi-tiet.php) — có Page
+ * thật thì BỎ HẲN hardcode, không merge. Chưa có Page nào → fallback
+ * ecsges_jobs() để trang không bao giờ trống.
+ */
+function ecsges_jobs_list()
+{
+	$q = new WP_Query(array(
+		'post_type'      => 'page',
+		'posts_per_page' => -1,
+		'no_found_rows'  => true,
+		'meta_key' => '_wp_page_template',
+		'meta_value' => 'page-tuyen-dung-chi-tiet.php',
+		'orderby' => 'date',
+		'order' => 'DESC',
+	));
+
+	if (empty($q->posts)) {
+		return ecsges_jobs();
+	}
+
+	$jobs = array();
+	foreach ($q->posts as $p) {
+		$jobs[] = array(
+			'title' => get_the_title($p),
+			'location' => ecsges_field_page($p->ID, 'job_location', ''),
+			'department' => ecsges_field_page($p->ID, 'job_department', ''),
+			'type' => ecsges_field_page($p->ID, 'job_type', ''),
+			'deadline' => ecsges_field_page($p->ID, 'job_deadline', ''),
+			'tag' => get_field('job_hot', $p->ID) ? 'hot' : '',
+			'href' => get_permalink($p),
+		);
+	}
+	return $jobs;
+}
+
 
 /**
  * Trang Đối tác — 4 khối logo (Figma node 539:372).
