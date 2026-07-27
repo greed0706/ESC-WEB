@@ -85,7 +85,7 @@ $ecsges_job_types = ecsges_job_types();
 								<?php if ( ! empty( $ecsges_job['tag'] ) ) : ?>
 									<div class="ecs-jobs__badge ecs-jobs__badge--<?php echo esc_attr( $ecsges_job['tag'] ); ?>">
 										<img src="<?php echo esc_url( ecsges_img( 'hot' === $ecsges_job['tag'] ? 'tuyen-dung/star-hot.svg' : 'tuyen-dung/star-new.svg' ) ); ?>" alt="" class="ecs-jobs__badge-star">
-										<span class="ecs-jobs__badge-label"><?php echo esc_html( ecsges_t( 'hot' === $ecsges_job['tag'] ? 'Hot' : 'Mới' ) ); ?></span>
+										<span class="ecs-jobs__badge-label"><?php echo esc_html( ecsges_t( 'Hot' ) ); ?></span>
 									</div>
 								<?php endif; ?>
 

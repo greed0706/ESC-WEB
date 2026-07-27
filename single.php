@@ -37,12 +37,6 @@ get_header();
 								<span class="ecs-single__date"><?php echo esc_html( ecsges_post_time() ); ?></span>
 							</div>
 
-							<?php if ( has_post_thumbnail() ) : ?>
-								<figure class="ecs-single__figure">
-									<img src="<?php echo esc_url( ecsges_post_thumb( get_the_ID(), 'large' ) ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="ecs-single__image">
-								</figure>
-							<?php endif; ?>
-
 							<div class="ecs-single__content">
 								<?php the_content(); ?>
 							</div>

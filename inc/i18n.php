@@ -105,6 +105,11 @@ function ecsges_en_map() {
 		'Đại học Đông Đô'                => 'Dong Do University',
 		'Đại học Sao Đỏ'                 => 'Saodo University',
 		'Đại học Công nghệ Giao thông Vận tải' => 'University of Transport Technology',
+		'Đại học FPT'                    => 'FPT University',
+		'Đại học Kinh doanh và Công nghệ Hà Nội' => 'Hanoi University of Business and Technology',
+		'Đại học Đại Nam'                => 'Dai Nam University',
+		'Cao đẳng Y Dược Tuệ Tĩnh Hà Nội' => 'Tue Tinh Hanoi Medical and Pharmaceutical College',
+		'Cao đẳng Quốc tế Hà Nội'        => 'Hanoi International College',
 
 		/* Branch */
 		'HỆ THỐNG'                       => 'OUR OFFICE',

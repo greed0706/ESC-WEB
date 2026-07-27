@@ -639,6 +639,11 @@ function ecsges_partner_groups()
 				array('file' => 'gd-trong-nuoc-01.png', 'alt' => 'Đại học Đông Đô', 'w' => 146, 'h' => 147),
 				array('file' => 'gd-trong-nuoc-02.png', 'alt' => 'Đại học Sao Đỏ', 'w' => 107, 'h' => 115),
 				array('file' => 'gd-trong-nuoc-03.png', 'alt' => 'Đại học Công nghệ Giao thông Vận tải', 'w' => 179, 'h' => 110),
+				array('file' => 'gd-trong-nuoc-04.png', 'alt' => 'Đại học FPT', 'w' => 194, 'h' => 76),
+				array('file' => 'gd-trong-nuoc-05.png', 'alt' => 'Đại học Kinh doanh và Công nghệ Hà Nội', 'w' => 177, 'h' => 113),
+				array('file' => 'gd-trong-nuoc-06.png', 'alt' => 'Đại học Đại Nam', 'w' => 132, 'h' => 120),
+				array('file' => 'gd-trong-nuoc-07.png', 'alt' => 'Cao đẳng Y Dược Tuệ Tĩnh Hà Nội', 'w' => 125, 'h' => 125),
+				array('file' => 'gd-trong-nuoc-08.png', 'alt' => 'Cao đẳng Quốc tế Hà Nội', 'w' => 186, 'h' => 80),
 			),
 		),
 		array(
