@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Giữ luôn giá trị gốc (chưa dịch) của location/department/type để làm khoá lọc:
 // bộ lọc so khớp data-* với value của <option>, không phụ thuộc ngôn ngữ hiển thị.
 $ecsges_jobs_all = array();
-foreach ( ecsges_jobs() as $ecsges_job_raw ) {
+foreach ( ecsges_jobs_list() as $ecsges_job_raw ) {
 	$ecsges_job_tr                   = ecsges_tr_deep( $ecsges_job_raw );
 	$ecsges_job_tr['key_location']   = $ecsges_job_raw['location'];
 	$ecsges_job_tr['key_department'] = $ecsges_job_raw['department'];
@@ -109,6 +109,12 @@ $ecsges_job_types = ecsges_job_types();
 								</ul>
 
 								<button type="button" class="ecs-jobs__apply" data-job-apply data-job-title="<?php echo esc_attr( $ecsges_job['title'] ); ?>" aria-haspopup="dialog"><?php echo esc_html( ecsges_t( 'Ứng tuyển ngay' ) ); ?></button>
+
+								<?php if ( ! empty( $ecsges_job['href'] ) ) : ?>
+									<a href="<?php echo esc_url( $ecsges_job['href'] ); ?>" class="ecs-jobs__more"><?php echo esc_html( ecsges_t( 'Tìm hiểu thêm' ) ); ?></a>
+								<?php else : ?>
+									<a class="ecs-jobs__more ecs-jobs__more--inert"><?php echo esc_html( ecsges_t( 'Tìm hiểu thêm' ) ); ?></a>
+								<?php endif; ?>
 							</article>
 						<?php endforeach; ?>
 					</div>
