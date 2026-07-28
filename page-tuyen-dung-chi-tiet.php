@@ -7,6 +7,10 @@
  * mỗi Page có nội dung riêng qua ACF field group "group_ecsges_job_detail"
  * (inc/acf-fields.php), đọc bằng ecsges_field_page( get_the_ID(), ... ).
  *
+ * Bố cục theo ảnh mẫu: 1 cột duy nhất, breadcrumb ở trên cùng rồi một chồng
+ * thẻ trắng viền mảnh — thẻ tóm tắt (tiêu đề/lương/meta/nút) rồi lần lượt các
+ * thẻ nội dung. Không có sidebar.
+ *
  * @package ECSGES
  */
 
@@ -17,13 +21,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 ?>
 	<main class="ecs-job-detail">
-		<?php
-		get_template_part( 'template-parts/job-chi-tiet', 'header' );
-		?>
-		<div class="ecs-job-detail__inner ecs-job-detail__grid">
+		<div class="ecs-job-detail__inner">
 			<?php
+			get_template_part( 'template-parts/job-chi-tiet', 'header' );
 			get_template_part( 'template-parts/job-chi-tiet', 'content' );
-			get_template_part( 'template-parts/job-chi-tiet', 'sidebar' );
 			?>
 		</div>
 	</main>

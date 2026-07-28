@@ -1338,28 +1338,35 @@
 }
 
 // Trang Chi tiết tuyển dụng (page-tuyen-dung-chi-tiet.php) — template dùng
-// lại cho nhiều Page (mỗi Page 1 tin), không gắn với 1 Figma node cụ thể;
-// bố cục tham khảo trang chi tiết job phổ biến (header tóm tắt → nội dung
-// 2 cột: khối mô tả trái, sidebar công ty phải, sticky ở màn rộng).
+// lại cho nhiều Page (mỗi Page 1 tin). Bố cục theo ảnh mẫu: MỘT cột duy nhất,
+// breadcrumb rồi một chồng "thẻ" trắng viền mảnh bo góc cách đều nhau — thẻ
+// tóm tắt (tiêu đề/lương/3 ô meta/nút) rồi lần lượt các thẻ nội dung.
 .ecs-job-detail {
+  background: #fff;
+  padding-block: 24px 64px;
+
+  @include bp(lg) {
+    padding-block: 32px 80px;
+  }
+
+  // Flex column + gap: breadcrumb và mọi thẻ đều là con TRỰC TIẾP (part header
+  // và part content in ra các thẻ cùng cấp) nên khoảng cách luôn đều, không
+  // phải bù margin khi một khối bị bỏ qua vì rỗng.
   &__inner {
     @include container;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
-  &__header {
-    background: $surface-2;
-    padding-block: 40px;
+  &__card {
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    background: #fff;
+    padding: 24px;
 
-    @include bp(lg) {
-      padding-block: 56px;
-    }
-  }
-
-  &__header-inner {
-    @include container;
-
-    .ecs-single__breadcrumb {
-      margin-bottom: 12px;
+    @include bp(md) {
+      padding: 32px 40px;
     }
   }
 
@@ -1367,60 +1374,121 @@
     margin: 0;
     font-family: $font-display;
     font-weight: 500;
-    @include text-lg;
+    @include text-md;
     color: $ink;
   }
 
+  &__salary {
+    margin: 12px 0 0;
+    font-family: $font-display;
+    font-weight: 500;
+    @include text-md;
+    color: $brand;
+  }
+
+  // Hàng 3 ô meta (Địa điểm / Kinh nghiệm / Thời hạn ứng tuyển): xếp dọc ở
+  // mobile, 3 cột bằng nhau từ md trở lên.
   &__meta {
-    margin: 20px 0 0;
+    margin: 24px 0 0;
     padding: 0;
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px 32px;
+    display: grid;
+    gap: 16px;
+
+    @include bp(md) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
   }
 
   &__meta-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: 300;
-    @include text-sm;
-    color: $body;
+    gap: 12px;
+  }
 
-    &--salary {
-      font-weight: 500;
+  // 3 icon có tỉ lệ gốc khác nhau (pin 16x17, exp 49x49, file 19x19) → ép về
+  // cùng ô vuông 22px và contain để không méo.
+  &__meta-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+  }
+
+  &__meta-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  // line-height tỉ lệ, KHÔNG thừa kế $lh-base (32px) — nhãn và giá trị phải
+  // sát nhau thành một cụm 2 dòng.
+  &__meta-label {
+    @include text-sm;
+    line-height: 1.4;
+    color: $ink;
+  }
+
+  &__meta-value {
+    @include text-sm;
+    line-height: 1.4;
+    font-weight: 300;
+    color: $body;
+  }
+
+  // Nút "Ứng tuyển ngay": pill cam đặc, hover đảo màu giống .ecs-see-more
+  // ("Tìm hiểu thêm"). Viền cam luôn tồn tại nên đảo màu không xê dịch layout.
+  // Mặc định (nút trong thẻ nội dung cuối) căn trái; modifier --hero căn giữa.
+  &__apply {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+    margin-top: 24px;
+    padding: 12px 32px;
+    border: 1px solid $brand;
+    border-radius: 9999px;
+    background: $brand;
+    font-family: $font-display;
+    @include text-sm;
+    line-height: 1.2;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: #fff;
       color: $brand;
     }
-  }
 
-  &__meta-icon {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-  }
-
-  &__apply {
-    margin-top: 24px;
-  }
-
-  &__grid {
-    padding-block: 48px;
-    display: grid;
-    gap: 40px;
-
-    @include bp(lg) {
-      grid-template-columns: 1fr 380px;
-      gap: 64px;
+    &--hero {
+      max-width: 380px;
+      margin-top: 32px;
+      margin-inline: auto;
     }
   }
 
-  &__block + &__block {
-    margin-top: 32px;
+  // SVG bàn tay nhúng nội tuyến (fill: currentColor) nên tự đảo màu theo nút.
+  &__apply-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    svg {
+      width: 24px;
+      height: auto;
+    }
   }
 
   &__block-title {
-    margin: 0 0 16px;
+    margin: 0;
     font-family: $font-display;
     font-weight: 500;
     @include text-md;
@@ -1429,6 +1497,7 @@
 
   // Nội dung do WYSIWYG sinh ra — style theo thẻ vì markup nằm ngoài tầm PHP.
   &__block-body {
+    margin-top: 20px;
     font-weight: 300;
     @include text-sm;
     color: $body;
@@ -1530,41 +1599,5 @@
         color: $ink;
       }
     }
-  }
-
-  &__sidebar-card {
-    background: $surface-2;
-    padding: 24px;
-
-    @include bp(lg) {
-      position: sticky;
-      top: 24px;
-    }
-  }
-
-  &__sidebar-logo {
-    display: block;
-    height: 32px;
-    width: auto;
-  }
-
-  &__sidebar-name {
-    margin: 16px 0 0;
-    font-family: $font-display;
-    font-weight: 500;
-    @include text-sm;
-    color: $ink;
-  }
-
-  &__sidebar-line {
-    margin: 8px 0 0;
-    font-weight: 300;
-    @include text-sm;
-    color: $body;
-  }
-
-  &__sidebar-apply {
-    margin-top: 20px;
-    width: 100%;
   }
 }

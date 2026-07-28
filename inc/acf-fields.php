@@ -193,9 +193,13 @@ add_action(
 				'fields'         => array(
 					$text( 'job_salary', 'Mức lương', 'Thoả thuận' ),
 					$text( 'job_location', 'Địa điểm', 'Hà Nội' ),
+					$text( 'job_experience', 'Kinh nghiệm', '3 năm' ),
 					$text( 'job_department', 'Phòng ban', 'Phòng Công nghệ thông tin và Truyền thông' ),
 					$text( 'job_type', 'Loại công việc', 'Toàn thời gian' ),
-					$text( 'job_deadline', 'Hạn nộp hồ sơ', 'Thời hạn: 20/7/2026' ),
+					// Chỉ nhập NGÀY (nhãn "Thời hạn ứng tuyển" đã nằm sẵn trong giao diện).
+					// Giá trị cũ còn tiền tố "Thời hạn:" vẫn hiển thị đúng — template
+					// chi tiết tự cắt tiền tố đó đi (job-chi-tiet-header.php).
+					$text( 'job_deadline', 'Thời hạn ứng tuyển', '15/08/2026' ),
 					array(
 						'key'           => 'field_ecsges_job_hot',
 						'label'         => 'Đánh dấu Hot',
@@ -218,13 +222,14 @@ add_action(
 					),
 					$wysiwyg(
 						'job_benefits',
-						'Quyền lợi',
+						'Quyền lợi ứng viên',
 						"<ul>\n<li>Lương thoả thuận theo năng lực, review 6 tháng/lần.</li>\n<li>Bảo hiểm đầy đủ theo quy định, thưởng lễ Tết.</li>\n<li>Môi trường làm việc trẻ, năng động, nhiều cơ hội đào tạo.</li>\n<li>Được tham gia các hoạt động team building định kỳ.</li>\n</ul>"
 					),
 					$wysiwyg(
 						'job_how_to_apply',
-						'Cách ứng tuyển',
-						"<ul>\n<li>Nộp CV trực tiếp qua nút \"Ứng tuyển ngay\" trên trang này.</li>\n<li>Hoặc gửi CV về email tuyendung@ecs.edu.vn, tiêu đề: [Vị trí] - Họ tên.</li>\n<li>Ứng viên phù hợp sẽ được liên hệ phỏng vấn trong vòng 5 ngày làm việc.</li>\n</ul>"
+						'Địa điểm và thời gian',
+						"<p>Địa điểm làm việc</p>\n<ul>\n<li>Hà Nội</li>\n</ul>\n<p>Thời gian làm việc</p>\n<ul>\n<li>Thứ 2 - Thứ 7<br />Sáng: Từ 08:00 đến 12:00<br />Chiều: Từ 13:30 đến 17:30</li>\n</ul>\n<p>Cách thức ứng tuyển</p>\n<ul>\n<li>Ứng viên nộp hồ sơ trực tuyến bằng cách bấm ứng tuyển ngay dưới đây.</li>\n</ul>",
+						'Khối cuối trang chi tiết — nút "Ứng tuyển ngay" thứ hai được gắn ngay dưới nội dung này.'
 					),
 				),
 				'location'       => array(

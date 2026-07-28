@@ -38,6 +38,7 @@ function ecsges_en_map() {
 		'Tìm hiểu thêm'          => 'Learn more',
 		'TÌM HIỂU THÊM'          => 'LEARN MORE',
 		'Xem thêm'               => 'See more',
+		'Xem chi tiết'           => 'View details',
 		'Ngôn ngữ'               => 'Language',
 		'Tìm kiếm'               => 'Search',
 		'Đổi ngôn ngữ'           => 'Change language',
@@ -406,6 +407,15 @@ Applied technology and consolidated the organisation',
 		'Quyền lợi'              => 'Benefits',
 		'Cách ứng tuyển'         => 'How to apply',
 		'Thoả thuận'             => 'Negotiable',
+
+		/* Trang Chi tiết tuyển dụng */
+		'Ứng tuyển ngay'         => 'Apply now',
+		'Địa điểm'               => 'Workplace',
+		'Kinh nghiệm'            => 'Experience',
+		'Thời hạn ứng tuyển'     => 'Application deadline',
+		'Quyền lợi ứng viên'     => 'Candidate benefits',
+		'Địa điểm và thời gian'  => 'Location & working hours',
+		'3 năm'                  => '3 years',
 
 		/* Trang Tuyển dụng — giá trị trong 3 select bộ lọc */
 		'Bắc Ninh'                               => 'Bac Ninh',

@@ -59,9 +59,9 @@ $ecsges_job_types = ecsges_job_types();
 				</div>
 
 				<div class="ecs-jobs__field">
-					<label class="ecs-jobs__label" for="jobs-filter-type"><?php echo esc_html( ecsges_t( 'Loại công việc' ) ); ?></label>
+					<label class="ecs-jobs__label" for="jobs-filter-type"><?php echo esc_html( ecsges_t( 'Cấp bậc' ) ); ?></label>
 					<select id="jobs-filter-type" class="ecs-jobs__select" data-jobs-filter="type">
-						<option value=""><?php echo esc_html( ecsges_t( '- Chọn loại công việc -' ) ); ?></option>
+						<option value=""><?php echo esc_html( ecsges_t( '- Chọn cấp bậc -' ) ); ?></option>
 						<?php foreach ( $ecsges_job_types as $ecsges_job_type ) : ?>
 							<option value="<?php echo esc_attr( $ecsges_job_type ); ?>"><?php echo esc_html( ecsges_t( $ecsges_job_type ) ); ?></option>
 						<?php endforeach; ?>
@@ -109,9 +109,9 @@ $ecsges_job_types = ecsges_job_types();
 								</ul>
 
 								<?php if ( ! empty( $ecsges_job['href'] ) ) : ?>
-									<a href="<?php echo esc_url( $ecsges_job['href'] ); ?>" class="ecs-jobs__apply"><?php echo esc_html( ecsges_t( 'Tìm hiểu thêm' ) ); ?></a>
+									<a href="<?php echo esc_url( $ecsges_job['href'] ); ?>" class="ecs-jobs__apply"><?php echo esc_html( ecsges_t( 'Xem chi tiết' ) ); ?></a>
 								<?php else : ?>
-									<a class="ecs-jobs__apply ecs-jobs__apply--inert"><?php echo esc_html( ecsges_t( 'Tìm hiểu thêm' ) ); ?></a>
+									<a class="ecs-jobs__apply ecs-jobs__apply--inert"><?php echo esc_html( ecsges_t( 'Xem chi tiết' ) ); ?></a>
 								<?php endif; ?>
 							</article>
 						<?php endforeach; ?>
