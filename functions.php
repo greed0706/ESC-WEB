@@ -371,6 +371,33 @@ function ecsges_field_page($post_id, $name, $default = '')
 }
 
 /**
+ * Chuẩn hoá nội dung 1 field WYSIWYG thành HTML an toàn để echo.
+ *
+ * Field job_* trước đây là textarea "mỗi dòng 1 ý"; các Page đã nhập trước khi
+ * đổi sang WYSIWYG vẫn còn giá trị thuần text trong DB. Nếu chuỗi không chứa
+ * thẻ HTML nào thì dựng lại <ul><li> như cũ để không mất định dạng; ngược lại
+ * lọc qua wp_kses_post() rồi trả nguyên HTML của editor.
+ *
+ * @param string $value Giá trị thô từ ACF.
+ * @return string HTML đã sẵn sàng echo (chuỗi rỗng nếu không có nội dung).
+ */
+function ecsges_rich_text($value)
+{
+	$value = trim((string) $value);
+	if ('' === $value) {
+		return '';
+	}
+	if (!preg_match('/<[a-z][^>]*>/i', $value)) {
+		$lines = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $value)), 'strlen'));
+		if (empty($lines)) {
+			return '';
+		}
+		return '<ul><li>' . implode('</li><li>', array_map('esc_html', $lines)) . '</li></ul>';
+	}
+	return wp_kses_post($value);
+}
+
+/**
  * Field text tách theo dòng → mảng (bỏ dòng trống). Dùng cho tiêu đề nhiều dòng / danh sách.
  *
  * @param string   $name

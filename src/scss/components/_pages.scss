@@ -1423,15 +1423,109 @@
     color: $ink;
   }
 
-  &__block-list {
-    margin: 0;
-    padding-left: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  // Nội dung do WYSIWYG sinh ra — style theo thẻ vì markup nằm ngoài tầm PHP.
+  &__block-body {
     font-weight: 300;
     @include text-sm;
     color: $body;
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 12px;
+      padding-left: 20px;
+    }
+
+    ul {
+      list-style: disc;
+    }
+
+    ol {
+      list-style: decimal;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    li > ul,
+    li > ol {
+      margin: 8px 0 0;
+    }
+
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 20px 0 8px;
+      font-family: $font-display;
+      font-weight: 500;
+      @include text-sm;
+      color: $ink;
+    }
+
+    strong,
+    b {
+      font-weight: 500;
+      color: $ink;
+    }
+
+    em,
+    i {
+      font-style: italic;
+    }
+
+    a {
+      color: $brand;
+      text-decoration: underline;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    blockquote {
+      margin: 0 0 12px;
+      padding-left: 16px;
+      border-left: 2px solid $brand;
+    }
+
+    hr {
+      margin: 20px 0;
+      border: 0;
+      border-top: 1px solid $placeholder;
+    }
+
+    table {
+      width: 100%;
+      margin: 0 0 12px;
+      border-collapse: collapse;
+
+      th,
+      td {
+        padding: 8px 12px;
+        border: 1px solid $placeholder;
+        text-align: left;
+      }
+
+      th {
+        font-weight: 500;
+        color: $ink;
+      }
+    }
   }
 
   &__sidebar-card {

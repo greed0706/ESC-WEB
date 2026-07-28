@@ -59,6 +59,21 @@ add_action(
 				'rows'          => $rows,
 			);
 		};
+		/** Helper WYSIWYG (trình soạn thảo đầy đủ — in đậm, danh sách, link, bảng…). */
+		$wysiwyg = function ( $key, $label, $default = '', $instructions = '' ) {
+			return array(
+				'key'           => 'field_ecsges_' . $key,
+				'label'         => $label,
+				'name'          => $key,
+				'type'          => 'wysiwyg',
+				'default_value' => $default,
+				'instructions'  => $instructions,
+				'tabs'          => 'all',
+				'toolbar'       => 'full',
+				'media_upload'  => 1,
+				'delay'         => 0,
+			);
+		};
 		/** Helper image (trả về URL). */
 		$image = function ( $key, $label, $instructions = '' ) {
 			return array(
@@ -190,33 +205,26 @@ add_action(
 						'ui'            => 1,
 						'instructions'  => 'Bật để hiện badge "Hot" trên card ngoài trang danh sách.',
 					),
-					$textarea(
+					$wysiwyg(
 						'job_description',
-						'Mô tả công việc (mỗi dòng 1 ý)',
-						"Xây dựng và triển khai kế hoạch digital marketing theo tháng/quý.\nQuản lý các kênh quảng cáo Facebook, Google, TikTok.\nTheo dõi, đo lường hiệu quả chiến dịch và đề xuất tối ưu.\nPhối hợp với đội Content/Design để sản xuất ấn phẩm truyền thông.",
-						'',
-						5
+						'Mô tả công việc',
+						"<ul>\n<li>Xây dựng và triển khai kế hoạch digital marketing theo tháng/quý.</li>\n<li>Quản lý các kênh quảng cáo Facebook, Google, TikTok.</li>\n<li>Theo dõi, đo lường hiệu quả chiến dịch và đề xuất tối ưu.</li>\n<li>Phối hợp với đội Content/Design để sản xuất ấn phẩm truyền thông.</li>\n</ul>",
+						'Soạn thảo tự do: danh sách gạch đầu dòng, in đậm, link, bảng… Nội dung cũ nhập kiểu mỗi dòng 1 ý vẫn hiển thị đúng.'
 					),
-					$textarea(
+					$wysiwyg(
 						'job_requirements',
-						'Yêu cầu ứng viên (mỗi dòng 1 ý)',
-						"Tốt nghiệp Cao đẳng/Đại học chuyên ngành Marketing, Truyền thông hoặc liên quan.\nCó ít nhất 1 năm kinh nghiệm ở vị trí tương đương.\nThành thạo Facebook Ads Manager, Google Ads.\nCó tư duy sáng tạo, chủ động trong công việc.",
-						'',
-						5
+						'Yêu cầu ứng viên',
+						"<ul>\n<li>Tốt nghiệp Cao đẳng/Đại học chuyên ngành Marketing, Truyền thông hoặc liên quan.</li>\n<li>Có ít nhất 1 năm kinh nghiệm ở vị trí tương đương.</li>\n<li>Thành thạo Facebook Ads Manager, Google Ads.</li>\n<li>Có tư duy sáng tạo, chủ động trong công việc.</li>\n</ul>"
 					),
-					$textarea(
+					$wysiwyg(
 						'job_benefits',
-						'Quyền lợi (mỗi dòng 1 ý)',
-						"Lương thoả thuận theo năng lực, review 6 tháng/lần.\nBảo hiểm đầy đủ theo quy định, thưởng lễ Tết.\nMôi trường làm việc trẻ, năng động, nhiều cơ hội đào tạo.\nĐược tham gia các hoạt động team building định kỳ.",
-						'',
-						5
+						'Quyền lợi',
+						"<ul>\n<li>Lương thoả thuận theo năng lực, review 6 tháng/lần.</li>\n<li>Bảo hiểm đầy đủ theo quy định, thưởng lễ Tết.</li>\n<li>Môi trường làm việc trẻ, năng động, nhiều cơ hội đào tạo.</li>\n<li>Được tham gia các hoạt động team building định kỳ.</li>\n</ul>"
 					),
-					$textarea(
+					$wysiwyg(
 						'job_how_to_apply',
-						'Cách ứng tuyển (mỗi dòng 1 ý)',
-						"Nộp CV trực tiếp qua nút \"Ứng tuyển ngay\" trên trang này.\nHoặc gửi CV về email tuyendung@ecs.edu.vn, tiêu đề: [Vị trí] - Họ tên.\nỨng viên phù hợp sẽ được liên hệ phỏng vấn trong vòng 5 ngày làm việc.",
-						'',
-						4
+						'Cách ứng tuyển',
+						"<ul>\n<li>Nộp CV trực tiếp qua nút \"Ứng tuyển ngay\" trên trang này.</li>\n<li>Hoặc gửi CV về email tuyendung@ecs.edu.vn, tiêu đề: [Vị trí] - Họ tên.</li>\n<li>Ứng viên phù hợp sẽ được liên hệ phỏng vấn trong vòng 5 ngày làm việc.</li>\n</ul>"
 					),
 				),
 				'location'       => array(

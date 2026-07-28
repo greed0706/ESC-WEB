@@ -1,8 +1,9 @@
 <?php
 /**
  * Chi tiết tuyển dụng — nội dung chính: 4 khối Mô tả công việc / Yêu cầu ứng
- * viên / Quyền lợi / Cách ứng tuyển. Mỗi field textarea (1 dòng = 1 ý) được
- * tách thành <ul><li>, đúng cách linh-vuc-tabs.php đang xử lý paragraph/bullet.
+ * viên / Quyền lợi / Cách ứng tuyển. Mỗi field là WYSIWYG nên nội dung được
+ * echo nguyên HTML của editor (đã lọc qua ecsges_rich_text()); giá trị cũ dạng
+ * textarea "mỗi dòng 1 ý" vẫn tự dựng lại thành <ul><li>.
  *
  * @package ECSGES
  */
@@ -35,18 +36,16 @@ $jd_blocks = array(
 <div class="ecs-job-detail__content">
 	<?php foreach ( $jd_blocks as $jd_block ) : ?>
 		<?php
-		$jd_lines = array_values( array_filter( array_map( 'trim', preg_split( '/\r\n|\r|\n/', (string) $jd_block['body'] ) ), 'strlen' ) );
-		if ( empty( $jd_lines ) ) {
+		$jd_html = ecsges_rich_text( $jd_block['body'] );
+		if ( '' === $jd_html ) {
 			continue;
 		}
 		?>
 		<section class="ecs-job-detail__block">
 			<h2 class="ecs-job-detail__block-title"><?php echo esc_html( ecsges_t( $jd_block['title'] ) ); ?></h2>
-			<ul class="ecs-job-detail__block-list">
-				<?php foreach ( $jd_lines as $jd_line ) : ?>
-					<li><?php echo esc_html( $jd_line ); ?></li>
-				<?php endforeach; ?>
-			</ul>
+			<div class="ecs-job-detail__block-body">
+				<?php echo $jd_html; // phpcs:ignore WordPress.Security.EscapingOutput.OutputNotEscaped -- đã lọc bằng wp_kses_post() trong ecsges_rich_text(). ?>
+			</div>
 		</section>
 	<?php endforeach; ?>
 </div>

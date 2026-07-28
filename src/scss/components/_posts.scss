@@ -189,6 +189,11 @@
 
     @include bp(sm) {
       height: 100%;
+      // Ảnh giãn theo chiều cao cột text, nhưng chặn 2 đầu để bài ít chữ không
+      // ra ảnh bẹp dí, bài nhiều chữ không ra ảnh lêu nghêu. Cột ảnh rộng 300px
+      // → 180px ≈ 5:3, 280px ≈ gần vuông. Chỉnh 2 số này để nới/siết tỉ lệ.
+      min-height: 180px;
+      max-height: 280px;
     }
   }
 
@@ -409,6 +414,7 @@
     }
   }
 }
+
 /* ------------------------------------------------------------------ */
 /* Form tìm kiếm dùng chung (searchform.php) — hiện ở đầu trang kết quả */
 /* ------------------------------------------------------------------ */
