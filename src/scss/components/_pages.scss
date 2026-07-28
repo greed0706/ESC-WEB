@@ -1357,6 +1357,10 @@
 
   &__header-inner {
     @include container;
+
+    .ecs-single__breadcrumb {
+      margin-bottom: 12px;
+    }
   }
 
   &__title {

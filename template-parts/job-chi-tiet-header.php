@@ -15,9 +15,15 @@ $jd_title    = get_the_title();
 $jd_salary   = ecsges_field_page( $jd_id, 'job_salary', 'Thoả thuận' );
 $jd_location = ecsges_field_page( $jd_id, 'job_location', 'Hà Nội' );
 $jd_deadline = ecsges_field_page( $jd_id, 'job_deadline', 'Thời hạn: 20/7/2026' );
+$jd_list_url = ecsges_translate_path( '/tuyen-dung/' );
 ?>
 <header class="ecs-job-detail__header">
 	<div class="ecs-job-detail__header-inner">
+		<nav class="ecs-single__breadcrumb" aria-label="Breadcrumb">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( ecsges_t( 'Trang chủ' ) ); ?></a>
+			<span aria-hidden="true">/</span>
+			<a href="<?php echo esc_url( $jd_list_url ); ?>"><?php echo esc_html( ecsges_t( 'Tuyển dụng' ) ); ?></a>
+		</nav>
 		<h1 class="ecs-job-detail__title"><?php echo esc_html( $jd_title ); ?></h1>
 		<ul class="ecs-job-detail__meta">
 			<li class="ecs-job-detail__meta-item ecs-job-detail__meta-item--salary"><?php echo esc_html( $jd_salary ); ?></li>
