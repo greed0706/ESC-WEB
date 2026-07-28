@@ -1404,15 +1404,15 @@
   &__meta-item {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 7px;
   }
 
   // 3 icon có tỉ lệ gốc khác nhau (pin 16x17, exp 49x49, file 19x19) → ép về
   // cùng ô vuông 22px và contain để không méo.
   &__meta-icon {
     flex-shrink: 0;
-    width: 22px;
-    height: 22px;
+    width: 38px;
+    height: 38px;
     object-fit: contain;
   }
 
@@ -1528,12 +1528,12 @@
       list-style: decimal;
     }
 
-    li + li {
+    li+li {
       margin-top: 8px;
     }
 
-    li > ul,
-    li > ol {
+    li>ul,
+    li>ol {
       margin: 8px 0 0;
     }
 
