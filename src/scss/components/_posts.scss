@@ -4,28 +4,11 @@
 // Trang bài viết: archive category (.ecs-archive) + single (.ecs-single).
 // Ngày lấy từ ACF 'time' hoặc ngày đăng (helper ecsges_post_time).
 
-/* ------------------------------------------------------------------ */
-/* Section news: nút "Xem tất cả tin tức"                              */
-/* ------------------------------------------------------------------ */
-.ecs-news__more {
-  margin-top: 40px;
-  text-align: center;
-
-  &-link {
-    display: inline-block;
-    padding: 12px 32px;
-    border: 1px solid $brand;
-    border-radius: 9999px;
-    font-weight: 500;
-    color: $brand;
-    transition: color 0.15s ease, background-color 0.15s ease;
-
-    &:hover {
-      background: $brand;
-      color: #fff;
-    }
-  }
-}
+// GỠ BỎ: `.ecs-news__more` / `.ecs-news__more-link` (nút pill "Xem tất cả tin
+// tức") từng thuộc bản section-news.php cũ. Markup đó không còn tồn tại, và
+// tên class `.ecs-news__more` nay do components/_news.scss định nghĩa lại
+// (cụm "XEM THÊM" giữa 2 đường kẻ) — giữ lại chỉ tạo va chạm vì _posts được
+// @use SAU _news trong main.scss.
 
 /* ------------------------------------------------------------------ */
 /* Sidebar sticky (dùng chung archive + single)                        */
@@ -125,6 +108,29 @@
     padding-block: 48px 64px;
   }
 
+  // Breadcrumb đầu trang — cùng phong cách với .ecs-single__breadcrumb.
+  &__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    @include text-sm;
+    color: $muted;
+
+    a {
+      color: $muted;
+      transition: color 0.15s ease;
+
+      &:hover {
+        color: $brand;
+      }
+    }
+
+    &-current {
+      color: $ink;
+    }
+  }
+
   &__head {
     margin-bottom: 32px;
     border-bottom: 2px solid $surface-2;
@@ -171,7 +177,7 @@
     align-items: start;
 
     @include bp(sm) {
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: 260px 1fr;
       align-items: start; // ảnh giữ tỉ lệ chữ nhật ngang cố định, không kéo giãn theo chiều cao text
     }
 
@@ -215,13 +221,13 @@
   }
 
   &__card-meta {
-    margin-top: 0;
+    margin-top: 10px;
     @include text-sm;
     color: $muted;
   }
 
   &__card-excerpt {
-    margin-top: 0;
+    margin-top: 10px;
     @include text-sm;
     font-weight: 300;
     color: $body;
@@ -307,6 +313,15 @@
       &:hover {
         color: $brand;
       }
+    }
+
+    // Crumb cuối = tiêu đề bài viết: đậm màu hơn, cắt bớt nếu quá dài.
+    &-current {
+      max-width: 100%;
+      overflow: hidden;
+      color: $ink;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 

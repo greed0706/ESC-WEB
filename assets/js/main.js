@@ -12,11 +12,13 @@
     initMobileMenu();
     initEcosystemTabs();
     initNewsPagination();
+    initNewsFilter();
     initJobsFilter();
     initJobModal();
     initStickyHeader();
     initAOS();
     initHeroIntro();
+    initHeroSlider();
     initCharsReveal();
     initPinsReveal();
     initStatsOdometer();
@@ -526,6 +528,315 @@
     dots.forEach(function (dot, i) {
       dot.addEventListener('click', function () { show(i); });
     });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /**
+   * Khối TIN TỨC trang chủ (template-parts/section-news.php) — tab + bộ lọc +
+   * đổi kiểu xem, chạy trên dữ liệu đã có sẵn trong DOM (không AJAX, không
+   * reload). "XEM THÊM" giờ là LINK THẬT tới category.php của Chủ đề đang
+   * chọn (hoặc tab loại tin đang active nếu Chủ đề = "Tất cả") — hàm này chỉ
+   * cập nhật lại `href` của nó, không còn lộ thêm card tại chỗ.
+   *
+   * PHP in ra mọi card kèm data-tab / data-year / data-topic / data-format;
+   * hàm này chỉ bật/tắt thuộc tính `hidden` (luôn giới hạn tối đa `per` card
+   * khớp bộ lọc). Không có JS thì mọi card đều hiện (SCSS không ẩn gì cả),
+   * nên khối vẫn dùng được.
+   *
+   * KHÔNG dùng chung attribute với initNewsPagination(): hàm kia bám
+   * [data-news] / [data-news-page], hàm này bám [data-news-filter] /
+   * [data-news-item]. Đừng đổi tên qua lại.
+   */
+  function initNewsFilter() {
+    var root = document.querySelector('[data-news-filter]');
+    if (!root) return;
+
+    var list = root.querySelector('[data-news-list]');
+    if (!list) return;
+
+    var cards = Array.prototype.slice.call(list.querySelectorAll('[data-news-item]'));
+    if (cards.length === 0) return;
+
+    var per = parseInt(list.getAttribute('data-news-per'), 10) || 3;
+    var tabs = Array.prototype.slice.call(root.querySelectorAll('[data-news-tab]'));
+    var indicator = root.querySelector('[data-news-tab-indicator]');
+    var views = Array.prototype.slice.call(root.querySelectorAll('[data-news-view]'));
+    var selects = Array.prototype.slice.call(root.querySelectorAll('[data-news-key]'));
+    var topicSelect = root.querySelector('[data-news-key="topic"]');
+    var yearFrom = root.querySelector('[data-news-year-from]');
+    var yearTo = root.querySelector('[data-news-year-to]');
+    var empty = root.querySelector('[data-news-empty]');
+    var moreWrap = root.querySelector('[data-news-more-wrap]');
+    var more = root.querySelector('[data-news-more]');
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var tab = tabs.length ? tabs[0].getAttribute('data-news-tab') : '';
+
+    // Đặt vạch cam (xem &__tab-indicator trong _news.scss) khớp đúng tab đang
+    // active — offsetLeft/offsetTop tính theo .ecs-news__tabs (positioned
+    // ancestor gần nhất) nên tự đúng cả khi tab xuống dòng ở màn hẹp.
+    function moveIndicator(btn) {
+      if (!indicator || !btn) return;
+      indicator.style.left = btn.offsetLeft + 'px';
+      indicator.style.width = btn.offsetWidth + 'px';
+      indicator.style.top = (btn.offsetTop + btn.offsetHeight - 3) + 'px';
+    }
+
+    // Card lọt qua bộ lọc hiện tại chưa? Năm so sánh dạng SỐ vì "2026" > "999"
+    // là false nếu so chuỗi.
+    function matches(card) {
+      if (tab && card.getAttribute('data-tab') !== tab) return false;
+
+      var year = parseInt(card.getAttribute('data-year'), 10);
+      if (yearFrom && yearFrom.value && year < parseInt(yearFrom.value, 10)) return false;
+      if (yearTo && yearTo.value && year > parseInt(yearTo.value, 10)) return false;
+
+      return selects.every(function (select) {
+        if (!select.value) return true; // "Tất cả"
+        return card.getAttribute('data-' + select.getAttribute('data-news-key')) === select.value;
+      });
+    }
+
+    function render() {
+      var visible = 0;
+
+      cards.forEach(function (card) {
+        if (!matches(card)) {
+          card.hidden = true;
+          return;
+        }
+        visible++;
+        card.hidden = visible > per;
+      });
+
+      if (empty) empty.hidden = visible > 0;
+      if (moreWrap) moreWrap.hidden = visible === 0;
+    }
+
+    // Chủ đề có link riêng (data-news-href trên <option>) thì ưu tiên link đó;
+    // "Tất cả" (option rỗng) rơi về link category.php của tab loại tin đang active.
+    function updateMoreHref() {
+      if (!more) return;
+
+      var topicHref = '';
+      if (topicSelect && topicSelect.selectedIndex > -1) {
+        topicHref = topicSelect.options[topicSelect.selectedIndex].getAttribute('data-news-href') || '';
+      }
+      if (topicHref) {
+        more.href = topicHref;
+        return;
+      }
+
+      var activeTab = tabs.filter(function (btn) { return btn.classList.contains('is-active'); })[0];
+      if (activeTab) {
+        var tabHref = activeTab.getAttribute('data-news-href');
+        if (tabHref) more.href = tabHref;
+      }
+    }
+
+    // Đổi tab: vạch cam trượt ngay (CSS transition lo phần chuyển động), còn
+    // lưới card mờ đi rồi mới đổi card/mờ lại — tránh cảm giác card cũ-mới
+    // "nhảy" tại chỗ không báo trước. Tắt hẳn độ trễ này khi prefers-reduced-motion.
+    var SWITCH_FADE_MS = 180;
+
+    function switchTab(btn) {
+      if (btn.classList.contains('is-active')) return;
+
+      tab = btn.getAttribute('data-news-tab');
+      tabs.forEach(function (other) {
+        var on = other === btn;
+        other.classList.toggle('is-active', on);
+        other.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      moveIndicator(btn);
+      updateMoreHref();
+
+      if (reduceMotion) {
+        render();
+        return;
+      }
+
+      list.classList.add('is-switching');
+      window.setTimeout(function () {
+        render();
+        list.classList.remove('is-switching');
+      }, SWITCH_FADE_MS);
+    }
+
+    tabs.forEach(function (btn) {
+      btn.addEventListener('click', function () { switchTab(btn); });
+    });
+
+    selects.forEach(function (select) {
+      select.addEventListener('change', function () {
+        render();
+        updateMoreHref();
+      });
+    });
+    if (yearFrom) yearFrom.addEventListener('change', render);
+    if (yearTo) yearTo.addEventListener('change', render);
+
+    // Đổi kiểu xem KHÔNG động vào bộ lọc — chỉ đổi lưới 3 cột ↔ hàng ngang.
+    views.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        list.classList.toggle('is-list', btn.getAttribute('data-news-view') === 'list');
+        views.forEach(function (other) {
+          var on = other === btn;
+          other.classList.toggle('is-active', on);
+          other.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      });
+    });
+
+    // Đặt vạch cam đúng vị trí tab active NGAY lúc tải trang, tắt transition
+    // tạm thời để nó không trượt từ (0,0) tới — chỉ animate khi người dùng
+    // thật sự đổi tab (transition được bật lại ở khung hình kế tiếp).
+    if (indicator) {
+      var activeOnLoad = tabs.filter(function (btn) { return btn.classList.contains('is-active'); })[0];
+      indicator.style.transition = 'none';
+      moveIndicator(activeOnLoad || tabs[0]);
+      // Ép trình duyệt áp style trên trước khi gỡ transition:none.
+      indicator.getBoundingClientRect();
+      indicator.style.transition = '';
+    }
+
+    render();
+    updateMoreHref();
+
+    // Tab có thể xuống dòng khác khi resize (flex-wrap) — đo lại vị trí tab
+    // active để vạch cam không bị lệch chỗ cũ. Debounce nhẹ vì resize bắn liên tục.
+    if (indicator) {
+      var resizeTimer = null;
+      window.addEventListener('resize', function () {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(function () {
+          var active = tabs.filter(function (btn) { return btn.classList.contains('is-active'); })[0];
+          moveIndicator(active || tabs[0]);
+        }, 150);
+      });
+    }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /**
+   * Hero slider trang chủ (template-parts/section-hero-banner.php).
+   *
+   * Ảnh + cấu hình do Theme Options → Hero Slider quyết định; PHP chỉ in ra
+   * [data-hero-slider] khi có TỪ 2 SLIDE TRỞ LÊN, nên trang chủ 1 banner đi
+   * thẳng qua hàm này mà không tốn gì.
+   *
+   * Class .owl-* đặt theo quy ước OwlCarousel cho quen mắt nhưng KHÔNG dùng
+   * thư viện đó (nó cần jQuery) — track dịch bằng transform, mỗi slide rộng
+   * đúng 100% nên translateX(-n * 100%) là sang slide thứ n.
+   */
+  function initHeroSlider() {
+    var root = document.querySelector('[data-hero-slider]');
+    if (!root) return;
+    var track = root.querySelector('[data-hero-track]');
+    var slides = track ? Array.prototype.slice.call(track.querySelectorAll('[data-hero-slide]')) : [];
+    if (!track || slides.length < 2) return;
+
+    var dots = Array.prototype.slice.call(root.querySelectorAll('[data-hero-dot]'));
+    var prev = root.querySelector('[data-hero-prev]');
+    var next = root.querySelector('[data-hero-next]');
+
+    // Tôn trọng "giảm chuyển động" của hệ điều hành: tắt tự chạy và bỏ luôn
+    // hiệu ứng trượt, nhưng vẫn bấm dot/mũi tên đổi slide được.
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var speed = reduce ? 0 : (parseInt(root.getAttribute('data-speed'), 10) || 0);
+    var interval = parseInt(root.getAttribute('data-interval'), 10) || 5000;
+    var autoplay = root.getAttribute('data-autoplay') === '1' && !reduce;
+
+    var index = 0;
+    var timer = null;
+    var paused = false;
+
+    track.style.transitionDuration = speed + 'ms';
+
+    function show(i) {
+      index = ((i % slides.length) + slides.length) % slides.length;
+      track.style.transform = 'translateX(' + (-index * 100) + '%)';
+
+      slides.forEach(function (slide, n) {
+        var on = n === index;
+        slide.classList.toggle('is-active', on);
+        if (on) slide.removeAttribute('aria-hidden');
+        else slide.setAttribute('aria-hidden', 'true');
+        // Banner có link: slide đang ẩn không được nhận focus bằng phím Tab.
+        var link = slide.querySelector('a');
+        if (link) {
+          if (on) link.removeAttribute('tabindex');
+          else link.setAttribute('tabindex', '-1');
+        }
+      });
+
+      dots.forEach(function (dot, n) {
+        var on = n === index;
+        dot.classList.toggle('is-active', on);
+        dot.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+    }
+
+    function stop() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    function start() {
+      stop();
+      if (autoplay && !paused) timer = setInterval(function () { show(index + 1); }, interval);
+    }
+
+    /** Chuyển slide do người dùng chủ động → đặt lại đồng hồ tự chạy. */
+    function go(i) {
+      show(i);
+      start();
+    }
+
+    if (prev) prev.addEventListener('click', function () { go(index - 1); });
+    if (next) next.addEventListener('click', function () { go(index + 1); });
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () { go(i); });
+    });
+
+    // Dừng khi người dùng đang xem/thao tác, và khi tab bị ẩn.
+    root.addEventListener('mouseenter', function () { paused = true; stop(); });
+    root.addEventListener('mouseleave', function () { paused = false; start(); });
+    root.addEventListener('focusin', function () { paused = true; stop(); });
+    root.addEventListener('focusout', function () { paused = false; start(); });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    // Vuốt ngang trên mobile. Chỉ tính khi đi đủ xa VÀ rõ ràng ngang hơn dọc,
+    // nếu không sẽ cướp mất thao tác cuộn trang.
+    var startX = 0;
+    var startY = 0;
+    var swiping = false;
+    track.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      swiping = true;
+      paused = true;
+      stop();
+    }, { passive: true });
+    track.addEventListener('touchend', function (e) {
+      if (!swiping) return;
+      swiping = false;
+      var touch = e.changedTouches[0];
+      var dx = touch.clientX - startX;
+      var dy = touch.clientY - startY;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(dx < 0 ? index + 1 : index - 1);
+      paused = false;
+      start();
+    }, { passive: true });
+
+    show(0);
+    start();
   }
 
   /* ---------------------------------------------------------------- */

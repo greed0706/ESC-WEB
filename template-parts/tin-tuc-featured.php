@@ -6,6 +6,10 @@
  * Cột phải: 2 bài nhỏ (ảnh 413x247 → title 22px). Gap 2 cột = 44px.
  * Cả 3 ảnh cùng tỉ lệ 816/488 = 413/247 = 1.672.
  *
+ * NGUỒN DỮ LIỆU: 3 bài mới nhất của chuyên mục 'tin-tuc' (giống section-news.php
+ * ở trang chủ). Chuyên mục chưa tồn tại / chưa có bài → rơi về nội dung mẫu
+ * ecsges_news_featured() để khối không bị trống.
+ *
  * @package ECSGES
  */
 
@@ -13,9 +17,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$tt_featured = ecsges_tr_deep( ecsges_news_featured() );
-$tt_main     = $tt_featured['main'];
-$tt_side     = $tt_featured['side'];
+$tt_posts = ecsges_posts_by_category( 'tin-tuc', 3 );
+$tt_side  = array();
+
+if ( $tt_posts ) {
+	$tt_lead = $tt_posts[0];
+	$tt_main = array(
+		'title'   => get_the_title( $tt_lead ),
+		'excerpt' => wp_trim_words( get_the_excerpt( $tt_lead ), 30 ),
+		'img'     => ecsges_post_thumb( $tt_lead->ID, 'large' ),
+		'href'    => get_permalink( $tt_lead ),
+	);
+	foreach ( array_slice( $tt_posts, 1, 2 ) as $tt_post ) {
+		$tt_side[] = array(
+			'title' => get_the_title( $tt_post ),
+			'img'   => ecsges_post_thumb( $tt_post->ID, 'medium_large' ),
+			'href'  => get_permalink( $tt_post ),
+		);
+	}
+} else {
+	// Nội dung mẫu: 'img' là tên file trong assets/img nên phải qua ecsges_img(),
+	// còn ảnh bài thật ở nhánh trên đã là URL đầy đủ.
+	$tt_featured    = ecsges_tr_deep( ecsges_news_featured() );
+	$tt_main        = $tt_featured['main'];
+	$tt_main['img'] = ecsges_img( $tt_main['img'] );
+	foreach ( $tt_featured['side'] as $tt_item ) {
+		$tt_item['img'] = ecsges_img( $tt_item['img'] );
+		$tt_side[]      = $tt_item;
+	}
+}
 ?>
 <section aria-labelledby="tin-noi-bat-heading" class="ecs-newsroom__section">
 	<div class="ecs-newsroom__inner">
@@ -24,7 +54,7 @@ $tt_side     = $tt_featured['side'];
 		<div class="ecs-newsroom__featured" data-aos="fade-up" data-aos-delay="80">
 			<article class="ecs-newsroom__lead">
 				<a href="<?php echo esc_url( $tt_main['href'] ); ?>" class="ecs-newsroom__lead-media">
-					<img src="<?php echo esc_url( ecsges_img( $tt_main['img'] ) ); ?>" alt="<?php echo esc_attr( $tt_main['title'] ); ?>" class="ecs-newsroom__img">
+					<img src="<?php echo esc_url( $tt_main['img'] ); ?>" alt="<?php echo esc_attr( $tt_main['title'] ); ?>" class="ecs-newsroom__img">
 				</a>
 				<h3 class="ecs-newsroom__lead-title">
 					<a href="<?php echo esc_url( $tt_main['href'] ); ?>" class="ecs-newsroom__link"><?php echo esc_html( $tt_main['title'] ); ?></a>
@@ -36,7 +66,7 @@ $tt_side     = $tt_featured['side'];
 				<?php foreach ( $tt_side as $item ) : ?>
 					<article class="ecs-newsroom__side-item">
 						<a href="<?php echo esc_url( $item['href'] ); ?>" class="ecs-newsroom__side-media">
-							<img src="<?php echo esc_url( ecsges_img( $item['img'] ) ); ?>" alt="<?php echo esc_attr( $item['title'] ); ?>" loading="lazy" class="ecs-newsroom__img">
+							<img src="<?php echo esc_url( $item['img'] ); ?>" alt="<?php echo esc_attr( $item['title'] ); ?>" loading="lazy" class="ecs-newsroom__img">
 						</a>
 						<h3 class="ecs-newsroom__side-title">
 							<a href="<?php echo esc_url( $item['href'] ); ?>" class="ecs-newsroom__link"><?php echo esc_html( $item['title'] ); ?></a>

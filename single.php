@@ -23,13 +23,15 @@ get_header();
 						<article <?php post_class( 'ecs-single__article' ); ?>>
 							<nav class="ecs-single__breadcrumb" aria-label="Breadcrumb">
 								<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( ecsges_t( 'Trang chủ' ) ); ?></a>
-								<span aria-hidden="true">/</span>
 								<?php
 								$ecsges_cats = get_the_category();
 								if ( ! empty( $ecsges_cats ) ) :
 									?>
+									<span aria-hidden="true">/</span>
 									<a href="<?php echo esc_url( get_category_link( $ecsges_cats[0]->term_id ) ); ?>"><?php echo esc_html( $ecsges_cats[0]->name ); ?></a>
 								<?php endif; ?>
+								<span aria-hidden="true">/</span>
+								<span class="ecs-single__breadcrumb-current" aria-current="page"><?php the_title(); ?></span>
 							</nav>
 
 							<h1 class="ecs-single__title"><?php the_title(); ?></h1>

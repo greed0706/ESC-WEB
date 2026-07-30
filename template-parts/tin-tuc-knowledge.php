@@ -10,6 +10,10 @@
  * hỗ trợ MỘT khối phân trang trên mỗi trang. Trang chủ có section-news riêng, còn
  * trang này là template khác nên không xung đột — đừng đặt 2 khối trên cùng 1 trang.
  *
+ * NGUỒN DỮ LIỆU: chuyên mục 'kien-thuc', tối đa 18 bài = 6 trang x 3 card đúng
+ * như Figma. Chuyên mục chưa tồn tại / chưa có bài → rơi về nội dung mẫu
+ * ecsges_news_knowledge().
+ *
  * @package ECSGES
  */
 
@@ -17,15 +21,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$tt_items = ecsges_tr_deep( ecsges_news_knowledge() );
+$tt_per_page = 3;
+$tt_max      = 18; // 6 trang x 3 card.
+$tt_posts    = ecsges_posts_by_category( 'kien-thuc', $tt_max );
+$tt_items    = array();
+
+if ( $tt_posts ) {
+	foreach ( $tt_posts as $tt_post ) {
+		$tt_items[] = array(
+			'title'   => get_the_title( $tt_post ),
+			'excerpt' => wp_trim_words( get_the_excerpt( $tt_post ), 24 ),
+			'img'     => ecsges_post_thumb( $tt_post->ID, 'medium_large' ),
+			'href'    => get_permalink( $tt_post ),
+		);
+	}
+} else {
+	// Nội dung mẫu: 'img' là tên file trong assets/img nên phải qua ecsges_img(),
+	// còn ảnh bài thật ở nhánh trên đã là URL đầy đủ.
+	foreach ( ecsges_tr_deep( ecsges_news_knowledge() ) as $tt_item ) {
+		$tt_item['img'] = ecsges_img( $tt_item['img'] );
+		$tt_items[]     = $tt_item;
+	}
+}
+
 if ( empty( $tt_items ) ) {
 	return;
 }
 
-$tt_per_page = 3;
-$tt_pages    = array_chunk( $tt_items, $tt_per_page );
-$tt_count    = count( $tt_pages );
-$tt_arrow    = ecsges_img( 'arrow.svg' );
+$tt_pages = array_chunk( $tt_items, $tt_per_page );
+$tt_count = count( $tt_pages );
+$tt_arrow = ecsges_img( 'arrow.svg' );
 ?>
 <section aria-labelledby="kien-thuc-heading" class="ecs-newsroom__knowledge">
 	<div class="ecs-newsroom__inner">
@@ -37,7 +62,7 @@ $tt_arrow    = ecsges_img( 'arrow.svg' );
 					<?php foreach ( $tt_page as $item ) : ?>
 						<article class="ecs-newsroom__card">
 							<a href="<?php echo esc_url( $item['href'] ); ?>" class="ecs-newsroom__card-media">
-								<img src="<?php echo esc_url( ecsges_img( $item['img'] ) ); ?>" alt="<?php echo esc_attr( $item['title'] ); ?>" loading="lazy" class="ecs-newsroom__img">
+								<img src="<?php echo esc_url( $item['img'] ); ?>" alt="<?php echo esc_attr( $item['title'] ); ?>" loading="lazy" class="ecs-newsroom__img">
 							</a>
 							<div class="ecs-newsroom__card-body">
 								<h3 class="ecs-newsroom__card-title">

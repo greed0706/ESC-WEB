@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $journey_lines = ecsges_field_lines( 'journey_heading', array( 'ĐỒNG HÀNH CÙNG NHỮNG', 'HÀNH TRÌNH PHÁT TRIỂN' ) );
-$journey_body  = ecsges_field( 'journey_body', 'ECSGES đồng hành cùng cá nhân, tổ chức và cộng đồng trên hành trình học tập, phát triển năng lực và mở rộng cơ hội trong bối cảnh hiện đại toàn cầu.' );
-$journey_label = ecsges_field( 'journey_cta_label', 'Tìm hiểu thêm' );
+$journey_body  = ecsges_field( 'journey_body', 'Mỗi hành trình phát triển đều bắt đầu từ một lựa chọn đúng. ECSGES đồng hành cùng người học từ nhận diện năng lực và định hướng tương lai, đến lựa chọn môi trường học tập, phát triển kiến thức và kỹ năng, kết nối cơ hội việc làm và từng bước hội nhập với thị trường lao động.' );
+$journey_label = ecsges_field( 'journey_cta_label', 'Xem thêm' );
 // Để trống field trong admin → nút trỏ về chuyên mục riêng
 // (/category/phat-trien-ben-vung/); chưa tạo chuyên mục thì lùi về neo cũ.
 $journey_link  = ecsges_field( 'journey_cta_link', ecsges_category_link( 'phat-trien-ben-vung', '#linh-vuc' ) );
@@ -39,9 +39,6 @@ $ecsges_photos = array(
 				);
 				?>
 				<p class="ecs-journey__body"><?php echo esc_html( $journey_body ); ?></p>
-				<div class="ecs-journey__cta-wrap">
-					<?php ecsges_see_more( $journey_link, $journey_label, 'ecs-see-more--on-brand ecs-journey__cta' ); ?>
-				</div>
 			</div>
 		</div>
 

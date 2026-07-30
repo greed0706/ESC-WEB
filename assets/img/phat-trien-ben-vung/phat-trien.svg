@@ -1,0 +1,11 @@
+<!-- Icon tự vẽ (Figma chưa có sẵn cho thẻ này) — phỏng theo phong cách nét mảnh
+     stroke #F05A28 width 2 của khuyen-hoc.svg/hoc-hoi.svg xuất từ Figma. -->
+<svg width="58" height="55" viewBox="0 0 58 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1 44H57" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9 44V32" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M22 44V24" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M35 44V16" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M48 44V8" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 25L15 12L28 19L48 1" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M37 1H48V12" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

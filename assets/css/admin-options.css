@@ -1,0 +1,204 @@
+/**
+ * Theme Options — style cho 2 trang admin (Hero Slider, Footer Settings).
+ *
+ * CSS viết tay, KHÔNG qua SCSS/npm run build:css: file này chỉ nạp trong
+ * wp-admin trên đúng 2 trang của theme, hoàn toàn tách khỏi assets/css/main.css
+ * của frontend. Bám theo biến màu của WP admin để hoà với giao diện gốc.
+ */
+
+.ecsges-options .ecsges-rows,
+.ecsges-options .ecsges-cols {
+	margin: 12px 0 0;
+}
+
+/* ---------- Hàng lặp lại ---------- */
+
+.ecsges-options .ecsges-row,
+.ecsges-options .ecsges-col {
+	position: relative;
+	display: flex;
+	gap: 12px;
+	align-items: flex-start;
+	margin-bottom: 12px;
+	padding: 14px 40px 14px 14px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+.ecsges-options .ecsges-col {
+	display: block;
+	max-width: 720px;
+}
+
+/* Tay nắm kéo — 2 cột chấm, khớp cảm giác của widget/menu trong WP admin. */
+.ecsges-options .ecsges-row__handle,
+.ecsges-options .ecsges-col__handle {
+	flex: 0 0 auto;
+	width: 14px;
+	align-self: stretch;
+	min-height: 24px;
+	margin-top: 4px;
+	cursor: move;
+	background-image: radial-gradient(#c3c4c7 1.5px, transparent 1.5px);
+	background-size: 6px 6px;
+	background-position: 0 0;
+}
+
+.ecsges-options .ecsges-row__remove,
+.ecsges-options .ecsges-col__remove {
+	position: absolute;
+	top: 10px;
+	right: 12px;
+	color: #b32d2e;
+	text-decoration: none;
+}
+
+.ecsges-options .ecsges-row__remove:hover,
+.ecsges-options .ecsges-col__remove:hover {
+	color: #8a2424;
+}
+
+.ecsges-options .ecsges-row__body {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 24px;
+	flex: 1 1 auto;
+}
+
+.ecsges-options .ecsges-row__media {
+	display: flex;
+	gap: 20px;
+}
+
+.ecsges-options .ecsges-row__fields {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	flex: 1 1 260px;
+	min-width: 240px;
+}
+
+/* ---------- Field ---------- */
+
+.ecsges-options .ecsges-field {
+	display: block;
+}
+
+.ecsges-options .ecsges-field--grow {
+	flex: 1 1 auto;
+}
+
+.ecsges-options .ecsges-field__label {
+	display: block;
+	margin-bottom: 4px;
+	font-weight: 600;
+}
+
+.ecsges-options .ecsges-field__hint {
+	display: block;
+	margin-top: 3px;
+	color: #646970;
+	font-size: 12px;
+	font-style: italic;
+}
+
+.ecsges-options .ecsges-field input[type="text"] {
+	width: 100%;
+}
+
+/* ---------- Ô chọn ảnh ---------- */
+
+.ecsges-options .ecsges-media {
+	width: 190px;
+}
+
+.ecsges-options .ecsges-media__preview {
+	margin-top: 6px;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	background: #f6f7f7;
+	overflow: hidden;
+}
+
+.ecsges-options .ecsges-media__preview img {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+/* Khung giữ chỗ khi chưa chọn ảnh — để hàng không nhảy cao thấp lung tung. */
+.ecsges-options .ecsges-media__preview.is-empty {
+	height: 78px;
+	background-image: repeating-linear-gradient(45deg, #f0f0f1 0 8px, #f6f7f7 8px 16px);
+}
+
+.ecsges-options .ecsges-media__actions {
+	margin: 6px 0 0;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.ecsges-options .ecsges-media__clear {
+	color: #b32d2e;
+	text-decoration: none;
+}
+
+.ecsges-options .is-hidden {
+	display: none;
+}
+
+/* ---------- Cột footer ---------- */
+
+.ecsges-options .ecsges-col__head {
+	display: flex;
+	gap: 12px;
+	align-items: flex-start;
+	padding-right: 70px;
+}
+
+.ecsges-options .ecsges-col__links {
+	margin-top: 14px;
+	padding-top: 12px;
+	border-top: 1px solid #f0f0f1;
+}
+
+.ecsges-options .ecsges-row--inline {
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+	padding: 8px 56px 8px 8px;
+	background: #f6f7f7;
+}
+
+.ecsges-options .ecsges-row--inline .ecsges-row__handle {
+	align-self: center;
+	min-height: 18px;
+	margin-top: 0;
+}
+
+.ecsges-options .ecsges-row__label {
+	flex: 1 1 40%;
+	min-width: 0;
+}
+
+.ecsges-options .ecsges-row__url {
+	flex: 1 1 60%;
+	min-width: 0;
+}
+
+.ecsges-options .ecsges-row--inline .ecsges-row__remove {
+	top: 50%;
+	transform: translateY(-50%);
+	right: 10px;
+}
+
+/* ---------- Kéo thả ---------- */
+
+.ecsges-options .ecsges-sort-placeholder {
+	border: 1px dashed #c3c4c7;
+	border-radius: 4px;
+	background: #f0f6fc;
+	visibility: visible !important;
+}

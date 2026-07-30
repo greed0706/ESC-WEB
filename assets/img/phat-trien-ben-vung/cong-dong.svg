@@ -1,0 +1,10 @@
+<!-- Icon tự vẽ (Figma chưa có sẵn cho thẻ này) — phỏng theo phong cách nét mảnh
+     stroke #F05A28 width 2 của khuyen-hoc.svg/hoc-hoi.svg xuất từ Figma. -->
+<svg width="58" height="55" viewBox="0 0 58 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M29 26C33.4183 26 37 22.4183 37 18C37 13.5817 33.4183 10 29 10C24.5817 10 21 13.5817 21 18C21 22.4183 24.5817 26 29 26Z" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13 44C13 35.7157 20.1634 29 29 29C37.8366 29 45 35.7157 45 44" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C9.23858 7 7 9.23858 7 12C7 14.7614 9.23858 17 12 17Z" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1 38C1 31.3726 5.92487 26 12 26C15.5216 26 18.6572 27.8018 20.6667 30.5896" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M46 17C48.7614 17 51 14.7614 51 12C51 9.23858 48.7614 7 46 7C43.2386 7 41 9.23858 41 12C41 14.7614 43.2386 17 46 17Z" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M37.3333 30.5896C39.3428 27.8018 42.4784 26 46 26C52.0751 26 57 31.3726 57 38" stroke="#F05A28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

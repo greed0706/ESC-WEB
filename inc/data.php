@@ -66,7 +66,8 @@ function ecsges_ecosystem_tabs()
 			'image' => 'he-sinh-thai/huong-nghiep.jpg',
 			'label' => 'HƯỚNG NGHIỆP',
 			'title' => 'HƯỚNG NGHIỆP',
-			'body' => 'ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại và hội nhập.',
+			'body' => 'ECS Global phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm của đội ngũ lãnh đạo trẻ, cùng với sự năng động, sáng tạo, đoàn kết của nhiều lớp nhân viên.
+						Sau hơn 9 năm, ECS Global đã khẳng định được vị thế trên thị trường ở các lĩnh vực tuyển sinh, hướng nghiệp khởi nghiệp, việc làm, giáo dục, truyền thông và công nghệ số.',
 		),
 		array(
 			'id' => 'tuyen-sinh',
@@ -161,32 +162,68 @@ function ecsges_featured_news()
 	);
 }
 
-/** Các cột link trong footer. */
+/**
+ * Các cột link trong footer — MẶC ĐỊNH TĨNH.
+ *
+ * Chỉ dùng khi Theme Options → Footer Settings còn trống (xem
+ * ecsges_footer_links() trong inc/theme-options.php). Mỗi link là một cặp
+ * nhãn + đích, đích khai bằng ĐÚNG MỘT trong hai khoá:
+ *   - 'url' : đường dẫn tĩnh (anchor trùng id section trong page-ve-ecs.php /
+ *             template-parts/ptbv-*.php, khớp menu header — xem ecsges_nav_items()).
+ *             Đường dẫn 1 cấp được ánh xạ sang Page cùng ngôn ngữ khi render.
+ *   - 'cat' : slug chuyên mục → lấy link archive thật lúc render; chuyên mục
+ *             chưa tạo thì tự rơi về '#'.
+ */
 function ecsges_footer_columns()
 {
 	return array(
 		array(
 			'title' => 'VỀ ECSGES',
-			'links' => array('Hành trình phát triển', 'Tầm nhìn', 'Sứ mệnh', 'Giá trị cốt lõi'),
+			'links' => array(
+				array('label' => 'Hành trình phát triển', 'url' => '/ve-ecs#hanh-trinh-phat-trien'),
+				array('label' => 'Tầm nhìn', 'url' => '/ve-ecs#tam-nhin'),
+				array('label' => 'Sứ mệnh', 'url' => '/ve-ecs#su-menh'),
+				array('label' => 'Giá trị cốt lõi', 'url' => '/ve-ecs#gia-tri-cot-loi'),
+			),
 		),
 		array(
 			'title' => 'LĨNH VỰC HOẠT ĐỘNG',
-			'links' => array('Hướng nghiệp', 'Tuyển sinh', 'Đào tạo', 'Việc làm', 'Truyền thông'),
-			// 'cats' = nhãn VN gốc → slug category. Footer dò theo nhãn VN (không phải
-			// nhãn đã dịch/ACF ghi đè) rồi lấy link archive thật qua ecsges_category_link();
-			// category chưa tồn tại thì tự rơi về '#'.
-			'cats' => array(
-				'Hướng nghiệp' => 'huong-nghiep',
-				'Tuyển sinh' => 'tuyen-sinh',
-				'Đào tạo' => 'dao-tao',
-				'Việc làm' => 'viec-lam',
-				'Truyền thông' => 'truyen-thong',
+			'links' => array(
+				array('label' => 'Hướng nghiệp', 'cat' => 'huong-nghiep'),
+				array('label' => 'Tuyển sinh', 'cat' => 'tuyen-sinh'),
+				array('label' => 'Đào tạo', 'cat' => 'dao-tao'),
+				array('label' => 'Việc làm', 'cat' => 'viec-lam'),
+				array('label' => 'Truyền thông', 'cat' => 'truyen-thong'),
 			),
 		),
 		array(
 			'title' => 'PHÁT TRIỂN BỀN VỮNG',
-			'links' => array('Văn hoá ECS', 'Con người ECS', 'Trách nhiệm xã hội'),
+			'links' => array(
+				array('label' => 'Con người ECS', 'url' => '/phat-trien-ben-vung/#con-nguoi-ecs'),
+				array('label' => 'Văn hoá ECS', 'url' => '/phat-trien-ben-vung/#van-hoa-ecs'),
+				array('label' => 'Trách nhiệm xã hội', 'url' => '/phat-trien-ben-vung/#trach-nhiem-xa-hoi'),
+			),
 		),
+	);
+}
+
+/**
+ * Hero slider trang chủ — CẤU HÌNH MẶC ĐỊNH.
+ *
+ * Chỉ dùng khi Theme Options → Hero Slider còn trống (xem
+ * ecsges_hero_slider() trong inc/theme-options.php). 'slides' để rỗng =
+ * frontend tự lùi về ảnh banner tĩnh assets/img/hero-banner.jpg, tức giao
+ * diện y hệt trước khi có Theme Options.
+ */
+function ecsges_hero_slider_defaults()
+{
+	return array(
+		'autoplay' => 1,
+		'interval' => 5000, // ms mỗi slide đứng yên
+		'speed' => 600,     // ms hiệu ứng trượt
+		'dots' => 1,
+		'nav' => 1,
+		'slides' => array(),
 	);
 }
 
@@ -238,20 +275,20 @@ function ecsges_milestones()
 		),
 		array(
 			'years' => '2008 - 2018',
-			'title' => 'CHUYỂN ĐỔI LĨNH VỰC',
+			'title' => 'MỞ RỘNG SỨ MỆNH GIÁO DỤC',
 			'body' => 'Năm 2008, đổi tên thành công ty cổ phần truyền thông BTS Việt Nam. Chuyển đổi sang các lĩnh vực hướng nghiệp, tuyển sinh và đào tạo.',
 		),
 		array(
-			'years' => '2019 - 2025',
+			'years' => '2018 - 2025',
 			'title' => 'PHÁT TRIỂN NỘI LỰC VÀ KIỆN TOÀN TỔ CHỨC',
 			'body' => 'Năm 2019, đổi tên thành Công ty cổ phần hỗ trợ và phát triển chọn nghề khởi nghiệp ECS Global.
 						Mở rộng các pháp nhân.
-						Ứng dụng công nghệ và kiện toàn tổ chức',
+						Ứng dụng công nghệ và kiện toàn tổ chức.',
 		),
 		array(
 			'years' => '2026',
 			'title' => 'PHÁT TRIỂN BỀN VỮNG',
-			'body' => 'Năm 2026, đổi tên thành Công ty cổ phần hỗ trợ và phát triển ECSGES, phát triển hệ thống chuỗi văn phòng',
+			'body' => 'Năm 2026, đổi tên thành Công ty cổ phần hỗ trợ và phát triển ECSGES, phát triển hệ thống chuỗi văn phòng.',
 		),
 	);
 }
@@ -306,14 +343,14 @@ function ecsges_core_values()
 function ecsges_ve_ecs_stats()
 {
 	return array(
-		array('value' => '20+ năm', 'label' => 'Thành lập', 'icon' => '1.svg'),
-		array('value' => '05', 'label' => 'Lĩnh vực hoạt động', 'icon' => '2.svg'),
-		array('value' => '50+', 'label' => 'Chi nhánh văn phòng toàn quốc', 'icon' => '3.svg'),
-		array('value' => '235.000+', 'label' => 'Học sinh, sinh viên được tư vấn, định hướng nghề nghiệp', 'icon' => '4.svg'),
-		array('value' => '20.000+', 'label' => 'Sinh viên Đại học, Cao đẳng được đào tạo', 'icon' => '5.svg'),
-		array('value' => '50+', 'label' => 'Trường Đại học, Cao đẳng, Trung cấp, liên cấp được hỗ trợ và tư vấn', 'icon' => '6.svg'),
-		array('value' => '2000+', 'label' => 'Đối tác, tổ chức hỗ trợ và phát triển', 'icon' => '7.svg'),
-		array('value' => '200+', 'label' => 'CBGVNV với 50+ tiến sĩ, thạc sĩ','icon' => '8.svg'),
+		array('value' => '20', 'label' => 'Năm thành lập và phát triển', 'icon' => '1.svg'),
+		array('value' => '5', 'label' => 'Lĩnh vực hoạt động', 'icon' => '2.svg'),
+		array('value' => '20+', 'label' => 'Văn phòng toàn quốc', 'icon' => '3.svg'),
+		array('value' => '235.000+', 'label' => 'HSSV được tư vấn', 'icon' => '4.svg'),
+		array('value' => '20.000+', 'label' => 'Sinh viên được đào tạo', 'icon' => '5.svg'),
+		array('value' => '50+', 'label' => 'Trường học được tư vấn', 'icon' => '6.svg'),
+		array('value' => '50+', 'label' => 'Đối tác', 'icon' => '7.svg'),
+		array('value' => '200+', 'label' => 'Tiến sĩ, Thạc sĩ, CBNV', 'icon' => '8.svg'),
 	);
 }
 
@@ -423,6 +460,61 @@ function ecsges_linh_vuc_tabs()
 }
 
 /**
+ * Bản đồ <id lĩnh vực> => permalink của Page chi tiết.
+ *
+ * Cùng cách làm với ecsges_jobs_list(): tìm mọi Page đã gán template
+ * "Chi tiết lĩnh vực" (page-linh-vuc-chi-tiet.php) rồi ghép với tab qua SLUG
+ * của Page. Slug phải trùng 'id' trong ecsges_linh_vuc_tabs()
+ * (huong-nghiep / tuyen-sinh / dao-tao / viec-lam / truyen-thong).
+ *
+ * Khớp chính xác trước; nếu không có thì chấp nhận slug có hậu tố
+ * ('huong-nghiep-en' của bản Polylang, hay 'huong-nghiep-2' do WP tự thêm khi
+ * trùng slug). Chưa tạo Page nào thì trả mảng rỗng — template render nút bất
+ * hoạt thay vì link chết.
+ */
+function ecsges_linh_vuc_detail_map()
+{
+	static $map = null;
+	if (null !== $map) {
+		return $map;
+	}
+
+	$q = new WP_Query(array(
+		'post_type'      => 'page',
+		'posts_per_page' => 50,
+		'no_found_rows'  => true,
+		'meta_key'       => '_wp_page_template',
+		'meta_value'     => 'page-linh-vuc-chi-tiet.php',
+	));
+
+	$map = array();
+	$ids = array_column(ecsges_linh_vuc_tabs(), 'id');
+
+	// Vòng 1: slug trùng khít. Vòng 2 (chỉ cho id còn trống): slug có hậu tố.
+	foreach ($q->posts as $p) {
+		if (in_array($p->post_name, $ids, true)) {
+			$map[$p->post_name] = get_permalink($p);
+		}
+	}
+	foreach ($q->posts as $p) {
+		foreach ($ids as $id) {
+			if (!isset($map[$id]) && 0 === strpos($p->post_name, $id . '-')) {
+				$map[$id] = get_permalink($p);
+				break;
+			}
+		}
+	}
+	return $map;
+}
+
+/** URL Page chi tiết của 1 lĩnh vực; '' nếu chưa tạo Page tương ứng. */
+function ecsges_linh_vuc_detail_url($id)
+{
+	$map = ecsges_linh_vuc_detail_map();
+	return isset($map[$id]) ? $map[$id] : '';
+}
+
+/**
  * Phát triển bền vững — carousel nhân sự (placeholder). 'image' = tên file trong assets/img.
  */
 function ecsges_ptbv_team()
@@ -476,51 +568,68 @@ function ecsges_ptbv_values()
 }
 
 /**
- * Phát triển bền vững — VĂN HÓA ECS. Theo Figma: 3 thẻ hiện cùng lúc, mỗi thẻ = ảnh
- * trên cùng + tiêu đề + mô tả (không còn carousel). 'image' = ảnh minh hoạ trên thẻ.
+ * Phát triển bền vững — VĂN HÓA ECS. Theo Figma (node 715-573): 3 thẻ hiện cùng lúc,
+ * mỗi thẻ = icon + gạch + tiêu đề + ảnh (giống cấu trúc CON NGƯỜI ECS) — 'icon'/'image'
+ * xuất trực tiếp từ Figma, 'category' → nút "Xem thêm" trỏ /category/{slug}/ (tạo trong admin).
  */
 function ecsges_ptbv_culture()
 {
-	$img = 'phat-trien-ben-vung/';
+	$base = 'phat-trien-ben-vung/';
 	return array(
 		array(
-			'title' => 'HỌC HỎI',
-			'image' => $img . 'hoc-hoi.jpg',
-			'text'  => 'ECSGES xây dựng môi trường khuyến khích học tập và phát triển liên tục. Thông qua các chương trình đào tạo nội bộ, hoạt động chia sẻ chuyên môn và cơ hội tham gia các khóa học nâng cao, đội ngũ cán bộ, giảng viên và nhân viên luôn được tạo điều kiện để cập nhật kiến thức, rèn luyện kỹ năng và phát triển năng lực nghề nghiệp.',
+			'title'    => 'HỌC HỎI',
+			'icon'     => $base . 'hoc-hoi.svg',
+			'image'    => $base . 'hoc-hoi.jpg',
+			'category' => 'hoc-hoi',
+			'text'     => 'ECSGES xây dựng môi trường khuyến khích học tập và phát triển liên tục. Thông qua các chương trình đào tạo nội bộ, hoạt động chia sẻ chuyên môn và cơ hội tham gia các khóa học nâng cao, đội ngũ cán bộ, giảng viên và nhân viên luôn được tạo điều kiện để cập nhật kiến thức, rèn luyện kỹ năng và phát triển năng lực nghề nghiệp.',
 		),
 		array(
-			'title' => 'ĐỒNG HÀNH',
-			'image' => $img . 'dong-hanh.jpg',
-			'text'  => 'ECSGES không chỉ cung cấp dịch vụ giáo dục mà còn đồng hành cùng người học trên từng chặng đường phát triển. Từ định hướng nghề nghiệp, lựa chọn ngành học đến quá trình học tập và phát triển sự nghiệp, chúng tôi luôn là người bạn đồng hành đáng tin cậy.',
+			'title'    => 'HỢP TÁC',
+			'icon'     => $base . 'hop-tac.svg',
+			'image'    => $base . 'hop-tac.jpg',
+			'category' => 'hop-tac',
+			'text'     => 'ECSGES coi hợp tác là nền tảng để mở rộng giá trị. Chúng tôi chủ động kết nối với doanh nghiệp, tổ chức giáo dục và đối tác trong, ngoài nước để cùng xây dựng chương trình đào tạo chất lượng, tạo cơ hội thực tập, việc làm và phát triển bền vững cho người học.',
 		),
 		array(
-			'title' => 'ĐỔI MỚI',
-			'image' => $img . 'doi-moi.jpg',
-			'text'  => 'Đổi mới là động lực để ECSGES không ngừng phát triển. Với tư duy mở và tinh thần tiên phong, chúng tôi liên tục cập nhật xu hướng, nâng cao chất lượng và kiến tạo những giá trị mới nhằm đáp ứng yêu cầu của thời đại hội nhập.',
+			'title'    => 'PHỤNG SỰ',
+			'icon'     => $base . 'phung-su.svg',
+			'image'    => $base . 'phung-su.jpg',
+			'category' => 'phung-su',
+			'text'     => 'Phụng sự là kim chỉ nam trong mọi hoạt động của ECSGES. Mỗi cán bộ, giảng viên luôn đặt lợi ích của người học và cộng đồng lên hàng đầu, tận tụy đồng hành và hỗ trợ để mang lại những giá trị giáo dục thiết thực, góp phần xây dựng một xã hội học tập bền vững.',
 		),
 	);
 }
 
 /**
- * Phát triển bền vững — TRÁCH NHIỆM XÃ HỘI (3 thẻ). Thẻ đầu tô nền cam (accent).
+ * Phát triển bền vững — TRÁCH NHIỆM XÃ HỘI. Theo Figma (node 715-573): cùng cấu trúc
+ * thẻ icon+gạch+tiêu đề+ảnh như 2 khối trên (không còn thẻ text-only tô nền cam cố định).
+ * Icon KHUYẾN HỌC xuất trực tiếp từ Figma; icon CỘNG ĐỒNG/PHÁT TRIỂN Figma chưa vẽ nên
+ * tự vẽ tạm theo đúng phong cách (stroke #F05A28 width 2) — thay bằng bản Figma khi có.
  */
 function ecsges_ptbv_responsibility()
 {
+	$base = 'phat-trien-ben-vung/';
 	return array(
 		array(
-			'title'  => 'TRI THỨC',
-			'text'   => 'Lan tỏa cơ hội học tập và tiếp cận giáo dục cho nhiều đối tượng trong cộng đồng.',
-			'accent' => true,
+			'title'    => 'KHUYẾN HỌC',
+			'icon'     => $base . 'khuyen-hoc.svg',
+			'image'    => $base . 'khuyen-hoc.jpg',
+			'category' => 'khuyen-hoc',
+			'text'     => 'Lan tỏa cơ hội học tập và tiếp cận giáo dục cho nhiều đối tượng trong cộng đồng, đồng hành cùng học sinh, sinh viên có hoàn cảnh khó khăn thông qua học bổng và các chương trình hỗ trợ thiết thực.',
 		),
 		array(
-			'title'  => 'NHÂN LỰC',
-			'text'   => 'Góp phần đào tạo và phát triển nguồn nhân lực chất lượng cao phục vụ sự phát triển của đất nước.',
-			'accent' => false,
+			'title'    => 'CỘNG ĐỒNG',
+			'icon'     => $base . 'cong-dong.svg',
+			'image'    => $base . 'cong-dong.jpg',
+			'category' => 'cong-dong',
+			'text'     => 'Gắn kết và sẻ chia cùng cộng đồng qua các hoạt động thiện nguyện, kết nối các thế hệ và lan tỏa tinh thần tương thân tương ái trong xã hội.',
 		),
 		array(
-			'title'  => 'TƯƠNG LAI',
-			'text'   => 'Đồng hành cùng thế hệ trẻ trên hành trình hội nhập, sáng tạo và kiến tạo giá trị cho xã hội.',
-			'accent' => false,
+			'title'    => 'PHÁT TRIỂN',
+			'icon'     => $base . 'phat-trien.svg',
+			'image'    => $base . 'phat-trien.jpg',
+			'category' => 'phat-trien',
+			'text'     => 'Đồng hành cùng thế hệ trẻ trên hành trình hội nhập, sáng tạo và kiến tạo giá trị cho xã hội, góp phần phát triển nguồn nhân lực chất lượng cao phục vụ đất nước.',
 		),
 	);
 }
@@ -821,4 +930,55 @@ function ecsges_news_knowledge()
 		);
 	}
 	return $items;
+}
+
+/**
+ * Trang chủ — khối TIN TỨC, 4 tab "loại tin" (Figma mẫu: Tin tức / Sự kiện /
+ * Hình ảnh / Video). Khoá = SLUG CHUYÊN MỤC thật trong WordPress; template
+ * gom bài của cả 4 chuyên mục này rồi để initNewsFilter() lọc tại chỗ.
+ *
+ * Chuyên mục chưa được tạo trong admin thì tab vẫn hiện nhưng rỗng — đó là
+ * hành vi cố ý, không phải lỗi.
+ */
+function ecsges_news_types()
+{
+	return array(
+		'tin-tuc' => 'Tin tức',
+		'su-kien' => 'Sự kiện',
+		'hinh-anh' => 'Hình ảnh',
+		'video' => 'Video',
+	);
+}
+
+/**
+ * Trang chủ — khối TIN TỨC, select "Định dạng". Khoá là giá trị của
+ * data-format trên card, lấy từ field ACF 'media_type' (mỗi bài tự chọn
+ * Hình ảnh/Video trong màn sửa bài — xem inc/acf-fields.php), KHÔNG dùng
+ * post format gốc của WordPress nữa.
+ */
+function ecsges_news_formats()
+{
+	return array(
+		'hinh-anh' => 'Hình ảnh',
+		'video' => 'Video',
+	);
+}
+
+/**
+ * Giá trị field 'media_type' của một bài, mặc định 'hinh-anh' nếu ACF chưa
+ * bật hoặc bài chưa từng lưu field (khớp default_value khai trong
+ * inc/acf-fields.php nên bài cũ vẫn lọc đúng thay vì rơi vào diện rỗng).
+ *
+ * @param int $post_id
+ * @return string
+ */
+function ecsges_news_format_key($post_id)
+{
+	if (function_exists('get_field')) {
+		$value = get_field('media_type', $post_id);
+		if ('video' === $value || 'hinh-anh' === $value) {
+			return $value;
+		}
+	}
+	return 'hinh-anh';
 }

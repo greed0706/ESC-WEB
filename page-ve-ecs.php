@@ -24,10 +24,11 @@ get_header();
 		'template-parts/page',
 		'hero',
 		array(
-			'title' => 'Về ECS',
+			'title' => 'VỀ ECSGES',
 			'id' => 'top',
 			'bg' => 've-ecs/banner.png',
 			'variant' => 'banner',
+			'banner_title' => true,
 		)
 	);
 	?>
@@ -89,7 +90,8 @@ get_header();
 					<h3 class="ecs-ve-journey__milestone-title"><?php echo esc_html($m['title']); ?></h3>
 					<p
 						class="ecs-ve-journey__milestone-body ecs-ve-journey__milestone-body--<?php echo 'text-right' === $pos['align'] ? 'right' : 'justify'; ?>">
-						<?php echo esc_html($m['body']); ?></p>
+						<?php echo esc_html($m['body']); ?>
+					</p>
 				</div>
 			<?php endforeach; ?>
 		</div>
@@ -197,11 +199,11 @@ get_header();
 		//   - trái  : mép phải <= 32%   (hình quạt bắt đầu ở 32,97%)
 		//   - phải  : mép trái  >= 67%  (hình quạt kết thúc ở 67,34%)
 		//   - HỢP   : đáy <= 48%        (đỉnh hình quạt ở 48,6%)
-		array('key' => 'TÂM', 'left' => '15%', 'top' => '67%', 'width' => '20%'),
-		array('key' => 'BỀN', 'left' => '22%', 'top' => '28%', 'width' => '25%'),
-		array('key' => 'HỢP', 'left' => '50%', 'top' => '5%', 'width' => '22.5%'),
-		array('key' => 'TRÍ', 'left' => '80%', 'top' => '28%', 'width' => '25%'),
-		array('key' => 'SÁNG', 'left' => '85%', 'top' => '67%', 'width' => '20%'),
+		array('key' => 'TÂM', 'left' => '22%', 'top' => '70%', 'width' => '10%'),
+		array('key' => 'BỀN', 'left' => '30%', 'top' => '40%', 'width' => '10%'),
+		array('key' => 'HỢP', 'left' => '50%', 'top' => '28%', 'width' => '22.5%'),
+		array('key' => 'TRÍ', 'left' => '70%', 'top' => '40%', 'width' => '10%'),
+		array('key' => 'SÁNG', 'left' => '78%', 'top' => '67%', 'width' => '10%'),
 	);
 	// Cỡ chữ của nhãn hình quạt KHÔNG còn đặt inline (trước đây là clamp cqw
 	// co giãn theo container) — đã chuyển hẳn sang thang cỡ chữ cố định trong
@@ -213,7 +215,8 @@ get_header();
 		<!-- Desktop: hình quạt -->
 		<div class="ecs-ve-values__fan" style="container-type:inline-size;aspect-ratio:1920 / 852" data-aos="fade-up">
 			<h2 id="ve-ecs-values-heading" class="ecs-ve-values__heading">
-				<?php echo esc_html(ecsges_t('GIÁ TRỊ CỐT LÕI')); ?></h2>
+				<?php echo esc_html(ecsges_t('GIÁ TRỊ CỐT LÕI')); ?>
+			</h2>
 
 			<?php // Cụm hình quạt (nền cánh + viền + icon + mũi tên) bọc chung 1 lớp để
 			// phóng to như MỘT KHỐI bằng transform trong SCSS (.ecs-ve-values__art),
@@ -250,7 +253,6 @@ get_header();
 					style="left:<?php echo esc_attr($lb['left']); ?>;top:<?php echo esc_attr($lb['top']); ?>;width:<?php echo esc_attr($lb['width']); ?>">
 					<p class="ecs-ve-values__label-key"><?php echo esc_html(ecsges_t($v['key'])); ?></p>
 					<p class="ecs-ve-values__label-phrase"><?php echo esc_html(ecsges_t($v['phrase'])); ?></p>
-					<p class="ecs-ve-values__label-body"><?php echo esc_html(ecsges_t($v['body'])); ?></p>
 				</div>
 			<?php endforeach; ?>
 		</div>
@@ -264,6 +266,7 @@ get_header();
 						'lines' => array('GIÁ TRỊ CỐT LÕI'),
 						'accent' => array(),
 						'align' => 'center',
+						'tone' => 'light',
 					)
 				);
 				?>
@@ -273,8 +276,7 @@ get_header();
 				foreach ($icons as $mi => $ic):
 					$v = $values[$ic['key']];
 					?>
-					<div class="ecs-ve-values__item" data-aos="fade-up"
-						data-aos-delay="<?php echo esc_attr($mi * 80); ?>">
+					<div class="ecs-ve-values__item" data-aos="fade-up" data-aos-delay="<?php echo esc_attr($mi * 80); ?>">
 						<img src="<?php echo esc_url(ecsges_img('ve-ecs/' . $ic['src'])); ?>" alt="" aria-hidden="true"
 							class="ecs-ve-values__item-icon">
 						<p class="ecs-ve-values__item-key"><?php echo esc_html(ecsges_t($v['key'])); ?></p>
@@ -290,7 +292,7 @@ get_header();
 	<?php
 	$stats = ecsges_tr_deep(ecsges_ve_ecs_stats());
 	?>
-	<section aria-labelledby="ve-ecs-stats-heading" class="ecs-ve-stats">
+	<section id="nhung-con-so-an-tuong" aria-labelledby="ve-ecs-stats-heading" class="ecs-ve-stats">
 		<div class="ecs-ve-stats__inner">
 			<div data-aos="fade-up">
 				<?php

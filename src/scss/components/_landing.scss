@@ -297,7 +297,7 @@
 .ecs-journey {
   position: relative;
   overflow: hidden;
-  background: $brand;
+  background: $brand-light; // Figma (614-267): nền đặc #f26522, không phải $brand.
 
   &__gradient {
     pointer-events: none;
@@ -306,7 +306,9 @@
     top: 33.3333%;
     display: none;
     height: 33.3333%;
-    background: linear-gradient(to right, $brand 40%, $brand-dark, #c8451b);
+    // Figma: dải giữa chuyển màu trái→phải $brand-light → $brand-dark, đúng
+    // 2 điểm dừng (không có điểm dừng thứ 3 #c8451b tự chế như bản trước).
+    background: linear-gradient(to right, $brand-light, $brand-dark);
 
     @include bp(lg) {
       display: block;
@@ -455,8 +457,9 @@
     margin-top: 24px;
     max-width: 768px;
     text-align: center;
+    font-style: italic;
     @include text-sm;
-    font-weight: 300;
+    font-weight: 400;
     color: $body;
   }
 
@@ -491,7 +494,7 @@
     justify-content: center;
     gap: 12px;
     padding-inline: 8px;
-    padding-block: 24px;
+    padding-block: 12px;
     transition: color 0.15s ease, background-color 0.15s ease;
     background: #fff;
     color: $ink;
@@ -520,6 +523,11 @@
     text-align: center;
     @include text-sm;
     font-weight: 500;
+    color: #A4A4A4;
+  }
+
+  &__tab.is-active &__label {
+    color: #fff;
   }
 
   &__caret {
@@ -545,10 +553,9 @@
     display: none;
     margin-top: 40px;
     align-items: stretch;
-    gap: 0;
+    gap: 20px;
 
     @include bp(md) {
-      min-height: 440px;
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -557,14 +564,11 @@
     }
   }
 
+  // Tỉ lệ 627:341 lấy đúng theo node Figma (khung panel "Hướng nghiệp" 1920px).
   &__panel-img {
-    height: 256px;
     width: 100%;
+    aspect-ratio: 627 / 341;
     object-fit: cover;
-
-    @include bp(md) {
-      height: 100%;
-    }
   }
 
   &__panel-body {
@@ -596,34 +600,19 @@
   }
 }
 
-// NewsSection (+ pagination) — ported from Tailwind utilities (Phase 2 Task 9),
-// following the method established in components/_footer.scss (Task 2).
+// NewsSection — phân trang dùng chung.
+//
+// PHẦN LỚN style của khối TIN TỨC trang chủ đã chuyển sang
+// components/_news.scss (tab + bộ lọc + lưới card + đổi kiểu xem). Ở lại đây
+// CHỈ còn cụm phân trang mũi tên/chấm tròn, vì nó KHÔNG thuộc trang chủ nữa mà
+// đang được khối "KIẾN THỨC" của trang Tin tức dùng lại nguyên markup
+// (template-parts/tin-tuc-knowledge.php → .ecs-news__pagination/__dot/__arrow-img).
+// Xoá khối này đi là trang Tin tức mất phân trang.
 //
 // JS coupling: initNewsPagination() (assets/js/main.js) toggles ONLY
-// `.is-active` on `[data-news-page]` and `[data-news-dot]` — no more
-// `flex`/`hidden`/`bg-brand`/`bg-placeholder` toggling. `.ecsges_see_more()`
-// and `.ecsges_section_heading()` output (`.ecs-see-more` / `.ecs-heading`)
-// already live in ../_components.scss / their own partials — untouched here.
+// `.is-active` on `[data-news-page]` and `[data-news-dot]`.
 
 .ecs-news {
-  background: #fff;
-  padding-block: 64px;
-
-  @include bp(lg) {
-    padding-block: 96px;
-  }
-
-  &__inner {
-    @include container;
-  }
-
-  // Khối tin (lead + side) dùng chung .ecs-newsroom__featured/lead/side
-  // (src/scss/components/_tin-tuc.scss) — giống hệt khối "TIN NỔI BẬT" của
-  // trang Tin tức (xem template-parts/section-news.php). Chỉ cần nối
-  // khoảng cách heading→khối, giữ đúng 48px của lưới trang chủ trước đây.
-  .ecs-newsroom__featured {
-    margin-top: 48px;
-  }
 
   // Pagination controls (dùng chung với khối KIẾN THỨC ở trang Tin tức,
   // xem template-parts/tin-tuc-knowledge.php).

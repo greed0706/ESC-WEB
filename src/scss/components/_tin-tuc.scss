@@ -139,7 +139,7 @@ $newsroom-media-h: 488;
     font-family: $font-display;
     font-weight: 500;
     letter-spacing: 1px;
-    color: $ink;
+    color: $brand;
 
     @include bp(lg) {
       // Figma: TIN NỔI BẬT đáy 949 → lưới featured 992.

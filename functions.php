@@ -14,6 +14,7 @@ define('ECSGES_VERSION', '1.0.0');
 require_once get_template_directory() . '/inc/i18n.php';
 require_once get_template_directory() . '/inc/data.php';
 require_once get_template_directory() . '/inc/acf-fields.php';
+require_once get_template_directory() . '/inc/theme-options.php';
 
 /**
  * Theme setup.
@@ -294,6 +295,58 @@ function ecsges_category_link($slug, $fallback = '')
 	}
 	$link = get_term_link($term);
 	return is_wp_error($link) ? $fallback : $link;
+}
+
+/**
+ * ID chuyên mục theo slug, đã ánh xạ sang bản dịch của ngôn ngữ đang xem.
+ *
+ * Tra theo SLUG chứ không hardcode ID vì mỗi site (local/production) đánh ID
+ * khác nhau. Chuyên mục chưa được tạo trong admin → 0 (nơi gọi tự xử lý).
+ *
+ * @param string $slug Slug chuyên mục (vd 'tin-tuc').
+ * @return int 0 nếu không có.
+ */
+function ecsges_category_id($slug)
+{
+	$term = get_term_by('slug', trim((string) $slug), 'category');
+	if (! $term || is_wp_error($term)) {
+		return 0;
+	}
+	$id = (int) $term->term_id;
+	if (function_exists('pll_get_term') && function_exists('pll_current_language')) {
+		$tr = pll_get_term($id, pll_current_language('slug'));
+		if ($tr) {
+			$id = (int) $tr;
+		}
+	}
+	return $id;
+}
+
+/**
+ * Bài viết mới nhất của một chuyên mục (theo slug).
+ *
+ * @param string $slug  Slug chuyên mục.
+ * @param int    $limit Số bài tối đa.
+ * @return WP_Post[] Mảng rỗng nếu chuyên mục chưa tồn tại hoặc chưa có bài.
+ */
+function ecsges_posts_by_category($slug, $limit)
+{
+	$cat = ecsges_category_id($slug);
+	if (! $cat) {
+		return array();
+	}
+	$q = new WP_Query(
+		array(
+			'post_type' => 'post',
+			'cat' => $cat,
+			'posts_per_page' => (int) $limit,
+			'ignore_sticky_posts' => true,
+			'no_found_rows' => true,
+		)
+	);
+	$posts = $q->posts;
+	wp_reset_postdata();
+	return $posts;
 }
 
 /**

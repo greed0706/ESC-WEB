@@ -407,13 +407,22 @@
  * the static Tailwind utility classes are ported below.
 \* ------------------------------------------------------------------ */
 .ecs-ve-values {
-  background: $surface;
+  // __art phóng to bằng transform:scale(1.18) (xem &__art bên dưới) nên tràn
+  // ra ngoài khung __fan theo chiều ngang ở màn rộng — không có overflow:hidden
+  // ở đây thì cả trang bị thanh trượt ngang.
+  overflow: hidden;
+  // Nền cam đặc (không phải $surface xám) — khớp Rectangle 23 trong Figma
+  // (node "Về ECS sửa", #f26522 = $brand-light, cùng tông với khối
+  // .ecs-journey ở trang chủ). Cánh quạt + icon vẫn trắng/cam như cũ, chỉ
+  // tiêu đề và nhãn chữ đổi sang trắng để đọc được trên nền cam.
+  background: $brand-light;
   padding-block: 64px;
 
-  // Desktop: tiêu đề "GIÁ TRỊ CỐT LÕI" được kéo lên trên đỉnh khung quạt (translate
-  // -110%) nên cần chừa khoảng đệm trên, nếu không nó tràn lên section Sứ mệnh.
+  // Desktop: tiêu đề nằm NGAY TRONG khung quạt (xem &__heading — top:4%, không
+  // còn kéo ra ngoài bằng translate âm như trước), nên không cần khoảng đệm
+  // trên lớn nữa.
   @include bp(lg) {
-    padding-block: 96px 0;
+    padding-block: 32px 0;
   }
 
   // Desktop: fan container (position/aspect-ratio come from inline style).
@@ -432,15 +441,15 @@
   &__heading {
     position: absolute;
     left: 50%;
-    // Kéo lên trên đỉnh khung quạt (top âm) để không chồng lên nhãn HỢP (top 18%).
-    // translate phần Y kéo tiêu đề lên đúng bằng chiều cao của nó.
-    top: 0;
-    translate: -50% -110%;
+    // Đặt NGAY TRONG khung quạt, sát mép trên (thay vì kéo hẳn ra ngoài bằng
+    // translate âm như trước — tạo khoảng trắng quá lớn tới nhãn HỢP ở top:28%).
+    top: 4%;
+    translate: -50% 0;
     white-space: nowrap;
     font-family: $font-display;
     @include text-lg;
     font-weight: 500;
-    color: $ink;
+    color: #fff;
   }
 
   // Lớp bọc cụm hình quạt. Phủ đúng khung cha (inset:0) nên toạ độ % của các
@@ -483,7 +492,7 @@
     font-family: $font-display;
     @include text-md;
     font-weight: 600;
-    color: $brand;
+    color: #fff;
   }
 
   &__label-phrase {
@@ -491,16 +500,7 @@
     font-family: $font-display;
     @include text-sm;
     font-weight: 500;
-    color: $ink;
-  }
-
-  // Chỉ đoạn mô tả căng đều 2 biên; key + phrase giữ căn giữa như thiết kế.
-  &__label-body {
-    margin-top: 4px;
-    @include text-sm;
-    font-weight: 300;
-    text-align: justify;
-    color: $ink;
+    color: #fff;
   }
 
   // Mobile/tablet: stacked icon + text.
@@ -540,7 +540,7 @@
     font-family: $font-display;
     @include text-md;
     font-weight: 600;
-    color: $brand;
+    color: #fff;
   }
 
   &__item-phrase {
@@ -548,13 +548,13 @@
     font-family: $font-display;
     @include text-sm;
     font-weight: 500;
-    color: $ink;
+    color: #fff;
   }
 
   &__item-body {
     margin-top: 8px;
     @include text-sm;
     font-weight: 300;
-    color: $ink;
+    color: #fff;
   }
 }

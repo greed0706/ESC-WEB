@@ -35,7 +35,7 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
   }
 
   &__logo {
-    height: 48px;
+    height: 60px;
     width: auto;
   }
 
@@ -180,7 +180,7 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
 
 .ecs-header {
   background: #fff; // site-header itself supplies position/shadow
-
+  padding-block:4px;
   &__row {
     @include container;
     display: flex;
@@ -208,7 +208,7 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
     }
 
     @include bp(lg) {
-      height: 44px;
+      height: 60px;
     }
 
   }
@@ -243,6 +243,7 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
 
   &__nav-link {
     @include text-sm;
+    font-size: 16px;
     color: $ink;
     transition: color 0.15s ease;
 

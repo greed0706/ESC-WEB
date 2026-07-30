@@ -1,0 +1,591 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+// Khối TIN TỨC trang chủ (template-parts/section-news.php).
+//
+// Bố cục: tiêu đề + 4 tab + thanh lọc nằm trên nền TRẮNG trong container;
+// lưới card nằm trong dải xám #f0f0f0 FULL-BLEED (&__band) — nên section không
+// đặt background chung, mỗi phần tự khai.
+//
+// JS coupling: initNewsFilter() (assets/js/main.js) chỉ làm 3 việc —
+//   1) bật/tắt thuộc tính `hidden` trên [data-news-item] / [data-news-empty] /
+//      [data-news-more-wrap];
+//   2) đổi .is-active giữa các [data-news-tab] và [data-news-view];
+//   3) bật/tắt .is-list trên .ecs-news__grid.
+// KHÔNG bao giờ set style inline — mọi trạng thái nhìn thấy được định nghĩa ở đây.
+// Không có JS thì mọi card đều hiện (không rule nào ẩn sẵn) → khối vẫn dùng được.
+//
+// Phân trang mũi tên/chấm tròn (.ecs-news__pagination/__dot/__arrow-img) KHÔNG
+// nằm ở đây mà ở components/_landing.scss — trang chủ không dùng nữa, nhưng
+// khối "KIẾN THỨC" của trang Tin tức vẫn dùng lại.
+
+.ecs-news {
+  background: #fff;
+  padding-block-start: 64px;
+
+  @include bp(lg) {
+    padding-block-start: 96px;
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  // --- 4 tab loại tin ---------------------------------------------------
+  // Đường kẻ xám 1px là border của CHÍNH THẺ BỌC này nên nó chạy hết bề rộng
+  // container, độc lập với các tab bên trong.
+  //
+  // CỐ Ý KHÔNG dùng lưới 4 cột đều nhau: cột đều thì gạch chân cam của tab
+  // active rộng bằng 1/4 container (~300px) trông như border của từng ô, sai
+  // hẳn so với mẫu. Flex + căn giữa + gap cố định giữ 4 tab thành một CỤM sát
+  // nhau ở giữa, và gạch chân chỉ ôm đúng bề ngang chữ + padding.
+  // position:relative để &__tab-indicator (1 vạch DUY NHẤT, dùng chung cho cả
+  // 4 tab) định vị bằng left/width tuyệt đối theo tab đang active — xem bên
+  // dưới. initNewsFilter() (assets/js/main.js) đo offsetLeft/offsetTop/
+  // offsetWidth của tab rồi set trực tiếp vào style của vạch này.
+  &__tabs {
+    position: relative;
+    margin-block-start: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    border-block-end: 1px solid #e3e3e3;
+
+    @include bp(sm) {
+      gap: 24px;
+    }
+
+    @include bp(md) {
+      gap: 60px;
+    }
+
+    @include bp(lg) {
+      gap: 120px;
+    }
+  }
+
+  // font-size 26px CỐ Ý nằm ngoài thang $fs-* (đo trực tiếp từ node Figma
+  // 695:348 "Tin tức", family Roboto Flex) — 4 tab loại tin là chữ display,
+  // không phải body text. padding-inline 24px (không phải 10px) để gạch chân
+  // active rộng ~125px khớp Rectangle 414 (126px thực đo) thay vì chỉ ôm sát
+  // chữ; gap 120px (không phải 160px) bù lại phần padding tăng thêm để
+  // khoảng cách mép-chữ-tới-mép-chữ giữa 2 tab vẫn ~168px như mẫu.
+  &__tab {
+    position: relative;
+    padding-block: 10px 12px;
+    padding-inline: 12px;
+    font-family: $font-display;
+    font-size: 18px; // dưới bp(sm): 4 tab cỡ 26px + đệm 24px tràn 375px, thu nhỏ để vừa 1 hàng.
+    line-height: 1.2;
+    font-weight: 300;
+    color: $muted-2;
+    transition: color 0.15s ease;
+
+    @include bp(sm) {
+      padding-block: 12px 14px;
+      padding-inline: 24px;
+      font-size: 26px;
+    }
+
+    &:hover {
+      color: $brand;
+    }
+
+    &.is-active {
+      color: $brand;
+      font-weight: 500;
+    }
+  }
+
+  // Vạch cam DUY NHẤT, trượt giữa các tab khi đổi active thay vì mờ-hiện tại
+  // chỗ như bản cũ (mỗi tab tự có ::after riêng). left/width/top do JS set
+  // trực tiếp (giá trị đo bằng px, không biết trước) — CSS chỉ lo animate
+  // chúng. Tắt hẳn transition khi prefers-reduced-motion để tránh chuyển
+  // động không cần thiết cho người dùng đã bật cờ này.
+  &__tab-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 4px;
+    background: $brand;
+    pointer-events: none;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: left 0.25s ease, width 0.25s ease, top 0.25s ease;
+    }
+  }
+
+  // --- Thanh lọc --------------------------------------------------------
+  // MỘT DẢI XÁM LIỀN MẠCH: padding đặt ở chính thanh, các cụm bên trong KHÔNG
+  // có nền/viền riêng. (Bản trước ngăn cách từng cụm bằng khe trắng 4px — sai
+  // mẫu, trông như 4 mảng rời rạc.)
+  //
+  // BỐ CỤC: 3 cụm lọc thành MỘT khối căn giữa phần bề rộng còn lại, cụm icon
+  // ghim mép phải — không phải 4 con dàn đều. Đó là lý do có thẻ bọc
+  // .ecs-news__filters: nếu để 3 cụm làm con trực tiếp của thanh thì
+  // margin-inline-start:auto của cụm icon nuốt sạch phần dư, space-between hết
+  // chỗ chia và 3 cụm lọc dính vào mép trái.
+  // Dưới bp(sm): xếp DỌC toàn bộ thanh lọc (mỗi cụm 1 hàng riêng, đầy đủ bề
+  // rộng) — bản flex-wrap ngang cũ bị vỡ dòng giữa chừng một cặp nhãn/select
+  // (vd "Đến" tách khỏi select của nó) vì các item độ rộng khác nhau tự ngắt
+  // dòng theo bất kỳ điểm nào vừa hết chỗ. Từ bp(sm) trở lên trở lại đúng bố
+  // cục ngang gốc (căn giữa, cụm icon ghim phải) như trước.
+  &__toolbar {
+    margin-block-start: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    background: $surface-2;
+    padding: 16px 20px;
+
+    @include bp(sm) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 24px;
+      // padding-block 13px + select height 41px (xem &__select) = 67px, đúng
+      // bằng Rectangle 415 (nền xám thanh lọc) thực đo trong Figma.
+      padding: 13px 24px;
+    }
+
+    @include bp(lg) {
+      padding-inline: 40px;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+
+    @include bp(sm) {
+      flex: 1 1 auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px 24px;
+    }
+
+    @include bp(lg) {
+      gap: 12px 36px;
+    }
+  }
+
+  // Grid 2 cột (nhãn | select) — mỗi cặp nhãn+select tự rơi vào 1 hàng riêng
+  // theo thứ tự DOM, nên cụm "Thời gian từ/Đến" (4 con: nhãn,select,nhãn,
+  // select) tự chia đúng 2 hàng mà không cần đổi markup hay nth-child. Từ
+  // bp(sm) trở lên quay lại flex hàng ngang như thiết kế gốc.
+  &__group {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 10px;
+
+    @include bp(sm) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    // Vạch ngăn dọc mảnh — mẫu chỉ có ĐÚNG MỘT vạch, nằm giữa cụm "Thời gian"
+    // và cụm "Chủ đề"; giữa "Chủ đề" và "Định dạng" thì không có. Chỉ có ý
+    // nghĩa khi các cụm nằm NGANG hàng nên ẩn hẳn dưới bp(sm) (đang xếp dọc).
+    // Node Line 20 trong Figma cao ~40px (gần hết chiều cao thanh lọc 67px).
+    &:first-child::after {
+      display: none;
+
+      @include bp(sm) {
+        content: '';
+        display: block;
+        margin-inline-start: 16px;
+        width: 1px;
+        height: 40px;
+        background: #cfcfcf;
+      }
+    }
+  }
+
+  // Nhãn thanh lọc đo trực tiếp từ node Figma 695:357 "Thời gian từ":
+  // family Roboto Flex, 18px, weight 300 (Light), màu #747272 ($muted-2) —
+  // KHÔNG phải Roboto 14px/$body như bản trước. white-space:nowrap để nhãn
+  // không tự ngắt dòng lẻ trong ô grid cột 1 (auto) dưới bp(sm).
+  &__label {
+    font-family: $font-display;
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: 300;
+    color: $muted-2;
+    white-space: nowrap;
+  }
+
+  // Caret tam giác đặc theo mẫu — native caret của trình duyệt là chevron mảnh
+  // nên phải appearance:none rồi tự vẽ bằng ::after của thẻ bọc. Dưới bp(sm)
+  // giãn hết cột 2 của grid &__group (thay vì co theo nội dung) để select bên
+  // trong có đủ bề ngang chạm thẳng mép phải thanh lọc, giống 1 field form.
+  &__select-wrap {
+    position: relative;
+    display: flex;
+    width: 100%;
+
+    @include bp(sm) {
+      display: inline-flex;
+      width: auto;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      inset-inline-end: 10px;
+      margin-block: auto;
+      width: 0;
+      height: 0;
+      border-inline: 5px solid transparent;
+      border-block-start: 6px solid $brand;
+      pointer-events: none;
+    }
+  }
+
+  // Giá trị chọn ("2026", "Tất cả") đo từ node 695:358/695:370: cùng family/
+  // cỡ với nhãn (Roboto Flex 18px) nhưng màu đen tuyền $ink, không phải $body.
+  &__select {
+    appearance: none;
+    width: 100%;
+    min-width: 96px;
+    height: 41px;
+    border: 1px solid $placeholder;
+    border-radius: 2px;
+    background: #fff;
+    padding-inline: 12px 30px;
+    font-family: $font-display;
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: 300;
+    color: $ink;
+    cursor: pointer;
+
+    @include bp(sm) {
+      width: auto;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $brand;
+      outline-offset: 1px;
+    }
+  }
+
+  // Cụm 2 icon đổi kiểu xem nằm CUỐI thanh lọc (bên phải, sau "Định dạng") —
+  // đúng theo mẫu; &__filters vẫn flex:1 nên chiếm hết phần còn lại và tự
+  // căn giữa BÊN TRONG phần đó (xem &__filters ở trên). margin-inline-end lùi
+  // cụm icon vào trong một chút, không sát hẳn mép phải thanh lọc.
+  &__views {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    @include bp(sm) {
+      justify-content: flex-start;
+      margin-inline-end: 16px;
+    }
+  }
+
+  // 2 file SVG (assets/img/tin-tuc/type-post-1|2.svg) hardcode fill/stroke xám
+  // nên KHÔNG ăn currentColor — phải ghi đè thẳng vào <rect> con. Trạng thái
+  // chọn thể hiện bằng gạch chân cam giống tab, không đổi màu ô vuông.
+  &__view {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-block-end: 6px;
+    line-height: 0;
+
+    // 32px đo từ 2 group icon Figma (697:394 33×36, 697:393 31×30) — không
+    // phải 24px như bản trước, chúng to gần bằng caret select bên cạnh.
+    svg {
+      width: 32px;
+      height: auto;
+      display: block;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      height: 3px;
+      background: $brand;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    &:hover rect {
+      stroke: $brand;
+    }
+
+    &.is-active {
+      &::after {
+        opacity: 1;
+      }
+
+      rect {
+        fill: rgba($brand, 0.18);
+        stroke: $brand;
+      }
+    }
+  }
+
+  // --- Dải xám chứa lưới card ------------------------------------------
+  &__band {
+    margin-block-start: 40px;
+    background: $surface-2;
+    padding-block: 48px;
+
+    @include bp(lg) {
+      padding-block: 61px 53px;
+    }
+  }
+
+  // gap 33px đo trực tiếp từ 3 card Figma (697:442 x307 → 697:443 x748 →
+  // 697:453 x1189, mỗi card rộng 408 ⇒ khoảng cách đều 33px), không phải 24px.
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 33px;
+
+    @include bp(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp(lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    // initNewsFilter() bật class này NGAY khi bấm tab, đổi lại card `hidden`
+    // lúc lưới đang mờ (opacity 0) rồi mới gỡ class — nhờ vậy người dùng thấy
+    // khối mờ đi/rõ lại thay vì card cũ-mới đổi tại chỗ không báo trước.
+    &.is-switching {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+
+  // `display: flex` thắng thuộc tính `hidden` của HTML, mà initNewsFilter()
+  // ẩn/hiện card BẰNG `hidden` — nên phải khai lại display:none, nếu không bộ
+  // lọc bấm xong sẽ không thấy card nào biến mất.
+  &__card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__card-media {
+    display: block;
+    overflow: hidden;
+  }
+
+  // Tỉ lệ đo từ Rectangle 309 (408×244) trong node card Figma — không phải
+  // 16/10. Cùng tỉ lệ 408/244 với ảnh khối "TIN NỔI BẬT" của trang Tin tức
+  // (xem template-parts/tin-tuc-featured.php).
+  &__card-img {
+    aspect-ratio: 408 / 244;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+
+    .ecs-news__card-media:hover & {
+      transform: scale(1.05);
+    }
+  }
+
+  // flex-grow ở body + margin-top:auto ở &__card-foot giữ hàng ngày/nút luôn
+  // dính đáy card, nên các card cùng hàng thẳng chân dù tiêu đề dài ngắn khác nhau.
+  &__card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    padding: 16px 19px 19px;
+  }
+
+  // Node 697:425 "TIN BÁO CHÍ": Roboto Light 16px, KHÔNG có letter-spacing
+  // riêng (đo được 0) — text nguồn đã viết hoa sẵn nên text-transform chỉ là
+  // lưới an toàn, không cộng thêm tracking như bản trước (0.08em là bịa).
+  &__card-eyebrow {
+    margin: 0;
+    font-family: $font-sans;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: $muted-2;
+  }
+
+  // Node 697:404: Roboto Regular (weight 400, KHÔNG bold) 22px — bản trước
+  // dùng $fs-sm (18px) + weight 600 là sai cả hai; letter-spacing 0.25px thì
+  // đã đúng ($ls-base) nên giữ nguyên.
+  &__card-title {
+    margin: 10px 0 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: $font-sans;
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 400;
+    letter-spacing: $ls-base;
+  }
+
+  &__card-link {
+    color: $ink;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $brand;
+    }
+  }
+
+  // Node 697:407: cỡ/weight đã khớp ($fs-sm 18px, Light 300) nhưng màu và
+  // line-height thì chưa — Figma là #747272 ($muted-2), không phải $body,
+  // và line-height 26px chứ không phải 32px của thang $lh-base.
+  &__card-excerpt {
+    margin: 10px 0 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: $font-sans;
+    font-size: $fs-sm;
+    line-height: 26px;
+    font-weight: 300;
+    color: $muted-2;
+  }
+
+  // Nút "Xem thêm" bên trong là .ecs-about__cta-wrap + .ecs-about__cta NGUYÊN
+  // BẢN (xem components/_landing.scss) theo yêu cầu "giống về mọi mặt" — khoảng
+  // cách 32px phía trên nút chính là margin-top của cta-wrap, KHÔNG khai lại ở
+  // đây. align-items:flex-end để ngày nằm ngang đáy nút, không bị 32px kia đẩy lệch.
+  &__card-foot {
+    margin-block-start: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  // Node 697:437 "29/06/2026": 16px, không phải 14px; màu $muted-2 chứ
+  // không phải $muted.
+  &__card-date {
+    font-family: $font-sans;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 300;
+    color: $muted-2;
+  }
+
+  // --- Kiểu xem DANH SÁCH (.is-list do initNewsFilter bật) --------------
+  // 1 card = 1 hàng ngang: ảnh trái, nội dung phải. Chỉ đổi ở >=768px — dưới
+  // mức đó bề rộng không đủ cho 2 cột nên giữ nguyên dạng dọc.
+  //
+  // CHIỀU CAO HÀNG DO CỘT NỘI DUNG QUYẾT ĐỊNH, KHÔNG PHẢI DO ẢNH. Nếu để ảnh
+  // rộng theo % (vd 34% ≈ 415px) thì aspect-ratio 16/10 tự đẩy hàng cao ~260px,
+  // dư một mảng trắng to dưới phần chữ. Cách chữa: ảnh có bề rộng CỐ ĐỊNH, và
+  // <img> position:absolute phủ kín thẻ bọc đã stretch — lúc đó aspect-ratio
+  // của ảnh không còn tham gia tính chiều cao nữa, object-fit:cover lo phần cắt.
+  &__grid.is-list {
+    grid-template-columns: minmax(0, 1fr);
+
+    @include bp(md) {
+      .ecs-news__card {
+        flex-direction: row;
+        min-height: 180px; // sàn an toàn khi tiêu đề/mô tả quá ngắn
+      }
+
+      .ecs-news__card-media {
+        position: relative;
+        flex: 0 0 260px;
+        align-self: stretch;
+      }
+
+      .ecs-news__card-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
+      }
+    }
+
+    @include bp(lg) {
+      .ecs-news__card-media {
+        flex-basis: 320px;
+      }
+    }
+  }
+
+  &__empty {
+    margin: 0;
+    text-align: center;
+    @include text-sm;
+    font-weight: 300;
+    color: $muted;
+  }
+
+  // --- XEM THÊM ---------------------------------------------------------
+  // Chữ gạch chân cam, căn giữa, 2 đường kẻ mảnh kéo dài 2 bên (đúng mẫu).
+  // KHÔNG dùng .ecs-see-more ở đây — chỉ nút nhỏ trong card mới dùng.
+  &__more {
+    margin-block-start: 40px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1 1 auto;
+      height: 1px;
+      background: #d9d9d9;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Node 697:465 "XEM THÊM": Roboto (không phải Roboto Flex) 18px, letter-
+  // spacing 0.25px ($ls-base, không phải 0.1em bịa); gạch chân Rectangle 432
+  // dày 3px chứ không phải 2px.
+  &__more-btn {
+    flex: 0 0 auto;
+    padding-block-end: 6px;
+    border-block-end: 3px solid $brand;
+    font-family: $font-sans;
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 400;
+    letter-spacing: $ls-base;
+    color: $ink;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: $brand;
+    }
+  }
+}

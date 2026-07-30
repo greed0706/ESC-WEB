@@ -101,6 +101,30 @@
   }
 }
 
+// Variant "banner-title" (trang /ve-ecs/) — NGOẠI LỆ của --banner: ảnh
+// ve-ecs/banner.png không bake sẵn chữ (khác các ảnh banner khác), Figma đặt
+// "VỀ ECSGES" là layer text riêng đè lên ảnh. Toạ độ lấy đúng theo node Figma
+// (khung banner 1920×676): left 284/1920=14.8%, top (407-129)/676=41.1%,
+// width 443/1920≈23%, font-size 86px -> 4.48vw để ăn khớp ảnh full-bleed co
+// giãn theo viewport (section không bọc trong container nên 1920px ≈ 100vw).
+.ecs-page-hero--banner.ecs-page-hero--banner-title {
+  .ecs-page-hero__content {
+    display: block;
+    padding-inline: 0;
+  }
+
+  .ecs-page-hero__title {
+    position: absolute;
+    left: 14.8%;
+    top: 41.1%;
+    max-width: 23%;
+    color: #fff;
+    line-height: 1.05;
+    letter-spacing: 0.012em;
+    font-size: clamp(18px, 4.48vw, 86px);
+  }
+}
+
 // Linh vực hoạt động — page-hero.php sibling section (Phase 2 Task 14),
 // following the method established in components/_footer.scss (Task 2).
 //
@@ -253,6 +277,87 @@
 
     li {
       margin-top: 4px;
+    }
+  }
+
+  // Nút "Xem chi tiết" cuối mỗi panel, đẩy sang phải như "Xem thêm" ở card tin tức.
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+  }
+
+  &__more {
+    padding-block: 4px;
+
+    // Chưa có Page chi tiết tương ứng: nút vẫn hiện cho đúng bố cục nhưng
+    // không điều hướng (markup là <span>, xem template-parts/linh-vuc-tabs.php).
+    &--inert {
+      cursor: default;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+}
+
+// Trang "Chi tiết lĩnh vực" (page-linh-vuc-chi-tiet.php) — template dùng lại
+// cho nhiều Page (mỗi Page 1 lĩnh vực). Bố cục tối giản: banner, breadcrumb,
+// tiêu đề, rồi phần thân. Phần thân sẽ được thay bằng các khối ACF sau.
+.ecs-lv-detail {
+  background: #fff;
+
+  &__inner {
+    @include container;
+    padding-block: 24px 64px;
+
+    @include bp(lg) {
+      padding-block: 32px 80px;
+    }
+  }
+
+  &__title {
+    margin-top: 12px;
+    font-family: $font-display;
+    @include text-lg;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $brand;
+  }
+
+  &__body {
+    margin-top: 24px;
+    @include text-sm;
+    font-weight: 300;
+    color: $body;
+
+    p {
+      margin: 0;
+    }
+
+    p+p,
+    p+ul,
+    ul+p {
+      margin-top: 16px;
+    }
+
+    ul,
+    ol {
+      margin: 16px 0 0;
+      padding-left: 24px;
+      list-style: disc;
+    }
+
+    ol {
+      list-style: decimal;
+    }
+
+    li+li {
+      margin-top: 4px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
     }
   }
 }
@@ -478,32 +583,57 @@
     }
   }
 
-  &__grid {
-    display: grid;
-    gap: 36px; // Figma: 3 thẻ 399px trong khung ~1270px → khe ~36px.
+}
 
-    @include bp(sm) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      align-items: stretch;
-    }
+/* ------------------------------------------------------------------ */
+/* .ecs-reveal-* — thẻ "reveal" DÙNG CHUNG cho CON NGƯỜI ECS / VĂN HÓA ECS / */
+/* TRÁCH NHIỆM XÃ HỘI (template-parts/ptbv-reveal-card.php). Mặc định: thẻ  */
+/* trắng, icon+gạch xám, tiêu đề cam, ảnh minh hoạ. Hover/focus-within: thẻ */
+/* chuyển nền đỏ ($brand) đồng nhất, icon/gạch/tiêu đề chuyển trắng, ảnh mờ */
+/* dần biến mất, rồi panel mô tả + nút "Xem thêm" hiện ra sau độ trễ ngắn — */
+/* toàn bộ bằng CSS transition, không cần JS.                              */
+/* ------------------------------------------------------------------ */
+.ecs-reveal-grid {
+  display: grid;
+  gap: 36px; // Figma: 3 thẻ 399px trong khung ~1270px → khe ~36px.
+
+  @include bp(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+}
+
+.ecs-reveal-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #a4a4a4;
+  background: #fff;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+
+  @include bp(md) {
+    min-height: 514px; // Figma: cao 514px.
   }
 
-  // Thẻ: viền mảnh, ảnh + tiêu đề mặc định; hover phủ lớp cam (slick-track).
-  &__item {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid #a4a4a4;
-    background: #fff;
-
-    @include bp(md) {
-      min-height: 514px; // Figma: cao 514px.
-    }
+  // Thanh mỏng trên cùng "quét" từ 5px lên 100% chiều cao khi hover (0.5s) —
+  // chạy song song nhưng CHẬM HƠN transition nền (0.3s) để tạo cảm giác lớp
+  // đỏ tràn xuống phủ thẻ, thay vì bật màu tức thì. Cùng màu $brand với nền
+  // hover nên khi đã tràn hết thì hoà làm một, không lộ viền màu khác.
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    z-index: 0;
+    height: 5px;
+    background: $brand;
+    transition: height 0.5s ease;
   }
 
-  // Mặt trước (icon + gạch + tiêu đề + ảnh).
   &__face {
+    position: relative;
+    z-index: 1; // luôn nổi trên thanh quét ::after phía trên
     display: block;
-    padding: 40px; // Figma: đệm ~39px.
+    padding: 40px; // Figma: đệm ~40px.
   }
 
   &__iconrow {
@@ -512,27 +642,22 @@
     gap: 8px;
   }
 
+  // Icon+tiêu đề đổi màu CÙNG NHỊP, trễ 0.2s sau khi nền/ảnh đã bắt đầu đổi —
+  // gạch ngang (&__rule) đổi màu ngay không trễ, giống thứ tự bản gốc.
   &__icon {
     flex: none;
     display: block;
     width: auto;
-    height: 48px; // icon line xám (1/2/3.svg), căn theo Figma.
+    height: 48px;
+    transition: filter 0.3s ease 0.2s;
   }
 
-  // Gạch xám kéo dài hết phần còn lại của hàng icon (Figma: line 254px, màu #a4a4a4).
+  // Gạch xám kéo dài hết phần còn lại của hàng icon.
   &__rule {
     flex: 1 1 auto;
     height: 1px;
     background: #a4a4a4;
-  }
-
-  // Bản trắng của icon + gạch dùng trong lớp phủ hover (icon SVG nét xám → tô trắng).
-  &__icon--light {
-    filter: brightness(0) invert(1);
-  }
-
-  &__rule--light {
-    background: rgba(#fff, 0.7);
+    transition: background-color 0.3s ease;
   }
 
   &__title {
@@ -543,55 +668,102 @@
     text-transform: uppercase;
     letter-spacing: 0.056px;
     color: $brand;
+    transition: color 0.3s ease 0.2s;
+  }
+
+  // Vùng ảnh + panel mô tả CHỒNG LÊN NHAU bằng CSS Grid layering (cả 2 cùng
+  // grid-area) thay vì position:absolute — nhờ vậy hàng grid tự giãn theo
+  // panel khi mô tả dài (panel không bao giờ bị cắt/che mất nút "Xem thêm"
+  // như khi ép height cố định); ảnh vẫn giữ đúng 260px theo Figma.
+  &__stage {
+    display: grid;
+    grid-template-areas: "stack";
+    margin-top: 20px;
+  }
+
+  &__image,
+  &__overlay {
+    grid-area: stack;
   }
 
   &__image {
     display: block;
-    margin-top: 20px;
     width: 100%;
-    height: 206px; // Figma: ảnh cao 206px.
+    height: 260px; // Figma: ảnh cao 260px.
     object-fit: cover;
+    transition: opacity 0.3s ease;
   }
 
-  // Lớp phủ hover: panel cam TRƯỢT LÊN từ dưới (kiểu slick-slide Vingroup) —
-  // mặc định nằm dưới thẻ (translateY 100%), thẻ overflow:hidden nên bị che.
+  // Panel chỉ FADE (không trượt) và đợi ảnh mờ hẳn rồi mới hiện — trễ 0.3s
+  // đúng bằng thời lượng ảnh mờ đi, nên "Xem thêm" luôn xuất hiện sau cùng.
+  // min-height khớp ảnh để card không đổi cao khi mô tả ngắn hơn 260px.
   &__overlay {
-    position: absolute;
-    inset: 0;
     display: flex;
     flex-direction: column;
-    padding: 40px;
-    background: $brand;
-    color: #fff;
-    transform: translateY(100%);
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  &__overlay-title {
-    margin-top: 24px;
-    font-family: $font-sans;
-    @include text-md;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.056px;
-    color: #fff;
+    justify-content: center;
+    gap: 16px;
+    min-height: 260px;
+    opacity: 0;
+    pointer-events: none; // ẩn thì không được chặn click/focus vào ảnh/thẻ bên dưới
+    transition: opacity 0.3s ease 0.3s;
   }
 
   &__overlay-text {
-    margin-top: 16px;
     text-align: justify;
     @include text-sm;
     font-weight: 300;
     color: #fff;
   }
 
-  &__item:hover &__overlay,
-  &__item:focus-within &__overlay {
-    transform: translateY(0);
+  &__more {
+    align-self: flex-start;
+  }
+
+  &:hover,
+  &:focus-within {
+    background: $brand;
+    border-color: $brand;
+  }
+
+  &:hover::after,
+  &:focus-within::after {
+    height: 100%;
+  }
+
+  &:hover &__title,
+  &:focus-within &__title {
+    color: #fff;
+  }
+
+  &:hover &__icon,
+  &:focus-within &__icon {
+    filter: brightness(0) invert(1);
+  }
+
+  &:hover &__rule,
+  &:focus-within &__rule {
+    background: rgba(#fff, 0.7);
+  }
+
+  &:hover &__image,
+  &:focus-within &__image {
+    opacity: 0;
+  }
+
+  &:hover &__overlay,
+  &:focus-within &__overlay {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    &__overlay {
+    &::after,
+    &__overlay,
+    &__image,
+    &__title,
+    &__icon,
+    &__rule,
+    & {
       transition-duration: 0.01ms;
     }
   }
@@ -626,60 +798,11 @@
     }
   }
 
-  // Lưới 3 thẻ hiện cùng lúc (Figma: thẻ 399px, khe ~36px).
-  &__grid {
-    display: grid;
-    gap: 36px;
-
-    @include bp(sm) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      align-items: stretch;
-    }
-  }
-
-  &__card {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border: 1px solid $placeholder;
-    background: #fff;
-
-    @include bp(md) {
-      min-height: 609px; // Figma: thẻ cao 609px.
-    }
-  }
-
-  &__image {
-    display: block;
-    width: 100%;
-    height: 239px; // Figma: ảnh trên thẻ cao 239px.
-    object-fit: cover;
-  }
-
-  &__body {
-    padding: 20px 32px 40px;
-  }
-
-  &__title {
-    text-align: center;
-    font-family: $font-sans;
-    @include text-md;
-    font-weight: 400;
-    text-transform: uppercase;
-    color: $ink;
-  }
-
-  &__text {
-    margin-top: 16px;
-    text-align: justify;
-    @include text-sm;
-    font-weight: 300;
-    color: $body;
-  }
 }
 
 /* ------------------------------------------------------------------ */
-/* .ecs-responsibility — TRÁCH NHIỆM XÃ HỘI (3 thẻ, thẻ đầu nền cam)   */
+/* .ecs-responsibility — TRÁCH NHIỆM XÃ HỘI (KHUYẾN HỌC/CỘNG ĐỒNG/PHÁT TRIỂN) */
+/* — grid + thẻ dùng chung .ecs-reveal-grid/.ecs-reveal-card ở trên.   */
 /* ------------------------------------------------------------------ */
 .ecs-responsibility {
   background: $surface-2;
@@ -705,65 +828,6 @@
     @include bp(lg) {
       margin-bottom: 56px;
     }
-  }
-
-  &__grid {
-    display: grid;
-    gap: 24px;
-
-    @include bp(sm) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-
-  // Mặc định trắng; hover/focus tô nền cam (theo Figma) — chữ chuyển trắng.
-  &__card {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid $placeholder;
-    background: #fff;
-    padding: 40px 32px;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-
-    @include bp(md) {
-      min-height: 228px;
-      padding: 48px;
-    }
-
-    &:hover,
-    &:focus-within {
-      background: $brand;
-      border-color: $brand;
-    }
-  }
-
-  &__title {
-    text-align: center;
-    font-family: $font-sans;
-    @include text-md;
-    font-weight: 400;
-    text-transform: uppercase;
-    color: $brand;
-    transition: color 0.3s ease;
-  }
-
-  &__card:hover &__title,
-  &__card:focus-within &__title {
-    color: #fff;
-  }
-
-  &__text {
-    margin-top: 24px;
-    text-align: justify;
-    @include text-sm;
-    font-weight: 300;
-    color: $body;
-    transition: color 0.3s ease;
-  }
-
-  &__card:hover &__text,
-  &__card:focus-within &__text {
-    color: #fff;
   }
 }
 

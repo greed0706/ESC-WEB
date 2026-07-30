@@ -6,13 +6,30 @@
   width: 100%;
   max-width: $page-max;
   padding-inline: 24px;
-  @media (min-width: $bp-md) { padding-inline: 40px; }
+
+  @media (min-width: $bp-md) {
+    padding-inline: 40px;
+  }
 }
 
 @mixin bp($size) {
-  @if $size == sm { @media (min-width: $bp-sm) { @content; } }
-  @else if $size == md { @media (min-width: $bp-md) { @content; } }
-  @else if $size == lg { @media (min-width: $bp-lg) { @content; } }
+  @if $size ==sm {
+    @media (min-width: $bp-sm) {
+      @content;
+    }
+  }
+
+  @else if $size ==md {
+    @media (min-width: $bp-md) {
+      @content;
+    }
+  }
+
+  @else if $size ==lg {
+    @media (min-width: $bp-lg) {
+      @content;
+    }
+  }
 }
 
 // --- Thang cỡ chữ (xem $fs-* trong _variables.scss) -------------------
@@ -21,8 +38,14 @@
 @mixin text-lg {
   font-size: $fs-lg-sm;
   line-height: $lh-lg;
-  @include bp(md) { font-size: $fs-lg-md; }
-  @include bp(lg) { font-size: $fs-lg; }
+
+  @include bp(md) {
+    font-size: $fs-lg-md;
+  }
+
+  @include bp(lg) {
+    font-size: $fs-lg;
+  }
 }
 
 // Cỡ thứ 2: tiêu đề phụ trong section. Cố định mọi màn hình.

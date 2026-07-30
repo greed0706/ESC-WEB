@@ -87,6 +87,20 @@ add_action(
 				'instructions'  => $instructions,
 			);
 		};
+		/** Helper select (dropdown UI, choices dạng 'value' => 'Nhãn'). */
+		$select = function ( $key, $label, $choices, $default = '', $instructions = '' ) {
+			return array(
+				'key'           => 'field_ecsges_' . $key,
+				'label'         => $label,
+				'name'          => $key,
+				'type'          => 'select',
+				'choices'       => $choices,
+				'default_value' => $default,
+				'allow_null'    => 0,
+				'ui'            => 1,
+				'instructions'  => $instructions,
+			);
+		};
 
 		$fields = array();
 
@@ -96,7 +110,10 @@ add_action(
 
 		/* ---------------- HERO ---------------- */
 		$fields[] = $tab( 'hero', 'Hero' );
-		$fields[] = $image( 'hero_banner', 'Ảnh banner (1920x792)', 'Ảnh banner trang chủ — chữ đã nằm sẵn trong ảnh. Để trống dùng mặc định.' );
+		// Banner trang chủ ĐÃ CHUYỂN sang Theme Options → Hero Slider (nhiều
+		// slide + dots), xem inc/theme-options.php. Field 'hero_banner' cũ được
+		// gỡ khỏi đây để chỉ còn MỘT nơi sửa; giá trị client từng lưu vẫn được
+		// đọc lại một lần để đổ sẵn vào form Theme Options.
 		// Các field dưới đây chỉ dùng cho bản hero cũ (template-parts/section-hero.php).
 		$fields[] = $text( 'hero_eyebrow', 'Dòng nhỏ trên', 'ECS GLOBAL EDUCATION SYSTEM' );
 		$fields[] = $text( 'hero_script', 'Chữ script (xanh)', 'Kiến tạo' );
@@ -145,15 +162,15 @@ add_action(
 		$fields[] = $textarea( 'branch_addresses', 'Gợi ý địa chỉ (mỗi dòng 1 mục)', implode( "\n", ecsges_branch_addresses() ), '', 4 );
 
 		/* ---------------- FOOTER ---------------- */
-		$cols     = ecsges_footer_columns();
+		// Các cột link footer ĐÃ CHUYỂN sang Theme Options → Footer Settings
+		// (nhãn + URL đi kèm nhau, thêm/xoá/sắp xếp được), xem
+		// inc/theme-options.php. Các field footer_col{n}_title / _links cũ được
+		// gỡ khỏi đây; giá trị client từng lưu vẫn được đọc lại một lần để đổ
+		// sẵn vào form Theme Options. Phần còn lại của footer (logo, liên hệ,
+		// social) vẫn ở đây.
 		$contact  = ecsges_footer_contact();
 		$fields[] = $tab( 'footer', 'Footer' );
 		$fields[] = $image( 'footer_logo', 'Logo footer (bản trắng)' );
-		foreach ( $cols as $i => $col ) {
-			$n = $i + 1;
-			$fields[] = $text( "footer_col{$n}_title", "Cột {$n} — tiêu đề", $col['title'] );
-			$fields[] = $textarea( "footer_col{$n}_links", "Cột {$n} — danh sách (mỗi dòng 1 mục)", implode( "\n", $col['links'] ), '', 5 );
-		}
 		$fields[] = $text( 'footer_address', 'Địa chỉ', $contact['address'] );
 		$fields[] = $text( 'footer_email', 'Email', $contact['email'] );
 		$fields[] = $text( 'footer_phone', 'Điện thoại', $contact['phone'] );
@@ -248,6 +265,44 @@ add_action(
 				'active'         => true,
 				'description'    => 'Nội dung 1 tin tuyển dụng. Gán template "Chi tiết tuyển dụng" cho Page này để field group xuất hiện.',
 				'hide_on_screen' => array( 'the_content' ),
+			)
+		);
+
+		/* ---------------- ĐỊNH DẠNG BÀI TIN TỨC ---------------- */
+		// Khối TIN TỨC trang chủ (template-parts/section-news.php) lọc theo
+		// "Định dạng": chỉ 2 lựa chọn Hình ảnh/Video (bỏ post format gốc của
+		// WordPress vì không đủ 2 loại rạch ròi này). Mặc định "Hình ảnh" nên
+		// bài cũ chưa từng chọn field vẫn lọc đúng thay vì rơi vào diện rỗng.
+		acf_add_local_field_group(
+			array(
+				'key'            => 'group_ecsges_post_media_type',
+				'title'          => 'Định dạng tin tức',
+				'fields'         => array(
+					$select(
+						'media_type',
+						'Định dạng',
+						array(
+							'hinh-anh' => 'Hình ảnh',
+							'video'    => 'Video',
+						),
+						'hinh-anh',
+						'Dùng để lọc ở khối "Định dạng" trong mục TIN TỨC trang chủ.'
+					),
+				),
+				'location'       => array(
+					array(
+						array(
+							'param'    => 'post_type',
+							'operator' => '==',
+							'value'    => 'post',
+						),
+					),
+				),
+				'menu_order'     => 0,
+				'position'       => 'side',
+				'style'          => 'default',
+				'label_placement' => 'top',
+				'active'         => true,
 			)
 		);
 	}

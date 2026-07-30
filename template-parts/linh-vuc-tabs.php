@@ -106,6 +106,21 @@ $lv_tabs = ecsges_tr_deep( ecsges_linh_vuc_tabs() );
 								$flush_bullets();
 								?>
 							</div>
+
+							<?php
+							// Nút sang Page chi tiết của lĩnh vực. Chưa tạo Page (slug =
+							// $tab['id'], template "Chi tiết lĩnh vực") thì vẫn hiện nút
+							// nhưng bất hoạt — giống card tuyển dụng chưa có Page thật,
+							// xem section-tuyen-dung-jobs.php.
+							$lv_detail = ecsges_linh_vuc_detail_url( $tab['id'] );
+							?>
+							<div class="ecs-lv__actions">
+								<?php if ( '' !== $lv_detail ) : ?>
+									<a href="<?php echo esc_url( $lv_detail ); ?>" class="ecs-about__cta-wrap ecs-lv__more"><?php echo esc_html( ecsges_t( 'Xem chi tiết' ) ); ?></a>
+								<?php else : ?>
+									<span class="ecs-about__cta-wrap ecs-lv__more ecs-lv__more--inert" aria-disabled="true"><?php echo esc_html( ecsges_t( 'Xem chi tiết' ) ); ?></span>
+								<?php endif; ?>
+							</div>
 						</div>
 					</div>
 				</div>

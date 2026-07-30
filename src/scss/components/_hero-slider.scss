@@ -1,0 +1,161 @@
+@use '../variables' as *;
+
+// ---------------------------------------------------------------------------
+// HERO SLIDER — phần slider của banner trang chủ
+// (template-parts/section-hero-banner.php + initHeroSlider() trong main.js).
+//
+// Base .ecs-hero-banner (nền, tỉ lệ ảnh 1920/792, tiêu đề ẩn) nằm ở
+// components/_landing.scss; file này CHỈ thêm khung slider, chấm và mũi tên.
+//
+// Class .owl-* đặt theo quy ước OwlCarousel cho quen mắt, nhưng theme KHÔNG
+// nạp thư viện đó (nó cần jQuery). Vì tên rất chung nên toàn bộ được BỌC
+// TRONG .ecs-hero-banner để không rò ra phần còn lại của site.
+// ---------------------------------------------------------------------------
+
+.ecs-hero-banner {
+  position: relative; // mốc cho .owl-nav / .owl-dots đặt tuyệt đối
+
+  .owl-stage-outer {
+    overflow: hidden;
+  }
+
+  .owl-stage {
+    display: flex;
+    // transition-duration do JS đặt theo "Tốc độ chuyển" trong Theme Options
+    // (0ms khi người dùng bật "giảm chuyển động").
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  .owl-item {
+    flex: 0 0 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  // <picture> mặc định là inline → sinh khoảng trắng dưới ảnh.
+  picture {
+    display: block;
+  }
+
+  &__link {
+    display: block;
+  }
+
+  /* ---------------- Mũi tên ---------------- */
+
+  .owl-prev,
+  .owl-next {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0 0 4px; // canh thị giác cho ký tự ‹ › vốn lệch lên trên
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.75);
+    color: $ink;
+    font-size: 34px;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -webkit-transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: $brand;
+      color: #fff;
+    }
+  }
+
+  .owl-prev {
+    left: 24px;
+  }
+
+  .owl-next {
+    right: 24px;
+  }
+
+  /* ---------------- Chấm ---------------- */
+
+  .owl-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    z-index: 2;
+    display: flex;
+    gap: 12px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+
+  .owl-dot {
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    -webkit-transition: width 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+    transition: width 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    // Chấm đang chọn kéo dài thành viên thuốc màu brand — dễ thấy trên nền ảnh.
+    &.is-active {
+      width: 32px;
+      border-color: $brand;
+      border-radius: 6px;
+      background: $brand;
+    }
+  }
+
+  /* ---------------- Mobile ---------------- */
+
+  @media (max-width: $bp-md - 1px) {
+    // Ảnh mobile riêng gần như luôn có tỉ lệ khác 1920/792 — thả cho nó giữ
+    // tỉ lệ thật thay vì bị object-fit cắt về khổ dẹt của bản desktop.
+    .ecs-hero-banner__img--has-mobile {
+      aspect-ratio: auto;
+    }
+
+    .owl-prev,
+    .owl-next {
+      width: 34px;
+      height: 34px;
+      font-size: 24px;
+    }
+
+    .owl-prev {
+      left: 8px;
+    }
+
+    .owl-next {
+      right: 8px;
+    }
+
+    .owl-dots {
+      bottom: 12px;
+      gap: 8px;
+    }
+
+    .owl-dot {
+      width: 10px;
+      height: 10px;
+
+      &.is-active {
+        width: 24px;
+      }
+    }
+  }
+}

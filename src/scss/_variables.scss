@@ -1,6 +1,11 @@
 // Brand
 $brand: #f05a28;
 $brand-dark: #de4f1f;
+// Cam nhạt hơn $brand — riêng cho nền/gradient lớn (khối .ecs-journey), đo từ
+// Figma node 614-267 (Rectangle 92/93/94, "TRANG CHỦ SỬA"): nền đặc #f26522,
+// dải gradient giữa chuyển sang $brand-dark. Nút/gạch chân UI vẫn dùng $brand
+// nguyên (Rectangle 46/414/432 trong cùng node đo ra đúng #f05a28, không đổi).
+$brand-light: #f26522;
 $blue: #0060ae;
 // Text
 $ink: #000000;
