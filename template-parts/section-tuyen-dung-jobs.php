@@ -1,8 +1,23 @@
 <?php
 /**
- * Section Bộ lọc + Danh sách việc làm — trang Tuyển dụng.
- * Dữ liệu tĩnh từ ecsges_jobs() (inc/data.php), phân trang 4 job/trang bằng
- * JS thuần (giống cơ chế initNewsPagination() ở section-news.php).
+ * Trang Tuyển dụng — tiêu đề, thanh tìm kiếm ngang và lưới card 2 cột
+ * (Figma node 724:1878).
+ *
+ * Đo từ Figma (frame 1920, container 325→1596 = 1271):
+ *   - Tiêu đề 2 dòng canh giữa, 50px Medium, line-height 68; dòng 2 màu cam.
+ *   - Thanh tìm kiếm: dải #f0f0f0 cao 70 chiếm trọn container, chia 3 ô bởi
+ *     2 gạch dọc dài 44, nút "Tìm kiếm" 183×41 bo 20px nền #f26522 ở mép phải.
+ *   - Vùng card có nền xám #f0f0f0 chạy hết chiều ngang màn hình.
+ *   - Card 625×190 nền trắng, 2 cột, gap 19 ngang / 22 dọc. Trong card:
+ *       ô logo 79×79 (lề trái 27, trên 16), tiêu đề 26px Medium lh 32,
+ *       badge "Nổi bật" 87×26 nền #f05a28 góc trên phải,
+ *       2 thẻ tag 29px cao nền #f0f0f0 (lương, địa điểm),
+ *       đường kẻ ngang rồi ghi chú kinh nghiệm 18px Light #a4a4a4.
+ *
+ * Thay cho bố cục "Bộ lọc cột trái + danh sách cột phải" cũ. GIỮ NGUYÊN các
+ * hook JS của initJobsFilter() (assets/js/main.js): [data-jobs], [data-jobs-per],
+ * [data-jobs-page], [data-job], [data-jobs-filter], [data-jobs-search],
+ * [data-jobs-empty] — nên lọc và phân trang vẫn chạy y như cũ.
  *
  * @package ECSGES
  */
@@ -22,10 +37,12 @@ foreach ( ecsges_jobs_list() as $ecsges_job_raw ) {
 	$ecsges_jobs_all[]               = $ecsges_job_tr;
 }
 
-$ecsges_jobs_per  = 4;
+// Figma vẽ 10 card (5 hàng x 2 cột) trên một trang.
+$ecsges_jobs_per  = 10;
 $ecsges_jobs_pgs  = array_chunk( $ecsges_jobs_all, $ecsges_jobs_per );
 $ecsges_jobs_pgct = count( $ecsges_jobs_pgs );
 $ecsges_jobs_arw  = ecsges_img( 'arrow.svg' );
+$ecsges_jobs_logo = ecsges_img( 'hero-mark.svg' );
 
 // Danh sách đổ vào 3 select bộ lọc (inc/data.php).
 $ecsges_job_areas = ecsges_job_areas();
@@ -33,11 +50,14 @@ $ecsges_job_depts = ecsges_job_departments();
 $ecsges_job_types = ecsges_job_types();
 ?>
 <section id="tuyen-dung-jobs" aria-labelledby="tuyen-dung-jobs-heading" class="ecs-jobs">
-	<div class="ecs-jobs__inner">
-		<div class="ecs-jobs__filters" data-aos="fade-up">
-			<h2 class="ecs-jobs__filters-title"><?php echo esc_html( ecsges_t( 'Bộ lọc' ) ); ?></h2>
+	<div class="ecs-jobs__head">
+		<div class="ecs-jobs__head-inner">
+			<h1 id="tuyen-dung-jobs-heading" class="ecs-jobs__heading" data-aos="fade-up">
+				<span class="ecs-jobs__heading-line"><?php echo esc_html( ecsges_t( 'CÔNG VIỆC' ) ); ?></span>
+				<span class="ecs-jobs__heading-line ecs-jobs__heading-line--accent"><?php echo esc_html( ecsges_t( 'PHÙ HỢP VỚI BẠN' ) ); ?></span>
+			</h1>
 
-			<div class="ecs-jobs__filters-box">
+			<div class="ecs-jobs__searchbar" data-aos="fade-up" data-aos-delay="80">
 				<div class="ecs-jobs__field">
 					<label class="ecs-jobs__label" for="jobs-filter-area"><?php echo esc_html( ecsges_t( 'Khu vực' ) ); ?></label>
 					<select id="jobs-filter-area" class="ecs-jobs__select" data-jobs-filter="location">
@@ -68,51 +88,82 @@ $ecsges_job_types = ecsges_job_types();
 					</select>
 				</div>
 
-				<button type="button" class="ecs-jobs__search" data-jobs-search><?php echo esc_html( ecsges_t( 'TÌM KIẾM' ) ); ?></button>
+				<button type="button" class="ecs-jobs__search" data-jobs-search>
+					<?php echo ecsges_icon( 'search', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<span><?php echo esc_html( ecsges_t( 'Tìm kiếm' ) ); ?></span>
+				</button>
 			</div>
 		</div>
+	</div>
 
-		<div class="ecs-jobs__list-col">
-			<h2 id="tuyen-dung-jobs-heading" class="ecs-jobs__list-title"><?php echo esc_html( ecsges_t( 'Tất cả công việc' ) ); ?></h2>
-
-			<div class="ecs-jobs__list" data-aos="fade-up" data-aos-delay="120" data-jobs data-jobs-per="<?php echo esc_attr( $ecsges_jobs_per ); ?>">
+	<div class="ecs-jobs__body">
+		<div class="ecs-jobs__inner">
+			<div class="ecs-jobs__list" data-aos="fade-up" data-jobs data-jobs-per="<?php echo esc_attr( $ecsges_jobs_per ); ?>">
 				<?php foreach ( $ecsges_jobs_pgs as $ji => $ecsges_jobs_page ) : ?>
 					<div data-jobs-page="<?php echo esc_attr( $ji ); ?>" class="ecs-jobs__page<?php echo 0 === $ji ? ' is-active' : ''; ?>">
 						<?php foreach ( $ecsges_jobs_page as $ecsges_job ) : ?>
-							<article class="ecs-jobs__card" data-job data-location="<?php echo esc_attr( $ecsges_job['key_location'] ); ?>" data-department="<?php echo esc_attr( $ecsges_job['key_department'] ); ?>" data-type="<?php echo esc_attr( $ecsges_job['key_type'] ); ?>">
-								<h3 class="ecs-jobs__card-title"><?php echo esc_html( $ecsges_job['title'] ); ?></h3>
+							<?php
+							$job_href = ! empty( $ecsges_job['href'] ) ? $ecsges_job['href'] : '';
+							$job_tag  = 'ecs-job-card';
+							if ( '' === $job_href ) {
+								$job_tag .= ' ecs-job-card--inert';
+							}
+							?>
+							<article
+								class="<?php echo esc_attr( $job_tag ); ?>"
+								data-job
+								data-location="<?php echo esc_attr( $ecsges_job['key_location'] ); ?>"
+								data-department="<?php echo esc_attr( $ecsges_job['key_department'] ); ?>"
+								data-type="<?php echo esc_attr( $ecsges_job['key_type'] ); ?>">
 
 								<?php if ( ! empty( $ecsges_job['tag'] ) ) : ?>
-									<div class="ecs-jobs__badge ecs-jobs__badge--<?php echo esc_attr( $ecsges_job['tag'] ); ?>">
-										<img src="<?php echo esc_url( ecsges_img( 'hot' === $ecsges_job['tag'] ? 'tuyen-dung/star-hot.svg' : 'tuyen-dung/star-new.svg' ) ); ?>" alt="" class="ecs-jobs__badge-star">
-										<span class="ecs-jobs__badge-label"><?php echo esc_html( ecsges_t( 'Hot' ) ); ?></span>
+									<span class="ecs-job-card__badge"><?php echo esc_html( ecsges_t( 'Nổi bật' ) ); ?></span>
+								<?php endif; ?>
+
+								<div class="ecs-job-card__top">
+									<span class="ecs-job-card__logo" aria-hidden="true">
+										<img src="<?php echo esc_url( $ecsges_jobs_logo ); ?>" alt="" loading="lazy" decoding="async">
+									</span>
+
+									<div class="ecs-job-card__main">
+										<h3 class="ecs-job-card__title">
+											<?php if ( '' !== $job_href ) : ?>
+												<a href="<?php echo esc_url( $job_href ); ?>"><?php echo esc_html( $ecsges_job['title'] ); ?></a>
+											<?php else : ?>
+												<?php echo esc_html( $ecsges_job['title'] ); ?>
+											<?php endif; ?>
+										</h3>
+
+										<?php
+										// Figma: 2 thẻ tag — mức lương rồi địa điểm. Thiếu field nào
+										// thì bỏ thẻ đó, không hiện ô rỗng.
+										$job_tags = array_filter(
+											array(
+												isset( $ecsges_job['salary'] ) ? $ecsges_job['salary'] : '',
+												$ecsges_job['location'],
+											),
+											static function ( $v ) {
+												return '' !== trim( (string) $v );
+											}
+										);
+										?>
+										<?php if ( $job_tags ) : ?>
+											<ul class="ecs-job-card__tags">
+												<?php foreach ( $job_tags as $job_tag_text ) : ?>
+													<li class="ecs-job-card__tag"><?php echo esc_html( $job_tag_text ); ?></li>
+												<?php endforeach; ?>
+											</ul>
+										<?php endif; ?>
 									</div>
-								<?php endif; ?>
+								</div>
 
-								<ul class="ecs-jobs__info">
-									<li class="ecs-jobs__info-item">
-										<img src="<?php echo esc_url( ecsges_img( 'tuyen-dung/pin.svg' ) ); ?>" alt="" class="ecs-jobs__info-icon">
-										<?php echo esc_html( $ecsges_job['location'] ); ?>
-									</li>
-									<li class="ecs-jobs__info-item">
-										<img src="<?php echo esc_url( ecsges_img( 'tuyen-dung/home.svg' ) ); ?>" alt="" class="ecs-jobs__info-icon">
-										<?php echo esc_html( $ecsges_job['department'] ); ?>
-									</li>
-									<li class="ecs-jobs__info-item">
-										<img src="<?php echo esc_url( ecsges_img( 'tuyen-dung/time.svg' ) ); ?>" alt="" class="ecs-jobs__info-icon">
-										<?php echo esc_html( $ecsges_job['type'] ); ?>
-									</li>
-									<li class="ecs-jobs__info-item">
-										<img src="<?php echo esc_url( ecsges_img( 'tuyen-dung/file.svg' ) ); ?>" alt="" class="ecs-jobs__info-icon">
-										<?php echo esc_html( $ecsges_job['deadline'] ); ?>
-									</li>
-								</ul>
-
-								<?php if ( ! empty( $ecsges_job['href'] ) ) : ?>
-									<a href="<?php echo esc_url( $ecsges_job['href'] ); ?>" class="ecs-jobs__apply"><?php echo esc_html( ecsges_t( 'Xem chi tiết' ) ); ?></a>
-								<?php else : ?>
-									<a class="ecs-jobs__apply ecs-jobs__apply--inert"><?php echo esc_html( ecsges_t( 'Xem chi tiết' ) ); ?></a>
-								<?php endif; ?>
+								<?php
+								$job_note = isset( $ecsges_job['experience'] ) ? trim( (string) $ecsges_job['experience'] ) : '';
+								if ( '' === $job_note ) {
+									$job_note = trim( (string) $ecsges_job['department'] );
+								}
+								?>
+								<p class="ecs-job-card__note"><?php echo esc_html( $job_note ); ?></p>
 							</article>
 						<?php endforeach; ?>
 					</div>

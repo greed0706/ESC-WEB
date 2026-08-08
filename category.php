@@ -72,37 +72,8 @@ get_header();
 					<?php endif; ?>
 				</div>
 
-				<!-- Cột phải: sidebar sticky -->
-				<aside class="ecs-archive__sidebar">
-					<div class="ecs-archive__widget">
-						<h2 class="ecs-archive__widget-title"><?php echo esc_html( ecsges_t( 'TIN TỨC - THÔNG BÁO' ) ); ?></h2>
-						<ul class="ecs-archive__widget-list">
-							<?php
-							$ecsges_recent = new WP_Query(
-								array(
-									'post_type'           => 'post',
-									'posts_per_page'      => 3,
-									'ignore_sticky_posts' => true,
-									'no_found_rows'       => true,
-								)
-							);
-							while ( $ecsges_recent->have_posts() ) :
-								$ecsges_recent->the_post();
-								?>
-								<li class="ecs-archive__widget-item">
-									<a href="<?php the_permalink(); ?>" class="ecs-archive__widget-thumb">
-										<img src="<?php echo esc_url( ecsges_post_thumb( get_the_ID(), 'thumbnail' ) ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>">
-									</a>
-									<div class="ecs-archive__widget-text">
-										<a href="<?php the_permalink(); ?>" class="ecs-archive__widget-link"><?php the_title(); ?></a>
-										<span class="ecs-archive__widget-date"><?php echo esc_html( ecsges_post_time() ); ?></span>
-									</div>
-								</li>
-							<?php endwhile; ?>
-							<?php wp_reset_postdata(); ?>
-						</ul>
-					</div>
-				</aside>
+				<!-- Cột phải: sidebar sticky (dùng chung với single.php) -->
+				<?php get_template_part( 'template-parts/news', 'sidebar' ); ?>
 			</div>
 		</div>
 	</main>

@@ -101,12 +101,20 @@
   }
 }
 
-// Variant "banner-title" (trang /ve-ecs/) — NGOẠI LỆ của --banner: ảnh
-// ve-ecs/banner.png không bake sẵn chữ (khác các ảnh banner khác), Figma đặt
-// "VỀ ECSGES" là layer text riêng đè lên ảnh. Toạ độ lấy đúng theo node Figma
-// (khung banner 1920×676): left 284/1920=14.8%, top (407-129)/676=41.1%,
-// width 443/1920≈23%, font-size 86px -> 4.48vw để ăn khớp ảnh full-bleed co
-// giãn theo viewport (section không bọc trong container nên 1920px ≈ 100vw).
+// Variant "banner-title" — ảnh assets/img/banner-page.png (1920×522 @2x) KHÔNG
+// bake sẵn chữ; Figma đặt tiêu đề từng trang là layer text riêng đè lên ảnh.
+// Mọi trang phụ đều dùng chung ảnh này, chỉ khác chuỗi tiêu đề (xem 'title'
+// trong từng page-*.php).
+//
+// Toạ độ đo từ Figma, khung banner 1920×522 (y 111→633 trong frame):
+//   left  325/1920            = 16.93%
+//   top   (270-111)/522       = 30.46%
+//   font  80px  → 80/1920     = 4.1667vw
+//   line-height 110/80        = 1.375
+//   letter-spacing 1px/80px   = 0.0125em
+//   màu #f26522 ($brand-light)
+// Section không bọc trong container nên 1920px ≈ 100vw → dùng vw để chữ co
+// giãn đúng tỉ lệ với ảnh full-bleed ở mọi bề rộng màn hình.
 .ecs-page-hero--banner.ecs-page-hero--banner-title {
   .ecs-page-hero__content {
     display: block;
@@ -115,33 +123,34 @@
 
   .ecs-page-hero__title {
     position: absolute;
-    left: 14.8%;
-    top: 41.1%;
-    max-width: 23%;
-    color: #fff;
-    line-height: 1.05;
-    letter-spacing: 0.012em;
-    font-size: clamp(18px, 4.48vw, 86px);
+    left: 16.93%;
+    top: 30.46%;
+    max-width: 60%;
+    color: $brand-light;
+    line-height: 1.375;
+    letter-spacing: 0.0125em;
+    font-size: clamp(20px, 4.1667vw, 80px);
   }
 }
 
-// Linh vực hoạt động — page-hero.php sibling section (Phase 2 Task 14),
-// following the method established in components/_footer.scss (Task 2).
+// Lĩnh vực hoạt động — 5 khối xếp dọc xen kẽ ảnh/chữ, đo từ Figma node 23:2121
+// (xem template-parts/linh-vuc-sections.php để biết bảng số đo gốc).
 //
-// JS coupling: shares initEcosystemTabs() (assets/js/main.js) with
-// `.ecs-ecosystem` (Task 8) via the same `data-ecosystem`/`data-tab`/
-// `data-panel` contract — the JS toggles ONLY `.is-active`, so tab + panel
-// states below must reproduce the same visuals via that one class.
+// Quy đổi: frame Figma 1920px, container 323→1594 (=1271). Theme dùng
+// @include container ($page-max) nên các số px ngang được viết lại thành TỈ LỆ
+// của container, còn số dọc (padding, gap) giữ nguyên px như Figma.
+//
+// Bố cục cũ (tab bar + panel, dùng chung initEcosystemTabs) đã bỏ: trang này
+// không còn phần tử [data-ecosystem] nào nên JS đó tự không chạy ở đây.
 
 .ecs-lv {
   background: #fff;
+  padding-top: 40px;
   padding-bottom: 56px;
-  // Tách hàng tab khỏi ảnh banner phía trên (banner là ảnh full-bleed nên nếu
-  // sát nhau thì tab đọc như dính vào banner).
-  padding-top: 4px;
 
   @include bp(lg) {
-    padding-bottom: 80px;
+    padding-top: 81px; // Figma: đáy banner 633 → tiêu đề khối 1 ở 714
+    padding-bottom: 99px; // Figma: đáy khối 5 ở 2721 → footer ở 2820
   }
 
   &__inner {
@@ -161,137 +170,170 @@
     border: 0;
   }
 
-  // Gạch xám chạy hết chiều ngang dưới hàng tab. Phải ghi đủ style trong
-  // shorthand: `border-bottom: 2px` sẽ reset border-style về `none` → không vẽ gì.
-  &__tablist {
-    display: flex;
-    align-items: stretch;
-    border-bottom: 1px solid #a4a4a4;
-  }
+  // Một khối = cột ảnh + cột chữ. Mobile xếp dọc, ảnh luôn lên trước.
+  &__block {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
 
-  &__tab {
-    flex: 1 1 0; // các thẻ chia đều & chiếm hết chiều rộng, không còn gap
-    min-width: 0;
-    text-align: center;
-    padding-inline: 24px;
-    padding-block: 12px;
-    @include text-sm;
-    font-size: 24px;
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: color 0.15s ease, background-color 0.15s ease;
-    background: #fff;
-    color: $ink;
+    &+& {
+      margin-top: 48px;
+    }
 
-    &.is-active {
-      background: $brand;
-      color: #fff;
+    @include bp(lg) {
+      // Figma: 2 cột 603px + gap 66px trên container 1271 → 47.4% / 5.2%.
+      grid-template-columns: 1fr 1fr;
+      column-gap: 5.2%;
+      align-items: start;
+
+      &+& {
+        margin-top: 73px; // Figma: khoảng cách giữa 2 khối liền nhau
+      }
     }
   }
 
-  &__panel {
-    display: none;
-    margin-top: 40px;
-
-    &.is-active {
-      display: grid;
+  // Mặc định (khối 1,3,5): chữ trái — ảnh phải. `--reversed` (khối 2,4) đảo lại.
+  // Dùng grid-column thay vì `direction`/`order` để thứ tự đọc của DOM
+  // (ảnh trước, chữ sau) giữ nguyên cho screen reader ở MỌI khối.
+  &__media {
+    @include bp(lg) {
+      grid-row: 1;
+      grid-column: 2;
     }
   }
 
-  &__panel-inner {
-    position: relative;
+  &__body {
+    @include bp(lg) {
+      grid-row: 1;
+      grid-column: 1;
+    }
+  }
 
-    @include bp(md) {
-      min-height: 480px;
+  &__block--reversed {
+    .ecs-lv__media {
+      @include bp(lg) {
+        grid-column: 1;
+      }
+    }
+
+    .ecs-lv__body {
+      @include bp(lg) {
+        grid-column: 2;
+      }
     }
   }
 
   &__image {
-    height: 256px;
+    display: block;
     width: 100%;
+    aspect-ratio: 603 / 347; // Figma node img_Vision 603×347
     object-fit: cover;
-
-    @include bp(md) {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      height: 100%;
-      width: 66%;
-    }
+    object-position: center;
   }
 
-  &__box {
-    position: relative;
-    z-index: 10;
-    margin-top: 24px;
-    background: $surface-2;
-    padding: 24px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  // Figma: 50px / line-height 68px (=1.36) / letter-spacing 1px / #000.
+  // KHÔNG dùng @include text-lg: lh 1.2 của thang chung sẽ hụt so với 68px.
+  &__title {
+    margin: 0;
+    font-family: $font-display;
+    font-size: $fs-lg-sm;
+    font-weight: 500;
+    line-height: 1.36;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: $ink;
 
     @include bp(md) {
-      margin-block: 48px;
-      margin-left: 50%;
-      width: 50%;
-      padding: 40px;
+      font-size: $fs-lg-md;
     }
 
     @include bp(lg) {
-      padding: 48px;
+      font-size: $fs-lg;
     }
   }
 
   &__text {
+    margin-top: 16px; // Figma: đáy tiêu đề → đầu đoạn văn (12–20px)
     text-align: justify;
     @include text-sm;
     font-weight: 300;
+    letter-spacing: $ls-base;
     color: $body;
 
     p {
       margin: 0;
     }
 
-    p+p,
-    p+ul,
-    ul+p {
-      margin-top: 16px;
+    p+p {
+      margin-top: 10px;
     }
   }
 
-  // Tiêu đề nằm TRONG &__text (đang `text-align: justify`) nên thừa hưởng justify:
-  // tiêu đề nào dài quá 1 dòng thì dòng đầu bị kéo căng, chữ giãn xa nhau
-  // (Tuyển sinh) trong khi tiêu đề 1 dòng lại bình thường (Hướng nghiệp).
-  // Trả tiêu đề về canh trái — justify chỉ dành cho các đoạn văn bên dưới.
-  &__title {
+  // Dòng mở đầu ("Định hướng tương lai từ sự thấu hiểu năng lực"). Figma để
+  // chung một text node với đoạn văn nên CÙNG cỡ/màu — chỉ tách thẻ để dễ đổi.
+  &__lead {
+    margin: 0;
+  }
+
+  &__lists {
+    margin-top: 16px;
+    display: grid;
+    gap: 16px;
+  }
+
+  // Figma khối "Việc làm": 2 nhóm danh sách nằm cạnh nhau (265px và 270px
+  // trong cột chữ 605px) → 2 cột đều nhau từ md trở lên.
+  &__lists--split {
+    @include bp(md) {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 8%;
+    }
+  }
+
+  &__list-label {
+    margin: 0;
     text-align: start;
-    text-transform: uppercase;
-    font-size: 24px;
-    font-weight: 700;
-    color: $brand;
   }
 
   &__list {
-    margin: 8px 0 0;
-    padding-left: 24px;
+    margin: 0;
+    padding-left: 20px;
     list-style: disc;
-
-    li {
-      margin-top: 4px;
-    }
+    text-align: start;
   }
 
-  // Nút "Xem chi tiết" cuối mỗi panel, đẩy sang phải như "Xem thêm" ở card tin tức.
   &__actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 24px;
+    margin-top: 10px; // Figma: đáy đoạn văn 999 → nút 1027
   }
 
+  // Figma: 103×34, bo 20px, nền #f05a28, chữ 16px Light trắng.
   &__more {
-    padding-block: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 103px;
+    height: 34px;
+    padding-inline: 15px;
+    border-radius: 15px;
+    background: $brand;
+    color: #fff;
+    font-family: $font-display;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: $ls-base;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: $brand-dark;
+    }
 
     // Chưa có Page chi tiết tương ứng: nút vẫn hiện cho đúng bố cục nhưng
-    // không điều hướng (markup là <span>, xem template-parts/linh-vuc-tabs.php).
+    // không điều hướng (markup là <span>, xem template-parts/linh-vuc-sections.php).
     &--inert {
       cursor: default;
       opacity: 0.5;
@@ -686,16 +728,22 @@
     grid-area: stack;
   }
 
+  // Trạng thái NGHỈ (đang rời hover): chữ tắt trước (không trễ), ảnh mới quay
+  // lại sau 0.3s — nếu để ảnh hiện ngay như chữ thì hai lớp cùng hiển thị và
+  // chữ đè lên ảnh. `visibility` khiến ảnh biến mất HẲN (không chỉ opacity:0)
+  // đúng vào lúc nó đã mờ hết, và bật lại đúng lúc bắt đầu hiện lại.
   &__image {
     display: block;
     width: 100%;
     height: 260px; // Figma: ảnh cao 260px.
     object-fit: cover;
-    transition: opacity 0.3s ease;
+    visibility: visible;
+    transition: opacity 0.3s ease 0.3s, visibility 0s linear 0.3s;
   }
 
-  // Panel chỉ FADE (không trượt) và đợi ảnh mờ hẳn rồi mới hiện — trễ 0.3s
-  // đúng bằng thời lượng ảnh mờ đi, nên "Xem thêm" luôn xuất hiện sau cùng.
+  // Panel chỉ FADE (không trượt). Khi rời hover nó tắt ngay lập tức để nhường
+  // chỗ cho ảnh; khi vào hover mới trễ 0.3s (xem override ở phần :hover bên
+  // dưới) nên "Xem thêm" luôn xuất hiện sau cùng.
   // min-height khớp ảnh để card không đổi cao khi mô tả ngắn hơn 260px.
   &__overlay {
     display: flex;
@@ -705,7 +753,7 @@
     min-height: 260px;
     opacity: 0;
     pointer-events: none; // ẩn thì không được chặn click/focus vào ảnh/thẻ bên dưới
-    transition: opacity 0.3s ease 0.3s;
+    transition: opacity 0.3s ease;
   }
 
   &__overlay-text {
@@ -745,26 +793,42 @@
     background: rgba(#fff, 0.7);
   }
 
+  // Vào hover thì ĐẢO lại nhịp: ảnh mờ ngay (0.3s) rồi ẩn hẳn, chữ đợi 0.3s
+  // mới hiện — không lúc nào hai lớp cùng nhìn thấy.
   &:hover &__image,
   &:focus-within &__image {
     opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
   }
 
   &:hover &__overlay,
   &:focus-within &__overlay {
     opacity: 1;
     pointer-events: auto;
+    transition: opacity 0.3s ease 0.3s;
   }
 
   @media (prefers-reduced-motion: reduce) {
+
     &::after,
-    &__overlay,
-    &__image,
     &__title,
     &__icon,
     &__rule,
     & {
       transition-duration: 0.01ms;
+    }
+
+    // Phải liệt kê cả biến thể :hover/:focus-within để đủ độ đặc hiệu thắng
+    // các rule đảo nhịp ở trên — nếu không, delay 0.3s vẫn còn.
+    &__image,
+    &__overlay,
+    &:hover &__image,
+    &:hover &__overlay,
+    &:focus-within &__image,
+    &:focus-within &__overlay {
+      transition-duration: 0.01ms;
+      transition-delay: 0s;
     }
   }
 }
@@ -993,278 +1057,354 @@
   }
 }
 
+// Trang Tuyển dụng — tiêu đề, thanh tìm kiếm ngang và lưới card 2 cột.
+// Figma node 724:1878, frame 1920 — container x 325→1596 (1271px).
+//
+// Bố cục cũ (bộ lọc cột trái + danh sách dọc cột phải) đã bỏ; các hook JS của
+// initJobsFilter() giữ nguyên nên lọc/phân trang không phải sửa.
 .ecs-jobs {
   background: #fff;
-  padding-block: 64px;
 
-  @include bp(lg) {
-    padding-block: 96px;
+  &__head {
+    padding-block-start: 48px;
+
+    @include bp(lg) {
+      padding-block-start: 112px; // Figma: đáy banner 633 → tiêu đề 745
+    }
+  }
+
+  &__head-inner {
+    @include container;
+  }
+
+  // Figma: 50px Medium, line-height 68 (=1.36), 2 dòng canh giữa,
+  // dòng 2 màu cam.
+  &__heading {
+    margin: 0;
+    text-align: center;
+    font-family: $font-display;
+    font-size: $fs-lg-sm;
+    font-weight: 500;
+    line-height: 1.36;
+    letter-spacing: $ls-base;
+    color: $ink;
+
+    @include bp(md) {
+      font-size: $fs-lg-md;
+    }
+
+    @include bp(lg) {
+      font-size: $fs-lg;
+    }
+  }
+
+  &__heading-line {
+    display: block;
+
+    &--accent {
+      color: $brand-light;
+    }
+  }
+
+  // Thanh tìm kiếm: dải #f0f0f0 cao 70, 3 ô chia bởi gạch dọc dài 44,
+  // nút "Tìm kiếm" 183×41 bo 20px ở mép phải (Figma y=935).
+  &__searchbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    margin-block-start: 32px;
+    padding: 16px;
+    background: $surface-2;
+
+    @include bp(lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+      align-items: center;
+      gap: 0;
+      min-height: 70px;
+      margin-block-start: 54px; // Figma: đáy tiêu đề 881 → thanh 935
+      padding: 0 36px 0 0;
+    }
+  }
+
+  &__field {
+    display: flex;
+    align-items: center;
+
+    @include bp(lg) {
+      height: 44px; // = chiều dài gạch dọc trong Figma
+      padding-inline: 24px;
+
+      &+& {
+        border-left: 1px solid #a4a4a4;
+      }
+    }
+  }
+
+  // Nhãn chỉ dành cho trình đọc màn hình — Figma không vẽ nhãn trong thanh,
+  // chữ thấy được là <option> mặc định của mỗi select.
+  &__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  &__select {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    @include text-sm;
+    font-weight: 300;
+    color: $body;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid $brand;
+      outline-offset: 2px;
+    }
+  }
+
+  // Figma: 183×41, bo 20px, nền #f26522, chữ + icon trắng 18px.
+  &__search {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 183px;
+    height: 41px;
+    padding-inline: 20px;
+    border: 0;
+    border-radius: 20px;
+    background: $brand-light;
+    color: #fff;
+    @include text-sm;
+    font-weight: 300;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: $brand-dark;
+    }
+  }
+
+  // Vùng card có nền xám full-bleed (Figma "Rectangle 482", y=1048).
+  &__body {
+    margin-block-start: 43px; // Figma: đáy thanh tìm kiếm 1005 → nền xám 1048
+    background: $surface-2;
+    padding-block: 42px 72px;
+
+    @include bp(lg) {
+      padding-block: 42px 100px;
+    }
   }
 
   &__inner {
     @include container;
-    display: grid;
-    gap: 40px;
-
-    @include bp(lg) {
-      grid-template-columns: 448px 1fr;
-      gap: 64px;
-    }
-  }
-
-  &__filters-title,
-  &__list-title {
-    font-family: $font-display;
-    @include text-lg;
-    font-weight: 500;
-    text-transform: uppercase;
-    color: $ink;
-  }
-
-  // Panel nền xám bao 3 bộ lọc + nút TÌM KIẾM (theo Figma).
-  &__filters-box {
-    margin-top: 24px;
-    background: $surface-2;
-    padding: 24px;
-  }
-
-  &__field {
-    margin-top: 24px;
-
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-
-  &__label {
-    display: block;
-    @include text-sm;
-    font-weight: 300;
-    color: $ink;
-  }
-
-  &__select {
-    margin-top: 12px;
-    width: 100%;
-    height: 51px;
-    border: 0.5px solid $placeholder;
-    background: #fff;
-    padding-inline: 16px;
-    @include text-sm;
-    color: $muted-2;
-  }
-
-  // Nút TÌM KIẾM: pill cam đặc, căn giữa trong panel bộ lọc (theo Figma).
-  // Hover đảo màu giống .ecs-see-more ("Tìm hiểu thêm"): viền cam luôn tồn tại
-  // (padding trừ 1px bù lại) nên đảo màu không làm xê dịch layout.
-  &__search {
-    display: block;
-    margin: 24px auto 0;
-    padding: 3px 43px;
-    border: 1px solid $brand;
-    border-radius: 9999px;
-    background: $brand;
-    color: #fff;
-    font-family: $font-display;
-    @include text-sm;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
-
-    &:hover,
-    &:focus-visible {
-      background: #fff;
-      color: $brand;
-    }
-  }
-
-  &__list-col {
-    min-width: 0;
-  }
-
-  &__list {
-    position: relative;
-    margin-top: 24px;
   }
 
   &__page {
     display: none;
 
     &.is-active {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-  }
-
-  // Thông báo khi bộ lọc không khớp job nào (JS bật/tắt thuộc tính hidden).
-  &__empty {
-    margin-top: 24px;
-    border: 0.5px solid $placeholder;
-    padding: 24px;
-    @include text-sm;
-    font-weight: 300;
-    color: $muted-2;
-  }
-
-  // Từ md trở lên: nút "Ứng tuyển ngay" nằm cùng hàng với dòng "Thời hạn"
-  // (cột phải, căn đáy) → dùng grid 2 cột thay vì xếp dọc.
-  &__card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    border: 0.5px solid $placeholder;
-    background: #fff;
-    padding: 24px;
-
-    @include bp(md) {
       display: grid;
-      grid-template-columns: 1fr auto;
-      column-gap: 24px;
     }
-  }
 
-  &__card-title {
-    font-family: $font-display;
-    @include text-sm;
-    font-weight: 500;
-    color: $ink;
-    padding-right: 80px;
+    grid-template-columns: minmax(0, 1fr);
+    // Figma: gap ngang 19/1271 ≈ 1.5%, gap dọc 22px.
+    gap: 22px 1.5%;
 
     @include bp(md) {
-      grid-column: 1 / -1;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  &__badge {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  &__empty {
+    @include text-sm;
+    color: $muted;
     text-align: center;
   }
 
-  &__badge-star {
-    width: 66px;
-    height: 67px;
-  }
-
-  &__badge-label {
-    position: absolute;
-    font-family: $font-display;
-    @include text-sm;
-    font-weight: 500;
-  }
-
-  &__badge--hot &__badge-label {
-    color: #fff;
-  }
-
-  &__badge--new &__badge-label {
-    color: $brand;
-  }
-
-  &__info {
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    @include text-sm;
-    font-weight: 300;
-    color: $ink;
-  }
-
-  &__info-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  &__info-icon {
-    flex-shrink: 0;
-    width: 18px;
-    height: 18px;
-  }
-
-  // Nút ứng tuyển: pill cam đặc, căn góc dưới phải thẻ (theo Figma mới).
-  // Ở md+ nó là ô cột 2 của hàng thứ 2 → căn đáy để thẳng hàng "Thời hạn".
-  &__apply {
-    align-self: flex-end;
-    margin-top: 20px;
-    padding: 1px 23px;
-    border: 1px solid $brand;
-    border-radius: 9999px;
-    background: $brand;
-    font-family: $font-display;
-    @include text-sm;
-    font-weight: 500;
-    color: #fff;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
-
-    @include bp(md) {
-      grid-column: 2;
-      grid-row: 2;
-      align-self: end;
-      margin-top: 0;
-    }
-
-    // Hover đảo màu giống .ecs-see-more ("Tìm hiểu thêm").
-    &:hover,
-    &:focus-visible {
-      background: #fff;
-      color: $brand;
-    }
-
-    // Card hardcode (chưa có Page thật, ecsges_jobs_list() fallback) chưa có
-    // href thật — vẫn hiện nút nhưng bất hoạt (markup là <a> không có href,
-    // xem section-tuyen-dung-jobs.php), chỉ đổi con trỏ chuột cho rõ.
-    &--inert {
-      cursor: default;
-      opacity: 0.5;
-      pointer-events: none; // chặn cả hover đảo màu ở trên, vì nút không điều hướng đi đâu
-    }
-  }
-
   &__pagination {
-    margin-top: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 16px;
+    margin-block-start: 40px;
+  }
+
+  &__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
   }
 
   &__arrow-img {
-    width: 32px;
-    height: 32px;
-  }
+    width: 16px;
+    height: auto;
 
-  &__arrow-img--next {
-    transform: scaleX(-1);
+    &--next {
+      transform: rotate(180deg);
+    }
   }
 
   &__dots {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
 
   &__dot {
     width: 10px;
     height: 10px;
-    border-radius: 9999px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
     background: $placeholder;
+    cursor: pointer;
     transition: background-color 0.15s ease;
 
     &.is-active {
       background: $brand;
     }
+  }
+}
+
+// Card việc làm — Figma 625×190 nền trắng.
+.ecs-job-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 190px;
+  background: #fff;
+  // Figma: ô logo cách mép trái 27 / mép trên 16; đường kẻ kết thúc cách
+  // mép phải 18.
+  padding: 16px 18px 14px 27px;
+
+  // Figma "Rectangle 487" 87×26 nền #f05a28, chữ 16px trắng, góc trên phải.
+  &__badge {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 87px;
+    height: 26px;
+    padding-inline: 10px;
+    background: $brand;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: $ls-base;
+  }
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px; // Figma: mép phải ô logo 433 → tiêu đề 449
+  }
+
+  // Figma "Rectangle 485" 79×79 nền trắng, logo 55×51 canh giữa.
+  &__logo {
+    display: flex;
+    flex: 0 0 79px;
+    align-items: center;
+    justify-content: center;
+    width: 79px;
+    height: 79px;
+
+    img {
+      width: 55px;
+      height: auto;
+    }
+  }
+
+  &__main {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  // Figma: 26px Medium #000, line-height 32, tối đa 2 dòng.
+  &__title {
+    margin: 0 0 22px;
+    // Chừa chỗ cho badge ở góc trên phải để tiêu đề không chui xuống dưới nó.
+    padding-inline-end: 100px;
+    font-family: $font-display;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 32px;
+    letter-spacing: $ls-base;
+    color: $ink;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    @include bp(lg) {
+      font-size: 26px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s ease;
+
+      &:hover,
+      &:focus-visible {
+        color: $brand;
+      }
+    }
+  }
+
+  // Figma: 2 thẻ cao 29, nền #f0f0f0, chữ 18px Light #000, cách nhau 11.
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    height: 29px;
+    padding-inline: 12px;
+    background: $surface-2;
+    @include text-sm;
+    font-weight: 300;
+    color: $ink;
+  }
+
+  // Figma "Line 30" + ghi chú 18px Light #a4a4a4.
+  &__note {
+    margin: 14px 0 0;
+    padding-block-start: 7px;
+    border-top: 1px solid #d9d9d9;
+    @include text-sm;
+    font-weight: 300;
+    color: #a4a4a4;
+  }
+
+  // Chưa có Page chi tiết tương ứng: card vẫn hiện cho đúng bố cục nhưng
+  // tiêu đề không phải link (xem section-tuyen-dung-jobs.php).
+  &--inert &__title {
+    color: $body;
   }
 }
 
@@ -1382,9 +1522,16 @@
 
   // Nút submit: hover đảo màu giống .ecs-see-more ("Tìm hiểu thêm"). Viền cam
   // luôn tồn tại, height cố định + box-sizing: border-box nên không đổi kích cỡ.
+  // Figma node 825:1439: nhãn field có dấu * đỏ.
+  &__required {
+    margin-inline-start: 4px;
+    color: #e02b20;
+  }
+
   &__submit {
     height: 51px;
     border: 1px solid $brand;
+    border-radius: 26px; // Figma: nút bo tròn hoàn toàn
     background: $brand;
     font-family: $font-display;
     @include text-sm;
@@ -1405,32 +1552,149 @@
 // lại cho nhiều Page (mỗi Page 1 tin). Bố cục theo ảnh mẫu: MỘT cột duy nhất,
 // breadcrumb rồi một chồng "thẻ" trắng viền mảnh bo góc cách đều nhau — thẻ
 // tóm tắt (tiêu đề/lương/3 ô meta/nút) rồi lần lượt các thẻ nội dung.
+// Trang Chi tiết tuyển dụng — Figma node 715:1458.
+// Nền trang xám #f0f0f0, 2 cột: bài 905px + sidebar 360px trên container 1271
+// (→ 71.2% / 28.3%). Thẻ trắng KHÔNG bo góc, KHÔNG viền (Figma vẽ hình chữ nhật
+// đặc), khác bố cục "chồng thẻ viền mảnh" trước đây.
 .ecs-job-detail {
-  background: #fff;
-  padding-block: 24px 64px;
+  background: $surface-2;
+  padding-block: 16px 64px;
 
   @include bp(lg) {
-    padding-block: 32px 80px;
+    padding-block: 25px 80px; // Figma: đáy header 107 → breadcrumb 132
   }
 
-  // Flex column + gap: breadcrumb và mọi thẻ đều là con TRỰC TIẾP (part header
-  // và part content in ra các thẻ cùng cấp) nên khoảng cách luôn đều, không
-  // phải bù margin khi một khối bị bỏ qua vì rỗng.
   &__inner {
     @include container;
+  }
+
+  &__breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-block-end: 20px; // Figma: đáy breadcrumb 164 → thẻ tóm tắt 184
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 32px;
+    letter-spacing: $ls-base;
+    color: $ink;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s ease;
+
+      &:hover,
+      &:focus-visible {
+        color: $brand;
+      }
+    }
+
+    &-current {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  // Mũi tên ">" giữa các crumb (Figma dùng vector 4×10, không phải "/").
+  &__crumb-sep {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-top: 1.5px solid currentcolor;
+    border-right: 1.5px solid currentcolor;
+    transform: rotate(45deg);
+  }
+
+  &__layout {
+    display: grid;
+    gap: 24px;
+
+    @include bp(lg) {
+      grid-template-columns: minmax(0, 71.2%) minmax(0, 28.3%);
+      align-items: start;
+      justify-content: space-between;
+      column-gap: 0.5%;
+    }
+  }
+
+  &__main {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px; // Figma: đáy thẻ tóm tắt 487 → thẻ nội dung 503
+    min-width: 0;
   }
 
   &__card {
-    border: 1px solid #e6e6e6;
-    border-radius: 8px;
     background: #fff;
     padding: 24px;
 
     @include bp(md) {
-      padding: 32px 40px;
+      padding: 20px 42px 24px; // Figma: tiêu đề x=357 trên thẻ x=315
+    }
+  }
+
+  // Thẻ nội dung dài: các khối bên trong cách nhau bằng đường kẻ mảnh
+  // (Figma "Line 31"), không còn là các thẻ rời.
+  &__body {
+    .ecs-job-detail__block+.ecs-job-detail__block {
+      margin-block-start: 26px;
+      padding-block-start: 26px;
+      border-top: 1px solid #e6e6e6;
+    }
+  }
+
+  // Khối "Tổng quan": nhãn cột trái + hàng chip bo tròn.
+  &__facts {
+    margin: 0;
+  }
+
+  &__fact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 22px;
+
+    &+& {
+      margin-block-start: 22px; // Figma: hàng chip cách nhau 62 - 40 = 22
+    }
+  }
+
+  &__fact-label {
+    flex: 0 0 auto;
+    min-width: 110px; // Figma: nhãn x=382, chip x=503 → cột nhãn ~121
+    @include text-sm;
+    font-weight: 300;
+    color: $ink;
+  }
+
+  &__fact-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; // Figma: 815 - (503+297) = 15
+    margin: 0;
+  }
+
+  // Figma: chip cao 40, bo 20, nền #f0f0f0, chữ 18px Light #747272.
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+    padding-inline: 19px;
+    border-radius: 20px;
+    background: $surface-2;
+    @include text-sm;
+    font-weight: 300;
+    color: $muted-2;
+
+    // Hàng "Chuyên môn": chip nền trắng viền mảnh, chữ đen.
+    &--outline {
+      background: #fff;
+      border: 1px solid #e6e6e6;
+      color: $ink;
     }
   }
 
@@ -1551,12 +1815,28 @@
     }
   }
 
+  // Figma: 24px Medium #000, kèm gạch cam 3×38 sát mép trái (Rectangle 492).
   &__block-title {
-    margin: 0;
+    position: relative;
+    margin: 0 0 20px;
+    padding-inline-start: 19px; // Figma: gạch x=360 → chữ x=379
     font-family: $font-display;
+    font-size: 24px;
     font-weight: 500;
-    @include text-md;
+    line-height: 1.4;
+    letter-spacing: $ls-base;
     color: $ink;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline-start: 0;
+      top: 50%;
+      width: 3px;
+      height: 38px;
+      transform: translateY(-50%);
+      background: $brand-light;
+    }
   }
 
   // Nội dung do WYSIWYG sinh ra — style theo thẻ vì markup nằm ngoài tầm PHP.
@@ -1663,5 +1943,190 @@
         color: $ink;
       }
     }
+  }
+}
+
+// Cột phải trang Chi tiết tuyển dụng — thẻ công ty + thẻ "Thông tin chung".
+// Figma node 715:1458, cột x=1236 rộng 360.
+.ecs-job-side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; // Figma: đáy thẻ công ty 510 → thẻ thông tin chung 530
+
+  @include bp(lg) {
+    position: sticky;
+    top: 24px;
+  }
+
+  &__card {
+    background: #fff;
+    padding: 21px 20px 24px; // Figma: nội dung x=1256 trên thẻ x=1236
+  }
+
+  // Hàng đầu thẻ công ty: ô logo + tên. Figma: logo x=1256, tên x=1356 → cách
+  // 12px; cả hai bắt đầu cùng y=205 nên canh theo mép trên.
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-block-end: 20px;
+  }
+
+  // Ô logo 88×88 viền 0.5px #d3d3d3 (Figma "Rectangle 485"), logo 61 canh giữa.
+  &__logo {
+    display: flex;
+    flex: 0 0 88px;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    border: 0.5px solid #d3d3d3;
+    background: #fff;
+
+    img {
+      width: 61px;
+      height: auto;
+    }
+  }
+
+  // Figma node 825:741 — Roboto Regular 24/30, letter-spacing 1px, #000, chữ
+  // hoa sẵn trong nội dung (textCase ORIGINAL) nên KHÔNG text-transform.
+  &__name {
+    margin: 0;
+    font-family: $font-sans;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 1px;
+    color: $ink;
+  }
+
+  &__facts {
+    margin: 0 0 20px;
+    padding: 0;
+    list-style: none;
+  }
+
+  // Figma: nhãn #747272 và giá trị #000 cùng 18px Light, mỗi dòng cao 38.
+  &__fact {
+    display: flex;
+    align-items: center;
+    gap: 8px; // xem ghi chú ở &__fact-icon: 29 + 8 = 37px theo Figma
+    @include text-sm;
+    font-weight: 300;
+    line-height: 26px;
+    color: $muted-2;
+
+    &+& {
+      margin-block-start: 12px;
+    }
+  }
+
+  // Ô icon rộng 29px = bề ngang icon to nhất (quy-mo.svg 29×18) nên cả 3 SVG
+  // giữ NGUYÊN cỡ export từ Figma, không bị co méo. Cùng với gap 8px ở &__fact
+  // thì tổng 37px — đúng khoảng cách Figma từ mép thẻ (x=1256) tới nhãn (x=1293).
+  &__fact-icon {
+    display: inline-flex;
+    flex: 0 0 29px;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      display: block;
+    }
+  }
+
+  &__fact-label {
+    flex: 0 0 84px; // Figma: nhãn x=1293 → giá trị x=1377
+  }
+
+  &__fact-value {
+    color: $ink;
+  }
+
+  // Figma: 323×52, bo 30, nền trắng viền cam, chữ cam.
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+    border: 1px solid $brand-light;
+    border-radius: 30px;
+    background: #fff;
+    color: $brand-light;
+    @include text-sm;
+    font-weight: 300;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: $brand-light;
+      color: #fff;
+    }
+  }
+
+  // Figma: 24px Medium #000 (không có gạch cam như bên cột trái).
+  &__title {
+    margin: 0 0 12px;
+    font-family: $font-display;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: $ls-base;
+    color: $ink;
+  }
+
+  &__rows {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // Figma: mỗi dòng = vòng tròn Ø50 + nhãn/giá trị xếp dọc, cách nhau 69.
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 19px; // Figma: mép phải vòng tròn 1306 → chữ 1325
+
+    &+& {
+      margin-block-start: 19px;
+    }
+  }
+
+  // Vòng tròn Ø50 #F0F0F0 + icon Figma căn giữa. Ba file cap-bac/so-luong/
+  // loai-hinh đã có sẵn vòng tròn Ø50 cùng màu nên phủ khít nền này; hai file
+  // còn lại (hoc-van 32×26, hinh-thuc 26×26) nhỏ hơn và nổi trên nền.
+  &__row-dot {
+    display: flex;
+    flex: 0 0 50px;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: $surface-2;
+
+    svg {
+      display: block;
+    }
+  }
+
+  &__row-text {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+  }
+
+  &__row-label {
+    @include text-sm;
+    font-weight: 300;
+    color: $muted-2;
+  }
+
+  &__row-value {
+    @include text-sm;
+    font-weight: 300;
+    color: $ink;
   }
 }

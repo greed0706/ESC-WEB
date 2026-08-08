@@ -23,10 +23,11 @@ get_header();
 			'template-parts/page',
 			'hero',
 			array(
-				'title'   => 'ĐỐI TÁC',
+				'title'   => 'ĐỐI TÁC CỦA ECS',
 				'id'      => 'doi-tac-hero',
-				'bg'      => 'doi-tac/banner.png',
+				'bg'      => 'banner-page.png',
 				'variant' => 'banner',
+				'banner_title' => true,
 			)
 		);
 		get_template_part( 'template-parts/doi-tac', 'groups' );

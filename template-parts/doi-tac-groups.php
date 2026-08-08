@@ -29,6 +29,14 @@ $partner_groups = ecsges_tr_deep( ecsges_partner_groups() );
 
 				<ul class="ecs-partners__grid" data-aos="fade-up" data-aos-delay="80">
 					<?php foreach ( $group['logos'] as $logo ) : ?>
+						<?php
+						// Bỏ hẳn ô nếu file ảnh chưa được export vào theme — thà thiếu
+						// một ô còn hơn hiện ô rỗng/ảnh vỡ. Thả đúng tên file vào
+						// assets/img/doi-tac/ là ô tự xuất hiện lại.
+						if ( ! file_exists( get_theme_file_path( 'assets/img/doi-tac/' . $logo['file'] ) ) ) {
+							continue;
+						}
+						?>
 						<li class="ecs-partners__cell">
 							<?php
 							// width/height attribute = cỡ Figma (giữ aspect-ratio, chống layout shift).

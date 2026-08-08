@@ -24,9 +24,9 @@ get_header();
 		'template-parts/page',
 		'hero',
 		array(
-			'title' => 'VỀ ECSGES',
+			'title' => 'GIỚI THIỆU VỀ ECS',
 			'id' => 'top',
-			'bg' => 've-ecs/banner.png',
+			'bg' => 'banner-page.png',
 			'variant' => 'banner',
 			'banner_title' => true,
 		)

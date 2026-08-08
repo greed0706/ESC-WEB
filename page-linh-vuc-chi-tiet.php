@@ -39,8 +39,9 @@ get_header();
 			array(
 				'title'   => 'LĨNH VỰC HOẠT ĐỘNG',
 				'id'      => 'linh-vuc-detail-hero',
-				'bg'      => 'linh-vuc-hoat-dong/banner.png',
+				'bg'      => 'banner-page.png',
 				'variant' => 'banner',
+				'banner_title' => true,
 			)
 		);
 		?>

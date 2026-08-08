@@ -28,10 +28,11 @@ get_header();
 			'template-parts/page',
 			'hero',
 			array(
-				'title'   => 'Liên hệ',
+				'title'   => 'LIÊN HỆ',
 				'id'      => 'lien-he-hero',
-				'bg'      => 'lien-he/banner.png',
+				'bg'      => 'banner-page.png',
 				'variant' => 'banner',
+				'banner_title' => true,
 			)
 		);
 		?>

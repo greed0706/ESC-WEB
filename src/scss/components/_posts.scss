@@ -11,57 +11,60 @@
 // @use SAU _news trong main.scss.
 
 /* ------------------------------------------------------------------ */
-/* Sidebar sticky (dùng chung archive + single)                        */
+/* Sidebar "TIN TỨC - THÔNG BÁO" (dùng chung archive + single)          */
+/* Figma node 825:2396, cột phải x=1226 rộng 370.                       */
 /* ------------------------------------------------------------------ */
-.ecs-archive__sidebar {
+.ecs-news-side {
   @include bp(lg) {
     position: sticky;
     top: 24px; // bám gần đỉnh khi cuộn (header tự ẩn khi cuộn xuống)
     align-self: start;
   }
-}
 
-.ecs-archive__widget {
-  background: #fff;
-  border: 1px solid $placeholder;
-  border-radius: 12px;
-  overflow: hidden;
-
-  &-title {
+  // Figma: dải #f0f0f0 cao 58, gạch cam 4px sát mép trái, nhãn 18px lh 30.
+  &__head {
+    display: flex;
+    align-items: center;
+    min-height: 58px;
+    margin: 0;
+    padding: 14px 18px;
     background: $surface-2;
-    padding: 14px 20px;
-    border-left: 4px solid $brand;
+    border-left: 4px solid $brand-light;
     font-family: $font-display;
-    @include text-sm;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: $ls-base;
     text-transform: uppercase;
     color: $ink;
   }
 
-  &-list {
-    padding: 8px 20px 16px;
+  &__list {
+    margin: 0;
+    padding: 13px 18px 0; // Figma: đáy dải đầu 244 → mép ảnh 257
+    background: #fff;
+    list-style: none;
   }
 
-  &-item {
-    display: flex;
-    gap: 14px;
-    padding: 14px 0;
+  &__item {
+    padding-block-end: 14px;
 
     &+& {
-      border-top: 1px solid $surface-2;
+      padding-block-start: 14px;
+      border-top: 1px solid $surface-2; // Figma "Line 34"
     }
   }
 
-  &-thumb {
-    flex-shrink: 0;
-    width: 104px;
-    aspect-ratio: 16 / 10; // chữ nhật ngang giống ảnh post
+  // Figma: ảnh 334×200 → tỉ lệ 334/200 = 1.67 (cùng tỉ lệ ảnh card tin).
+  &__thumb {
+    display: block;
+    margin-block-end: 14px;
     overflow: hidden;
-    border-radius: 6px;
 
     img {
+      display: block;
       width: 100%;
-      height: 100%;
+      aspect-ratio: 334 / 200;
       object-fit: cover;
       transition: transform 0.4s ease;
     }
@@ -71,31 +74,48 @@
     }
   }
 
-  &-text {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  &__cat {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 26px;
+    letter-spacing: $ls-base;
+    text-transform: uppercase;
+    color: $muted-2;
   }
 
-  &-link {
+  &__title {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: $ls-base;
+    color: $ink;
     display: -webkit-box;
     -webkit-line-clamp: 2; // tiêu đề tối đa 2 dòng
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    @include text-sm;
-    font-weight: 500;
-    color: $ink;
-    transition: color 0.15s ease;
 
-    &:hover {
-      color: $brand;
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s ease;
+
+      &:hover,
+      &:focus-visible {
+        color: $brand;
+      }
     }
   }
 
-  &-date {
-    @include text-sm;
-    color: $muted;
+  &__date {
+    display: block;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 26px;
+    letter-spacing: $ls-base;
+    color: $muted-2;
   }
 }
 
@@ -137,15 +157,23 @@
     padding-bottom: 16px;
   }
 
+  // Tiêu đề chuyên mục — cố định 40px ở desktop (KHÔNG dùng @include text-lg:
+  // thang chung lên tới 50px, quá lớn cho trang archive). Mobile vẫn thu về
+  // 32px để tên chuyên mục dài không tràn.
   &__title {
     display: inline-block;
     border-bottom: 3px solid $brand;
     padding-bottom: 8px;
     font-family: $font-display;
-    @include text-lg;
+    font-size: $fs-lg-sm;
+    line-height: $lh-lg;
     font-weight: 700;
     text-transform: uppercase;
     color: $brand;
+
+    @include bp(md) {
+      font-size: $fs-lg-md; // 40px
+    }
   }
 
   // Từ khoá đang tìm, in trong tiêu đề trang kết quả (search.php).
@@ -287,7 +315,8 @@
 .ecs-single {
   &__inner {
     @include container;
-    padding-block: 48px 64px;
+    // Figma: đáy dải breadcrumb 173 → tiêu đề 187 (14px).
+    padding-block: 14px 64px;
   }
 
   &__layout {
@@ -295,48 +324,89 @@
     gap: 40px;
 
     @include bp(lg) {
-      grid-template-columns: minmax(0, 1fr) 380px;
+      // Figma: bài 818 + gap 83 + sidebar 370 trên container 1271
+      // → 64.4% / 6.5% / 29.1%.
+      grid-template-columns: minmax(0, 64.4%) minmax(0, 29.1%);
+      justify-content: space-between;
+      column-gap: 6.5%;
     }
+  }
+
+  // Dải breadcrumb full-bleed #f0f0f0 cao 66 (Figma "Rectangle 488", y=107).
+  &__crumbbar {
+    background: $surface-2;
+  }
+
+  &__crumbbar-inner {
+    @include container;
   }
 
   &__breadcrumb {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 8px;
-    @include text-sm;
-    color: $muted;
+    min-height: 66px;
+    padding-block: 8px;
+    // Figma: 18px Light #000, line-height 32.
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 32px;
+    letter-spacing: $ls-base;
+    color: $ink;
 
     a {
-      color: $muted;
+      color: inherit;
+      text-decoration: none;
       transition: color 0.15s ease;
 
-      &:hover {
+      &:hover,
+      &:focus-visible {
         color: $brand;
       }
     }
 
-    // Crumb cuối = tiêu đề bài viết: đậm màu hơn, cắt bớt nếu quá dài.
+    // Crumb cuối = tiêu đề bài viết: cắt bớt nếu quá dài.
     &-current {
       max-width: 100%;
       overflow: hidden;
-      color: $ink;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
   }
 
+  // Dấu phân cách hình mũi tên ">" (Figma dùng vector 4×7, không phải "/").
+  &__crumb-sep {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-inline: 4px;
+    border-top: 1.5px solid currentcolor;
+    border-right: 1.5px solid currentcolor;
+    transform: rotate(45deg);
+  }
+
+  // Figma vẽ 50px Medium / line-height 65, nhưng CỐ Ý dừng ở 40px: tiêu đề bài
+  // thật thường dài 2–3 dòng, ở 50px chiếm gần hết màn hình đầu tiên.
   &__title {
-    margin-top: 12px;
+    margin-top: 0;
     font-family: $font-display;
-    @include text-lg;
-    font-weight: 700;
+    font-size: $fs-lg-sm;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: $ls-base;
     color: $ink;
+
+    @include bp(md) {
+      font-size: $fs-lg-md; // 40px
+    }
   }
 
   &__meta {
-    margin-top: 12px;
+    margin-top: 16px;
     @include text-sm;
-    color: $muted;
+    font-weight: 300;
+    color: $muted-2;
   }
 
   &__figure {

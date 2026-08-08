@@ -21,8 +21,9 @@ get_header();
 			array(
 				'title'   => 'PHÁT TRIỂN BỀN VỮNG',
 				'id'      => 'ptbv-hero',
-				'bg'      => 'phat-trien-ben-vung/banner.png',
+				'bg'      => 'banner-page.png',
 				'variant' => 'banner',
+				'banner_title' => true,
 			)
 		);
 		get_template_part( 'template-parts/ptbv', 'values' );

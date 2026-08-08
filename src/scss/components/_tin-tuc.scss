@@ -1,278 +1,155 @@
 @use '../variables' as *;
 @use '../mixins' as *;
 
-// Trang Tin tức (page-tin-tuc.php + template-parts/tin-tuc-*.php).
-// Figma node 548:9518, frame 1920 — content x 323→1596 (1273px).
+// Trang Tin tức (page-tin-tuc.php + template-parts/tin-tuc-tabs.php +
+// template-parts/tin-tuc-grid.php). Figma node 746:1184, frame 1920 —
+// content x 316→1594 (1278px).
 //
-// Như trang Đối tác, content map về @include container (1220px ở >=768) — mapping
-// 1920→$page-max dùng chung toàn theme. Vì vậy mọi bề rộng/chiều cao theo trục
-// ngang dùng TỈ LỆ (fr, aspect-ratio, %) chứ không px cứng, để giữ đúng tỉ lệ Figma
-// ở mọi bề rộng. Khoảng cách dọc giữ px tuyệt đối như Figma.
-
-// Cả 3 cỡ ảnh trong Figma cùng tỉ lệ: 816/488 = 413/247 = 408/244 = 1.6721.
-// Tách tử/mẫu rồi nội suy (giống _doi-tac.scss) để aspect-ratio ra literal
-// "816 / 488" — viết '816 / 488' trực tiếp sẽ bị Sass hiểu là phép chia (slash-div).
-$newsroom-media-w: 816;
-$newsroom-media-h: 488;
+// Như trang Đối tác, content map về @include container (1220px ở >=768) —
+// mapping 1920→$page-max dùng chung toàn theme. Vì vậy bề rộng theo trục ngang
+// dùng TỈ LỆ (fr, aspect-ratio, %) chứ không px cứng; khoảng cách dọc giữ px
+// tuyệt đối như Figma.
+//
+// Ảnh card Figma 408×244 → tỉ lệ 1.6721. Tách tử/mẫu rồi nội suy (giống
+// _doi-tac.scss) để aspect-ratio ra literal "408 / 244" — viết '408 / 244'
+// trực tiếp sẽ bị Sass hiểu là phép chia (slash-div).
+$newsroom-media-w: 408;
+$newsroom-media-h: 244;
+$newsroom-hairline: #a4a4a4;
 
 .ecs-newsroom {
   &__inner {
     @include container;
   }
 
-  // --- Thanh tab chủ đề (Figma y 766–834, cao 68) -----------------------
+  // --- Thanh tab chủ đề (Figma: nhãn y=721 cao 25, đường kẻ y=785) --------
   &__tabs {
-    // Tách nhẹ khỏi ảnh banner full-bleed phía trên (Figma để 6px).
-    // Đường kẻ xám KHÔNG đặt ở thẻ bọc này mà ở từng thẻ tab bên trong
-    // (xem &__tab) để nó chỉ chạy dưới các tab, không tràn ra vùng padding
-    // ngang của container.
-    padding-block-start: 4px;
+    padding-block-start: 32px;
+
+    @include bp(lg) {
+      padding-block-start: 88px; // Figma: đáy banner 633 → nhãn tab 721
+    }
   }
 
   &__tabs-inner {
     @include container;
   }
 
-  // Thẻ tab dùng lại NGUYÊN kiểu .ecs-ecosystem__tablist (icon trên, nhãn dưới,
-  // nền cam + caret khi active — xem components/_landing.scss), giống "Lĩnh vực
-  // hoạt động" (linh-vuc-tabs.php) và "Hệ sinh thái" trang chủ. Ở đây chỉ khác
-  // số cột: 6 tab (ECSGES + 5 lĩnh vực) thay vì 5, nên ghi đè riêng
-  // grid-template-columns bằng selector ghép 2 class (thắng độ đặc hiệu bất kể
-  // thứ tự @use trong main.scss).
-  &__tablist.ecs-ecosystem__tablist {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-
-    @include bp(sm) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+  // Hàng tab canh giữa, cách nhau 90px (Figma), có đường kẻ mảnh chạy hết
+  // chiều ngang container ở đáy.
+  &__tablist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 32px;
+    row-gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid $newsroom-hairline;
 
     @include bp(lg) {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-    }
-
-    // Tab ở đây là <a> ĐIỀU HƯỚNG sang trang khác (không phải nút chuyển
-    // panel tại chỗ như Lĩnh vực hoạt động/Hệ sinh thái), nên cần phản hồi
-    // hover riêng: nền/label cam khi hover, các tab còn lại giữ nền trắng.
-    // .ecs-ecosystem__tab mặc định KHÔNG có hover — chỉ .is-active mới cam —
-    // nên phải thêm ở đây bằng selector con, không sửa _landing.scss dùng chung.
-    .ecs-ecosystem__tab {
-      &:hover,
-      &:focus-visible {
-        background: $brand;
-        color: #fff;
-
-        .ecs-ecosystem__icon {
-          color: #fff;
-        }
-      }
-    }
-
-    // Mũi nhọn (caret) dưới tab: _landing.scss chỉ bật nó cho .is-active — ở
-    // đây không có tab nào active nên phải bật thêm cho hover/focus và cho tab
-    // "mặc định", để hàng tab này trông giống Lĩnh vực hoạt động / Phát triển
-    // bền vững. Giữ nguyên bp(lg) như bản gốc: dưới lg tab xuống 2–3 cột, caret
-    // sẽ đè lên hàng dưới.
-    // Caret nằm NGOÀI thẻ <a> (là sibling trong __tab-wrap) nên nếu ăn chuột
-    // thì lúc trỏ vào nó: tablist :hover = true nhưng tab :hover = false → cam
-    // mặc định tắt → caret ẩn → chuột rơi ra ngoài → nhấp nháy. Nó chỉ là trang
-    // trí (aria-hidden) nên cho bỏ qua chuột hẳn.
-    .ecs-ecosystem__caret {
-      pointer-events: none;
-    }
-
-    .ecs-ecosystem__tab:hover ~ .ecs-ecosystem__caret,
-    .ecs-ecosystem__tab:focus-visible ~ .ecs-ecosystem__caret,
-    .ecs-ecosystem__tab.is-default ~ .ecs-ecosystem__caret {
-      @include bp(lg) {
-        display: block;
-      }
-    }
-
-    // Tab đầu tiên tô cam sẵn khi vào trang (.is-default gắn từ
-    // template-parts/tin-tuc-tabs.php) — không có nó thì cả hàng tab trắng
-    // trơn, người dùng không biết là bấm được.
-    .ecs-ecosystem__tab.is-default {
-      background: $brand;
-      color: #fff;
-
-      .ecs-ecosystem__icon {
-        color: #fff;
-      }
-    }
-
-    // …nhưng ngay khi rê chuột (hoặc tab bàn phím) sang thẻ khác thì màu cam
-    // "mặc định" đó tắt, trả tab đầu về trạng thái trắng như 5 tab kia — chỉ
-    // thẻ đang hover mới cam. Đặt SAU khối .is-default và có độ đặc hiệu cao
-    // hơn nên thắng; :not(:hover) để lúc hover chính tab đầu vẫn cam.
-    &:hover,
-    &:focus-within {
-      .ecs-ecosystem__tab.is-default:not(:hover):not(:focus-visible) {
-        background: #fff;
-        color: $ink;
-
-        .ecs-ecosystem__icon {
-          color: #A4A4A4;
-        }
-
-        ~ .ecs-ecosystem__caret {
-          display: none;
-        }
-      }
+      column-gap: 90px;
+      flex-wrap: nowrap;
     }
   }
 
-  // Icon tab "ECSGES" = logo mark (assets/img/hero-mark.svg), vốn tô đặc màu
-  // cam cứng ("fill: #F05A28" trong file) chứ không phải icon outline
-  // "stroke: currentColor" như 5 icon lĩnh vực kia. Ép fill theo currentColor
-  // (thắng "fill" trong file vì presentation attribute có độ ưu tiên thấp hơn
-  // CSS) để nó ăn đúng màu ghi mặc định / trắng khi hover của .ecs-ecosystem__icon.
-  .ecs-ecosystem__icon--fill svg path {
-    fill: currentColor;
+  &__tab-wrap {
+    display: flex;
   }
 
-  // --- Tiêu đề khối (TIN NỔI BẬT / KIẾN THỨC) ---------------------------
-  // Figma: Roboto Flex Medium 50px / lh 68px / ls 1px, #000, căn trái.
-  &__heading {
-    @include text-lg;
-    line-height: 1.36; // 50px → 68px
-    margin: 0 0 32px;
+  // Figma: 26px, tab đang chọn Medium #f26522, còn lại Light #747272.
+  // Gạch cam 4px của tab đang chọn nằm đè lên đường kẻ đáy của &__tablist.
+  &__tab {
+    position: relative;
+    display: block;
+    padding-block: 8px 33px; // Figma: đáy nhãn 746 → gạch cam 783
     font-family: $font-display;
-    font-weight: 500;
-    letter-spacing: 1px;
-    color: $brand;
-
-    @include bp(lg) {
-      // Figma: TIN NỔI BẬT đáy 949 → lưới featured 992.
-      margin-block-end: 43px;
-    }
-  }
-
-  &__section {
-    padding-block: 48px 0;
-
-    @include bp(lg) {
-      // Figma: thanh tab đáy y=834 → tiêu đề y=881 (47px).
-      padding-block-start: 47px;
-    }
-  }
-
-  // --- Khối TIN NỔI BẬT (Figma y 992–1699) ------------------------------
-  &__featured {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 40px;
-
-    @include bp(lg) {
-      // Figma: 816px | 44px | 413px trong 1273px.
-      grid-template-columns: minmax(0, 816fr) minmax(0, 413fr);
-      gap: 44px;
-    }
-  }
-
-  &__img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
-
-  &__lead-media,
-  &__side-media,
-  &__card-media {
-    display: block;
-    overflow: hidden;
-    aspect-ratio: #{$newsroom-media-w} / #{$newsroom-media-h};
-  }
-
-  &__link {
-    color: inherit;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.35;
+    letter-spacing: $ls-base;
+    white-space: nowrap;
+    color: $muted-2;
     text-decoration: none;
+    transition: color 0.15s ease;
 
+    @include bp(lg) {
+      font-size: 26px;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      bottom: -1px; // phủ lên đường kẻ 1px của &__tablist
+      height: 4px;
+      background: $brand-light;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    // Hover/focus: tab nào cũng lên ĐÚNG bộ mặt của tab đang chọn — chữ cam +
+    // gạch cam bên dưới.
+    //
+    // Cố ý KHÔNG đổi font-weight ở đây (chỉ .is-active mới Medium): Light 300 →
+    // Medium 500 ở cỡ 26px làm nhãn rộng thêm vài px, mà hàng tab canh giữa nên
+    // mọi tab bên cạnh sẽ nhảy chỗ mỗi lần rê chuột.
     &:hover,
     &:focus-visible {
-      color: $brand;
-    }
-  }
+      color: $brand-light;
 
-  // Bài lớn. Figma vẽ title 40px / excerpt 28px, nhưng thang cỡ chữ của theme chỉ
-  // có 3 cỡ cho chữ nội dung ($fs-lg 50 / $fs-md 28 / $fs-sm 18 — xem _variables).
-  // Theo yêu cầu: text lớn = 28 ($fs-md), text nhỏ = 18 ($fs-sm).
-  &__lead-title {
-    margin: 24px 0 0; // Figma: ảnh đáy 1480 → title 1504
-    font-family: $font-sans;
-    font-weight: 400;
-    @include text-md;
-    letter-spacing: 0.25px;
-    color: $ink;
-  }
-
-  &__lead-excerpt {
-    margin: 17px 0 0; // Figma: title text đáy ~1604 → excerpt 1621
-    display: -webkit-box;
-    -webkit-line-clamp: 4; // bài lớn: tối đa 4 dòng
-    line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-family: $font-sans;
-    font-weight: 300;
-    @include text-sm;
-    color: $body;
-    text-align: justify;
-  }
-
-  // Cột phải: 2 bài nhỏ, cách nhau 49px (Figma 1289 → 1338).
-  &__side {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-
-    @include bp(lg) {
-      gap: 49px;
-    }
-  }
-
-  &__side-title {
-    margin: 14px 0 0; // Figma: ảnh đáy 1239 → title 1253
-    display: -webkit-box;
-    -webkit-line-clamp: 2; // 2 bài nhỏ: tối đa 2 dòng
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-family: $font-sans;
-    font-weight: 300;
-    @include text-sm; // Figma 22px → thang theme: text nhỏ = 18px
-    letter-spacing: 0.25px;
-    color: $ink;
-  }
-
-  // --- Khối KIẾN THỨC (Figma y 1748–2502, dải #f0f0f0 full-bleed) -------
-  &__knowledge {
-    margin-block-start: 49px; // Figma: excerpt đáy ~1699 → dải 1748
-    background-color: $surface-2;
-    padding-block: 48px;
-
-    @include bp(lg) {
-      // Figma: đỉnh dải 1748 → heading 1809 (61px); phân trang đáy 2449 → 2502 (53px).
-      padding-block: 61px 53px;
+      &::after {
+        opacity: 1;
+      }
     }
 
-    // Figma: KIẾN THỨC đáy 1877 → lưới 1925 (48px) — khác featured (43px).
-    .ecs-newsroom__heading {
-      @include bp(lg) {
-        margin-block-end: 48px;
+    &.is-active {
+      font-weight: 500;
+      color: $brand-light;
+
+      &::after {
+        opacity: 1;
       }
     }
   }
 
-  &__grid {
-    display: none;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
+  // …nhưng ngay khi rê chuột (hoặc tab bàn phím) sang thẻ khác thì màu cam của
+  // tab đang chọn tắt, trả nó về trạng thái ghi như các tab kia — chỉ thẻ đang
+  // hover mới cam. Giữ nguyên hành vi của hàng tab bản cũ (.is-default trong
+  // git HEAD~). :not(:hover) để lúc hover chính tab đang chọn thì nó vẫn cam.
+  &__tablist:hover,
+  &__tablist:focus-within {
+    .ecs-newsroom__tab.is-active:not(:hover):not(:focus-visible) {
+      color: $muted-2;
 
-    &.is-active {
-      display: grid;
+      &::after {
+        opacity: 0;
+      }
     }
+  }
+}
+
+// --- Lưới card tin (Figma: card 408×480, gap 27 ngang / 31 dọc) ----------
+.ecs-news-grid {
+  padding-block: 32px 72px;
+
+  @include bp(lg) {
+    padding-block: 46px 100px; // Figma: đường kẻ 785 → card 831
+  }
+
+  &__inner {
+    @include container;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    // Figma gap 27/1278 ≈ 2.11% ngang; dọc giữ 31px tuyệt đối.
+    gap: 31px 2.11%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 
     @include bp(sm) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -283,48 +160,211 @@ $newsroom-media-h: 488;
     }
   }
 
-  // Card: Figma 408x426, bg trắng, padding ngang 19px, ảnh tràn sát mép.
-  &__card {
+  &__item {
     display: flex;
-    flex-direction: column;
-    background-color: #fff;
   }
 
-  &__card-body {
-    padding: 15px 19px 19px; // Figma: ảnh đáy 2169 → title 2184
+  // Bài từ thứ 4 trở đi: ẩn sẵn, chỉ hiện sau khi initNewsLoadMore() gắn
+  // .is-revealed. Gate bằng .js (header.php gắn trước lúc paint) nên tắt JS thì
+  // trang vẫn hiện đủ bài thay vì mất hẳn.
+  //
+  // Hai class chứ không phải một: `display` không transition được, nên JS bật
+  // .is-revealed (vào lưới, còn mờ và thấp hơn) rồi mới bật .is-in ở frame sau
+  // để trình duyệt có trạng thái đầu mà nội suy. Cùng kiểu fade-up với AOS.
+  .js &__item--extra {
+    display: none;
+
+    &.is-revealed {
+      display: flex;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    &.is-revealed.is-in {
+      opacity: 1;
+      transform: none;
+    }
   }
 
-  &__card-title {
-    margin: 0;
+  // --- "XEM THÊM" giữa 2 đường kẻ (Figma node 746:284) ------------------
+  // Chữ cam 18px Roboto Regular, gạch chân 3px cam, 2 đường kẻ mảnh kéo dài
+  // hai bên. Cùng dựng như .ecs-news__more của khối tin trang chủ, chỉ khác
+  // màu chữ (ở đó là #000, ở đây Figma ghi #f26522).
+  &__more {
+    display: none;
+    align-items: center;
+    gap: 24px;
+    margin-block-start: 40px;
+
+    .js & {
+      display: flex;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1 1 auto;
+      height: 1px;
+      background: #d9d9d9;
+    }
+  }
+
+  &__more-btn {
+    flex: 0 0 auto;
+    padding: 0 0 6px;
+    border: 0;
+    border-block-end: 3px solid $brand-light;
+    background: none;
     font-family: $font-sans;
+    font-size: 18px;
     font-weight: 400;
-    @include text-sm; // Figma 22px → thang theme: text nhỏ = 18px
-    letter-spacing: 0.25px;
-    color: $ink;
+    line-height: 28px;
+    letter-spacing: $ls-base;
+    text-transform: uppercase;
+    color: $brand-light;
+    cursor: pointer;
+    transition: color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: $brand-dark;
+    }
   }
 
-  &__card-excerpt {
-    margin: 30px 0 0; // Figma: title box đáy 2220 → excerpt 2250
-    font-family: $font-sans;
-    font-weight: 300;
+  &__empty {
     @include text-sm;
-    color: $body;
-    text-align: justify;
+    color: $muted;
+    text-align: center;
   }
 
-  // Phân trang dùng lại markup + style .ecs-news__pagination của trang chủ.
-  // NHƯNG _landing.scss đặt `margin-left: auto; width: calc(50% - 12px)` ở >=1024px
-  // để nó nằm dưới cột tin bên PHẢI của trang chủ. Ở đây lưới 3 cột chiếm cả bề
-  // rộng nên phải căn GIỮA → huỷ cả margin-left lẫn width.
-  // Selector ghép 2 class (.ecs-newsroom__pagination.ecs-news__pagination) để thắng
-  // độ đặc hiệu của .ecs-news__pagination bất kể thứ tự @use trong main.scss.
-  &__pagination.ecs-news__pagination {
-    margin-block-start: 32px;
+}
 
-    @include bp(lg) {
-      margin-block-start: 48px; // Figma: card đáy 2351 → phân trang 2399
-      margin-inline: auto;
-      width: 100%;
+// Card tin — nền trắng, ảnh trên, thân dưới. Tiêu đề/tóm tắt kẹp 2 dòng để mọi
+// card trong một hàng cao bằng nhau và hàng nút luôn dính đáy.
+.ecs-news-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+
+  &__media {
+    display: block;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    aspect-ratio: #{$newsroom-media-w} / #{$newsroom-media-h};
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &__body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    // Figma: lề trong 19 trái / 20 phải, đáy 12, đỉnh 18 (đáy ảnh 244 → nhãn 262).
+    padding: 18px 18px 12px;
+  }
+
+  // Nhãn chuyên mục — Figma 16px Light #747272, viết hoa.
+  &__cat {
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.6;
+    letter-spacing: $ls-base;
+    text-transform: uppercase;
+    color: $muted-2;
+  }
+
+  // Figma 22px Regular #000, line-height 28.
+  &__title {
+    margin: 0 0 12px;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: $ls-base;
+    color: $ink;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover,
+      &:focus-visible {
+        color: $brand;
+      }
+    }
+  }
+
+  // Figma 18px Light #747272, line-height 26.
+  &__excerpt {
+    margin: 0 0 18px;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 26px;
+    letter-spacing: $ls-base;
+    color: $muted-2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-block-start: auto;
+  }
+
+  &__date {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.6;
+    letter-spacing: $ls-base;
+    color: $muted-2;
+  }
+
+  // Cùng nút pill với "Lĩnh vực hoạt động": Figma 103×34, bo 20, nền #f05a28.
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 103px;
+    height: 34px;
+    padding-inline: 15px;
+    border-radius: 20px;
+    background: $brand;
+    color: #fff;
+    font-family: $font-display;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: $ls-base;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: $brand-dark;
     }
   }
 }

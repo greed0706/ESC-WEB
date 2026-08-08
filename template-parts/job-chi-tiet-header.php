@@ -14,10 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$jd_id       = get_the_ID();
-$jd_title    = get_the_title();
-$jd_salary   = ecsges_field_page( $jd_id, 'job_salary', 'Thoả thuận' );
-$jd_list_url = ecsges_translate_path( '/tuyen-dung/' );
+$jd_id     = get_the_ID();
+$jd_title  = get_the_title();
+$jd_salary = ecsges_field_page( $jd_id, 'job_salary', 'Thoả thuận' );
 
 // Giao diện mới đã có nhãn "Thời hạn ứng tuyển" riêng nên ô giá trị chỉ để
 // ngày. Các Page nhập trước đây còn tiền tố "Thời hạn: " trong DB → cắt bỏ để
@@ -43,12 +42,6 @@ $jd_metas = array(
 	),
 );
 ?>
-<nav class="ecs-single__breadcrumb" aria-label="Breadcrumb">
-	<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( ecsges_t( 'Trang chủ' ) ); ?></a>
-	<span aria-hidden="true">/</span>
-	<a href="<?php echo esc_url( $jd_list_url ); ?>"><?php echo esc_html( ecsges_t( 'Tuyển dụng' ) ); ?></a>
-</nav>
-
 <header class="ecs-job-detail__card ecs-job-detail__summary">
 	<h1 class="ecs-job-detail__title"><?php echo esc_html( $jd_title ); ?></h1>
 	<p class="ecs-job-detail__salary"><?php echo esc_html( $jd_salary ); ?></p>

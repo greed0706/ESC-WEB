@@ -217,6 +217,16 @@ add_action(
 					// Giá trị cũ còn tiền tố "Thời hạn:" vẫn hiển thị đúng — template
 					// chi tiết tự cắt tiền tố đó đi (job-chi-tiet-header.php).
 					$text( 'job_deadline', 'Thời hạn ứng tuyển', '15/08/2026' ),
+					// --- Khối "Tổng quan" + sidebar "Thông tin chung" (Figma 715:1458).
+					// Các field dạng textarea nhận MỖI DÒNG 1 thẻ chip.
+					$text( 'job_level', 'Cấp bậc', 'Chuyên viên' ),
+					$text( 'job_education', 'Học vấn', 'Cao đẳng trở lên' ),
+					$text( 'job_headcount', 'Số lượng tuyển', '2 người' ),
+					$text( 'job_work_form', 'Hình thức làm việc', 'Làm việc tại văn phòng' ),
+					$text( 'job_work_type', 'Loại hình làm việc', 'Toàn thời gian' ),
+					$textarea( 'job_tags_requirements', 'Tổng quan — Yêu cầu (mỗi dòng 1 thẻ)', "2 năm kinh nghiệm chuyên môn\nCao Đẳng trở lên" ),
+					$textarea( 'job_tags_benefits', 'Tổng quan — Quyền lợi (mỗi dòng 1 thẻ)', "Bảo hiểm xã hội\nLương tháng 13\nDu lịch hàng năm" ),
+					$textarea( 'job_tags_specialty', 'Tổng quan — Chuyên môn (mỗi dòng 1 thẻ)', "Digital Marketing\nMarketing/Quảng cáo" ),
 					array(
 						'key'           => 'field_ecsges_job_hot',
 						'label'         => 'Đánh dấu Hot',

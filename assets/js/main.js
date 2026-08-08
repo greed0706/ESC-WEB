@@ -12,6 +12,7 @@
     initMobileMenu();
     initEcosystemTabs();
     initNewsPagination();
+    initNewsLoadMore();
     initNewsFilter();
     initJobsFilter();
     initJobModal();
@@ -493,6 +494,60 @@
       btn.addEventListener('click', function () {
         activate(btn.getAttribute('data-tab'));
       });
+    });
+  }
+
+  /* ---------------------------------------------------------------- */
+  /**
+   * Trang Tin tức: lưới hiện 3 bài, bấm "XEM THÊM" hiện thêm 1 hàng nữa.
+   *
+   * Các bài ẩn sẵn mang class .ecs-news-grid__item--extra (gắn từ
+   * template-parts/tin-tuc-grid.php) và CSS chỉ ẩn chúng khi <html> có class
+   * .js — nên tắt JS thì trang hiện đủ bài, không cần hàm này chạy.
+   *
+   * KHÔNG dùng chung attribute với initNewsPagination(): hàm kia bám
+   * [data-news] / [data-news-page] của khối tin trang chủ.
+   */
+  function initNewsLoadMore() {
+    var grid = document.querySelector('[data-news-grid]');
+    var btn = document.querySelector('[data-news-more]');
+    var wrap = document.querySelector('[data-news-more-wrap]');
+    if (!grid || !btn) return;
+
+    var hidden = Array.prototype.slice.call(
+      grid.querySelectorAll('.ecs-news-grid__item--extra')
+    );
+    if (!hidden.length) {
+      if (wrap) wrap.hidden = true;
+      return;
+    }
+
+    var step = parseInt(grid.getAttribute('data-news-step'), 10) || 3;
+
+    btn.addEventListener('click', function () {
+      // Lấy đúng `step` phần tử đầu tiên chưa mở, mở rồi bỏ khỏi hàng đợi.
+      var batch = hidden.splice(0, step);
+
+      // Bước 1: đưa card vào lưới (display none -> flex) ở trạng thái mờ + thấp.
+      batch.forEach(function (item) {
+        item.classList.add('is-revealed');
+      });
+
+      // Ép trình duyệt tính lại layout NGAY. Không có dòng này thì nó gộp cả 2
+      // lần đổi class vào cùng một frame, không có trạng thái đầu để nội suy và
+      // card hiện ra bụp một cái thay vì trôi lên.
+      void grid.offsetHeight;
+
+      // Bước 2: thả về vị trí thật, lệch nhau 70ms cho hàng card trôi lên so le.
+      requestAnimationFrame(function () {
+        batch.forEach(function (item, i) {
+          setTimeout(function () {
+            item.classList.add('is-in');
+          }, i * 70);
+        });
+      });
+
+      if (!hidden.length && wrap) wrap.hidden = true;
     });
   }
 

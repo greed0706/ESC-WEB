@@ -26,17 +26,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<form class="ecs-job-modal__form" data-job-modal-form>
 			<div class="ecs-job-modal__field">
-				<label for="job-apply-name"><?php echo esc_html( ecsges_t( 'Họ và tên' ) ); ?></label>
+				<label for="job-apply-name"><?php echo esc_html( ecsges_t( 'Họ và tên' ) ); ?><span class="ecs-job-modal__required" aria-hidden="true">*</span></label>
 				<input type="text" id="job-apply-name" name="name" placeholder="<?php echo esc_attr( ecsges_t( 'Nhập họ và tên' ) ); ?>" required>
 			</div>
 
 			<div class="ecs-job-modal__field">
-				<label for="job-apply-email"><?php echo esc_html( ecsges_t( 'Địa chỉ email' ) ); ?></label>
+				<label for="job-apply-email"><?php echo esc_html( ecsges_t( 'Địa chỉ email' ) ); ?><span class="ecs-job-modal__required" aria-hidden="true">*</span></label>
 				<input type="email" id="job-apply-email" name="email" placeholder="<?php echo esc_attr( ecsges_t( 'Nhập địa chỉ email' ) ); ?>" required>
 			</div>
 
 			<div class="ecs-job-modal__field">
-				<label for="job-apply-phone"><?php echo esc_html( ecsges_t( 'Số điện thoại' ) ); ?></label>
+				<label for="job-apply-phone"><?php echo esc_html( ecsges_t( 'Số điện thoại' ) ); ?><span class="ecs-job-modal__required" aria-hidden="true">*</span></label>
 				<input type="tel" id="job-apply-phone" name="phone" placeholder="<?php echo esc_attr( ecsges_t( 'Nhập số điện thoại' ) ); ?>" required>
 			</div>
 

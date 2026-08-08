@@ -23,7 +23,17 @@ get_header();
 ?>
 	<main>
 		<?php
-		get_template_part( 'template-parts/section', 'tuyen-dung-hero' );
+		get_template_part(
+			'template-parts/page',
+			'hero',
+			array(
+				'title'   => 'TUYỂN DỤNG',
+				'id'      => 'tuyen-dung-hero',
+				'bg'      => 'banner-page.png',
+				'variant' => 'banner',
+				'banner_title' => true,
+			)
+		);
 		get_template_part( 'template-parts/section', 'tuyen-dung-jobs' );
 		?>
 	</main>

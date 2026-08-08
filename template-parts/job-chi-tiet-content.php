@@ -54,7 +54,7 @@ foreach ( $jd_blocks as $jd_block ) {
 $jd_last = count( $jd_rendered ) - 1;
 ?>
 <?php foreach ( $jd_rendered as $jd_i => $jd_block ) : ?>
-	<section class="ecs-job-detail__card ecs-job-detail__block">
+	<section class="ecs-job-detail__block">
 		<h2 class="ecs-job-detail__block-title"><?php echo esc_html( ecsges_t( $jd_block['title'] ) ); ?></h2>
 		<div class="ecs-job-detail__block-body">
 			<?php echo $jd_block['html']; // phpcs:ignore WordPress.Security.EscapingOutput.OutputNotEscaped -- đã lọc bằng wp_kses_post() trong ecsges_rich_text(). ?>

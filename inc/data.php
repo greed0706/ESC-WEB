@@ -392,11 +392,7 @@ function ecsges_linh_vuc_tabs()
 			'icon' => 'icon-huongnghiep',
 			'image' => $eco_img['huong-nghiep'],
 			'title' => 'Định hướng tương lai từ sự thấu hiểu năng lực',
-			'paragraph' => 'ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại và hội nhập.
-							Các dịch vụ nổi bật:
-							- Định hướng nghề nghiệp
-							- Lựa chọn ngành học
-							- Phát triển kỹ năng',
+			'paragraph' => 'ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại.',
 		),
 		array(
 			'id' => 'tuyen-sinh',
@@ -404,14 +400,7 @@ function ecsges_linh_vuc_tabs()
 			'icon' => 'icon-tuyensinh',
 			'image' => $eco_img['tuyen-sinh'],
 			'title' => 'Kết nối người học với cơ hội phát triển toàn diện',
-			'paragraph' => 'Với mạng lưới đối tác giáo dục đa dạng và hệ thống tư vấn chuyên nghiệp, ECSGES triển khai các giải pháp tuyển sinh linh hoạt, đáp ứng nhu cầu học tập ở nhiều cấp độ và lĩnh vực khác nhau. Chúng tôi hướng tới việc mở rộng cơ hội tiếp cận giáo dục chất lượng cho mọi đối tượng người học.
-							Các chương trình tuyển sinh:
-							- Chính quy Đại học, Cao đẳng
-							- Du học
-							- Liên thông
-							- Chương trình 9+
-							- E-Learning
-							- Các khóa học ngắn hạn'
+			'paragraph' => 'Với mạng lưới đối tác giáo dục đa dạng và hệ thống tư vấn chuyên nghiệp, ECSGES triển khai các giải pháp tuyển sinh linh hoạt, đáp ứng nhu cầu học tập ở nhiều cấp độ và lĩnh vực khác nhau. Chúng tôi hướng tới việc mở rộng cơ hội tiếp cận giáo dục chất lượng cho mọi đối tượng người học.'
 		),
 		array(
 			'id' => 'dao-tao',
@@ -419,14 +408,7 @@ function ecsges_linh_vuc_tabs()
 			'icon' => 'icon-daotao',
 			'image' => $eco_img['dao-tao'],
 			'title' => 'Nâng cao năng lực, gia tăng giá trị nghề nghiệp',
-			'paragraph' => 'ECSGES phát triển các chương trình đào tạo đa dạng theo định hướng ứng dụng, kết hợp giữa kiến thức chuyên môn, kỹ năng thực tiễn và yêu cầu của thị trường lao động. Chúng tôi chú trọng xây dựng môi trường học tập hiện đại, linh hoạt và phù hợp với xu hướng phát triển của thời đại số.
-							Các lĩnh vực đào tạo:
-							- Chính quy Đại học, Cao đẳng
-							- Du học
-							- Liên thông
-							- Kỹ năng
-							- Chương trình 9+
-							- E-Learning'
+			'paragraph' => 'ECSGES phát triển các chương trình đào tạo đa dạng theo định hướng ứng dụng, kết hợp giữa kiến thức chuyên môn, kỹ năng thực tiễn và yêu cầu của thị trường lao động. Chúng tôi chú trọng xây dựng môi trường học tập hiện đại, linh hoạt và phù hợp với xu hướng phát triển của thời đại số.'
 		),
 		array(
 			'id' => 'viec-lam',
@@ -434,15 +416,7 @@ function ecsges_linh_vuc_tabs()
 			'icon' => 'icon-vieclam',
 			'image' => $eco_img['viec-lam'],
 			'title' => 'Kết nối nguồn nhân lực với cơ hội nghề nghiệp',
-			'paragraph' => 'Là cầu nối giữa người lao động và doanh nghiệp, ECSGES cung cấp các giải pháp việc làm trong nước và quốc tế, góp phần nâng cao chất lượng nguồn nhân lực và thúc đẩy phát triển nghề nghiệp bền vững. Chúng tôi đồng hành cùng người lao động từ quá trình định hướng, đào tạo đến tìm kiếm cơ hội việc làm phù hợp.
-							Việc làm trong nước:
-							- Lao động phổ thông
-							- Lao động thời vụ
-							- Lao động tay nghề cao
-							- Lao động có kinh nghiệm
-							Việc làm quốc tế:
-							- Xuất khẩu lao động phổ thông
-							- Xuất khẩu lao động kỹ sư'
+			'paragraph' => 'Là cầu nối giữa người lao động và doanh nghiệp, ECSGES cung cấp các giải pháp việc làm trong nước và quốc tế, góp phần nâng cao chất lượng nguồn nhân lực và thúc đẩy phát triển nghề nghiệp bền vững. Chúng tôi đồng hành cùng người lao động từ quá trình định hướng, đào tạo đến tìm kiếm cơ hội việc làm phù hợp.'
 		),
 		array(
 			'id' => 'truyen-thong',
@@ -450,11 +424,7 @@ function ecsges_linh_vuc_tabs()
 			'icon' => 'icon-truyenthong',
 			'image' => $eco_img['truyen-thong'],
 			'title' => 'Lan tỏa giá trị bằng sức mạnh kết nối',
-			'paragraph' => 'ECSGES cung cấp các giải pháp truyền thông toàn diện cho lĩnh vực giáo dục, góp phần nâng cao hình ảnh thương hiệu, tăng cường kết nối với người học và mở rộng sức ảnh hưởng tới cộng đồng. Chúng tôi kết hợp giữa truyền thông hiện đại và tổ chức sự kiện để tạo nên những chiến dịch hiệu quả và bền vững.
-							Các dịch vụ chính:
-							- Truyền thông online
-							- Truyền thông offline
-							- Tổ chức sự kiện'
+			'paragraph' => 'ECSGES cung cấp các giải pháp truyền thông toàn diện cho lĩnh vực giáo dục, góp phần nâng cao hình ảnh thương hiệu, tăng cường kết nối với người học và mở rộng sức ảnh hưởng tới cộng đồng. Chúng tôi kết hợp giữa truyền thông hiện đại và tổ chức sự kiện để tạo nên những chiến dịch hiệu quả và bền vững.'
 		),
 	);
 }
@@ -769,6 +739,10 @@ function ecsges_jobs_list()
 			'department' => ecsges_field_page($p->ID, 'job_department', ''),
 			'type' => ecsges_field_page($p->ID, 'job_type', ''),
 			'deadline' => ecsges_field_page($p->ID, 'job_deadline', ''),
+			// Figma node 724:1878 hiện thêm mức lương + ghi chú kinh nghiệm trên
+			// card danh sách; 2 field ACF này vốn đã có sẵn cho trang chi tiết.
+			'salary' => ecsges_field_page($p->ID, 'job_salary', ''),
+			'experience' => ecsges_field_page($p->ID, 'job_experience', ''),
 			'tag' => (function_exists('get_field') && get_field('job_hot', $p->ID)) ? 'hot' : '',
 			'href' => get_permalink($p),
 		);
@@ -776,6 +750,38 @@ function ecsges_jobs_list()
 	return $jobs;
 }
 
+
+/**
+ * Thông tin công ty hiện ở thẻ bên phải trang Chi tiết tuyển dụng
+ * (Figma node 715:1458, "Quy mô / Lĩnh vực / Địa điểm" + nút xem trang công ty).
+ *
+ * Đây là dữ liệu CẤP CÔNG TY (không đổi theo từng tin tuyển dụng) nên để tĩnh
+ * ở đây thay vì thêm ACF cho từng Page.
+ *
+ * 'icon' = tên file trong assets/img/tuyen-dung/ (export thẳng từ Figma), nhúng
+ * inline bằng ecsges_inline_svg() — KHÔNG dùng ecsges_icon() nữa vì bộ Lucide
+ * chỉ na ná thiết kế; icon Figma có nét 0.8px #747272 và hình riêng.
+ *
+ * ĐỔI LOGO: thay giá trị 'logo' bằng tên file khác trong assets/img/ (chấp nhận
+ * .svg/.png/.jpg, đường dẫn tính từ assets/img/). Ô chứa cố định 88×88 theo
+ * Figma, ảnh tự co về rộng 61px và canh giữa nên không cần sửa SCSS.
+ *
+ * ĐỔI TÊN CÔNG TY: sửa 'name'. Ký tự "\n" là chỗ XUỐNG DÒNG BẮT BUỘC (Figma
+ * ngắt dòng sau "CÔNG TY CP"); phần còn lại tự xuống dòng theo bề rộng 218px.
+ */
+function ecsges_company_info()
+{
+	return array(
+		'url' => home_url('/'),
+		'name' => "CÔNG TY CP\nHỖ TRỢ VÀ PHÁT TRIỂN ECSGES",
+		'logo' => 'hero-mark.svg',
+		'facts' => array(
+			array('icon' => 'quy-mo.svg', 'label' => 'Quy mô', 'value' => '250+ nhân sự'),
+			array('icon' => 'linh-vuc.svg', 'label' => 'Lĩnh vực', 'value' => 'Giáo dục'),
+			array('icon' => 'dia-diem.svg', 'label' => 'Địa điểm', 'value' => 'Hà Nội'),
+		),
+	);
+}
 
 /**
  * Trang Đối tác — 4 khối logo (Figma node 539:372).
@@ -795,17 +801,19 @@ function ecsges_partner_groups()
 	return array(
 		array(
 			'title' => 'ĐỐI TÁC GIÁO DỤC TRONG NƯỚC',
+			// Thứ tự + kích thước lấy lại đúng Figma (Group 35637, node 796:345):
+			// hàng 1 y=828, hàng 2 y=1018, mỗi hàng 5 ô theo x tăng dần.
 			'logos' => array(
-				array('file' => 'gd-trong-nuoc-01.png', 'alt' => 'Đại học Đông Đô', 'w' => 146, 'h' => 147),
-				array('file' => 'gd-trong-nuoc-02.png', 'alt' => 'Đại học Sao Đỏ', 'w' => 107, 'h' => 115),
-				array('file' => 'gd-trong-nuoc-03.png', 'alt' => 'Đại học Công nghệ Giao thông Vận tải', 'w' => 179, 'h' => 110),
+				array('file' => 'gd-trong-nuoc-10.png', 'alt' => 'Học viện Báo chí và Tuyên truyền', 'w' => 114, 'h' => 115),
 				array('file' => 'gd-trong-nuoc-04.png', 'alt' => 'Đại học FPT', 'w' => 194, 'h' => 76),
 				array('file' => 'gd-trong-nuoc-05.png', 'alt' => 'Đại học Kinh doanh và Công nghệ Hà Nội', 'w' => 177, 'h' => 113),
+				array('file' => 'gd-trong-nuoc-02.png', 'alt' => 'Đại học Sao Đỏ', 'w' => 107, 'h' => 115),
 				array('file' => 'gd-trong-nuoc-06.png', 'alt' => 'Đại học Đại Nam', 'w' => 132, 'h' => 120),
 				array('file' => 'gd-trong-nuoc-07.png', 'alt' => 'Cao đẳng Y Dược Tuệ Tĩnh Hà Nội', 'w' => 125, 'h' => 125),
+				array('file' => 'gd-trong-nuoc-03.png', 'alt' => 'Đại học Công nghệ Giao thông Vận tải', 'w' => 179, 'h' => 110),
 				array('file' => 'gd-trong-nuoc-08.png', 'alt' => 'Cao đẳng Quốc tế Hà Nội', 'w' => 186, 'h' => 80),
-				array('file' => 'gd-trong-nuoc-09.png', 'alt' => 'Đại học Hòa Bình', 'w' => 312, 'h' => 272),
-				array('file' => 'gd-trong-nuoc-10.png', 'alt' => 'Học viện Báo chí và Tuyên truyền', 'w' => 228, 'h' => 230),
+				array('file' => 'gd-trong-nuoc-09.png', 'alt' => 'Đại học Hòa Bình', 'w' => 156, 'h' => 136),
+				array('file' => 'gd-trong-nuoc-01.png', 'alt' => 'Đại học Đông Đô', 'w' => 146, 'h' => 147),
 			),
 		),
 		array(
@@ -852,42 +860,47 @@ function ecsges_partner_groups()
 		),
 		array(
 			'title' => 'ĐỐI TÁC DOANH NGHIỆP QUỐC TẾ',
+			// Thứ tự lấy đúng Figma (Group 35638, node 796:346): hàng 1 y=2775,
+			// hàng 2 y=2956. Figma ĐÃ THAY InterContinental + LG Electronics bằng
+			// Toyota / Canon / Samsung. Toyota (-10) và Samsung (-12) đã có file;
+			// CANON (dn-quoc-te-11.png) VẪN THIẾU nên doi-tac-groups.php tự bỏ qua
+			// ô đó (file_exists) — chỉ cần thả đúng tên file vào
+			// assets/img/doi-tac/ là logo hiện ra, không phải sửa gì thêm.
 			'logos' => array(
 				array('file' => 'dn-quoc-te-01.png', 'alt' => 'Honda', 'w' => 188, 'h' => 80),
-				array('file' => 'dn-quoc-te-02.png', 'alt' => 'InterContinental', 'w' => 204, 'h' => 73),
-				array('file' => 'dn-quoc-te-03.png', 'alt' => 'Goertek', 'w' => 186, 'h' => 72),
+				array('file' => 'dn-quoc-te-10.png', 'alt' => 'Toyota', 'w' => 127, 'h' => 92),
+				array('file' => 'dn-quoc-te-11.png', 'alt' => 'Canon', 'w' => 181, 'h' => 38),
 				array('file' => 'dn-quoc-te-04.png', 'alt' => 'LG Display', 'w' => 198, 'h' => 81),
-				array('file' => 'dn-quoc-te-05.png', 'alt' => 'LG Electronics', 'w' => 195, 'h' => 29),
+				array('file' => 'dn-quoc-te-12.png', 'alt' => 'Samsung', 'w' => 199, 'h' => 66),
 				array('file' => 'dn-quoc-te-06.png', 'alt' => 'Daikin', 'w' => 199, 'h' => 43),
 				array('file' => 'dn-quoc-te-07.png', 'alt' => 'Foxconn', 'w' => 206, 'h' => 116),
 				array('file' => 'dn-quoc-te-08.png', 'alt' => 'Lotte Hotels', 'w' => 186, 'h' => 82),
 				array('file' => 'dn-quoc-te-09.png', 'alt' => 'AEON', 'w' => 158, 'h' => 53),
+				array('file' => 'dn-quoc-te-03.png', 'alt' => 'Goertek', 'w' => 186, 'h' => 72),
 			),
 		),
 	);
 }
 
 /**
- * Trang Tin tức — 6 tab chủ đề (Figma node 548:9518, hàng y=766).
+ * Trang Tin tức — 6 tab chủ đề (Figma node 746:1184, hàng y=721).
  *
- * 'cat' = slug category; rỗng = chính trang này (tab "ECSGES" = tất cả tin).
+ * 'cat' = slug category; rỗng = chính trang này (tab "Về ECSGES" = tất cả tin).
  * Tab render bằng <a> trỏ tới archive category thật (render bởi category.php),
  * KHÔNG phải tab chuyển nội dung tại chỗ.
- * 'icon' = tên file svg (không đuôi) trong assets/img — dùng lại đúng 5 icon
- * của "Lĩnh vực hoạt động" (ecsges_ecosystem_tabs()) vì 5 tab sau trùng tên;
- * tab "ECSGES" dùng logo mark (hero-mark.svg, vốn tô đặc màu cam) thay vì icon
- * outline — template gắn thêm class .ecs-ecosystem__icon--fill để ép fill
- * theo currentColor, ăn theo đúng màu ghi/trắng-khi-hover của các icon kia.
+ *
+ * Figma đã bỏ icon ở hàng tab này — nhãn viết thường có dấu, tab đang chọn
+ * gạch chân cam (xem template-parts/tin-tuc-tabs.php).
  */
 function ecsges_news_tabs()
 {
 	return array(
-		array('label' => 'ECSGES', 'cat' => '', 'icon' => 'hero-mark'),
-		array('label' => 'HƯỚNG NGHIỆP', 'cat' => 'huong-nghiep', 'icon' => 'icon-huongnghiep'),
-		array('label' => 'TUYỂN SINH', 'cat' => 'tuyen-sinh', 'icon' => 'icon-tuyensinh'),
-		array('label' => 'ĐÀO TẠO', 'cat' => 'dao-tao', 'icon' => 'icon-daotao'),
-		array('label' => 'VIỆC LÀM', 'cat' => 'viec-lam', 'icon' => 'icon-vieclam'),
-		array('label' => 'TRUYỀN THÔNG', 'cat' => 'truyen-thong', 'icon' => 'icon-truyenthong'),
+		array('label' => 'Về ECSGES', 'cat' => ''),
+		array('label' => 'Hướng nghiệp', 'cat' => 'huong-nghiep'),
+		array('label' => 'Tuyển sinh', 'cat' => 'tuyen-sinh'),
+		array('label' => 'Đào tạo', 'cat' => 'dao-tao'),
+		array('label' => 'Việc làm', 'cat' => 'viec-lam'),
+		array('label' => 'Truyền thông', 'cat' => 'truyen-thong'),
 	);
 }
 
