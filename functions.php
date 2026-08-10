@@ -678,6 +678,29 @@ function ecsges_languages()
 }
 
 /**
+ * Cờ quốc gia (SVG nội tuyến) cho item ngôn ngữ trong dropdown — Polylang có
+ * trả `flag` (ảnh flags.php của WP) nhưng ta tự vẽ SVG để không phụ thuộc
+ * request ngoài và khớp bo góc/kích thước theo thiết kế.
+ *
+ * @param string $slug Mã ngôn ngữ (vi, en, ...). Chỉ 2 ký tự đầu được xét.
+ * @return string SVG 20x14 hoặc '' nếu không có cờ tương ứng.
+ */
+function ecsges_lang_flag($slug)
+{
+	$slug = strtolower(substr((string) $slug, 0, 2));
+
+	if ('vi' === $slug) {
+		return '<svg class="ecs-header__lang-flag" width="20" height="14" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="30" height="20" fill="#DA251D"/><polygon points="15,4 16.76,9.42 22.46,9.42 17.85,12.77 19.61,18.19 15,14.84 10.39,18.19 12.15,12.77 7.54,9.42 13.24,9.42" fill="#FFCD00"/></svg>';
+	}
+
+	if ('en' === $slug) {
+		return '<svg class="ecs-header__lang-flag" width="20" height="14" viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="30" height="20" fill="#00247D"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L30,20 M30,0 L0,20" stroke="#CF142B" stroke-width="1.6"/><path d="M15,0 L15,20 M0,10 L30,10" stroke="#fff" stroke-width="6.6"/><path d="M15,0 L15,20 M0,10 L30,10" stroke="#CF142B" stroke-width="4"/></svg>';
+	}
+
+	return '';
+}
+
+/**
  * Trang bản dịch (Polylang) tự dùng template của bản gốc.
  *
  * Bản dịch do Polylang tạo thường có slug khác bản gốc (vd 've-ecs' → '66-2'),

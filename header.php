@@ -81,6 +81,7 @@ foreach ( $ecsges_langs as $ecsges_l ) {
 							<?php foreach ( $ecsges_langs as $l ) : ?>
 								<li>
 									<a href="<?php echo esc_url( $l['url'] ); ?>" class="ecs-header__lang-link<?php echo ! empty( $l['current_lang'] ) ? ' ecs-header__lang-link--current' : ''; ?>">
+										<?php echo ecsges_lang_flag( $l['slug'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 										<?php echo esc_html( $l['name'] ); ?>
 									</a>
 								</li>
@@ -125,6 +126,7 @@ foreach ( $ecsges_langs as $ecsges_l ) {
 						<span class="ecs-header__mobile-lang-title"><?php echo esc_html( ecsges_t( 'Ngôn ngữ' ) ); ?></span>
 						<?php foreach ( $ecsges_langs as $l ) : ?>
 							<a href="<?php echo esc_url( $l['url'] ); ?>" class="ecs-header__mobile-lang-link<?php echo ! empty( $l['current_lang'] ) ? ' ecs-header__mobile-lang-link--current' : ''; ?>">
+								<?php echo ecsges_lang_flag( $l['slug'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								<?php echo esc_html( $l['name'] ); ?>
 							</a>
 						<?php endforeach; ?>

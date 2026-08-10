@@ -582,7 +582,7 @@
 /* .ecs-values — 3 giá trị (TẬN TÂM / ĐỒNG HÀNH / ĐỔI MỚI)              */
 /* ------------------------------------------------------------------ */
 .ecs-values {
-  background: #fff;
+  background: #F0F0F0;
   padding-block: 56px;
 
   @include bp(lg) {
@@ -648,7 +648,6 @@
 .ecs-reveal-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid #a4a4a4;
   background: #fff;
   transition: background-color 0.3s ease, border-color 0.3s ease;
 
@@ -837,7 +836,7 @@
 /* .ecs-culture — VĂN HÓA ECS (ảnh + thẻ chồng, carousel 3 slide)      */
 /* ------------------------------------------------------------------ */
 .ecs-culture {
-  background: $surface-2; // Figma: dải nền #f0f0f0.
+  background: $brand-light;// Figma: dải nền #f0f0f0.
   padding-block: 56px;
 
   @include bp(lg) {
@@ -855,7 +854,7 @@
     @include text-lg;
     font-weight: 500;
     text-transform: uppercase;
-    color: $ink;
+    color: $surface;
 
     @include bp(lg) {
       margin-bottom: 56px;
@@ -1450,7 +1449,7 @@
     background: none;
     font-size: 24px;
     line-height: 1;
-    color: $ink;
+    color: $body;
     cursor: pointer;
   }
 
@@ -1478,10 +1477,12 @@
     flex-direction: column;
     gap: 8px;
 
+    // Nhãn/nội dung trong modal dùng xám (không phải $ink đen tuyệt đối) để
+    // chữ bớt gắt so với nền trắng của panel.
     label {
       @include text-sm;
       font-weight: 300;
-      color: $ink;
+      color: $muted;
     }
 
     input {
@@ -1489,7 +1490,7 @@
       border: 0.5px solid $placeholder;
       padding-inline: 16px;
       @include text-sm;
-      color: $ink;
+      color: $body;
 
       &::placeholder {
         color: $muted-2;
@@ -1511,7 +1512,7 @@
   &__upload-title {
     @include text-sm;
     font-weight: 300;
-    color: $ink;
+    color: $muted;
   }
 
   &__upload-hint {

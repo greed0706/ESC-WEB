@@ -471,7 +471,9 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
   }
 
   &__lang-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding-inline: 16px;
     padding-block: 10px;
     @include text-sm;
@@ -494,6 +496,12 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
 
       // current link keeps no hover bg
     }
+  }
+
+  &__lang-flag {
+    flex-shrink: 0;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
   }
 
   &__menu-toggle {
@@ -617,7 +625,9 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
   }
 
   &__mobile-lang-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding-block: 8px;
     @include text-sm;
     transition: color 0.15s ease;
