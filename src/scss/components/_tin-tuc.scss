@@ -242,6 +242,75 @@ $newsroom-hairline: #a4a4a4;
     }
   }
 
+  // --- Dãy nút số trang (Figma: Ø44, gap 13, canh giữa, cách lưới 77px) ---
+  // Chỉ render khi tổng số bài > 9 (tin-tuc-grid.php). Markup do
+  // paginate_links(type=array) sinh ra nên phần tử bên trong là <a>/<span>
+  // mang class .page-numbers (+ .current cho trang đang xem, .dots cho "…").
+  &__pagination {
+    margin-block-start: 40px;
+
+    @include bp(lg) {
+      margin-block-start: 77px;
+    }
+
+    // Trang 1 khi còn nút "XEM THÊM": dãy số trang nằm sẵn trong DOM nhưng ẩn,
+    // initNewsLoadMore() gỡ .is-pending lúc mở đủ 9 bài. Gate bằng .js để tắt
+    // JS thì dãy số vẫn hiện (lúc đó lưới cũng hiện đủ bài).
+    .js &.is-pending {
+      display: none;
+    }
+  }
+
+  &__pages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__page {
+    display: flex;
+
+    .page-numbers {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #f3f3f3;
+      font-family: $font-sans;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: $ls-base;
+      color: $newsroom-hairline;
+      text-decoration: none;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    a.page-numbers:hover,
+    a.page-numbers:focus-visible {
+      background: $placeholder;
+      color: $ink;
+    }
+
+    .page-numbers.current {
+      background: $brand;
+      color: #fff;
+    }
+
+    // "…" giữa các số: không phải nút nên bỏ nền tròn.
+    .page-numbers.dots {
+      width: auto;
+      background: none;
+    }
+  }
+
   &__empty {
     @include text-sm;
     color: $muted;

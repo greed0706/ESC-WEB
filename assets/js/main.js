@@ -513,11 +513,20 @@
     var wrap = document.querySelector('[data-news-more-wrap]');
     if (!grid || !btn) return;
 
+    // Dãy nút số trang chờ sẵn dưới lưới với class .is-pending (ẩn bằng CSS,
+    // chỉ khi <html> có .js). Nó chỉ được hiện khi nút "XEM THÊM" hết việc.
+    var pages = document.querySelector('[data-news-pages].is-pending');
+
+    function finish() {
+      if (wrap) wrap.hidden = true;
+      if (pages) pages.classList.remove('is-pending');
+    }
+
     var hidden = Array.prototype.slice.call(
       grid.querySelectorAll('.ecs-news-grid__item--extra')
     );
     if (!hidden.length) {
-      if (wrap) wrap.hidden = true;
+      finish();
       return;
     }
 
@@ -546,7 +555,7 @@
         });
       });
 
-      if (!hidden.length && wrap) wrap.hidden = true;
+      if (!hidden.length) finish();
     });
   }
 
