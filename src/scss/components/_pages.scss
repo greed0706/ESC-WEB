@@ -1481,7 +1481,6 @@
     // ($muted) để bớt gắt so với nhãn.
     label {
       @include text-sm;
-      font-weight: 700;
       color: $ink;
     }
 
@@ -1489,8 +1488,12 @@
       height: 51px;
       border: 0.5px solid $placeholder;
       padding-inline: 16px;
+
       @include text-sm;
-      color: $muted;
+      color: #A4A4A4;
+      font-weight: 200;
+      opacity: 0.5;
+      
 
       &::placeholder {
         color: $muted-2;
