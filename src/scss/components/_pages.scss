@@ -1477,12 +1477,12 @@
     flex-direction: column;
     gap: 8px;
 
-    // Nhãn/nội dung trong modal dùng xám (không phải $ink đen tuyệt đối) để
-    // chữ bớt gắt so với nền trắng của panel.
+    // Nhãn đậm, màu đen ($ink) để nổi bật; chữ nhập trong input dùng xám nhạt
+    // ($muted) để bớt gắt so với nhãn.
     label {
       @include text-sm;
-      font-weight: 300;
-      color: $muted;
+      font-weight: 700;
+      color: $ink;
     }
 
     input {
@@ -1490,7 +1490,7 @@
       border: 0.5px solid $placeholder;
       padding-inline: 16px;
       @include text-sm;
-      color: $body;
+      color: $muted;
 
       &::placeholder {
         color: $muted-2;

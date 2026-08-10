@@ -463,6 +463,33 @@
       margin: 16px 0;
     }
 
+    // Ảnh có chú thích: shortcode [caption] in ra
+    // <figure class="wp-caption aligncenter" style="width:800px"> chứa <img> và
+    // <figcaption class="wp-caption-text">. Inline width có thể rộng hơn cột nên
+    // phải kẹp max-width; căn giữa cả khối ảnh lẫn dòng chú thích bên dưới.
+    figure,
+    .wp-caption {
+      max-width: 100%;
+      margin: 24px auto;
+      text-align: center;
+    }
+
+    figure img,
+    .wp-caption img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    figcaption,
+    .wp-caption-text {
+      margin-top: 10px;
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 300;
+      color: $muted-2;
+      text-align: center;
+    }
+
     ul,
     ol {
       margin: 16px 0;
