@@ -26,8 +26,10 @@ $newsroom-hairline: #a4a4a4;
   &__tabs {
     padding-block-start: 32px;
 
+    // 80px: đồng bộ với các trang có banner khác (không còn khớp tuyệt đối
+    // Figma 88px — theo yêu cầu cố định cùng một khoảng cách banner→section).
     @include bp(lg) {
-      padding-block-start: 88px; // Figma: đáy banner 633 → nhãn tab 721
+      padding-block-start: 80px;
     }
   }
 

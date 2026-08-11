@@ -8,7 +8,9 @@
  *     công ty 24px/30px letter-spacing 1px bề ngang 218px đặt cách logo 12px,
  *     rồi 3 dòng "Quy mô / Lĩnh vực / Địa điểm" (nhãn 18px Light #747272, giá
  *     trị 18px Light #000), rồi nút "Xem trang công ty" 323×52 bo 30px viền cam.
- *   - Logo + tên lấy từ ecsges_company_info() — đổi ảnh/tên sửa ở đó.
+ *   - Logo/tên/quy mô/lĩnh vực/địa điểm: field ACF RIÊNG TỪNG TIN (company_*
+ *     trong group_ecsges_job_detail, cùng Page với job_salary/job_location…),
+ *     fallback về ecsges_company_info() khi field trống.
  *   - Thẻ "Thông tin chung" 360×418 nền trắng: tiêu đề 24px Medium, mỗi dòng
  *     là vòng tròn Ø50 + nhãn 18px Light #747272 + giá trị 18px Light #000.
  *
@@ -21,8 +23,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$jd_id      = get_the_ID();
-$jd_company = ecsges_tr_deep( ecsges_company_info() );
+$jd_id               = get_the_ID();
+$jd_company_default  = ecsges_company_info();
+$jd_company           = array(
+	'url'   => ecsges_field_page( $jd_id, 'company_url', $jd_company_default['url'] ),
+	'name'  => ecsges_field_page( $jd_id, 'company_name', $jd_company_default['name'] ),
+	'logo'  => ecsges_field_page_img( $jd_id, 'company_logo', 'hero-mark.svg' ),
+	'facts' => array(
+		array( 'icon' => 'quy-mo.svg', 'label' => ecsges_t( 'Quy mô' ), 'value' => ecsges_field_page( $jd_id, 'company_size', $jd_company_default['facts'][0]['value'] ) ),
+		array( 'icon' => 'linh-vuc.svg', 'label' => ecsges_t( 'Lĩnh vực' ), 'value' => ecsges_field_page( $jd_id, 'company_field', $jd_company_default['facts'][1]['value'] ) ),
+		array( 'icon' => 'dia-diem.svg', 'label' => ecsges_t( 'Địa điểm' ), 'value' => ecsges_field_page( $jd_id, 'company_location', $jd_company_default['facts'][2]['value'] ) ),
+	),
+);
 
 // "Thông tin chung" — nhãn cố định theo Figma, giá trị từ ACF của từng Page.
 // Giá trị mặc định lấy đúng nội dung mẫu trong Figma, theo đúng quy ước
@@ -52,7 +64,7 @@ $jd_general = array_values(
 	<div class="ecs-job-side__card ecs-job-side__company">
 		<div class="ecs-job-side__head">
 			<span class="ecs-job-side__logo" aria-hidden="true">
-				<img src="<?php echo esc_url( ecsges_img( $jd_company['logo'] ) ); ?>" alt="" loading="lazy" decoding="async">
+				<img src="<?php echo esc_url( $jd_company['logo'] ); ?>" alt="" loading="lazy" decoding="async">
 			</span>
 			<?php if ( '' !== trim( (string) $jd_company['name'] ) ) : ?>
 				<?php // nl2br giữ chỗ xuống dòng bắt buộc lấy từ Figma (xem ecsges_company_info). ?>

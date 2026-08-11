@@ -70,8 +70,7 @@ get_header();
 				?>
 			</div>
 			<div class="ecs-ve-journey__intro" data-aos="fade-up" data-aos-delay="100">
-				<img src="<?php echo esc_url(ecsges_img('ve-ecs/icon-journey.svg')); ?>" alt="" aria-hidden="true"
-					class="ecs-ve-journey__intro-icon">
+
 				<p class="ecs-ve-journey__intro-text"><?php echo esc_html($intro); ?></p>
 			</div>
 		</div>
@@ -170,8 +169,8 @@ get_header();
 	$wedge_fills = array(
 		array('src' => 'bg/bg-tam.svg', 'left' => '38.2%', 'top' => '76.3%', 'width' => '10%'),
 		array('src' => 'bg/bg-ben.svg', 'left' => '41.9%', 'top' => '63.4%', 'width' => '10.6%'),
-		array('src' => 'bg/bg-hop.svg', 'left' => '50.2%', 'top' => '59.3%', 'width' => '9.7%'),
-		array('src' => 'bg/bg-tri.svg', 'left' => '58.4%', 'top' => '63.5%', 'width' => '10.6%'),
+		array('src' => 'bg/bg-hop.svg', 'left' => '50.2%', 'top' => '59.2%', 'width' => '9.7%'),
+		array('src' => 'bg/bg-tri.svg', 'left' => '58.35%', 'top' => '63.35%', 'width' => '10.6%'),
 		array('src' => 'bg/bg-sang.svg', 'left' => '62.2%', 'top' => '76.2%', 'width' => '10%'),
 	);
 	$fan_box = 'left:32.97%;top:48.6%;width:34.375%;height:38.4%';
@@ -308,16 +307,23 @@ get_header();
 			</div>
 
 			<?php
-			// data-stats-odometer: mốc để initStatsOdometer() (assets/js/main.js) gắn
-			// IntersectionObserver. Giá trị vẫn in ra dạng text thật — JS mới là thứ
-			// dựng các cột chữ số, nên tắt JS thì con số vẫn hiện đúng, không vỡ.
+			// data-stats-counter: mốc để initStatsCounter() (assets/js/main.js) gắn
+			// IntersectionObserver + animateCounter() cho từng [data-target]. Số hiển
+			// thị vẫn là text thật đã format (ecsges_parse_stat_number), nên tắt JS
+			// thì con số đúng vẫn hiện, không vỡ.
 			?>
-			<dl class="ecs-ve-stats__grid" data-stats-odometer>
+			<dl class="ecs-ve-stats__grid" data-stats-counter>
 				<?php foreach ($stats as $si => $stat): ?>
+					<?php $stat_num = ecsges_parse_stat_number($stat['value']); ?>
 					<div class="ecs-ve-stats__item" data-aos="fade-up" data-aos-delay="<?php echo esc_attr($si * 80); ?>">
 						<img src="<?php echo esc_url(ecsges_img('ve-ecs/last-section/' . $stat['icon'])); ?>" alt=""
 							aria-hidden="true" class="ecs-ve-stats__icon">
-						<dd class="ecs-ve-stats__value" data-odometer><?php echo esc_html($stat['value']); ?></dd>
+						<dd class="ecs-ve-stats__value">
+							<span class="ecs-ve-stats__number"
+								data-target="<?php echo esc_attr($stat_num['target']); ?>"><?php echo esc_html($stat_num['display']); ?></span
+							><?php if ('' !== $stat_num['suffix']): ?><span
+									class="ecs-ve-stats__suffix"><?php echo esc_html($stat_num['suffix']); ?></span><?php endif; ?>
+						</dd>
 						<dt class="ecs-ve-stats__label"><?php echo esc_html($stat['label']); ?></dt>
 					</div>
 				<?php endforeach; ?>

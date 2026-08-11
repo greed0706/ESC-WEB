@@ -343,13 +343,13 @@ function ecsges_core_values()
 function ecsges_ve_ecs_stats()
 {
 	return array(
-		array('value' => '20', 'label' => 'Năm thành lập và phát triển', 'icon' => '1.svg'),
+		array('value' => '20+', 'label' => 'Năm thành lập và phát triển', 'icon' => '1.svg'),
 		array('value' => '5', 'label' => 'Lĩnh vực hoạt động', 'icon' => '2.svg'),
 		array('value' => '20+', 'label' => 'Văn phòng toàn quốc', 'icon' => '3.svg'),
 		array('value' => '235.000+', 'label' => 'HSSV được tư vấn', 'icon' => '4.svg'),
 		array('value' => '20.000+', 'label' => 'Sinh viên được đào tạo', 'icon' => '5.svg'),
 		array('value' => '50+', 'label' => 'Trường học được tư vấn', 'icon' => '6.svg'),
-		array('value' => '50+', 'label' => 'Đối tác', 'icon' => '7.svg'),
+		array('value' => '2000+', 'label' => 'Đối tác', 'icon' => '7.svg'),
 		array('value' => '200+', 'label' => 'Tiến sĩ, Thạc sĩ, CBNV', 'icon' => '8.svg'),
 	);
 }
@@ -524,7 +524,7 @@ function ecsges_ptbv_values()
 			'image' => $base.'dong-hanh.jpg',
 			'href' => '#',
 			'category' => 'dong-hanh', // nút "Xem thêm" → /category/dong-hanh/ (tạo trong admin)
-			'text' => 'ECSGES không chỉ cung cấp dịch vụ giáo dục mà còn đồng hành cùng người học trên từng chặng đường phát triển. Từ định hướng nghề nghiệp, lựa chọn ngành học đến quá trình học tập và phát triển sự nghiệp, chúng tôi luôn là người bạn đồng hành đáng tin cậy.',
+			'text' => 'ECSGES đồng hành cùng người học trên từng chặng đường phát triển. Từ định hướng nghề nghiệp, lựa chọn ngành học đến quá trình học tập và phát triển sự nghiệp, chúng tôi luôn là người bạn đồng hành đáng tin cậy.',
 		),
 		array(
 			'title' => 'ĐỔI MỚI',
@@ -551,21 +551,21 @@ function ecsges_ptbv_culture()
 			'icon'     => $base . 'hoc-hoi.svg',
 			'image'    => $base . 'hoc-hoi.jpg',
 			'category' => 'hoc-hoi',
-			'text'     => 'ECSGES xây dựng môi trường khuyến khích học tập và phát triển liên tục. Thông qua các chương trình đào tạo nội bộ, hoạt động chia sẻ chuyên môn và cơ hội tham gia các khóa học nâng cao, đội ngũ cán bộ, giảng viên và nhân viên luôn được tạo điều kiện để cập nhật kiến thức, rèn luyện kỹ năng và phát triển năng lực nghề nghiệp.',
+			'text'     => 'ECSGES xây dựng môi trường khuyến khích học tập và phát triển liên tục thông qua các chương trình đào tạo nội bộ, hoạt động chia sẻ chuyên môn và cơ hội tham gia các khóa học nâng cao cho đội ngũ CBGVNV',
 		),
 		array(
 			'title'    => 'HỢP TÁC',
 			'icon'     => $base . 'hop-tac.svg',
 			'image'    => $base . 'hop-tac.jpg',
 			'category' => 'hop-tac',
-			'text'     => 'ECSGES coi hợp tác là nền tảng để mở rộng giá trị. Chúng tôi chủ động kết nối với doanh nghiệp, tổ chức giáo dục và đối tác trong, ngoài nước để cùng xây dựng chương trình đào tạo chất lượng, tạo cơ hội thực tập, việc làm và phát triển bền vững cho người học.',
+			'text'     => 'Tinh thần hợp tác được đề cao trong mọi hoạt động khi các đơn vị, phòng ban và cá nhân luôn chủ động kết nối, phối hợp chặt chẽ để cùng giải quyết công việc, nâng cao hiệu quả hoạt động và mang lại những giá trị tốt nhất cho người học và đối tác.',
 		),
 		array(
 			'title'    => 'PHỤNG SỰ',
 			'icon'     => $base . 'phung-su.svg',
 			'image'    => $base . 'phung-su.jpg',
 			'category' => 'phung-su',
-			'text'     => 'Phụng sự là kim chỉ nam trong mọi hoạt động của ECSGES. Mỗi cán bộ, giảng viên luôn đặt lợi ích của người học và cộng đồng lên hàng đầu, tận tụy đồng hành và hỗ trợ để mang lại những giá trị giáo dục thiết thực, góp phần xây dựng một xã hội học tập bền vững.',
+			'text'     => 'Mỗi CBGVNV ECSGES luôn đặt lợi ích của người học và cộng đồng lên hàng đầu, tận tụy đồng hành và hỗ trợ để mang lại những giá trị giáo dục thiết thực, góp phần xây dựng một xã hội học tập bền vững.',
 		),
 	);
 }
@@ -744,6 +744,9 @@ function ecsges_jobs_list()
 			'salary' => ecsges_field_page($p->ID, 'job_salary', ''),
 			'experience' => ecsges_field_page($p->ID, 'job_experience', ''),
 			'tag' => (function_exists('get_field') && get_field('job_hot', $p->ID)) ? 'hot' : '',
+			// Ảnh đại diện riêng của tin này (ô logo 79×79 trên card). Rỗng thì
+			// section-tuyen-dung-jobs.php tự dùng logo mặc định (hero-mark.svg).
+			'logo' => ecsges_field_page($p->ID, 'job_logo', ''),
 			'href' => get_permalink($p),
 		);
 	}
@@ -762,12 +765,24 @@ function ecsges_jobs_list()
  * inline bằng ecsges_inline_svg() — KHÔNG dùng ecsges_icon() nữa vì bộ Lucide
  * chỉ na ná thiết kế; icon Figma có nét 0.8px #747272 và hình riêng.
  *
- * ĐỔI LOGO: thay giá trị 'logo' bằng tên file khác trong assets/img/ (chấp nhận
- * .svg/.png/.jpg, đường dẫn tính từ assets/img/). Ô chứa cố định 88×88 theo
- * Figma, ảnh tự co về rộng 61px và canh giữa nên không cần sửa SCSS.
+ * Đây là NỘI DUNG MẶC ĐỊNH TĨNH (giữ nguyên quy ước của file này — xem
+ * ecsges_footer_contact() ở trên): hàm này KHÔNG tự đọc ACF, chỉ seed
+ * default_value khi đăng ký field (inc/acf-fields.php) và làm $default cho
+ * nơi gọi resolve field thật (template-parts/job-chi-tiet-sidebar.php, theo
+ * đúng cách footer.php làm với ecsges_footer_contact()).
  *
- * ĐỔI TÊN CÔNG TY: sửa 'name'. Ký tự "\n" là chỗ XUỐNG DÒNG BẮT BUỘC (Figma
- * ngắt dòng sau "CÔNG TY CP"); phần còn lại tự xuống dòng theo bề rộng 218px.
+ * ĐỔI trong ADMIN: vào sửa Page trang chủ (page_on_front) → nhóm field "Trang chủ
+ * ECSGES — Nội dung" → tab "Công ty (Tuyển dụng)" (logo, tên công ty, quy mô,
+ * lĩnh vực, địa điểm, link "Xem trang công ty"). Đây là dữ liệu CẤP CÔNG TY,
+ * dùng chung cho MỌI tin tuyển dụng — không lặp field theo từng job.
+ *
+ * ĐỔI LOGO (không có ACF): thay giá trị 'logo' bằng tên file khác trong
+ * assets/img/ (chấp nhận .svg/.png/.jpg). Ô chứa cố định 88×88 theo Figma, ảnh
+ * tự co về rộng 61px và canh giữa nên không cần sửa SCSS.
+ *
+ * ĐỔI TÊN CÔNG TY (không có ACF): sửa 'name'. Ký tự "\n" là chỗ XUỐNG DÒNG BẮT
+ * BUỘC (Figma ngắt dòng sau "CÔNG TY CP"); phần còn lại tự xuống dòng theo bề
+ * rộng 218px.
  */
 function ecsges_company_info()
 {

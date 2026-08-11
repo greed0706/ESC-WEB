@@ -22,6 +22,11 @@
  * Thay cho tin-tuc-featured.php + tin-tuc-knowledge.php (bố cục "Tin nổi bật"
  * + carousel "Kiến thức" cũ). Dữ liệu là BÀI VIẾT WP THẬT, không còn hardcode.
  *
+ * Lọc theo chuyên mục (tab ở tin-tuc-tabs.php) ngay TẠI TRANG NÀY, không rời
+ * sang category.php — nhận slug qua $args['current'] (page-tin-tuc.php đọc từ
+ * ?chuyen-muc=<slug> bằng ecsges_tin_tuc_active_cat()) rồi thêm 'category_name'
+ * vào WP_Query. Rỗng = không lọc, lấy tất cả tin như cũ.
+ *
  * @package ECSGES
  */
 
@@ -41,15 +46,20 @@ $tt_per_page = 9;
 // Đọc cả hai để còn dùng lại được nếu sau này gắn vào ngữ cảnh khác.
 $tt_paged = max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) );
 
-$tt_query = new WP_Query(
-	array(
-		'post_type'           => 'post',
-		'post_status'         => 'publish',
-		'posts_per_page'      => $tt_per_page,
-		'paged'               => $tt_paged,
-		'ignore_sticky_posts' => true,
-	)
+$tt_cat = isset( $args['current'] ) ? (string) $args['current'] : '';
+
+$tt_query_args = array(
+	'post_type'           => 'post',
+	'post_status'         => 'publish',
+	'posts_per_page'      => $tt_per_page,
+	'paged'               => $tt_paged,
+	'ignore_sticky_posts' => true,
 );
+if ( '' !== $tt_cat ) {
+	$tt_query_args['category_name'] = $tt_cat;
+}
+
+$tt_query = new WP_Query( $tt_query_args );
 
 $tt_total = (int) $tt_query->post_count;
 $tt_pages = (int) $tt_query->max_num_pages;

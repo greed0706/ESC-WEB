@@ -41,7 +41,10 @@
   padding-block: 48px;
 
   @include bp(lg) {
-    padding-block: 72px;
+    // Đầu (top) = 80px: đồng bộ với các trang có banner khác. Đáy giữ nguyên
+    // 72px (không thuộc "khoảng cách banner→section" mà yêu cầu áp dụng).
+    padding-block-start: 80px;
+    padding-block-end: 72px;
   }
 
   &__inner {

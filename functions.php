@@ -114,6 +114,54 @@ function ecsges_post_time($post_id = null, $format = 'M j, Y')
 }
 
 /**
+ * Tách một chuỗi số tĩnh kiểu "235.000+", "8,9", "270 triệu", "10 nước" thành
+ * phần SỐ (để đếm bằng animateCounter() ở assets/js/main.js) và phần HẬU TỐ
+ * đứng nguyên ngoài phạm vi đếm — dùng cho .ecs-ve-stats (page-ve-ecs.php).
+ *
+ * Quy ước Việt Nam: '.' = phân cách nghìn (bỏ khi tính số), ',' = phân cách
+ * thập phân (giữ, đổi thành '.' cho data-target/JS).
+ *
+ * @param string $value Chuỗi gốc, vd '235.000+'.
+ * @return array{target:string,decimals:int,display:string,suffix:string}
+ *               target  = chuỗi số thô cho thuộc tính data-target (vd '235000' hoặc '8.9')
+ *               decimals = số chữ số thập phân
+ *               display  = số đã format lại đồng nhất kiểu VN (vd '235.000', '8,9')
+ *               suffix   = phần chữ/ký tự còn lại, giữ nguyên (vd '+', ' triệu', ' nước')
+ */
+function ecsges_parse_stat_number($value)
+{
+	$value = trim((string) $value);
+
+	if (!preg_match('/^([\d.,]+)(.*)$/u', $value, $m)) {
+		return array(
+			'target'   => '0',
+			'decimals' => 0,
+			'display'  => $value,
+			'suffix'   => '',
+		);
+	}
+
+	$raw    = $m[1];
+	$suffix = $m[2];
+
+	$decimals = 0;
+	if (false !== strpos($raw, ',')) {
+		$decimals = strlen(substr($raw, strrpos($raw, ',') + 1));
+		$raw      = str_replace('.', '', $raw); // bỏ chấm phân nghìn
+		$raw      = str_replace(',', '.', $raw); // phẩy thập phân VN -> chấm (chuẩn số JS)
+	} else {
+		$raw = str_replace('.', '', $raw);
+	}
+
+	return array(
+		'target'   => $raw,
+		'decimals' => $decimals,
+		'display'  => number_format((float) $raw, $decimals, ',', '.'),
+		'suffix'   => $suffix,
+	);
+}
+
+/**
  * URL ảnh đại diện của post; nếu không có featured image thì fallback ảnh tĩnh.
  *
  * @param int|null $post_id
@@ -295,6 +343,29 @@ function ecsges_category_link($slug, $fallback = '')
 	}
 	$link = get_term_link($term);
 	return is_wp_error($link) ? $fallback : $link;
+}
+
+/**
+ * Chuyên mục đang lọc trên trang Tin tức (?chuyen-muc=<slug>) — đọc từ query
+ * string thay vì điều hướng sang category.php, để tab vẫn ở lại page-tin-tuc.php.
+ *
+ * Chỉ chấp nhận slug nằm trong danh sách tab thật (ecsges_news_tabs()), tránh
+ * truyền category_name bất kỳ vào WP_Query từ tham số URL do người dùng gõ tay.
+ *
+ * @return string Slug chuyên mục hợp lệ, hoặc '' (= tab "Về ECSGES", tất cả tin).
+ */
+function ecsges_tin_tuc_active_cat()
+{
+	if (empty($_GET['chuyen-muc'])) {
+		return '';
+	}
+	$slug = sanitize_title(wp_unslash($_GET['chuyen-muc']));
+	foreach (ecsges_news_tabs() as $tab) {
+		if ('' !== $tab['cat'] && $tab['cat'] === $slug) {
+			return $slug;
+		}
+	}
+	return '';
 }
 
 /**
@@ -496,6 +567,24 @@ function ecsges_field_paragraphs($name, $default = array())
 function ecsges_field_img($name, $default_file)
 {
 	$url = ecsges_field($name, '');
+	return $url ? $url : ecsges_img($default_file);
+}
+
+/**
+ * Field image (URL) trên một Page bất kỳ (không phải Trang chủ) — bản
+ * ecsges_field_page() dành cho field kiểu 'image'. Trống → asset mặc định
+ * trong assets/img. Dùng cho field riêng từng tin tuyển dụng (vd company_logo
+ * trên page-tuyen-dung-chi-tiet.php), khác ecsges_field_img() vốn luôn đọc
+ * Trang chủ.
+ *
+ * @param int    $post_id
+ * @param string $name
+ * @param string $default_file Tên file mặc định trong assets/img.
+ * @return string URL.
+ */
+function ecsges_field_page_img($post_id, $name, $default_file)
+{
+	$url = ecsges_field_page($post_id, $name, '');
 	return $url ? $url : ecsges_img($default_file);
 }
 
@@ -813,6 +902,27 @@ function ecsges_search_normalize_s($query)
 	}
 }
 add_action('pre_get_posts', 'ecsges_search_normalize_s');
+
+/**
+ * 9 bài/trang cho archive category (category.php) và trang tìm kiếm
+ * (search.php) — 2 nơi này dùng lại đúng lưới .ecs-news-grid__list của
+ * template-parts/tin-tuc-grid.php nên phải cùng số bài/trang (9 = 3 hàng ×
+ * 3 cột) thay vì "Số bài viết hiển thị" mặc định trong Cài đặt > Đọc.
+ *
+ * @param WP_Query $query
+ * @return void
+ */
+function ecsges_archive_search_per_page($query)
+{
+	if (is_admin() || ! $query->is_main_query()) {
+		return;
+	}
+
+	if ($query->is_category() || $query->is_search()) {
+		$query->set('posts_per_page', 9);
+	}
+}
+add_action('pre_get_posts', 'ecsges_archive_search_per_page');
 
 /**
  * ID các bài thuộc chuyên mục / thẻ có TÊN chứa từ khoá (so khớp đã chuẩn hoá).

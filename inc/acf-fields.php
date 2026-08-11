@@ -208,6 +208,9 @@ add_action(
 				'key'            => 'group_ecsges_job_detail',
 				'title'          => 'Chi tiết tuyển dụng — Nội dung',
 				'fields'         => array(
+					// Ảnh hiện ở ô logo 79×79 trên card danh sách (trang Tuyển dụng).
+					// Để trống dùng logo mặc định (hero-mark.svg) — xem section-tuyen-dung-jobs.php.
+					$image( 'job_logo', 'Ảnh đại diện (card danh sách)', 'Để trống dùng logo mặc định.' ),
 					$text( 'job_salary', 'Mức lương', 'Thoả thuận' ),
 					$text( 'job_location', 'Địa điểm', 'Hà Nội' ),
 					$text( 'job_experience', 'Kinh nghiệm', '3 năm' ),
@@ -258,6 +261,15 @@ add_action(
 						"<p>Địa điểm làm việc</p>\n<ul>\n<li>Hà Nội</li>\n</ul>\n<p>Thời gian làm việc</p>\n<ul>\n<li>Thứ 2 - Thứ 7<br />Sáng: Từ 08:00 đến 12:00<br />Chiều: Từ 13:30 đến 17:30</li>\n</ul>\n<p>Cách thức ứng tuyển</p>\n<ul>\n<li>Ứng viên nộp hồ sơ trực tuyến bằng cách bấm ứng tuyển ngay dưới đây.</li>\n</ul>",
 						'Khối cuối trang chi tiết — nút "Ứng tuyển ngay" thứ hai được gắn ngay dưới nội dung này.'
 					),
+					// --- Thẻ công ty ở sidebar (Figma 715:1458) — RIÊNG TỪNG TIN, không
+					// dùng chung nữa. Trống thì job-chi-tiet-sidebar.php rơi về mặc định
+					// tĩnh trong ecsges_company_info() (inc/data.php).
+					$image( 'company_logo', 'Công ty — Logo', 'Để trống dùng logo mặc định.' ),
+					$textarea( 'company_name', 'Công ty — Tên (mỗi dòng 1 hàng)', "CÔNG TY CP\nHỖ TRỢ VÀ PHÁT TRIỂN ECSGES", 'Dòng xuống hàng theo đúng chỗ ngắt trong Figma.', 2 ),
+					$text( 'company_url', 'Công ty — Link nút "Xem trang công ty"', home_url( '/' ) ),
+					$text( 'company_size', 'Công ty — Quy mô', '250+ nhân sự' ),
+					$text( 'company_field', 'Công ty — Lĩnh vực', 'Giáo dục' ),
+					$text( 'company_location', 'Công ty — Địa điểm', 'Hà Nội' ),
 				),
 				'location'       => array(
 					array(

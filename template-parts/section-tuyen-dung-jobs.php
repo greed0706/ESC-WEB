@@ -42,6 +42,8 @@ $ecsges_jobs_per  = 10;
 $ecsges_jobs_pgs  = array_chunk( $ecsges_jobs_all, $ecsges_jobs_per );
 $ecsges_jobs_pgct = count( $ecsges_jobs_pgs );
 $ecsges_jobs_arw  = ecsges_img( 'arrow.svg' );
+// Logo mặc định khi job chưa gán ảnh đại diện riêng (field ACF 'job_logo' —
+// xem inc/acf-fields.php / inc/data.php::ecsges_jobs_list()).
 $ecsges_jobs_logo = ecsges_img( 'hero-mark.svg' );
 
 // Danh sách đổ vào 3 select bộ lọc (inc/data.php).
@@ -120,9 +122,10 @@ $ecsges_job_types = ecsges_job_types();
 									<span class="ecs-job-card__badge"><?php echo esc_html( ecsges_t( 'Nổi bật' ) ); ?></span>
 								<?php endif; ?>
 
+								<?php $ecsges_job_logo_src = ! empty( $ecsges_job['logo'] ) ? $ecsges_job['logo'] : $ecsges_jobs_logo; ?>
 								<div class="ecs-job-card__top">
 									<span class="ecs-job-card__logo" aria-hidden="true">
-										<img src="<?php echo esc_url( $ecsges_jobs_logo ); ?>" alt="" loading="lazy" decoding="async">
+										<img src="<?php echo esc_url( $ecsges_job_logo_src ); ?>" alt="" loading="lazy" decoding="async">
 									</span>
 
 									<div class="ecs-job-card__main">

@@ -189,119 +189,12 @@
     color: $muted-2;
   }
 
-  &__layout {
-    display: grid;
-    gap: 40px;
-
-    @include bp(lg) {
-      grid-template-columns: minmax(0, 1fr) 380px;
-    }
-  }
-
-  &__card {
-    display: grid;
-    gap: 20px;
-    padding-bottom: 28px;
-    align-items: start;
-
-    @include bp(sm) {
-      grid-template-columns: 260px 1fr;
-      align-items: start; // ảnh giữ tỉ lệ chữ nhật ngang cố định, không kéo giãn theo chiều cao text
-    }
-
-    &+& {
-      margin-top: 28px;
-      border-top: 1px solid $surface-2;
-      padding-top: 28px;
-    }
-  }
-
-  &__card-media {
-    display: block;
-    overflow: hidden;
-    border-radius: 8px;
-  }
-
-  &__card-img {
-    aspect-ratio: 16 / 10; // chữ nhật ngang (rộng hơn cao), cố định ở mọi kích thước màn hình
-    width: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-
-    .ecs-archive__card-media:hover & {
-      transform: scale(1.05);
-    }
-  }
-
-  &__card-title {
-    font-family: $font-display;
-    @include text-sm;
-    font-weight: 600;
-
-    a {
-      color: $ink;
-      transition: color 0.15s ease;
-
-      &:hover {
-        color: $brand;
-      }
-    }
-  }
-
-  &__card-meta {
-    margin-top: 10px;
-    @include text-sm;
-    color: $muted;
-  }
-
-  &__card-excerpt {
-    margin-top: 10px;
-    @include text-sm;
-    font-weight: 300;
-    color: $body;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
-  }
-
-  &__card-body :where(.ecs-see-more) {
-    display: flex;
-    width: fit-content;
-    margin: 16px 0 0 auto; // "Xem thêm" (kiểu Tìm hiểu thêm) đẩy sang phải
-  }
-
-  &__pagination {
-    margin-top: 40px;
-
-    .page-numbers {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 40px;
-      height: 40px;
-      padding: 0 8px;
-      margin: 0 4px;
-      border: 1px solid $placeholder;
-      border-radius: 6px;
-      color: $body;
-      transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
-
-      &:hover,
-      &.current {
-        background: $brand;
-        border-color: $brand;
-        color: #fff;
-      }
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-    }
+  // Danh sách bài: dùng lại ĐÚNG lưới 3 cột + card ".ecs-news-card" +
+  // dãy nút số trang tròn của trang Tin tức (components/_tin-tuc.scss,
+  // .ecs-news-grid__list/__item/__pagination) — category.php và search.php
+  // không tự định nghĩa lại, chỉ thêm khoảng cách với phần head phía trên.
+  .ecs-news-grid__list {
+    margin-top: 32px;
   }
 
   &__empty {

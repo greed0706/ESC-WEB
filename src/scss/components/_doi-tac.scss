@@ -26,8 +26,10 @@ $partners-cell-w: 233; // bề rộng ô trong Figma — mẫu số của tỉ l
   &__group {
     padding-block-start: 64px;
 
+    // 80px: đồng bộ với các trang có banner khác (không còn khớp tuyệt đối
+    // Figma 114px — theo yêu cầu cố định cùng một khoảng cách banner→section).
     @include bp(lg) {
-      padding-block-start: 114px;
+      padding-block-start: 80px;
     }
   }
 

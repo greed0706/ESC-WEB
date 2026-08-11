@@ -73,7 +73,10 @@
   padding-block: 64px;
 
   @include bp(lg) {
-    padding-block: 96px;
+    // Đầu (top) = 80px: đồng bộ với các trang có banner khác. Đáy giữ nguyên
+    // 96px (không thuộc "khoảng cách banner→section" mà yêu cầu áp dụng).
+    padding-block-start: 80px;
+    padding-block-end: 96px;
   }
 
   &__inner {
@@ -108,13 +111,14 @@
     @include text-sm;
     font-weight: 500;
     color: $ink;
+    font-style: italic;
   }
 
   // Desktop stage: milestones absolutely positioned around the stairs image.
   &__stage {
     position: relative;
     margin-inline: auto;
-    margin-top: 40px;
+    margin-top: 0px;
     display: none;
     width: 100%;
     max-width: 1920px;
@@ -347,45 +351,17 @@
     }
   }
 
-  // ---- Odometer -------------------------------------------------------
-  // Chỉ có tác dụng sau khi initStatsOdometer() (assets/js/main.js) dựng xong
-  // các cột chữ số và gắn .is-odometer. Chưa chạy JS thì &__value vẫn là text
-  // thường, không rule nào dưới đây bám vào.
-  //
-  // `tabular-nums` là bắt buộc: font mặc định cho '1' hẹp hơn '8', nên trong lúc
-  // dải số quay, bề rộng ô sẽ co giật và cả dòng nhảy ngang.
-  &__value.is-odometer {
-    display: inline-flex;
-    align-items: baseline;
-    justify-content: center;
+  // Phần SỐ đếm được bằng animateCounter() (assets/js/main.js). `tabular-nums`
+  // là bắt buộc: font mặc định cho '1' hẹp hơn '8', nên trong lúc số tăng dần,
+  // không có nó thì bề rộng số co giật và cả dòng nhảy ngang liên tục.
+  &__number {
     font-variant-numeric: tabular-nums;
   }
 
-  // Khung ngó vào dải số: cao đúng 1 chữ số nhờ line-height: 1 kế thừa ở trên.
-  &__digit {
-    display: inline-block;
-    height: 1em;
-    overflow: hidden;
-    vertical-align: baseline;
-  }
-
-  // Dải số xếp dọc. `transform`/`transition` do JS đặt (thời lượng khác nhau
-  // theo vị trí chữ số) nên ở đây chỉ khai báo phần tĩnh.
-  &__strip {
-    display: block;
-    will-change: transform;
-  }
-
-  &__num {
-    display: block;
-    height: 1em;
-    line-height: 1;
-  }
-
-  // '.', '+', khoảng trắng, chữ 'năm' — đứng yên, không quay.
-  &__sep {
-    display: inline-block;
-    white-space: pre;
+  // Hậu tố đứng NGOÀI phạm vi đếm (vd '+', ' triệu', ' nước') — xem
+  // ecsges_parse_stat_number() (functions.php) + initStatsCounter().
+  &__suffix {
+    font-variant-numeric: tabular-nums;
   }
 
   &__label {
@@ -443,7 +419,7 @@
     left: 50%;
     // Đặt NGAY TRONG khung quạt, sát mép trên (thay vì kéo hẳn ra ngoài bằng
     // translate âm như trước — tạo khoảng trắng quá lớn tới nhãn HỢP ở top:28%).
-    top: 4%;
+    top: 10%;
     translate: -50% 0;
     white-space: nowrap;
     font-family: $font-display;

@@ -8,10 +8,12 @@
  * Gạch cam dưới tab đang chọn cao 4px, nằm trên đường kẻ mảnh chạy hết
  * chiều ngang container (y=785).
  *
- * Vẫn là <a> ĐIỀU HƯỚNG tới archive category thật (render bởi category.php),
- * KHÔNG phải tab đổi nội dung tại chỗ — nên không có role="tablist"/role="tab"
- * hay JS, chỉ class .is-active + aria-current="page". Tab "Về ECSGES"
- * (cat rỗng) = chính trang này.
+ * Tab lọc TẠI CHỖ trên chính page-tin-tuc.php — <a> trỏ về '/tin-tuc/?chuyen-muc=<slug>'
+ * (KHÔNG còn điều hướng sang archive category.php); tin-tuc-grid.php đọc lại
+ * query string đó (qua ecsges_tin_tuc_active_cat()) để lọc WP_Query. Do vẫn là
+ * link <a> thường (không phải tab đổi nội dung bằng JS) nên không có
+ * role="tablist"/role="tab", chỉ class .is-active + aria-current="page". Tab
+ * "Về ECSGES" (cat rỗng) = tất cả tin, link về thẳng '/tin-tuc/' không kèm query.
  *
  * @package ECSGES
  */
@@ -42,10 +44,10 @@ foreach ( $tt_tabs as $tt_tab ) {
 					? ! $tt_has_active
 					: ( $tab['cat'] === $tt_current );
 
-				// cat rỗng = trang Tin tức; ngược lại lấy link category thật,
-				// category chưa tồn tại thì rơi về trang Tin tức.
+				// cat rỗng = trang Tin tức (tất cả tin), không kèm query; ngược lại
+				// gắn ?chuyen-muc=<slug> vào CHÍNH trang Tin tức — không rời trang.
 				$tt_home = ecsges_translate_path( '/tin-tuc/' );
-				$tt_href = '' === $tab['cat'] ? $tt_home : ecsges_category_link( $tab['cat'], $tt_home );
+				$tt_href = '' === $tab['cat'] ? $tt_home : add_query_arg( 'chuyen-muc', $tab['cat'], $tt_home );
 				?>
 				<li class="ecs-newsroom__tab-wrap">
 					<a

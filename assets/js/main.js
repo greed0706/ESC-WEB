@@ -21,7 +21,7 @@
     initHeroSlider();
     initCharsReveal();
     initPinsReveal();
-    initStatsOdometer();
+    initStatsCounter();
     initPtbvCarousel();
     initPtbvCulture();
     initLangDropdown();
@@ -179,110 +179,97 @@
 
   /* ---------------------------------------------------------------- */
   /**
-   * Odometer cho "NHỮNG CON SỐ ẤN TƯỢNG" (.ecs-ve-stats): mỗi chữ số là một ô
-   * cao 1em, bên trong là dải số xếp dọc trượt XUỐNG rồi dừng đúng số đích —
-   * giống mặt công-tơ-mét. Chạy 1 lần khi khối cuộn vào viewport.
+   * animateCounter(element, target, duration) — đếm 0 → target trong khoảng
+   * `duration` ms, dùng easing ease-out-quad (nhanh lúc đầu, chậm dần cuối,
+   * KHÔNG tuyến tính đều) qua requestAnimationFrame. Hàm thuần, tách rời khỏi
+   * IntersectionObserver để tái dùng được ở bất kỳ chỗ nào khác cần đếm số.
    *
-   * Progressive enhancement: PHP in ra text thật ('235.000+'); hàm này mới
-   * dựng các cột. Tắt JS / reduced-motion → DOM không bị đụng, số vẫn hiện.
+   * Số chữ số thập phân lấy từ CHÍNH CHUỖI element.dataset.target (vd "8.9" →
+   * 1 số lẻ) chứ không suy từ `target` đã parseFloat, để khớp đúng yêu cầu
+   * "khai báo đích qua data-target" và tránh sai số dấu phẩy động.
    *
-   * Ký tự không phải chữ số ('.', '+', ' ', 'năm') giữ nguyên, không quay.
+   * Trong lúc đếm: số nguyên/thập phân THÔ, chưa có dấu phân nghìn (đúng yêu
+   * cầu — tăng liên tục kiểu này thì có dấu chấm/phẩy sẽ nhảy vị trí liên tục,
+   * rất khó đọc). Đếm xong mới format lại theo chuẩn VN (chấm nghìn, phẩy thập
+   * phân) — hậu tố ("+", " triệu", " nước", …) nằm NGOÀI phạm vi hàm này, do
+   * markup đặt ở một span riêng cạnh `element` nên không bị đụng tới.
+   *
+   * @param {HTMLElement} element  Phần tử chứa SỐ (không gồm hậu tố).
+   * @param {number}      target   Giá trị đích (có thể có phần thập phân).
+   * @param {number}      [duration=1800] Thời lượng đếm, ms.
    */
-  function initStatsOdometer() {
-    var blocks = document.querySelectorAll('[data-stats-odometer]');
-    if (!blocks.length) return;
+  function animateCounter(element, target, duration) {
+    duration = typeof duration === 'number' && duration > 0 ? duration : 1800;
+
+    var raw = element.dataset && element.dataset.target !== undefined
+      ? element.dataset.target
+      : String(target);
+    var decimals = raw.indexOf('.') > -1 ? raw.split('.')[1].length : 0;
+
+    var startTime = null;
+
+    // ease-out-quad: f(t) = t·(2−t) — đạo hàm giảm dần theo t nên tốc độ tăng
+    // số chậm dần về cuối, khác hẳn tăng tuyến tính đều (f(t) = t).
+    function easeOutQuad(t) {
+      return t * (2 - t);
+    }
+
+    // Format cuối cùng: dấu chấm phân nghìn + dấu phẩy thập phân (chuẩn VN).
+    function formatFinal(value, dp) {
+      var fixed = value.toFixed(dp);
+      var parts = fixed.split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return dp > 0 ? parts.join(',') : parts[0];
+    }
+
+    function tick(now) {
+      if (startTime === null) startTime = now;
+      var progress = Math.min((now - startTime) / duration, 1);
+      var current = 0 + (target - 0) * easeOutQuad(progress);
+
+      element.textContent = decimals > 0
+        ? current.toFixed(decimals) // thô, dùng '.' mặc định của toFixed lúc đang đếm
+        : String(Math.floor(current));
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        element.textContent = formatFinal(target, decimals); // chốt số + format đẹp
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  /**
+   * "NHỮNG CON SỐ ẤN TƯỢNG" (.ecs-ve-stats): gắn animateCounter() cho từng
+   * [data-target] bên trong [data-stats-counter], chạy 1 lần khi phần tử cuộn
+   * vào khung nhìn (IntersectionObserver, threshold 0.4, unobserve ngay sau
+   * khi trigger). Khối cha (.ecs-ve-stats__item) đã có data-aos="fade-up" nên
+   * hiệu ứng trượt-mờ lên chạy song song, đúng lúc số bắt đầu đếm.
+   *
+   * Progressive enhancement: PHP in sẵn số THẬT đã format (vd "235.000"); chỉ
+   * xoá về "0" nếu chắc chắn đếm lại được (JS bật, không prefers-reduced-motion,
+   * có IntersectionObserver) — tắt JS/giảm chuyển động thì số thật giữ nguyên.
+   */
+  function initStatsCounter() {
+    var targets = document.querySelectorAll('[data-stats-counter] [data-target]');
+    if (!targets.length) return;
 
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce || !('IntersectionObserver' in window)) return; // giữ nguyên text thật
+    if (reduce || !('IntersectionObserver' in window)) return;
 
-    var SPINS = 2; // số vòng 0-9 quay trước khi dừng — càng lớn càng "lâu tới đích"
-
-    /**
-     * Dựng lại 1 ô số thành các cột chữ số. Dải số xếp theo thứ tự GIẢM DẦN và
-     * chữ số đích nằm TRÊN CÙNG; strip bắt đầu ở đáy (translateY âm) rồi chạy
-     * về 0 — nhờ vậy các con số trôi xuống chứ không trượt lên.
-     */
-    function build(el) {
-      var text = el.textContent;
-      var frag = document.createDocumentFragment();
-      var digits = [];
-
-      for (var i = 0; i < text.length; i++) {
-        var ch = text.charAt(i);
-        if (ch < '0' || ch > '9') {
-          var sep = document.createElement('span');
-          sep.className = 'ecs-ve-stats__sep';
-          sep.textContent = ch;
-          frag.appendChild(sep);
-          continue;
-        }
-
-        var cell = document.createElement('span');
-        cell.className = 'ecs-ve-stats__digit';
-        var strip = document.createElement('span');
-        strip.className = 'ecs-ve-stats__strip';
-
-        // [đích, 9, 8, … 0] x SPINS vòng. Số phần tử phía DƯỚI đích = độ dài cần trượt.
-        var target = Number(ch);
-        var seq = [target];
-        for (var s = 0; s < SPINS * 10; s++) {
-          seq.push((target + s + 1) % 10);
-        }
-        for (var k = 0; k < seq.length; k++) {
-          var d = document.createElement('span');
-          d.className = 'ecs-ve-stats__num';
-          d.textContent = String(seq[k]);
-          strip.appendChild(d);
-        }
-
-        cell.appendChild(strip);
-        frag.appendChild(cell);
-        digits.push({ strip: strip, offset: seq.length - 1 });
-      }
-
-      if (!digits.length) return null; // ô không có chữ số nào → để yên
-
-      el.textContent = '';
-      el.appendChild(frag);
-      el.classList.add('is-odometer');
-      return digits;
-    }
-
-    /** Đặt strip ở đáy rồi thả về 0; chữ số bên phải quay lâu hơn bên trái. */
-    function spin(digits) {
-      digits.forEach(function (d) {
-        d.strip.style.transform = 'translateY(-' + d.offset + 'em)';
-      });
-
-      // Ép trình duyệt nhận vị trí xuất phát trước khi gắn transition, nếu không
-      // nó gộp 2 lần ghi style vào cùng 1 frame và chữ số nhảy thẳng tới đích.
-      void digits[0].strip.offsetHeight;
-
-      digits.forEach(function (d, i) {
-        d.strip.style.transition = 'transform ' + (800 + i * 150) + 'ms cubic-bezier(.16,1,.3,1)';
-        d.strip.style.transform = 'translateY(0)';
-      });
-    }
-
-    function run(block) {
-      var values = block.querySelectorAll('[data-odometer]');
-      Array.prototype.forEach.call(values, function (el, i) {
-        var digits = build(el);
-        if (!digits) return;
-        // Lệch nhau theo thẻ, khớp với data-aos-delay (si * 80) của chính các thẻ đó.
-        setTimeout(function () { spin(digits); }, i * 80);
-      });
-    }
+    Array.prototype.forEach.call(targets, function (el) { el.textContent = '0'; });
 
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          run(e.target);
-          io.unobserve(e.target);
-        }
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        animateCounter(entry.target, parseFloat(entry.target.dataset.target), 1800);
+        io.unobserve(entry.target);
       });
-    }, { threshold: 0.25 });
-    Array.prototype.forEach.call(blocks, function (b) { io.observe(b); });
+    }, { threshold: 0.4 });
+
+    Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
   }
 
   /* ---------------------------------------------------------------- */

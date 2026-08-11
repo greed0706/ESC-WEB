@@ -149,7 +149,9 @@
   padding-bottom: 56px;
 
   @include bp(lg) {
-    padding-top: 81px; // Figma: đáy banner 633 → tiêu đề khối 1 ở 714
+    // 80px: đồng bộ với các trang có banner khác (không còn khớp tuyệt đối
+    // Figma 81px — theo yêu cầu cố định cùng một khoảng cách banner→section).
+    padding-top: 80px;
     padding-bottom: 99px; // Figma: đáy khối 5 ở 2721 → footer ở 2820
   }
 
@@ -1068,7 +1070,9 @@
     padding-block-start: 48px;
 
     @include bp(lg) {
-      padding-block-start: 112px; // Figma: đáy banner 633 → tiêu đề 745
+      // 80px: đồng bộ với các trang có banner khác (không còn khớp tuyệt đối
+      // Figma 112px — theo yêu cầu cố định cùng một khoảng cách banner→section).
+      padding-block-start: 80px;
     }
   }
 
