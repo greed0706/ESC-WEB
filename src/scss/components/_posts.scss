@@ -128,29 +128,6 @@
     padding-block: 48px 64px;
   }
 
-  // Breadcrumb đầu trang — cùng phong cách với .ecs-single__breadcrumb.
-  &__breadcrumb {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
-    @include text-sm;
-    color: $muted;
-
-    a {
-      color: $muted;
-      transition: color 0.15s ease;
-
-      &:hover {
-        color: $brand;
-      }
-    }
-
-    &-current {
-      color: $ink;
-    }
-  }
-
   &__head {
     margin-bottom: 32px;
     border-bottom: 2px solid $surface-2;

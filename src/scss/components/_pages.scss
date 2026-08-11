@@ -838,7 +838,7 @@
 /* .ecs-culture — VĂN HÓA ECS (ảnh + thẻ chồng, carousel 3 slide)      */
 /* ------------------------------------------------------------------ */
 .ecs-culture {
-  background: $brand-light;// Figma: dải nền #f0f0f0.
+  background: $brand-light; // Figma: dải nền #f0f0f0.
   padding-block: 56px;
 
   @include bp(lg) {
@@ -1328,6 +1328,7 @@
     justify-content: center;
     width: 79px;
     height: 79px;
+    border: 1px solid #d9d9d9;
 
     img {
       width: 55px;
@@ -1497,7 +1498,7 @@
       color: #A4A4A4;
       font-weight: 200;
       opacity: 0.5;
-      
+
 
       &::placeholder {
         color: $muted-2;

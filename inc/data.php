@@ -513,7 +513,7 @@ function ecsges_ptbv_values()
 		array(
 			'title' => 'TẬN TÂM',
 			'icon' => $base . '1.svg',
-			'image' => $base.'tan-tan.jpg',
+			'image' => $base.'tan-tam.png',
 			'href' => '#',
 			'category' => 'tan-tam', // nút "Xem thêm" → /category/tan-tam/ (tạo trong admin)
 			'text' => 'Chúng tôi tin rằng sự tận tâm là nền tảng của mọi giá trị bền vững. Mỗi cán bộ, giảng viên và chuyên gia của ECSGES luôn làm việc bằng trách nhiệm, sự chân thành và tinh thần phụng sự, hướng đến lợi ích của người học, đối tác và cộng đồng.',

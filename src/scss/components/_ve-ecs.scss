@@ -109,7 +109,7 @@
   &__intro-text {
     text-align: center;
     @include text-sm;
-    font-weight: 500;
+    font-weight: 0;
     color: $ink;
     font-style: italic;
   }
