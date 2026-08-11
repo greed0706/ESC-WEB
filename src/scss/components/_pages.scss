@@ -275,6 +275,7 @@
   // chung một text node với đoạn văn nên CÙNG cỡ/màu — chỉ tách thẻ để dễ đổi.
   &__lead {
     margin: 0;
+    font-weight: 500;
   }
 
   &__lists {
@@ -1343,7 +1344,7 @@
 
   // Figma: 26px Medium #000, line-height 32, tối đa 2 dòng.
   &__title {
-    margin: 0 0 22px;
+    margin: 0 0 4px;
     // Chừa chỗ cho badge ở góc trên phải để tiêu đề không chui xuống dưới nó.
     padding-inline-end: 100px;
     font-family: $font-display;
@@ -1372,6 +1373,20 @@
         color: $brand;
       }
     }
+  }
+
+  // Tên đơn vị tuyển dụng — dòng phụ xám dưới tiêu đề (field ACF 'company_name',
+  // dùng chung với thẻ công ty ở trang chi tiết). Không có trong Figma gốc nên
+  // canh theo nhịp sẵn có: 1 dòng, cắt "..." nếu dài, cách tags 18px.
+  &__company {
+    margin: 0 0 18px;
+    padding-inline-end: 100px;
+    @include text-sm;
+    font-weight: 300;
+    color: $muted-2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   // Figma: 2 thẻ cao 29, nền #f0f0f0, chữ 18px Light #000, cách nhau 11.
@@ -1482,8 +1497,8 @@
     flex-direction: column;
     gap: 8px;
 
-    // Nhãn đậm, màu đen ($ink) để nổi bật; chữ nhập trong input dùng xám nhạt
-    // ($muted) để bớt gắt so với nhãn.
+    // Nhãn đậm, màu đen ($ink) để nổi bật. Chữ người dùng gõ vào input dùng
+    // màu bình thường ($ink); chỉ text hướng dẫn (placeholder) mới nhạt.
     label {
       @include text-sm;
       color: $ink;
@@ -1495,13 +1510,13 @@
       padding-inline: 16px;
 
       @include text-sm;
-      color: #A4A4A4;
-      font-weight: 200;
-      opacity: 0.5;
-
+      color: $ink;
+      font-weight: 400;
 
       &::placeholder {
         color: $muted-2;
+        font-weight: 200;
+        opacity: 0.5;
       }
     }
   }
@@ -1710,7 +1725,7 @@
   &__title {
     margin: 0;
     font-family: $font-display;
-    font-weight: 500;
+    font-weight: 400;
     @include text-md;
     color: $ink;
   }

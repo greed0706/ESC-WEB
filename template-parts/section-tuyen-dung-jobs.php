@@ -138,6 +138,16 @@ $ecsges_job_types = ecsges_job_types();
 										</h3>
 
 										<?php
+										// Tên đơn vị tuyển dụng — field ACF 'company_name' riêng từng tin (xem
+										// inc/data.php::ecsges_jobs_list()); dữ liệu tĩnh cũ (ecsges_jobs()) không
+										// có key này nên rơi về tên công ty mặc định.
+										$job_company = isset( $ecsges_job['company'] ) ? trim( (string) $ecsges_job['company'] ) : trim( ecsges_company_info()['name'] );
+										?>
+										<?php if ( '' !== $job_company ) : ?>
+											<p class="ecs-job-card__company"><?php echo esc_html( $job_company ); ?></p>
+										<?php endif; ?>
+
+										<?php
 										// Figma: 2 thẻ tag — mức lương rồi địa điểm. Thiếu field nào
 										// thì bỏ thẻ đó, không hiện ô rỗng.
 										$job_tags = array_filter(

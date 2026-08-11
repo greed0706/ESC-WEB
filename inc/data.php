@@ -66,8 +66,8 @@ function ecsges_ecosystem_tabs()
 			'image' => 'he-sinh-thai/huong-nghiep.jpg',
 			'label' => 'HƯỚNG NGHIỆP',
 			'title' => 'HƯỚNG NGHIỆP',
-			'body' => 'ECS Global phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm của đội ngũ lãnh đạo trẻ, cùng với sự năng động, sáng tạo, đoàn kết của nhiều lớp nhân viên.
-						Sau hơn 9 năm, ECS Global đã khẳng định được vị thế trên thị trường ở các lĩnh vực tuyển sinh, hướng nghiệp khởi nghiệp, việc làm, giáo dục, truyền thông và công nghệ số.',
+			'body' => 'ECS phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm của đội ngũ lãnh đạo trẻ, cùng với sự năng động, sáng tạo, đoàn kết của nhiều lớp nhân viên.
+						Sau hơn 9 năm, ECS đã khẳng định được vị thế trên thị trường ở các lĩnh vực tuyển sinh, hướng nghiệp khởi nghiệp, việc làm, giáo dục, truyền thông và công nghệ số.',
 		),
 		array(
 			'id' => 'tuyen-sinh',
@@ -450,11 +450,11 @@ function ecsges_linh_vuc_detail_map()
 	}
 
 	$q = new WP_Query(array(
-		'post_type'      => 'page',
+		'post_type' => 'page',
 		'posts_per_page' => 50,
-		'no_found_rows'  => true,
-		'meta_key'       => '_wp_page_template',
-		'meta_value'     => 'page-linh-vuc-chi-tiet.php',
+		'no_found_rows' => true,
+		'meta_key' => '_wp_page_template',
+		'meta_value' => 'page-linh-vuc-chi-tiet.php',
 	));
 
 	$map = array();
@@ -513,25 +513,25 @@ function ecsges_ptbv_values()
 		array(
 			'title' => 'TẬN TÂM',
 			'icon' => $base . '1.svg',
-			'image' => $base.'tan-tam.png',
+			'image' => $base . 'tan-tam.png',
 			'href' => '#',
-			'category' => 'tan-tam', // nút "Xem thêm" → /category/tan-tam/ (tạo trong admin)
+			'category' => 'con-nguoi', // nút "Xem thêm" → /category/tan-tam/ (tạo trong admin)
 			'text' => 'Chúng tôi tin rằng sự tận tâm là nền tảng của mọi giá trị bền vững. Mỗi cán bộ, giảng viên và chuyên gia của ECSGES luôn làm việc bằng trách nhiệm, sự chân thành và tinh thần phụng sự, hướng đến lợi ích của người học, đối tác và cộng đồng.',
 		),
 		array(
 			'title' => 'ĐỒNG HÀNH',
 			'icon' => $base . '2.svg',
-			'image' => $base.'dong-hanh.jpg',
+			'image' => $base . 'dong-hanh.jpg',
 			'href' => '#',
-			'category' => 'dong-hanh', // nút "Xem thêm" → /category/dong-hanh/ (tạo trong admin)
+			'category' => 'con-nguoi', // nút "Xem thêm" → /category/dong-hanh/ (tạo trong admin)
 			'text' => 'ECSGES đồng hành cùng người học trên từng chặng đường phát triển. Từ định hướng nghề nghiệp, lựa chọn ngành học đến quá trình học tập và phát triển sự nghiệp, chúng tôi luôn là người bạn đồng hành đáng tin cậy.',
 		),
 		array(
 			'title' => 'ĐỔI MỚI',
 			'icon' => $base . '3.svg',
-			'image' => $base.'doi-moi.jpg',
+			'image' => $base . 'doi-moi.jpg',
 			'href' => '#',
-			'category' => 'doi-moi', // nút "Xem thêm" → /category/doi-moi/ (tạo trong admin)
+			'category' => 'con-nguoi', // nút "Xem thêm" → /category/doi-moi/ (tạo trong admin)
 			'text' => 'Đổi mới là động lực để ECSGES không ngừng phát triển. Với tư duy mở và tinh thần tiên phong, chúng tôi liên tục cập nhật xu hướng, nâng cao chất lượng và kiến tạo những giá trị mới nhằm đáp ứng yêu cầu của thời đại hội nhập.',
 		),
 	);
@@ -547,25 +547,25 @@ function ecsges_ptbv_culture()
 	$base = 'phat-trien-ben-vung/';
 	return array(
 		array(
-			'title'    => 'HỌC HỎI',
-			'icon'     => $base . 'hoc-hoi.svg',
-			'image'    => $base . 'hoc-hoi.jpg',
-			'category' => 'hoc-hoi',
-			'text'     => 'ECSGES xây dựng môi trường khuyến khích học tập và phát triển liên tục thông qua các chương trình đào tạo nội bộ, hoạt động chia sẻ chuyên môn và cơ hội tham gia các khóa học nâng cao cho đội ngũ CBGVNV',
+			'title' => 'HỌC HỎI',
+			'icon' => $base . 'hoc-hoi.svg',
+			'image' => $base . 'hoc-hoi.jpg',
+			'category' => 'van-hoa',
+			'text' => 'ECSGES xây dựng môi trường khuyến khích học tập và phát triển liên tục thông qua các chương trình đào tạo nội bộ, hoạt động chia sẻ chuyên môn và cơ hội tham gia các khóa học nâng cao cho đội ngũ CBGVNV',
 		),
 		array(
-			'title'    => 'HỢP TÁC',
-			'icon'     => $base . 'hop-tac.svg',
-			'image'    => $base . 'hop-tac.jpg',
-			'category' => 'hop-tac',
-			'text'     => 'Tinh thần hợp tác được đề cao trong mọi hoạt động khi các đơn vị, phòng ban và cá nhân luôn chủ động kết nối, phối hợp chặt chẽ để cùng giải quyết công việc, nâng cao hiệu quả hoạt động và mang lại những giá trị tốt nhất cho người học và đối tác.',
+			'title' => 'HỢP TÁC',
+			'icon' => $base . 'hop-tac.svg',
+			'image' => $base . 'hop-tac.jpg',
+			'category' => 'van-hoa',
+			'text' => 'Tinh thần hợp tác được đề cao trong mọi hoạt động khi các đơn vị, phòng ban và cá nhân luôn chủ động kết nối, phối hợp chặt chẽ để cùng giải quyết công việc, nâng cao hiệu quả hoạt động và mang lại những giá trị tốt nhất cho người học và đối tác.',
 		),
 		array(
-			'title'    => 'PHỤNG SỰ',
-			'icon'     => $base . 'phung-su.svg',
-			'image'    => $base . 'phung-su.jpg',
-			'category' => 'phung-su',
-			'text'     => 'Mỗi CBGVNV ECSGES luôn đặt lợi ích của người học và cộng đồng lên hàng đầu, tận tụy đồng hành và hỗ trợ để mang lại những giá trị giáo dục thiết thực, góp phần xây dựng một xã hội học tập bền vững.',
+			'title' => 'PHỤNG SỰ',
+			'icon' => $base . 'phung-su.svg',
+			'image' => $base . 'phung-su.jpg',
+			'category' => 'van-hoa',
+			'text' => 'Mỗi CBGVNV ECSGES luôn đặt lợi ích của người học và cộng đồng lên hàng đầu, tận tụy đồng hành và hỗ trợ để mang lại những giá trị giáo dục thiết thực, góp phần xây dựng một xã hội học tập bền vững.',
 		),
 	);
 }
@@ -581,25 +581,25 @@ function ecsges_ptbv_responsibility()
 	$base = 'phat-trien-ben-vung/';
 	return array(
 		array(
-			'title'    => 'KHUYẾN HỌC',
-			'icon'     => $base . 'khuyen-hoc.svg',
-			'image'    => $base . 'khuyen-hoc.jpg',
-			'category' => 'khuyen-hoc',
-			'text'     => 'Lan tỏa cơ hội học tập và tiếp cận giáo dục cho nhiều đối tượng trong cộng đồng, đồng hành cùng học sinh, sinh viên có hoàn cảnh khó khăn thông qua học bổng và các chương trình hỗ trợ thiết thực.',
+			'title' => 'KHUYẾN HỌC',
+			'icon' => $base . 'khuyen-hoc.svg',
+			'image' => $base . 'khuyen-hoc.jpg',
+			'category' => 'trach-nhiem-xa-hoi',
+			'text' => 'Lan tỏa cơ hội học tập và tiếp cận giáo dục cho nhiều đối tượng trong cộng đồng, đồng hành cùng học sinh, sinh viên có hoàn cảnh khó khăn thông qua học bổng và các chương trình hỗ trợ thiết thực.',
 		),
 		array(
-			'title'    => 'CỘNG ĐỒNG',
-			'icon'     => $base . 'cong-dong.svg',
-			'image'    => $base . 'cong-dong.jpg',
-			'category' => 'cong-dong',
-			'text'     => 'Gắn kết và sẻ chia cùng cộng đồng qua các hoạt động thiện nguyện, kết nối các thế hệ và lan tỏa tinh thần tương thân tương ái trong xã hội.',
+			'title' => 'CỘNG ĐỒNG',
+			'icon' => $base . 'cong-dong.svg',
+			'image' => $base . 'cong-dong.jpg',
+			'category' => 'trach-nhiem-xa-hoi',
+			'text' => 'Gắn kết và sẻ chia cùng cộng đồng qua các hoạt động thiện nguyện, kết nối các thế hệ và lan tỏa tinh thần tương thân tương ái trong xã hội.',
 		),
 		array(
-			'title'    => 'PHÁT TRIỂN',
-			'icon'     => $base . 'phat-trien.svg',
-			'image'    => $base . 'phat-trien.jpg',
-			'category' => 'phat-trien',
-			'text'     => 'Đồng hành cùng thế hệ trẻ trên hành trình hội nhập, sáng tạo và kiến tạo giá trị cho xã hội, góp phần phát triển nguồn nhân lực chất lượng cao phục vụ đất nước.',
+			'title' => 'PHÁT TRIỂN',
+			'icon' => $base . 'phat-trien.svg',
+			'image' => $base . 'phat-trien.jpg',
+			'category' => 'trach-nhiem-xa-hoi',
+			'text' => 'Đồng hành cùng thế hệ trẻ trên hành trình hội nhập, sáng tạo và kiến tạo giá trị cho xã hội, góp phần phát triển nguồn nhân lực chất lượng cao phục vụ đất nước.',
 		),
 	);
 }
@@ -713,9 +713,9 @@ function ecsges_jobs()
 function ecsges_jobs_list()
 {
 	$q = new WP_Query(array(
-		'post_type'      => 'page',
+		'post_type' => 'page',
 		'posts_per_page' => 100,
-		'no_found_rows'  => true,
+		'no_found_rows' => true,
 		'meta_key' => '_wp_page_template',
 		'meta_value' => 'page-tuyen-dung-chi-tiet.php',
 		'orderby' => 'date',
@@ -743,6 +743,11 @@ function ecsges_jobs_list()
 			// card danh sách; 2 field ACF này vốn đã có sẵn cho trang chi tiết.
 			'salary' => ecsges_field_page($p->ID, 'job_salary', ''),
 			'experience' => ecsges_field_page($p->ID, 'job_experience', ''),
+			// Tên đơn vị tuyển dụng — dùng chung field ACF 'company_name' (đã có sẵn
+			// cho thẻ công ty ở trang chi tiết, xem job-chi-tiet-sidebar.php) nên sửa
+			// field của Page nào thì đổi luôn tên hiện ở card đó, vd "Trường Cao Đẳng
+			// Bách Khoa". Rỗng thì rơi về tên công ty mặc định (ecsges_company_info()).
+			'company' => ecsges_field_page($p->ID, 'company_name', ecsges_company_info()['name']),
 			'tag' => (function_exists('get_field') && get_field('job_hot', $p->ID)) ? 'hot' : '',
 			// Ảnh đại diện riêng của tin này (ô logo 79×79 trên card). Rỗng thì
 			// section-tuyen-dung-jobs.php tự dùng logo mặc định (hero-mark.svg).
@@ -927,9 +932,9 @@ function ecsges_news_tabs()
  */
 function ecsges_news_featured()
 {
-	$title   = 'Lễ ký kết hợp tác ECS GLOBAL và Học viện Quản lý NanYang';
+	$title = 'Lễ ký kết hợp tác ECS GLOBAL và Học viện Quản lý NanYang';
 	$excerpt = 'ECS Global phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm.';
-	$img     = 'tin-tuc/news-placeholder.jpg';
+	$img = 'tin-tuc/news-placeholder.jpg';
 
 	return array(
 		'main' => array('title' => $title, 'excerpt' => $excerpt, 'img' => $img, 'href' => '#'),

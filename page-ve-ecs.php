@@ -314,8 +314,12 @@ get_header();
 			?>
 			<dl class="ecs-ve-stats__grid" data-stats-counter>
 				<?php foreach ($stats as $si => $stat): ?>
-					<?php $stat_num = ecsges_parse_stat_number($stat['value']); ?>
-					<div class="ecs-ve-stats__item" data-aos="fade-up" data-aos-delay="<?php echo esc_attr($si * 80); ?>">
+					<?php
+					$stat_num = ecsges_parse_stat_number($stat['value']);
+					// Thẻ "Trường học được tư vấn" (50+) không delay theo thứ tự như các thẻ khác.
+					$stat_delay = ('50+' === $stat['value']) ? '' : ' data-aos-delay="' . esc_attr($si * 80) . '"';
+					?>
+					<div class="ecs-ve-stats__item" data-aos="fade-up"<?php echo $stat_delay; ?>>
 						<img src="<?php echo esc_url(ecsges_img('ve-ecs/last-section/' . $stat['icon'])); ?>" alt=""
 							aria-hidden="true" class="ecs-ve-stats__icon">
 						<dd class="ecs-ve-stats__value">

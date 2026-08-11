@@ -31,8 +31,44 @@ function ecsges_setup()
 			'primary' => __('Menu chính', 'ecsges'),
 		)
 	);
+
+	// Nạp editor-style.css vào khung soạn thảo (wp_editor()/ACF wysiwyg) để font Roboto
+	// hiển thị đúng khi được chọn — xem ecsges_mce_font_formats() bên dưới.
+	add_editor_style('assets/css/editor-style.css');
 }
 add_action('after_setup_theme', 'ecsges_setup');
+
+/**
+ * Thêm "Roboto" vào dropdown Font Family của TinyMCE (wp-admin) — mặc định TinyMCE
+ * chỉ có các web-safe font (Georgia, Arial, Verdana...), không có Roboto vì đây là
+ * font tự host của theme. Áp dụng cho mọi khung soạn thảo classic editor (post/page
+ * content lẫn field ACF wysiwyg).
+ */
+function ecsges_mce_font_formats($init)
+{
+	$default_formats = 'Andale Mono=andale mono,times;'
+		. 'Arial=arial,helvetica,sans-serif;'
+		. 'Arial Black=arial black,avant garde;'
+		. 'Book Antiqua=palatino;'
+		. 'Comic Sans MS=comic sans ms,sans-serif;'
+		. 'Courier New=courier new,courier;'
+		. 'Georgia=georgia,palatino;'
+		. 'Helvetica=helvetica;'
+		. 'Impact=impact,chicago;'
+		. 'Symbol=symbol;'
+		. 'Tahoma=tahoma,arial,helvetica,sans-serif;'
+		. 'Terminal=terminal,monaco;'
+		. 'Times New Roman=times new roman,times;'
+		. 'Trebuchet MS=trebuchet ms,geneva;'
+		. 'Verdana=verdana,geneva,sans-serif;'
+		. 'Webdings=webdings;'
+		. 'Wingdings=wingdings,zapf dingbats';
+
+	$init['font_formats'] = 'Roboto=Roboto,sans-serif;' . (empty($init['font_formats']) ? $default_formats : $init['font_formats']);
+
+	return $init;
+}
+add_filter('tiny_mce_before_init', 'ecsges_mce_font_formats');
 
 /**
  * Enqueue CSS (SCSS build → theme.css) + JS.

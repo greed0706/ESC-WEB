@@ -1,0 +1,16 @@
+/**
+ * editor-style.css — CSS RIÊNG cho khung soạn thảo wp-admin (add_editor_style()).
+ * Không thuộc pipeline SCSS/npm run build:css — sửa trực tiếp file này, không cần build.
+ * Mục đích: nạp @font-face Roboto vào iframe TinyMCE để font "Roboto" (thêm qua
+ * functions.php -> ecsges_mce_font_formats) hiển thị đúng khi chọn trong dropdown Font Family.
+ */
+
+@font-face { font-family: 'Roboto'; font-style: normal; font-weight: 300; font-display: swap; src: url('../fonts/Roboto-Light.ttf') format('truetype'); }
+@font-face { font-family: 'Roboto'; font-style: normal; font-weight: 400; font-display: swap; src: url('../fonts/Roboto-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Roboto'; font-style: normal; font-weight: 500; font-display: swap; src: url('../fonts/Roboto-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Roboto'; font-style: normal; font-weight: 700; font-display: swap; src: url('../fonts/Roboto-Bold.ttf') format('truetype'); }
+
+/* Mặc định nội dung trong khung soạn thảo dùng Roboto, khớp font thân bài trên frontend. */
+body.mce-content-body {
+	font-family: 'Roboto', system-ui, 'Segoe UI', sans-serif;
+}
