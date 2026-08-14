@@ -385,6 +385,62 @@
       color: $muted-2;
       font-style: italic;
     }
+
+    // Bảng gõ trong trình soạn thảo. WP xuất <table> TRẦN (không thuộc tính
+    // border) nên nếu theme không style thì trình duyệt vẽ ra chữ chạy suông,
+    // nhìn như không có bảng. Khối Table của block editor bọc thêm
+    // <figure class="wp-block-table"> — dùng luôn figure đó làm khung cuộn
+    // ngang cho bảng nhiều cột trên màn hình hẹp.
+    .wp-block-table {
+      // Ghi đè rule `figure` ở trên (margin auto + căn giữa) để bảng ăn đúng
+      // lề đoạn văn thay vì bị căn giữa như ảnh.
+      margin: 24px 0;
+      max-width: 100%;
+      overflow-x: auto;
+      text-align: start;
+
+      table {
+        margin: 0;
+      }
+    }
+
+    table {
+      width: 100%;
+      margin: 24px 0;
+      border-collapse: collapse;
+      // Bảng của block editor mặc định là "fixed layout"; để auto cho cột co
+      // theo nội dung (cột ngày ngắn, cột danh sách tỉnh dài).
+      table-layout: auto;
+    }
+
+    th,
+    td {
+      padding: 12px 16px;
+      border: 1px solid $placeholder;
+      text-align: start;
+      vertical-align: top;
+    }
+
+    // Hàng tiêu đề: nền xám nhạt + chữ đậm hơn phần thân (thân là weight 300).
+    th {
+      background: $surface-2;
+      font-weight: 500;
+      color: $ink;
+    }
+
+    // Kẻ vằn nhẹ cho bảng dài nhiều dòng dễ dò theo hàng ngang.
+    tbody tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    caption {
+      caption-side: bottom;
+      padding-block-start: 10px;
+      font-size: 16px;
+      line-height: 24px;
+      color: $muted-2;
+      text-align: center;
+    }
   }
 }
 

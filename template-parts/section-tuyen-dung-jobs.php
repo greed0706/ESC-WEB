@@ -220,7 +220,7 @@ $ecsges_job_levels = ecsges_job_levels();
 								$job_deadline = trim( (string) preg_replace( '/^\s*(Thời hạn|Deadline)\s*:\s*/ui', '', $job_deadline ) );
 								?>
 								<p class="ecs-job-card__note">
-									<span class="ecs-job-card__note-text"><?php echo esc_html( $job_note ); ?></span>
+									<span class="ecs-job-card__note-text"><?php echo esc_html( $job_note ); ?> kinh nghiệm</span>
 									<?php if ( '' !== $job_deadline ) : ?>
 										<span class="ecs-job-card__deadline"><?php echo esc_html( ecsges_t( 'Hạn' ) . ': ' . $job_deadline ); ?></span>
 									<?php endif; ?>

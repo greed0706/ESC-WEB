@@ -977,7 +977,7 @@ function ecsges_partner_groups()
 function ecsges_news_tabs()
 {
 	return array(
-		array('label' => 'Về ECSGES', 'cat' => ''),
+		array('label' => 'Về ECSGES', 'cat' => 've-ecsges'),
 		array('label' => 'Hướng nghiệp', 'cat' => 'huong-nghiep'),
 		array('label' => 'Tuyển sinh', 'cat' => 'tuyen-sinh'),
 		array('label' => 'Đào tạo', 'cat' => 'dao-tao'),

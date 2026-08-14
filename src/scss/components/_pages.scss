@@ -1337,7 +1337,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: auto;
   min-height: 190px;
   background: #fff;
   // Figma: ô logo cách mép trái 27 / mép trên 16; đường kẻ kết thúc cách
@@ -1407,9 +1406,8 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 
-    @include bp(lg) {
-      font-size: 26px;
-    }
+    // Figma ghi 26px cho desktop, nhưng theo yêu cầu giữ 22px ở MỌI bề rộng
+    // (đã bỏ override @include bp(lg) { font-size: 26px; }).
 
     a {
       color: inherit;
@@ -1466,6 +1464,7 @@
     justify-content: space-between;
     gap: 12px;
     margin: 14px 0 0;
+    margin-top: auto;
     padding-block-start: 7px;
     border-top: 1px solid #d9d9d9;
     @include text-sm;
