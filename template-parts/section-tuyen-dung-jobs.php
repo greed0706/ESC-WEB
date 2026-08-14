@@ -212,8 +212,19 @@ $ecsges_job_levels = ecsges_job_levels();
 								if ( '' === $job_note ) {
 									$job_note = trim( (string) $ecsges_job['department'] );
 								}
+
+								// Hạn nộp hồ sơ — nằm cuối dòng ghi chú, canh phải. Giá trị có thể đã
+								// kèm sẵn tiền tố ("Thời hạn: 20/7/2026" ở dữ liệu tĩnh) nên bóc ra y
+								// như job-chi-tiet-header.php rồi tự ghép nhãn "Hạn:" ngắn cho card.
+								$job_deadline = isset( $ecsges_job['deadline'] ) ? trim( (string) $ecsges_job['deadline'] ) : '';
+								$job_deadline = trim( (string) preg_replace( '/^\s*(Thời hạn|Deadline)\s*:\s*/ui', '', $job_deadline ) );
 								?>
-								<p class="ecs-job-card__note"><?php echo esc_html( $job_note ); ?></p>
+								<p class="ecs-job-card__note">
+									<span class="ecs-job-card__note-text"><?php echo esc_html( $job_note ); ?></span>
+									<?php if ( '' !== $job_deadline ) : ?>
+										<span class="ecs-job-card__deadline"><?php echo esc_html( ecsges_t( 'Hạn' ) . ': ' . $job_deadline ); ?></span>
+									<?php endif; ?>
+								</p>
 							</article>
 						<?php endforeach; ?>
 					</div>

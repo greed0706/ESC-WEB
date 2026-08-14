@@ -203,6 +203,18 @@ $newsroom-hairline: #a4a4a4;
     }
   }
 
+  // Lọc theo tab + phân trang: initNewsTabsGrid() ẩn bài bằng THUỘC TÍNH
+  // `hidden` (el.hidden = true). `display: flex` của &__item là rule của author
+  // nên luôn thắng `[hidden] { display: none }` trong UA stylesheet — thiếu
+  // guard này thì bấm tab nào cũng hiện nguyên si tất cả bài. Đặt SAU khối
+  // --extra và khai báo thêm biến thể có `.js` để khớp độ đặc hiệu (0,3,0) của
+  // `.js &__item--extra.is-revealed`, phòng khi một bài vừa `hidden` vừa còn
+  // class reveal.
+  &__item[hidden],
+  .js &__item[hidden] {
+    display: none;
+  }
+
   // --- "XEM THÊM" giữa 2 đường kẻ (Figma node 746:284) ------------------
   // Chữ cam 18px Roboto Regular, gạch chân 3px cam, 2 đường kẻ mảnh kéo dài
   // hai bên. Cùng dựng như .ecs-news__more của khối tin trang chủ, chỉ khác

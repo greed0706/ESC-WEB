@@ -60,7 +60,7 @@ $about_link = ecsges_field('about_cta_link', ecsges_category_link('linh-vuc-hoat
 				<?php endforeach; ?>
 			</div>
 			<div class="ecs-about__cta-wrap">
-				<?php ecsges_see_more($about_link, $about_label, 'ecs-about__cta'); ?>
+				<?php ecsges_see_more($about_link, $about_label, 'ecs-news-card__more'); ?>
 			</div>
 		</div>
 

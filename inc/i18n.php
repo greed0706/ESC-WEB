@@ -422,6 +422,8 @@ Applied technology and consolidated the organisation',
 		'Địa điểm'               => 'Workplace',
 		'Kinh nghiệm'            => 'Experience',
 		'Thời hạn ứng tuyển'     => 'Application deadline',
+		// Nhãn ngắn ở cuối dòng ghi chú trên card việc làm ("Hạn: 15/08/2026").
+		'Hạn'                    => 'Deadline',
 		'Quyền lợi ứng viên'     => 'Candidate benefits',
 		'Địa điểm và thời gian'  => 'Location & working hours',
 		'3 năm'                  => '3 years',

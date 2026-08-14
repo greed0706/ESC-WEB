@@ -1337,6 +1337,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  margin-top: auto;
   min-height: 190px;
   background: #fff;
   // Figma: ô logo cách mép trái 27 / mép trên 16; đường kẻ kết thúc cách
@@ -1457,14 +1458,31 @@
     color: $ink;
   }
 
-  // Figma "Line 30" + ghi chú 18px Light #a4a4a4.
+  // Figma "Line 30" + ghi chú 18px Light #a4a4a4. Ghi chú kinh nghiệm bên trái,
+  // hạn nộp hồ sơ bám mép phải trên cùng một dòng.
   &__note {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
     margin: 14px 0 0;
     padding-block-start: 7px;
     border-top: 1px solid #d9d9d9;
     @include text-sm;
     font-weight: 300;
     color: #a4a4a4;
+  }
+
+  // Ghi chú co lại (cắt "…") để nhãn hạn không bao giờ bị đẩy xuống dòng.
+  &__note-text {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__deadline {
+    flex: 0 0 auto;
   }
 
   // Chưa có Page chi tiết tương ứng: card vẫn hiện cho đúng bố cục nhưng
