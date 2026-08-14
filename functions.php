@@ -382,29 +382,6 @@ function ecsges_category_link($slug, $fallback = '')
 }
 
 /**
- * Chuyên mục đang lọc trên trang Tin tức (?chuyen-muc=<slug>) — đọc từ query
- * string thay vì điều hướng sang category.php, để tab vẫn ở lại page-tin-tuc.php.
- *
- * Chỉ chấp nhận slug nằm trong danh sách tab thật (ecsges_news_tabs()), tránh
- * truyền category_name bất kỳ vào WP_Query từ tham số URL do người dùng gõ tay.
- *
- * @return string Slug chuyên mục hợp lệ, hoặc '' (= tab "Về ECSGES", tất cả tin).
- */
-function ecsges_tin_tuc_active_cat()
-{
-	if (empty($_GET['chuyen-muc'])) {
-		return '';
-	}
-	$slug = sanitize_title(wp_unslash($_GET['chuyen-muc']));
-	foreach (ecsges_news_tabs() as $tab) {
-		if ('' !== $tab['cat'] && $tab['cat'] === $slug) {
-			return $slug;
-		}
-	}
-	return '';
-}
-
-/**
  * ID chuyên mục theo slug, đã ánh xạ sang bản dịch của ngôn ngữ đang xem.
  *
  * Tra theo SLUG chứ không hardcode ID vì mỗi site (local/production) đánh ID

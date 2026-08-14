@@ -391,6 +391,15 @@ Applied technology and consolidated the organisation',
 		// 'VĂN HÓA ECS' viết "HÓA", khác dấu với 'Văn hoá ECS' ở footer → cần khoá riêng.
 		'VĂN HÓA ECS'            => 'ECS CULTURE',
 
+		/* Trang Tuyển dụng — 3 câu tiêu đề chạy luân phiên (ecsges_jobs_headlines()) */
+		'GIA NHẬP ECSGES,'            => 'JOIN ECSGES,',
+		'KIẾN TẠO TƯƠNG LAI GIÁO DỤC' => 'SHAPING THE FUTURE OF EDUCATION',
+		'NƠI BẠN'                     => 'WHERE YOU',
+		'PHÁT TRIỂN, CỐNG HIẾN VÀ TỎA SÁNG' => 'GROW, CONTRIBUTE AND SHINE',
+		'KHÁM PHÁ'                    => 'DISCOVER',
+		'VỊ TRÍ PHÙ HỢP'              => 'THE RIGHT ROLE',
+		'TẠI ECSGES'                  => 'AT ECSGES',
+
 		/* Trang Tuyển dụng — bộ lọc + form ứng tuyển */
 		'Bộ lọc'                 => 'Filters',
 		'Khu vực'                => 'Location',
@@ -435,6 +444,17 @@ Applied technology and consolidated the organisation',
 		'Khối giảng viên'                        => 'Teaching Staff',
 		'Bán thời gian'                          => 'Part-time',
 		'Thực tập'                               => 'Internship',
+		/* Cấp bậc (ecsges_job_levels() — select "Cấp bậc" + field ACF job_level) */
+		'Cộng tác viên'                          => 'Collaborator',
+		'Thực tập sinh'                          => 'Intern',
+		'Nhân viên'                              => 'Staff',
+		'Chuyên viên'                            => 'Specialist',
+		'Giảng viên'                             => 'Lecturer',
+		'Trưởng nhóm'                            => 'Team Leader',
+		'Phó phòng'                              => 'Deputy Manager',
+		'Trưởng phòng'                           => 'Manager',
+		'Phó Giám đốc'                           => 'Deputy Director',
+		'Giám đốc'                               => 'Director',
 		'Tất cả công việc'       => 'All jobs',
 		'ỨNG TUYỂN NGAY'         => 'APPLY NOW',
 		'NỘP ĐƠN ỨNG TUYỂN'      => 'SUBMIT YOUR APPLICATION',

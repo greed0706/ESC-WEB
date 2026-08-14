@@ -52,7 +52,7 @@ $ecsges_tel = preg_replace('/\./', '', $ecsges_contact['phone']);
 			<?php endforeach; ?>
 
 			<div class="ecs-footer__col">
-				<h2 class="ecs-footer__col-title"><?php echo esc_html(ecsges_t('ĐỊA CHỈ')); ?></h2>
+				<h2 class="ecs-footer__col-title"><?php echo esc_html(ecsges_t('LIÊN HỆ')); ?></h2>
 				<ul class="ecs-footer__contact">
 					<li class="ecs-footer__contact-item">
 						<img src="<?php echo esc_url(ecsges_img('footer-pin.svg')); ?>" alt="" aria-hidden="true"

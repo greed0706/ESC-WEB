@@ -1081,8 +1081,12 @@
     @include container;
   }
 
-  // Figma: 50px Medium, line-height 68 (=1.36), 2 dòng canh giữa,
-  // dòng 2 màu cam.
+  // Figma: 50px Medium, line-height 68 (=1.36), canh giữa, cụm nhấn màu cam.
+  //
+  // Nay là BĂNG CHUYỀN 3 câu (ecsges_jobs_headlines()): các câu xếp CHỒNG trong
+  // cùng một ô grid nên chiều cao khối = câu cao nhất → đổi câu không làm nhảy
+  // layout. Xếp chồng chỉ bật dưới .js; không JS thì 3 câu rơi về xếp dọc bình
+  // thường (xấu hơn nhưng đọc được, không đè lên nhau).
   &__heading {
     margin: 0;
     text-align: center;
@@ -1100,11 +1104,54 @@
     @include bp(lg) {
       font-size: $fs-lg;
     }
+
+    .js & {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      // Câu ngắt 2 dòng và câu 1 dòng dùng chung ô grid: canh giữa theo trục
+      // dọc để câu ngắn không bị dồn lên đỉnh khối.
+      align-items: center;
+    }
   }
 
-  &__heading-line {
+  &__heading-slide {
     display: block;
 
+    // Trạng thái nghỉ: nằm dưới, mờ, ẩn khỏi cây trợ năng (visibility) để
+    // aria-labelledby không đọc gộp cả 3 câu.
+    .js & {
+      grid-area: 1 / 1;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(18px);
+      transition:
+        opacity 0.55s ease,
+        transform 0.55s ease,
+        visibility 0s linear 0.55s;
+    }
+
+    // Câu đang rời đi: mờ dần + trượt LÊN (ngược chiều câu mới đi vào).
+    .js &.is-leaving {
+      opacity: 0;
+      visibility: visible;
+      transform: translateY(-18px);
+      transition:
+        opacity 0.55s ease,
+        transform 0.55s ease;
+    }
+
+    .js &.is-active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition:
+        opacity 0.55s ease,
+        transform 0.55s ease;
+    }
+  }
+
+  // Các cụm chảy inline (chỗ ngắt dòng do bề rộng quyết định), cụm nhấn tô cam.
+  &__heading-line {
     &--accent {
       color: $brand-light;
     }

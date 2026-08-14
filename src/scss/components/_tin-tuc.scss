@@ -62,10 +62,17 @@ $newsroom-hairline: #a4a4a4;
 
   // Figma: 26px, tab đang chọn Medium #f26522, còn lại Light #747272.
   // Gạch cam 4px của tab đang chọn nằm đè lên đường kẻ đáy của &__tablist.
+  //
+  // Giờ là <button role="tab"> (JS lọc tại chỗ, xem tin-tuc-tabs.php) chứ
+  // không phải <a> nữa — reset hết chrome mặc định của button trước khi áp
+  // style chữ như cũ.
   &__tab {
     position: relative;
     display: block;
+    padding-inline: 0;
     padding-block: 8px 33px; // Figma: đáy nhãn 746 → gạch cam 783
+    border: 0;
+    background: none;
     font-family: $font-display;
     font-size: 18px;
     font-weight: 300;
@@ -74,6 +81,7 @@ $newsroom-hairline: #a4a4a4;
     white-space: nowrap;
     color: $muted-2;
     text-decoration: none;
+    cursor: pointer;
     transition: color 0.15s ease;
 
     @include bp(lg) {
@@ -245,21 +253,16 @@ $newsroom-hairline: #a4a4a4;
   }
 
   // --- Dãy nút số trang (Figma: Ø44, gap 13, canh giữa, cách lưới 77px) ---
-  // Chỉ render khi tổng số bài > 9 (tin-tuc-grid.php). Markup do
-  // paginate_links(type=array) sinh ra nên phần tử bên trong là <a>/<span>
-  // mang class .page-numbers (+ .current cho trang đang xem, .dots cho "…").
+  // Dựng hoàn toàn bằng JS (initNewsTabsGrid trong assets/js/main.js) — mỗi
+  // nút là <button class="page-numbers"> (+ .current cho trang đang xem).
+  // Ẩn/hiện qua thuộc tính `hidden` do JS gắn trực tiếp, không còn cần gate
+  // .is-pending/.js: tắt JS thì <nav> giữ nguyên `hidden` mặc định từ PHP —
+  // hợp lý vì lúc đó lưới cũng hiện đủ bài, không phân trang.
   &__pagination {
     margin-block-start: 40px;
 
     @include bp(lg) {
       margin-block-start: 77px;
-    }
-
-    // Trang 1 khi còn nút "XEM THÊM": dãy số trang nằm sẵn trong DOM nhưng ẩn,
-    // initNewsLoadMore() gỡ .is-pending lúc mở đủ 9 bài. Gate bằng .js để tắt
-    // JS thì dãy số vẫn hiện (lúc đó lưới cũng hiện đủ bài).
-    .js &.is-pending {
-      display: none;
     }
   }
 
@@ -277,12 +280,16 @@ $newsroom-hairline: #a4a4a4;
   &__page {
     display: flex;
 
+    // JS dựng bằng <button> (initNewsTabsGrid) chứ không còn <a> của
+    // paginate_links() nữa — reset chrome mặc định của button trước khi áp
+    // cùng style tròn với trước.
     .page-numbers {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 44px;
       height: 44px;
+      border: 0;
       border-radius: 50%;
       background: #f3f3f3;
       font-family: $font-sans;
@@ -292,11 +299,12 @@ $newsroom-hairline: #a4a4a4;
       letter-spacing: $ls-base;
       color: $newsroom-hairline;
       text-decoration: none;
+      cursor: pointer;
       transition: background-color 0.15s ease, color 0.15s ease;
     }
 
-    a.page-numbers:hover,
-    a.page-numbers:focus-visible {
+    .page-numbers:hover,
+    .page-numbers:focus-visible {
       background: $placeholder;
       color: $ink;
     }

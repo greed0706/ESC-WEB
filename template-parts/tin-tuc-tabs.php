@@ -8,12 +8,13 @@
  * Gạch cam dưới tab đang chọn cao 4px, nằm trên đường kẻ mảnh chạy hết
  * chiều ngang container (y=785).
  *
- * Tab lọc TẠI CHỖ trên chính page-tin-tuc.php — <a> trỏ về '/tin-tuc/?chuyen-muc=<slug>'
- * (KHÔNG còn điều hướng sang archive category.php); tin-tuc-grid.php đọc lại
- * query string đó (qua ecsges_tin_tuc_active_cat()) để lọc WP_Query. Do vẫn là
- * link <a> thường (không phải tab đổi nội dung bằng JS) nên không có
- * role="tablist"/role="tab", chỉ class .is-active + aria-current="page". Tab
- * "Về ECSGES" (cat rỗng) = tất cả tin, link về thẳng '/tin-tuc/' không kèm query.
+ * Tab lọc TẠI CHỖ bằng JS — giống initEcosystemTabs()/initJobsFilter(): toàn bộ
+ * bài viết đã được tin-tuc-grid.php query & in ra DOM sẵn (data-news-item), tab
+ * chỉ ẩn/hiện chứ KHÔNG điều hướng/reload (bỏ hẳn cách cũ dùng ?chuyen-muc= +
+ * WP_Query lại). Vì vậy đây là <button role="tab"> (giống section-ecosystem.php),
+ * không phải <a> — initNewsTabsGrid() trong assets/js/main.js gắn JS lọc theo
+ * data-news-tab, khớp data-cats của từng bài (template-parts/tin-tuc-grid.php).
+ * Tab "Về ECSGES" (cat rỗng) = tất cả tin, LUÔN active mặc định lúc tải trang.
  *
  * @package ECSGES
  */
@@ -22,38 +23,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$tt_tabs    = ecsges_news_tabs();
-$tt_current = isset( $args['current'] ) ? $args['current'] : '';
-
-// Không ở trong archive category nào (current = '') thì tab đầu — "Về ECSGES",
-// tức toàn bộ tin — chính là tab đang xem.
-$tt_has_active = false;
-foreach ( $tt_tabs as $tt_tab ) {
-	if ( '' !== $tt_tab['cat'] && $tt_tab['cat'] === $tt_current ) {
-		$tt_has_active = true;
-		break;
-	}
-}
+$tt_tabs = ecsges_news_tabs();
 ?>
 <nav class="ecs-newsroom__tabs" aria-label="<?php echo esc_attr( ecsges_t( 'Chủ đề tin tức' ) ); ?>">
 	<div class="ecs-newsroom__tabs-inner">
-		<ul class="ecs-newsroom__tablist">
-			<?php foreach ( $tt_tabs as $tt_i => $tab ) : ?>
-				<?php
-				$is_active = ( '' === $tab['cat'] )
-					? ! $tt_has_active
-					: ( $tab['cat'] === $tt_current );
-
-				// cat rỗng = trang Tin tức (tất cả tin), không kèm query; ngược lại
-				// gắn ?chuyen-muc=<slug> vào CHÍNH trang Tin tức — không rời trang.
-				$tt_home = ecsges_translate_path( '/tin-tuc/' );
-				$tt_href = '' === $tab['cat'] ? $tt_home : add_query_arg( 'chuyen-muc', $tab['cat'], $tt_home );
-				?>
+		<ul class="ecs-newsroom__tablist" role="tablist" data-news-tabs>
+			<?php foreach ( $tt_tabs as $tab ) : ?>
+				<?php $is_active = ( '' === $tab['cat'] ); ?>
 				<li class="ecs-newsroom__tab-wrap">
-					<a
-						href="<?php echo esc_url( $tt_href ); ?>"
+					<button
+						type="button"
+						role="tab"
+						data-news-tab="<?php echo esc_attr( $tab['cat'] ); ?>"
+						aria-selected="<?php echo $is_active ? 'true' : 'false'; ?>"
+						aria-controls="tin-tuc-grid-list"
 						class="ecs-newsroom__tab<?php echo $is_active ? ' is-active' : ''; ?>"
-						<?php echo $is_active ? ' aria-current="page"' : ''; ?>><?php echo esc_html( ecsges_t( $tab['label'] ) ); ?></a>
+					><?php echo esc_html( ecsges_t( $tab['label'] ) ); ?></button>
 				</li>
 			<?php endforeach; ?>
 		</ul>

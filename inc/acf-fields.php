@@ -222,7 +222,16 @@ add_action(
 					$text( 'job_deadline', 'Thời hạn ứng tuyển', '15/08/2026' ),
 					// --- Khối "Tổng quan" + sidebar "Thông tin chung" (Figma 715:1458).
 					// Các field dạng textarea nhận MỖI DÒNG 1 thẻ chip.
-					$text( 'job_level', 'Cấp bậc', 'Chuyên viên' ),
+					// Dropdown thay vì nhập tay: giá trị phải khớp đúng option của select
+					// "Cấp bậc" ngoài trang danh sách thì bộ lọc mới lọc trúng. Danh sách
+					// choices lấy từ ecsges_job_levels() (inc/data.php) — sửa ở đó là đủ.
+					$select(
+						'job_level',
+						'Cấp bậc',
+						array_combine( ecsges_job_levels(), ecsges_job_levels() ),
+						'Chuyên viên',
+						'Chọn 1 cấp bậc — dùng làm khoá cho bộ lọc "Cấp bậc" ở trang Tuyển dụng.'
+					),
 					$text( 'job_education', 'Học vấn', 'Cao đẳng trở lên' ),
 					$text( 'job_headcount', 'Số lượng tuyển', '2 người' ),
 					$text( 'job_work_form', 'Hình thức làm việc', 'Làm việc tại văn phòng' ),

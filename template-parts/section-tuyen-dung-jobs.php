@@ -34,6 +34,7 @@ foreach ( ecsges_jobs_list() as $ecsges_job_raw ) {
 	$ecsges_job_tr['key_location']   = $ecsges_job_raw['location'];
 	$ecsges_job_tr['key_department'] = $ecsges_job_raw['department'];
 	$ecsges_job_tr['key_type']       = $ecsges_job_raw['type'];
+	$ecsges_job_tr['key_level']      = isset( $ecsges_job_raw['level'] ) ? $ecsges_job_raw['level'] : '';
 	$ecsges_jobs_all[]               = $ecsges_job_tr;
 }
 
@@ -46,17 +47,52 @@ $ecsges_jobs_arw  = ecsges_img( 'arrow.svg' );
 // xem inc/acf-fields.php / inc/data.php::ecsges_jobs_list()).
 $ecsges_jobs_logo = ecsges_img( 'hero-mark.svg' );
 
+/*
+ * 3 câu tiêu đề chạy luân phiên (inc/data.php::ecsges_jobs_headlines()).
+ *
+ * QUY TẮC NGẮT DÒNG: xuống dòng ngay sau MỌI dấu phẩy. Dấu phẩy có thể nằm ở
+ * cuối một cụm (câu 1: "GIA NHẬP ECSGES," | "KIẾN TẠO…") hoặc nằm giữa một cụm
+ * (câu 2: "PHÁT TRIỂN," | "CỐNG HIẾN…") nên phải xử lý cả hai chỗ. Câu không có
+ * dấu phẩy giữ nguyên một dòng.
+ *
+ * Dựng sẵn HTML ở đây cho phần markup bên dưới gọn; chuỗi đã qua esc_html()
+ * trước khi chèn <br> nên an toàn.
+ */
+$ecsges_jobs_headlines = array();
+foreach ( ecsges_jobs_headlines() as $ecsges_hl ) {
+	$ecsges_hl_html = '';
+	$ecsges_hl_prev = '';
+	foreach ( $ecsges_hl as $ecsges_hl_part ) {
+		$ecsges_hl_txt = ecsges_t( $ecsges_hl_part['text'] );
+		$ecsges_hl_cls = 'ecs-jobs__heading-line';
+		if ( ! empty( $ecsges_hl_part['accent'] ) ) {
+			$ecsges_hl_cls .= ' ecs-jobs__heading-line--accent';
+		}
+		if ( '' !== $ecsges_hl_html ) {
+			// Cụm trước kết thúc bằng dấu phẩy → ngắt dòng thay cho dấu cách.
+			$ecsges_hl_html .= ( ',' === substr( rtrim( $ecsges_hl_prev ), -1 ) ) ? '<br>' : ' ';
+		}
+		$ecsges_hl_html .= '<span class="' . esc_attr( $ecsges_hl_cls ) . '">'
+			// Dấu phẩy nằm GIỮA cụm: cắt luôn khoảng trắng đi sau nó.
+			. str_replace( ', ', ',<br>', esc_html( $ecsges_hl_txt ) )
+			. '</span>';
+		$ecsges_hl_prev = $ecsges_hl_txt;
+	}
+	$ecsges_jobs_headlines[] = $ecsges_hl_html;
+}
+
 // Danh sách đổ vào 3 select bộ lọc (inc/data.php).
-$ecsges_job_areas = ecsges_job_areas();
-$ecsges_job_depts = ecsges_job_departments();
-$ecsges_job_types = ecsges_job_types();
+$ecsges_job_areas  = ecsges_job_areas();
+$ecsges_job_depts  = ecsges_job_departments();
+$ecsges_job_levels = ecsges_job_levels();
 ?>
 <section id="tuyen-dung-jobs" aria-labelledby="tuyen-dung-jobs-heading" class="ecs-jobs">
 	<div class="ecs-jobs__head">
 		<div class="ecs-jobs__head-inner">
-			<h1 id="tuyen-dung-jobs-heading" class="ecs-jobs__heading" data-aos="fade-up">
-				<span class="ecs-jobs__heading-line"><?php echo esc_html( ecsges_t( 'CÔNG VIỆC' ) ); ?></span>
-				<span class="ecs-jobs__heading-line ecs-jobs__heading-line--accent"><?php echo esc_html( ecsges_t( 'PHÙ HỢP VỚI BẠN' ) ); ?></span>
+			<h1 id="tuyen-dung-jobs-heading" class="ecs-jobs__heading" data-aos="fade-up" data-jobs-headline data-interval="4000">
+				<?php foreach ( $ecsges_jobs_headlines as $ecsges_hl_i => $ecsges_headline ) : ?>
+					<span class="ecs-jobs__heading-slide<?php echo 0 === $ecsges_hl_i ? ' is-active' : ''; ?>" data-jobs-headline-slide><?php echo $ecsges_headline; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped — đã escape từng cụm ở trên ?></span>
+				<?php endforeach; ?>
 			</h1>
 
 			<div class="ecs-jobs__searchbar" data-aos="fade-up" data-aos-delay="80">
@@ -81,11 +117,11 @@ $ecsges_job_types = ecsges_job_types();
 				</div>
 
 				<div class="ecs-jobs__field">
-					<label class="ecs-jobs__label" for="jobs-filter-type"><?php echo esc_html( ecsges_t( 'Cấp bậc' ) ); ?></label>
-					<select id="jobs-filter-type" class="ecs-jobs__select" data-jobs-filter="type">
+					<label class="ecs-jobs__label" for="jobs-filter-level"><?php echo esc_html( ecsges_t( 'Cấp bậc' ) ); ?></label>
+					<select id="jobs-filter-level" class="ecs-jobs__select" data-jobs-filter="level">
 						<option value=""><?php echo esc_html( ecsges_t( '- Chọn cấp bậc -' ) ); ?></option>
-						<?php foreach ( $ecsges_job_types as $ecsges_job_type ) : ?>
-							<option value="<?php echo esc_attr( $ecsges_job_type ); ?>"><?php echo esc_html( ecsges_t( $ecsges_job_type ) ); ?></option>
+						<?php foreach ( $ecsges_job_levels as $ecsges_job_level ) : ?>
+							<option value="<?php echo esc_attr( $ecsges_job_level ); ?>"><?php echo esc_html( ecsges_t( $ecsges_job_level ) ); ?></option>
 						<?php endforeach; ?>
 					</select>
 				</div>
@@ -116,7 +152,8 @@ $ecsges_job_types = ecsges_job_types();
 								data-job
 								data-location="<?php echo esc_attr( $ecsges_job['key_location'] ); ?>"
 								data-department="<?php echo esc_attr( $ecsges_job['key_department'] ); ?>"
-								data-type="<?php echo esc_attr( $ecsges_job['key_type'] ); ?>">
+								data-type="<?php echo esc_attr( $ecsges_job['key_type'] ); ?>"
+								data-level="<?php echo esc_attr( $ecsges_job['key_level'] ); ?>">
 
 								<?php if ( ! empty( $ecsges_job['tag'] ) ) : ?>
 									<span class="ecs-job-card__badge"><?php echo esc_html( ecsges_t( 'Nổi bật' ) ); ?></span>

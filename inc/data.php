@@ -66,8 +66,7 @@ function ecsges_ecosystem_tabs()
 			'image' => 'he-sinh-thai/huong-nghiep.jpg',
 			'label' => 'HƯỚNG NGHIỆP',
 			'title' => 'HƯỚNG NGHIỆP',
-			'body' => 'ECS phát triển lớn mạnh dưới sự dẫn dắt tâm huyết và bề dày kinh nghiệm của đội ngũ lãnh đạo trẻ, cùng với sự năng động, sáng tạo, đoàn kết của nhiều lớp nhân viên.
-						Sau hơn 9 năm, ECS đã khẳng định được vị thế trên thị trường ở các lĩnh vực tuyển sinh, hướng nghiệp khởi nghiệp, việc làm, giáo dục, truyền thông và công nghệ số.',
+			'body' => 'ECSGES đồng hành cùng học sinh, sinh viên trên hành trình khám phá bản thân, định hình mục tiêu nghề nghiệp và lựa chọn lộ trình học tập phù hợp. Thông qua các chương trình tư vấn, trải nghiệm thực tế và cập nhật xu hướng thị trường lao động, chúng tôi giúp người học xây dựng nền tảng vững chắc để phát triển trong môi trường làm việc hiện đại và hội nhập.',
 		),
 		array(
 			'id' => 'tuyen-sinh',
@@ -619,6 +618,36 @@ function ecsges_ptbv_guides()
 	);
 }
 
+/**
+ * Trang Tuyển dụng — các câu tiêu đề <h1> chạy luân phiên (fade + trượt lên,
+ * xem initJobsHeadline() trong assets/js/main.js).
+ *
+ * Mỗi câu là một mảng CỤM chữ; cụm 'accent' => true được tô cam
+ * (.ecs-jobs__heading-line--accent), còn lại giữ màu mực
+ * (.ecs-jobs__heading-line). Các cụm chảy inline nên chỗ ngắt dòng do bề rộng
+ * quyết định — không cố định như bố cục 2 dòng cũ.
+ *
+ * Thêm/bớt câu ở đây là đủ; template và JS tự chạy theo số lượng.
+ */
+function ecsges_jobs_headlines()
+{
+	return array(
+		array(
+			array('text' => 'GIA NHẬP ECSGES,', 'accent' => false),
+			array('text' => 'KIẾN TẠO TƯƠNG LAI GIÁO DỤC', 'accent' => true),
+		),
+		array(
+			array('text' => 'NƠI BẠN', 'accent' => false),
+			array('text' => 'PHÁT TRIỂN, CỐNG HIẾN VÀ TỎA SÁNG', 'accent' => true),
+		),
+		array(
+			array('text' => 'KHÁM PHÁ', 'accent' => false),
+			array('text' => 'VỊ TRÍ PHÙ HỢP', 'accent' => true),
+			array('text' => 'TẠI ECSGES', 'accent' => false),
+		),
+	);
+}
+
 /** Bộ lọc Tuyển dụng — danh sách khu vực. */
 function ecsges_job_areas()
 {
@@ -650,7 +679,34 @@ function ecsges_job_departments()
 	);
 }
 
-/** Bộ lọc Tuyển dụng — danh sách loại công việc. */
+/**
+ * Bộ lọc Tuyển dụng — danh sách cấp bậc (select thứ 3 "Cấp bậc").
+ *
+ * Đây cũng là danh sách choices của field ACF 'job_level' (inc/acf-fields.php)
+ * nên giá trị admin chọn cho từng tin luôn khớp đúng option trong bộ lọc.
+ * Sửa danh sách này là sửa cả hai chỗ.
+ */
+function ecsges_job_levels()
+{
+	return array(
+		'Cộng tác viên',
+		'Thực tập sinh',
+		'Nhân viên',
+		'Chuyên viên',
+		'Giảng viên',
+		'Trưởng nhóm',
+		'Phó phòng',
+		'Trưởng phòng',
+		'Phó Giám đốc',
+		'Giám đốc',
+	);
+}
+
+/**
+ * Danh sách loại công việc (field ACF 'job_type', hiện ở trang chi tiết).
+ * KHÔNG còn đổ vào select bộ lọc — select thứ 3 nay là "Cấp bậc"
+ * (ecsges_job_levels()). Giữ lại vì job_type vẫn là dữ liệu của từng tin.
+ */
 function ecsges_job_types()
 {
 	return array(
@@ -669,6 +725,7 @@ function ecsges_jobs()
 			'location' => 'Hà Nội',
 			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
 			'type' => 'Toàn thời gian',
+			'level' => 'Nhân viên',
 			'deadline' => 'Thời hạn: 20/7/2026',
 			'tag' => 'hot',
 		),
@@ -677,6 +734,7 @@ function ecsges_jobs()
 			'location' => 'Hà Nội',
 			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
 			'type' => 'Toàn thời gian',
+			'level' => 'Nhân viên',
 			'deadline' => 'Thời hạn: 20/7/2026',
 			'tag' => 'new',
 		),
@@ -685,6 +743,7 @@ function ecsges_jobs()
 			'location' => 'Hà Nội',
 			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
 			'type' => 'Toàn thời gian',
+			'level' => 'Nhân viên',
 			'deadline' => 'Thời hạn: 20/7/2026',
 			'tag' => 'new',
 		),
@@ -693,6 +752,7 @@ function ecsges_jobs()
 			'location' => 'Hà Nội',
 			'department' => 'Phòng Công nghệ thông tin và Truyền thông',
 			'type' => 'Toàn thời gian',
+			'level' => 'Nhân viên',
 			'deadline' => 'Thời hạn: 20/7/2026',
 			'tag' => 'new',
 		),
@@ -738,6 +798,8 @@ function ecsges_jobs_list()
 			'location' => ecsges_field_page($p->ID, 'job_location', ''),
 			'department' => ecsges_field_page($p->ID, 'job_department', ''),
 			'type' => ecsges_field_page($p->ID, 'job_type', ''),
+			// Cấp bậc — khoá của select bộ lọc thứ 3 (ecsges_job_levels()).
+			'level' => ecsges_field_page($p->ID, 'job_level', ''),
 			'deadline' => ecsges_field_page($p->ID, 'job_deadline', ''),
 			// Figma node 724:1878 hiện thêm mức lương + ghi chú kinh nghiệm trên
 			// card danh sách; 2 field ACF này vốn đã có sẵn cho trang chi tiết.

@@ -12,8 +12,9 @@
     initMobileMenu();
     initEcosystemTabs();
     initNewsPagination();
-    initNewsLoadMore();
+    initNewsTabsGrid();
     initJobsFilter();
+    initJobsHeadline();
     initJobModal();
     initStickyHeader();
     initAOS();
@@ -485,65 +486,153 @@
 
   /* ---------------------------------------------------------------- */
   /**
-   * Trang Tin tức: lưới hiện 3 bài, bấm "XEM THÊM" hiện thêm 1 hàng nữa.
+   * Trang Tin tức: tab chuyên mục + lưới + "XEM THÊM" + phân trang, TẤT CẢ chạy
+   * bằng JS trên dữ liệu đã query sẵn — không round-trip request nào khi đổi
+   * tab hay đổi trang (đúng kiểu "query trước, ẩn/hiện sau" của bản React cũ).
    *
-   * Các bài ẩn sẵn mang class .ecs-news-grid__item--extra (gắn từ
-   * template-parts/tin-tuc-grid.php) và CSS chỉ ẩn chúng khi <html> có class
-   * .js — nên tắt JS thì trang hiện đủ bài, không cần hàm này chạy.
+   * template-parts/tin-tuc-grid.php in ra MỌI bài viết dưới dạng [data-news-item]
+   * kèm data-cats (mọi slug chuyên mục của bài đó, cách nhau bởi dấu cách). Tab
+   * ở tin-tuc-tabs.php ([data-news-tab]) chỉ đổi biến `filter` trong bộ nhớ rồi
+   * gọi lại render() — không có <a>, không có URL nào bị đổi.
    *
-   * KHÔNG dùng chung attribute với initNewsPagination(): hàm kia bám
-   * [data-news] / [data-news-page] của khối tin trang chủ.
+   * Lưới 9 bài/trang, TRANG 1 hiện 3 bài trước (nút "XEM THÊM" mở dần từng đợt
+   * 3 bài, cùng hiệu ứng trôi-lên với bản cũ), từ trang 2 trở đi (chấm phân
+   * trang) mở đủ 9 ngay. Đổi tab luôn quay về trang 1.
+   *
+   * Không JS: tin-tuc-grid.php không ẩn sẵn bài nào (không còn gắn class
+   * --extra lúc SSR) nên tắt JS vẫn thấy đủ tất cả bài, phẳng, không phân
+   * trang — tab lúc đó chỉ còn là nhãn tĩnh, không làm gì (chấp nhận được vì
+   * không có URL/category nào để điều hướng tới nữa).
    */
-  function initNewsLoadMore() {
+  function initNewsTabsGrid() {
     var grid = document.querySelector('[data-news-grid]');
-    var btn = document.querySelector('[data-news-more]');
-    var wrap = document.querySelector('[data-news-more-wrap]');
-    if (!grid || !btn) return;
+    if (!grid) return;
 
-    // Dãy nút số trang chờ sẵn dưới lưới với class .is-pending (ẩn bằng CSS,
-    // chỉ khi <html> có .js). Nó chỉ được hiện khi nút "XEM THÊM" hết việc.
-    var pages = document.querySelector('[data-news-pages].is-pending');
-
-    function finish() {
-      if (wrap) wrap.hidden = true;
-      if (pages) pages.classList.remove('is-pending');
-    }
-
-    var hidden = Array.prototype.slice.call(
-      grid.querySelectorAll('.ecs-news-grid__item--extra')
-    );
-    if (!hidden.length) {
-      finish();
-      return;
-    }
+    var items = Array.prototype.slice.call(grid.querySelectorAll('[data-news-item]')).map(function (el) {
+      return { el: el, cats: (el.getAttribute('data-cats') || '').split(/\s+/).filter(Boolean) };
+    });
+    if (!items.length) return;
 
     var step = parseInt(grid.getAttribute('data-news-step'), 10) || 3;
+    var per = parseInt(grid.getAttribute('data-news-per'), 10) || 9;
 
-    btn.addEventListener('click', function () {
-      // Lấy đúng `step` phần tử đầu tiên chưa mở, mở rồi bỏ khỏi hàng đợi.
-      var batch = hidden.splice(0, step);
+    var tabsRoot = document.querySelector('[data-news-tabs]');
+    var tabs = tabsRoot ? Array.prototype.slice.call(tabsRoot.querySelectorAll('[data-news-tab]')) : [];
 
-      // Bước 1: đưa card vào lưới (display none -> flex) ở trạng thái mờ + thấp.
-      batch.forEach(function (item) {
-        item.classList.add('is-revealed');
+    var moreWrap = document.querySelector('[data-news-more-wrap]');
+    var moreBtn = document.querySelector('[data-news-more]');
+    var nav = document.querySelector('[data-news-pagination]');
+    var dotsWrap = nav ? nav.querySelector('[data-news-pages]') : null;
+    var empty = document.querySelector('[data-news-empty]');
+
+    var filter = '';
+    var page = 0;
+    var pending = []; // bài của trang 1 chưa lộ diện, chờ bấm "XEM THÊM"
+    var dotCount = 0;
+
+    function matches(it) {
+      return filter === '' || it.cats.indexOf(filter) !== -1;
+    }
+
+    function goToPage(n) {
+      page = n;
+      render();
+    }
+
+    function buildDots(count) {
+      dotCount = count;
+      if (!nav) return;
+      if (dotsWrap) dotsWrap.innerHTML = '';
+      nav.hidden = count <= 1;
+      if (count <= 1 || !dotsWrap) return;
+
+      var label = nav.getAttribute('data-page-label') || 'Trang';
+      for (var i = 0; i < count; i++) {
+        var li = document.createElement('li');
+        li.className = 'ecs-news-grid__page';
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'page-numbers' + (i === page ? ' current' : '');
+        dot.textContent = String(i + 1);
+        dot.setAttribute('aria-label', label + ' ' + (i + 1));
+        dot.addEventListener('click', (function (n) {
+          return function () { goToPage(n); };
+        })(i));
+        li.appendChild(dot);
+        dotsWrap.appendChild(li);
+      }
+    }
+
+    function render() {
+      var visible = items.filter(matches);
+      var count = Math.max(1, Math.ceil(visible.length / per));
+      if (page > count - 1) page = count - 1;
+      if (page < 0) page = 0;
+
+      var pageItems = visible.slice(page * per, page * per + per);
+
+      items.forEach(function (it) {
+        it.el.classList.remove('ecs-news-grid__item--extra', 'is-revealed', 'is-in');
+        it.el.hidden = pageItems.indexOf(it) === -1;
       });
 
-      // Ép trình duyệt tính lại layout NGAY. Không có dòng này thì nó gộp cả 2
-      // lần đổi class vào cùng một frame, không có trạng thái đầu để nội suy và
-      // card hiện ra bụp một cái thay vì trôi lên.
-      void grid.offsetHeight;
+      // Trang 1: chỉ `step` bài đầu lộ ngay, phần còn lại của trang xếp vào
+      // hàng đợi "XEM THÊM" (ẩn bằng class --extra, giống hệt bản cũ).
+      pending = (0 === page && pageItems.length > step) ? pageItems.slice(step) : [];
+      pending.forEach(function (it) {
+        it.el.classList.add('ecs-news-grid__item--extra');
+      });
 
-      // Bước 2: thả về vị trí thật, lệch nhau 70ms cho hàng card trôi lên so le.
-      requestAnimationFrame(function () {
-        batch.forEach(function (item, i) {
-          setTimeout(function () {
-            item.classList.add('is-in');
-          }, i * 70);
+      if (moreWrap) moreWrap.hidden = pending.length === 0;
+      if (empty) empty.hidden = visible.length > 0;
+
+      buildDots(count);
+      if (nav && pending.length > 0) nav.hidden = true; // chờ mở hết "XEM THÊM" mới hiện dãy số trang
+    }
+
+    if (moreBtn) {
+      moreBtn.addEventListener('click', function () {
+        var batch = pending.splice(0, step);
+
+        batch.forEach(function (it) {
+          it.el.classList.add('is-revealed');
         });
-      });
 
-      if (!hidden.length) finish();
+        // Ép tính lại layout NGAY để có trạng thái đầu cho transition nội suy,
+        // không thì card hiện ra bụp một cái thay vì trôi lên.
+        void grid.offsetHeight;
+
+        requestAnimationFrame(function () {
+          batch.forEach(function (it, i) {
+            setTimeout(function () {
+              it.el.classList.add('is-in');
+            }, i * 70);
+          });
+        });
+
+        if (!pending.length) {
+          if (moreWrap) moreWrap.hidden = true;
+          if (nav) nav.hidden = dotCount <= 1;
+        }
+      });
+    }
+
+    tabs.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var cat = btn.getAttribute('data-news-tab') || '';
+        if (cat === filter) return;
+        filter = cat;
+        page = 0;
+        tabs.forEach(function (t) {
+          var on = t === btn;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        render();
+      });
     });
+
+    render();
   }
 
   /* ---------------------------------------------------------------- */
@@ -768,9 +857,48 @@
   }
   /* ---------------------------------------------------------------- */
   /**
+   * Băng chuyền tiêu đề <h1> trang Tuyển dụng: 3 câu (ecsges_jobs_headlines())
+   * thay nhau hiện — câu cũ mờ dần + trượt LÊN, câu mới hiện lên TỪ DƯỚI.
+   *
+   * Các câu đã xếp chồng sẵn trong cùng một ô grid (SCSS), ở đây chỉ đảo class
+   * .is-active / .is-leaving; toàn bộ chuyển động là CSS transition.
+   *
+   * Tôn trọng "giảm chuyển động": không chạy vòng lặp, giữ nguyên câu đầu.
+   */
+  function initJobsHeadline() {
+    var root = document.querySelector('[data-jobs-headline]');
+    if (!root) return;
+
+    var slides = Array.prototype.slice.call(root.querySelectorAll('[data-jobs-headline-slide]'));
+    if (slides.length < 2) return;
+
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var interval = parseInt(root.getAttribute('data-interval'), 10) || 4000;
+    // Phải khớp thời lượng transition trong SCSS (.ecs-jobs__heading-slide).
+    var duration = 550;
+    var i = 0;
+
+    setInterval(function () {
+      var cur = slides[i];
+      i = (i + 1) % slides.length;
+      var next = slides[i];
+
+      cur.classList.remove('is-active');
+      cur.classList.add('is-leaving');
+      next.classList.add('is-active');
+
+      // Gỡ .is-leaving sau khi bay xong để câu đó về lại trạng thái nghỉ
+      // (nằm dưới, sẵn sàng cho vòng sau).
+      setTimeout(function () { cur.classList.remove('is-leaving'); }, duration);
+    }, interval);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /**
    * Bộ lọc + phân trang việc làm (trang Tuyển dụng).
    *
-   * Các thẻ job mang data-location / data-department / data-type là giá trị
+   * Các thẻ job mang data-location / data-department / data-level là giá trị
    * GỐC tiếng Việt, khớp với value của <option> trong 3 select — nên bộ lọc
    * chạy đúng cả khi giao diện đang hiển thị tiếng Anh.
    *

@@ -6,13 +6,14 @@
  *
  * Bố cục (theo Figma node 746:1184):
  *   1. page-hero (variant banner) — ảnh 1920x681, chữ "TIN TỨC" bake sẵn.
- *   2. tin-tuc-tabs — 6 tab chữ gạch chân, LỌC TẠI CHỖ qua ?chuyen-muc=<slug>.
- *   3. tin-tuc-grid — lưới card 3 cột (9 bài/trang) + phân trang tròn, tự lọc
- *      theo đúng chuyên mục đang chọn.
+ *   2. tin-tuc-tabs — 6 tab chữ gạch chân, LỌC BẰNG JS (không round-trip).
+ *   3. tin-tuc-grid — query TẤT CẢ bài 1 lần, lưới card 3 cột (9 bài/trang) +
+ *      phân trang tròn; tab ở (2) chỉ ẩn/hiện <li> đã có sẵn trong DOM, xem
+ *      initNewsTabsGrid() trong assets/js/main.js.
  *
  * Nội dung là BÀI VIẾT WP THẬT (WP_Query trong tin-tuc-grid.php), không còn
  * hardcode trong inc/data.php. `category.php` giữ nguyên cho các link chuyên
- * mục khác trên site — trang này không còn điều hướng sang đó nữa.
+ * mục khác trên site — trang này không điều hướng sang đó.
  *
  * @package ECSGES
  */
@@ -36,11 +37,8 @@ get_header();
 				'banner_title' => true,
 			)
 		);
-		// Chuyên mục đang lọc đọc từ ?chuyen-muc=<slug> (rỗng = tab "Về ECSGES",
-		// tất cả tin) — dùng chung cho cả tabs (tô sáng đúng tab) và grid (lọc post).
-		$ecsges_tt_active_cat = ecsges_tin_tuc_active_cat();
-		get_template_part( 'template-parts/tin-tuc', 'tabs', array( 'current' => $ecsges_tt_active_cat ) );
-		get_template_part( 'template-parts/tin-tuc', 'grid', array( 'current' => $ecsges_tt_active_cat ) );
+		get_template_part( 'template-parts/tin-tuc', 'tabs' );
+		get_template_part( 'template-parts/tin-tuc', 'grid' );
 		?>
 	</main>
 <?php
