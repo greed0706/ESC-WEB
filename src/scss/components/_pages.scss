@@ -1379,7 +1379,7 @@
     border: 1px solid #d9d9d9;
 
     img {
-      width: 55px;
+      width: 70px;
       height: auto;
     }
   }
@@ -1389,7 +1389,8 @@
     flex: 1 1 auto;
   }
 
-  // Figma: 26px Medium #000, line-height 32, tối đa 2 dòng.
+  // Figma: 26px Medium #000, line-height 32; theo yêu cầu giới hạn CÒN 1 dòng
+  // (Figma cho 2 dòng) — tiêu đề dài bị cắt "…" thay vì làm card cao thêm.
   &__title {
     margin: 0 0 4px;
     // Chừa chỗ cho badge ở góc trên phải để tiêu đề không chui xuống dưới nó.
@@ -1401,8 +1402,8 @@
     letter-spacing: $ls-base;
     color: $ink;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 
