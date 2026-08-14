@@ -212,9 +212,33 @@ add_action(
 					// Để trống dùng logo mặc định (hero-mark.svg) — xem section-tuyen-dung-jobs.php.
 					$image( 'job_logo', 'Ảnh đại diện (card danh sách)', 'Để trống dùng logo mặc định.' ),
 					$text( 'job_salary', 'Mức lương', 'Thoả thuận' ),
-					$text( 'job_location', 'Địa điểm', 'Hà Nội' ),
+					// Dropdown thay vì nhập tay — cùng lý do với 'job_department' /
+					// 'job_level' bên dưới: bộ lọc "Khu vực" so khớp CHUỖI CHÍNH XÁC.
+					// Choices lấy từ ecsges_job_areas() (inc/data.php). Lưu ý giá trị
+					// này còn hiện làm thẻ tag "địa điểm" trên card danh sách, nên chỉ
+					// nhận đúng tên khu vực — muốn thêm tỉnh/thành mới thì bổ sung vào
+					// ecsges_job_areas().
+					$select(
+						'job_location',
+						'Địa điểm',
+						array_combine( ecsges_job_areas(), ecsges_job_areas() ),
+						'Hà Nội',
+						'Chọn 1 khu vực — dùng làm khoá cho bộ lọc "Khu vực" ở trang Tuyển dụng.'
+					),
 					$text( 'job_experience', 'Kinh nghiệm', '3 năm' ),
-					$text( 'job_department', 'Phòng ban', 'Phòng Công nghệ thông tin và Truyền thông' ),
+					// Dropdown thay vì nhập tay — cùng lý do với 'job_level' bên dưới:
+					// bộ lọc "Phòng ban" ngoài trang danh sách so khớp CHUỖI CHÍNH XÁC
+					// (assets/js/main.js::initJobsFilter) nên gõ lệch một dấu/khoảng
+					// trắng là tin đó không bao giờ lọc ra. Choices lấy từ
+					// ecsges_job_departments() (inc/data.php) — đúng danh sách đổ vào
+					// select ngoài trang, sửa ở đó là khớp cả hai chỗ.
+					$select(
+						'job_department',
+						'Phòng ban',
+						array_combine( ecsges_job_departments(), ecsges_job_departments() ),
+						'Phòng Công nghệ thông tin và Truyền thông',
+						'Chọn 1 phòng ban — dùng làm khoá cho bộ lọc "Phòng ban" ở trang Tuyển dụng.'
+					),
 					$text( 'job_type', 'Loại công việc', 'Toàn thời gian' ),
 					// Chỉ nhập NGÀY (nhãn "Thời hạn ứng tuyển" đã nằm sẵn trong giao diện).
 					// Giá trị cũ còn tiền tố "Thời hạn:" vẫn hiển thị đúng — template

@@ -48,7 +48,7 @@ get_header();
 	//   trái:  left 16.8% + w 19%  ->  left 11% + w 24%   (mép phải 35.8% -> 35%)
 	//   phải:  right 15.8% + w 21% ->  right 10% + w 25%  (mép trái 63.2% -> 65%)
 	$positions = array(
-		array('side' => 'left', 'align' => 'text-justify', 'box' => 'left:8%;top:71%;width:23%'),
+		array('side' => 'left', 'align' => 'text-justify', 'box' => 'left:10%;top:71%;width:23%'),
 		array('side' => 'right', 'align' => 'text-justify', 'box' => 'right:10%;top:59.8%;width:25%'),
 		array('side' => 'left', 'align' => 'text-justify', 'box' => 'left:10%;top:34.5%;width:24%'),
 		array('side' => 'right', 'align' => 'text-justify', 'box' => 'right:10%;top:20.3%;width:26%'),
