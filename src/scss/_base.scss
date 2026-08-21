@@ -17,7 +17,19 @@
   border-width: 0;
   border-style: solid;
 }
-html { line-height: 1.5; -webkit-text-size-adjust: 100%; }
+// scroll-padding-top: header dính cố định che mất đỉnh phần tử khi nhảy tới
+// anchor (#tam-nhin, #su-menh... ở footer/menu). Khai ở <html> để áp cho CẢ
+// điều hướng bằng hash LẪN scrollIntoView() — dùng scroll-margin trên từng
+// đích thì phải nhớ thêm cho mọi id mới.
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc($header-h + 16px);
+
+  @media (min-width: $bp-lg) {
+    scroll-padding-top: calc($header-h-lg + 16px);
+  }
+}
 h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; margin: 0; }
 p, figure, blockquote, dl, dd, hr, pre { margin: 0; }
 a { color: inherit; text-decoration: inherit; }

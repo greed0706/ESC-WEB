@@ -17,7 +17,9 @@
 .ecs-news-side {
   @include bp(lg) {
     position: sticky;
-    top: 24px; // bám gần đỉnh khi cuộn (header tự ẩn khi cuộn xuống)
+    // Header dính cố định nên phải trừ chiều cao header, nếu không sidebar
+    // trượt vào GẦM header khi cuộn. 16px là khoảng thở giữa hai khối.
+    top: calc(#{$header-h-lg} + 16px);
     align-self: start;
   }
 
@@ -290,11 +292,22 @@
     object-fit: cover;
   }
 
-  // Prose: nội dung the_content() — heading bị reset nên style lại tối thiểu.
-  &__content {
-    @include text-sm;
-    font-weight: 300;
-    color: $body;
+}
+
+/* ------------------------------------------------------------------ */
+/* Prose dùng chung: nội dung the_content() gõ trong trình soạn thảo.  */
+/*                                                                     */
+/* Cố ý ĐỂ NGOÀI .ecs-single và khai bằng danh sách selector thay vì    */
+/* copy sang khối khác: bài viết (single.php) và trang nội dung chung   */
+/* (templatess/page-noi-dung-chung.php) phải hiển thị GIỐNG HỆT nhau —  */
+/* nhân đôi khối này rồi sẽ lệch dần mỗi lần chỉnh một bên.             */
+/* Thêm template mới có the_content()? Thêm selector vào đây.           */
+/* ------------------------------------------------------------------ */
+.ecs-single__content,
+.ecs-doc__content {
+  @include text-sm;
+  font-weight: 300;
+  color: $body;
 
     p {
       margin: 16px 0;
@@ -441,7 +454,6 @@
       color: $muted-2;
       text-align: center;
     }
-  }
 }
 
 /* ------------------------------------------------------------------ */

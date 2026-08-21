@@ -2044,7 +2044,8 @@
 
   @include bp(lg) {
     position: sticky;
-    top: 24px;
+    // Trừ chiều cao header dính — xem ghi chú ở .ecs-news-side.
+    top: calc(#{$header-h-lg} + 16px);
   }
 
   &__card {

@@ -15,25 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header();
 ?>
 	<main class="ecs-archive">
-		<?php
-		// Breadcrumb: dải nền xám full-bleed — dùng lại ĐÚNG markup/CSS của
-		// .ecs-single__crumbbar (single.php) để 2 nơi giống hệt nhau.
-		$ecsges_cat       = get_queried_object();
-		$ecsges_ancestors = ( $ecsges_cat instanceof WP_Term ) ? array_reverse( get_ancestors( $ecsges_cat->term_id, 'category', 'taxonomy' ) ) : array();
-		?>
-		<div class="ecs-single__crumbbar">
-			<div class="ecs-single__crumbbar-inner">
-				<nav class="ecs-single__breadcrumb" aria-label="Breadcrumb">
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( ecsges_t( 'Trang chủ' ) ); ?></a>
-					<?php foreach ( $ecsges_ancestors as $ecsges_ancestor_id ) : ?>
-						<span class="ecs-single__crumb-sep" aria-hidden="true"></span>
-						<a href="<?php echo esc_url( get_category_link( $ecsges_ancestor_id ) ); ?>"><?php echo esc_html( get_cat_name( $ecsges_ancestor_id ) ); ?></a>
-					<?php endforeach; ?>
-					<span class="ecs-single__crumb-sep" aria-hidden="true"></span>
-					<span class="ecs-single__breadcrumb-current" aria-current="page"><?php echo esc_html( single_cat_title( '', false ) ); ?></span>
-				</nav>
-			</div>
-		</div>
+		<?php ecsges_breadcrumb(); ?>
 
 		<div class="ecs-archive__inner">
 			<header class="ecs-archive__head">

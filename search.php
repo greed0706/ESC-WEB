@@ -17,6 +17,7 @@ $ecsges_found = (int) $GLOBALS['wp_query']->found_posts;
 get_header();
 ?>
 	<main class="ecs-archive ecs-archive--search">
+		<?php ecsges_breadcrumb(); ?>
 		<div class="ecs-archive__inner">
 			<header class="ecs-archive__head">
 				<h1 class="ecs-archive__title">

@@ -164,6 +164,41 @@ function ecsges_footer_static_url($link)
 	return '#';
 }
 
+/**
+ * Link 3 trang pháp lý ở thanh cuối footer.
+ *
+ * BỎ QUA trang chưa tồn tại / chưa publish thay vì in link chết — theme không
+ * tạo được Page, nội dung nằm trong DB. Nếu thanh cuối footer trống link thì
+ * nguyên nhân là chưa tạo Page với đúng slug trong ecsges_footer_legal_pages(),
+ * KHÔNG phải lỗi CSS.
+ *
+ * Nhãn chạy qua ecsges_t() và URL qua pll_get_post() để bản EN trỏ đúng bản dịch.
+ *
+ * @return array[] Mỗi mục: label, url.
+ */
+function ecsges_footer_legal_links()
+{
+	$out = array();
+	foreach (ecsges_footer_legal_pages() as $item) {
+		$page = get_page_by_path($item['slug']);
+		if (!$page || 'publish' !== get_post_status($page)) {
+			continue;
+		}
+		$id = (int) $page->ID;
+		if (function_exists('pll_get_post') && function_exists('pll_current_language')) {
+			$tr = pll_get_post($id, pll_current_language('slug'));
+			if ($tr && 'publish' === get_post_status($tr)) {
+				$id = (int) $tr;
+			}
+		}
+		$out[] = array(
+			'label' => ecsges_t($item['label']),
+			'url' => get_permalink($id),
+		);
+	}
+	return $out;
+}
+
 /* ------------------------------------------------------------------ *\
  * SEED — đổ sẵn dữ liệu đang dùng vào form ở lần mở đầu tiên
 \* ------------------------------------------------------------------ */

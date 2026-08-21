@@ -34,6 +34,11 @@ $lh-lg: 1.2; // dãn dòng cho cỡ lớn — 32px sẽ chồng dòng ở 40/50p
 $ls-base: 0.25px; // khoảng cách chữ chuẩn
 // Layout
 $page-max: 1300px;
+// Chiều cao header = .ecs-header__row (64 / 72 ở >=lg) + padding-block 4px×2.
+// Header dính CỐ ĐỊNH (không còn ẩn khi cuộn) nên mọi thứ bám dính khác và mọi
+// đích anchor phải trừ đi đúng chiều cao này, nếu không sẽ bị header đè lên.
+$header-h: 72px;
+$header-h-lg: 80px;
 // Breakpoints (khớp Tailwind mặc định đang dùng: sm/md/lg)
 $bp-sm: 640px;
 $bp-md: 768px;

@@ -24,12 +24,15 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
   background: $brand;
   color: #fff;
 
+  // Đáy chỉ 32px ở mọi bề rộng: khoảng thở dưới thanh cuối do gap của
+  // .ecs-footer__bottom lo, để padding lớn như phía trên nữa thì đáy footer hở
+  // một mảng cam trống. Đỉnh vẫn 48/64 vì đó là khoảng cách tới phần trên trang.
   &__inner {
     @include container;
-    padding-block: 48px;
+    padding-block: 48px 32px;
 
     @include bp(lg) {
-      padding-block: 64px;
+      padding-block: 64px 32px;
     }
 
   }
@@ -62,6 +65,15 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
     font-family: $font-display;
     @include text-sm;
     font-weight: 600;
+  }
+
+  // Cột LIÊN HỆ dùng tên thực thể làm tiêu đề. Chuỗi nguồn viết hoa/thường bình
+  // thường (còn là khoá từ điển i18n) nên phải ép in hoa Ở ĐÂY để đứng cùng
+  // hàng với 3 tiêu đề kia — nếu không một cột chữ thường giữa hàng chữ hoa
+  // trông như lỗi. Tên dài nên cho xuống 2 dòng, không cắt.
+  &__col-title--entity {
+    text-transform: uppercase;
+    text-wrap: balance;
   }
 
   &__list {
@@ -156,6 +168,103 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
     height: 28px;
     width: auto;
   }
+
+  /* -------------------------------------------------------------- *\
+   * Thanh cuối: pháp nhân + bản quyền, rồi 3 trang pháp lý.
+   *
+   * Hai khối XẾP CHỒNG ở MỌI bề rộng và mỗi khối chiếm trọn 100% —
+   * KHÔNG chia trái/phải. Nhờ vậy cụm link pháp lý căn giữa được theo
+   * đúng trục giữa của trang; nếu để chung một hàng flex thì nó chỉ căn
+   * giữa trong nửa phải, lệch hẳn so với tâm trang.
+  \* -------------------------------------------------------------- */
+  &__bottom {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    display: flex;
+    flex-direction: column;
+    // Hai khối này giờ xếp chồng nên gap là thứ DUY NHẤT tách chúng ra —
+    // 16px cũ đọc như cùng một khối. Rộng hơn thì nới thêm.
+    gap: 24px;
+
+    @include bp(md) {
+      gap: 32px;
+    }
+
+  }
+
+  // Chữ pháp lý cố ý NGOÀI thang $fs-* (nhỏ nhất là 18px): đây là dòng phụ,
+  // 18px/32px sẽ nặng ngang phần nội dung chính ở trên.
+  &__legal {
+    width: 100%;
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &__policies {
+    width: 100%;
+  }
+
+  &__company {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  &__copyright {
+    margin-top: 8px;
+  }
+
+  // Dưới md: xếp dọc, mỗi link một dòng, KHÔNG gạch phân cách. Trên md: một
+  // hàng ngang căn giữa, có gạch nối.
+  //
+  // VÌ SAO KHÔNG dùng flex-wrap cho mọi bề rộng: gạch nối là ::before của <li>
+  // nên khi cụm link tự xuống dòng, cái <li> đầu dòng mới vẫn mang theo gạch và
+  // in ra một dấu "|" mồ côi ở sát lề trái. Không có selector CSS nào bắt được
+  // "phần tử đầu tiên của một dòng flex", nên cách chắc chắn là không cho xuống
+  // dòng: hẹp thì xếp dọc, rộng thì một hàng (3 link chỉ ~518px, thừa chỗ ở md).
+  &__policy-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: 300;
+
+    @include bp(md) {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center; // căn giữa theo trục giữa của trang
+      gap: 20px;
+    }
+
+  }
+
+  // Gạch nối chỉ có ở bố cục hàng ngang (>=md).
+  @include bp(md) {
+    &__policy-list>li+li::before {
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: 1px;
+      height: 12px;
+      margin-right: 20px;
+      background: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+  &__policy-link {
+    color: rgba(255, 255, 255, 0.85);
+    transition: color 0.2s;
+
+    &:hover {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  }
 }
 
 // SiteHeader — ported from Tailwind utilities (Phase 2 Task 3), following the
@@ -163,7 +272,7 @@ $header-search-cap: $header-search-btn + $header-actions-gap;
 // Mapping: see docs/superpowers/plans/2026-07-07-phase2-tailwind-to-scss.md (Task 3) +
 // scratchpad/p2-task3-report.md for the full utility -> property table.
 //
-// NOTE: `.site-header` (Headroom sticky/shadow states) and `.ecsges-lang*`
+// NOTE: `.site-header` (position: sticky thuần) and `.ecsges-lang*`
 // (click-open dropdown opacity/visibility + caret rotate) already live in
 // ../_components.scss and are intentionally left untouched — this partial
 // only supplies the layout/spacing utilities that used to sit inline in

@@ -1,29 +1,20 @@
 @use 'variables' as *;
 
 /* ------------------------------------------------------------------ *\
- * Header dính + hiệu ứng cuộn (Headroom.js).
- * Headroom gắn các class: headroom--top / --not-top / --pinned / --unpinned.
+ * Header dính — CHỈ `position: sticky`, KHÔNG transition, KHÔNG JS.
+ *
+ * Headroom.js đã gỡ (enqueue lẫn initStickyHeader) nên không còn class
+ * headroom--top/--not-top/--pinned/--unpinned và không còn hiệu ứng trượt
+ * ẩn/hiện theo hướng cuộn: header đứng nguyên ở đỉnh màn hình.
+ *
+ * CẢNH BÁO: `position: sticky` chết nếu MỘT tổ tiên bất kỳ có overflow khác
+ * `visible` (kể cả overflow-x: hidden) — dùng `overflow-x: clip` nếu cần chặn
+ * tràn ngang.
 \* ------------------------------------------------------------------ */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  will-change: transform;
-  transition:
-    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 0.3s ease;
-}
-/* Đã rời khỏi đỉnh trang → đổ bóng nhẹ */
-.site-header.headroom--not-top {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
-/* Cuộn lên → hiện lại */
-.site-header.headroom--pinned {
-  transform: translateY(0);
-}
-/* Cuộn xuống → trượt lên ẩn đi */
-.site-header.headroom--unpinned {
-  transform: translateY(-100%);
 }
 
 /* Nút/link gạch chân "Tìm hiểu thêm" — hover: underline chạy sang ngang. */
@@ -175,9 +166,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-  /* Không ẩn/hiện header khi người dùng giảm chuyển động — giữ dính, chỉ đổ bóng. */
-  .site-header.headroom--unpinned {
-    transform: none !important;
   }
 }

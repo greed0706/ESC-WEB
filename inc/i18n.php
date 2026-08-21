@@ -140,6 +140,14 @@ function ecsges_en_map() {
 		'Địa chỉ:'               => 'Address:',
 		'Điện thoại:'            => 'Phone:',
 
+		/* Footer — thanh cuối (pháp nhân + trang pháp lý) */
+		'Hệ sinh thái Giáo dục Toàn cầu ECS' => 'ECS Global Education Ecosystem',
+		'Mã số thuế:'            => 'Tax code:',
+		'Chính sách và điều khoản' => 'Policies and terms',
+		'Chính sách quyền riêng tư' => 'Privacy Policy',
+		'Chính sách cookie'      => 'Cookie Policy',
+		'Điều khoản dịch vụ'     => 'Terms of Service',
+
 		/* Trang "Về ECS" */
 		'Từ những bước đi đầu tiên đến hệ sinh thái giáo dục đa lĩnh vực hôm nay, mỗi giai đoạn phát triển của ECSGES đều gắn liền với khát vọng nâng cao chất lượng giáo dục, mở rộng cơ hội học tập và phát triển nguồn nhân lực cho cộng đồng.'
 			=> 'From its very first steps to today\'s multi-sector education ecosystem, every stage of ECSGES\'s growth is tied to the aspiration of improving education quality, expanding learning opportunities and developing human resources for the community.',
@@ -238,6 +246,31 @@ function ecsges_en_map() {
 		'TIN TỨC - THÔNG BÁO'    => 'NEWS & ANNOUNCEMENTS',
 		'Chưa có bài viết.'      => 'No posts yet.',
 		'Không có nội dung.'     => 'No content.',
+
+		/* Trang 404 */
+		'Không tìm thấy trang'   => 'Page not found',
+		'Trang bạn tìm không tồn tại, đã được đổi đường dẫn hoặc đã bị gỡ. Hãy thử tìm kiếm bên dưới hoặc quay lại trang chủ.'
+			=> 'The page you are looking for does not exist, has been moved, or has been removed. Try searching below or go back to the homepage.',
+		'VỀ TRANG CHỦ'           => 'BACK TO HOME',
+		'Xem tin tức mới nhất'   => 'See the latest news',
+
+		/* Trang nội dung chung (templatess/page-noi-dung-chung.php) */
+		'Cập nhật lần cuối:'     => 'Last updated:',
+		'Ngày đăng:'             => 'Published:',
+		'Cập nhật:'              => 'Updated:',
+		'Trang:'                 => 'Page:',
+
+		/* Schema (inc/schema.php) */
+		'Ban biên tập ECSGES'    => 'ECSGES Editorial Team',
+		'Blog ECS Global Education System' => 'ECS Global Education System Blog',
+
+		/* Hồ sơ tác giả (post type tac_gia) */
+		'Tác giả'                => 'Authors',
+		'Đội ngũ tác giả'        => 'Our authors',
+		'Kinh nghiệm làm việc'   => 'Work experience',
+		'Thành tích'             => 'Achievements',
+		'Bài viết của tác giả'   => 'Posts by this author',
+		'Chưa có tác giả nào.'   => 'No authors yet.',
 
 		/* Trang kết quả tìm kiếm (search.php) + ô tìm kiếm ở header */
 		'Kết quả tìm kiếm'       => 'Search results',

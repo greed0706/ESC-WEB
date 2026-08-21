@@ -17,10 +17,16 @@ $ecsges_cols = ecsges_footer_links();
 
 $ecsges_default_contact = ecsges_footer_contact();
 $ecsges_contact = array(
+	'entity' => ecsges_t($ecsges_default_contact['entity']),
 	'address' => ecsges_field('footer_address', $ecsges_default_contact['address']),
 	'email' => ecsges_field('footer_email', $ecsges_default_contact['email']),
 	'phone' => ecsges_field('footer_phone', $ecsges_default_contact['phone']),
 );
+
+// Thanh cuối footer: pháp nhân + bản quyền + 3 trang pháp lý. $ecsges_legal
+// rỗng = 3 Page chưa được tạo/publish trong admin (theme cố ý không in link chết).
+$ecsges_entity = ecsges_footer_legal_entity();
+$ecsges_legal = ecsges_footer_legal_links();
 
 $ecsges_logo = ecsges_field_img('footer_logo', 'logo-ecsges-white.svg');
 $ecsges_socials = array(
@@ -52,7 +58,8 @@ $ecsges_tel = preg_replace('/\./', '', $ecsges_contact['phone']);
 			<?php endforeach; ?>
 
 			<div class="ecs-footer__col">
-				<h2 class="ecs-footer__col-title"><?php echo esc_html(ecsges_t('LIÊN HỆ')); ?></h2>
+				<?php // Tiêu đề cột = tên thực thể (thay chữ "LIÊN HỆ"), địa chỉ giữ nguyên bên dưới. ?>
+				<h2 class="ecs-footer__col-title ecs-footer__col-title--entity"><?php echo esc_html($ecsges_contact['entity']); ?></h2>
 				<ul class="ecs-footer__contact">
 					<li class="ecs-footer__contact-item">
 						<img src="<?php echo esc_url(ecsges_img('footer-pin.svg')); ?>" alt="" aria-hidden="true"
@@ -88,6 +95,28 @@ $ecsges_tel = preg_replace('/\./', '', $ecsges_contact['phone']);
 					<?php endforeach; ?>
 				</ul>
 			</div>
+		</div>
+
+		<div class="ecs-footer__bottom">
+			<div class="ecs-footer__legal">
+				<p class="ecs-footer__company"><?php echo esc_html($ecsges_entity['company']); ?></p>
+				<p class="ecs-footer__tax"><?php echo esc_html(ecsges_t('Mã số thuế:')); ?>
+					<?php echo esc_html($ecsges_entity['tax_id']); ?></p>
+				<p class="ecs-footer__copyright"><?php echo esc_html(ecsges_footer_copyright()); ?></p>
+			</div>
+
+			<?php if ($ecsges_legal): ?>
+				<nav class="ecs-footer__policies" aria-label="<?php echo esc_attr(ecsges_t('Chính sách và điều khoản')); ?>">
+					<ul class="ecs-footer__policy-list">
+						<?php foreach ($ecsges_legal as $ecsges_l): ?>
+							<li>
+								<a href="<?php echo esc_url($ecsges_l['url']); ?>"
+									class="ecs-footer__policy-link"><?php echo esc_html($ecsges_l['label']); ?></a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</nav>
+			<?php endif; ?>
 		</div>
 	</div>
 </footer>

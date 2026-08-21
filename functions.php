@@ -15,6 +15,12 @@ require_once get_template_directory() . '/inc/i18n.php';
 require_once get_template_directory() . '/inc/data.php';
 require_once get_template_directory() . '/inc/acf-fields.php';
 require_once get_template_directory() . '/inc/theme-options.php';
+require_once get_template_directory() . '/inc/tac-gia.php';
+require_once get_template_directory() . '/inc/permalinks.php';
+// breadcrumb PHẢI nạp trước schema: ecsges_schema_breadcrumb() dùng
+// ecsges_breadcrumb_items() để dựng BreadcrumbList.
+require_once get_template_directory() . '/inc/breadcrumb.php';
+require_once get_template_directory() . '/inc/schema.php';
 
 /**
  * Theme setup.
@@ -92,10 +98,9 @@ function ecsges_assets()
 	$css_ver = file_exists($css_path) ? filemtime($css_path) : ECSGES_VERSION;
 	wp_enqueue_style('ecsges-main', $uri . '/assets/css/main.css', array('aos'), $css_ver);
 
-	// Headroom.js — hiệu ứng header (dính + ẩn/hiện theo hướng cuộn). Vendor cục bộ.
-	$hr_path = $dir . '/assets/js/vendor/headroom.min.js';
-	$hr_ver = file_exists($hr_path) ? filemtime($hr_path) : ECSGES_VERSION;
-	wp_enqueue_script('headroom', $uri . '/assets/js/vendor/headroom.min.js', array(), $hr_ver, true);
+	// Headroom.js đã gỡ: header chỉ còn `position: sticky` thuần CSS, không ẩn/hiện
+	// theo hướng cuộn nữa. File vendor vẫn nằm ở assets/js/vendor/ nhưng KHÔNG được
+	// nạp — đừng thêm lại enqueue nếu không muốn hiệu ứng trượt quay lại.
 
 	// AOS — hiệu ứng reveal/entrance. Vendor cục bộ.
 	$aos_path = $dir . '/assets/js/vendor/aos.js';
@@ -104,7 +109,7 @@ function ecsges_assets()
 
 	$js_path = $dir . '/assets/js/main.js';
 	$js_ver = file_exists($js_path) ? filemtime($js_path) : ECSGES_VERSION;
-	wp_enqueue_script('ecsges-main', $uri . '/assets/js/main.js', array('headroom', 'aos'), $js_ver, true);
+	wp_enqueue_script('ecsges-main', $uri . '/assets/js/main.js', array('aos'), $js_ver, true);
 }
 add_action('wp_enqueue_scripts', 'ecsges_assets');
 

@@ -3,7 +3,10 @@
  * 1) Hamburger menu (SiteHeader)
  * 2) Ecosystem tabs (EcosystemTabs)
  * 3) News pagination (NewsSection)
- * 4) Sticky header (Headroom.js) — dính + ẩn/hiện theo hướng cuộn
+ *
+ * Header dính KHÔNG có JS: chỉ `position: sticky` trong CSS (xem .site-header
+ * ở src/scss/_components.scss). Headroom.js đã bị gỡ — header không còn ẩn/hiện
+ * theo hướng cuộn, luôn đứng nguyên ở đỉnh màn hình.
  */
 (function () {
   'use strict';
@@ -16,7 +19,6 @@
     initJobsFilter();
     initJobsHeadline();
     initJobModal();
-    initStickyHeader();
     initAOS();
     initHeroIntro();
     initHeroSlider();
@@ -411,22 +413,6 @@
     });
     // Tính lại vị trí sau khi ảnh tải xong (tránh reveal sai điểm).
     window.addEventListener('load', function () { AOS.refresh(); });
-  }
-
-  /* ---------------------------------------------------------------- */
-  /**
-   * Header dính với Headroom.js: cuộn xuống → trượt lên ẩn; cuộn lên →
-   * hiện lại; rời đỉnh trang → đổ bóng. Style nằm ở .site-header trong CSS.
-   */
-  function initStickyHeader() {
-    var header = document.querySelector('.site-header');
-    if (!header || typeof Headroom === 'undefined') return;
-
-    var headroom = new Headroom(header, {
-      offset: 100,
-      tolerance: { up: 5, down: 8 }
-    });
-    headroom.init();
   }
 
   /* ---------------------------------------------------------------- */

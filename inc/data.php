@@ -226,13 +226,64 @@ function ecsges_hero_slider_defaults()
 	);
 }
 
-/** Thông tin liên hệ footer. */
+/**
+ * Thông tin liên hệ footer.
+ *
+ * 'entity' đứng THAY CHO nhãn "Địa chỉ:" ở cột LIÊN HỆ trong footer: dòng đầu
+ * là tên thực thể, dòng dưới là địa chỉ. Đây là khối NAP (Name-Address-Phone)
+ * mà Google đọc để khớp doanh nghiệp, nên tên phải viết đủ, không viết tắt.
+ *
+ * CHÚ Ý: section-contact.php cũng gọi hàm này và chỉ dùng address/email/phone —
+ * thêm khoá mới thì được, ĐỔI TÊN 3 khoá cũ sẽ làm vỡ trang Liên hệ.
+ */
 function ecsges_footer_contact()
 {
 	return array(
+		'entity' => 'Hệ sinh thái Giáo dục Toàn cầu ECS',
 		'address' => 'Toà ROX Tower Goldmark City 136 Hồ Tùng Mậu, Phú Diễn, Hà Nội',
 		'email' => 'contact@ecs.edu.vn',
 		'phone' => '024.668.39.668',
+	);
+}
+
+/**
+ * Pháp nhân hiển thị ở thanh cuối footer (mã số thuế = tín hiệu tin cậy cho
+ * Google + bắt buộc theo Nghị định 52/2013 với website thương mại điện tử).
+ */
+function ecsges_footer_legal_entity()
+{
+	return array(
+		'company' => 'CÔNG TY CỔ PHẦN HỖ TRỢ VÀ PHÁT TRIỂN ECSGES',
+		'tax_id' => '0111517717',
+	);
+}
+
+/**
+ * Dòng bản quyền cuối footer. Năm tự cập nhật, KHÔNG hardcode — footer dùng
+ * chung mọi trang nên một con số chết sẽ lỗi thời ngay sang năm sau.
+ */
+function ecsges_footer_copyright()
+{
+	return sprintf(
+		'© %s ECS Global Education System (ECSGES). All rights reserved.',
+		gmdate('Y')
+	);
+}
+
+/**
+ * 3 trang pháp lý ở thanh cuối footer — MẶC ĐỊNH TĨNH.
+ *
+ * 'slug' phải trùng slug Page thật trong WordPress; template tương ứng là
+ * page-{slug}.php. Link chỉ được in ra khi Page đã tồn tại và đã publish
+ * (xem ecsges_footer_legal_links() trong inc/theme-options.php) — theme
+ * KHÔNG in link chết.
+ */
+function ecsges_footer_legal_pages()
+{
+	return array(
+		array('label' => 'Chính sách quyền riêng tư', 'slug' => 'chinh-sach-quyen-rieng-tu'),
+		array('label' => 'Chính sách cookie', 'slug' => 'chinh-sach-cookie'),
+		array('label' => 'Điều khoản dịch vụ', 'slug' => 'dieu-khoan-dich-vu'),
 	);
 }
 
