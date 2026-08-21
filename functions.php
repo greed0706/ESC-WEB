@@ -113,6 +113,34 @@ function ecsges_assets()
 }
 add_action('wp_enqueue_scripts', 'ecsges_assets');
 
+/**
+ * Favicon — BẢN LÙI khi chưa đặt Site Icon trong admin (việc #25).
+ *
+ * Cách CHUẨN là Giao diện → Tuỳ biến → Nhận diện site: WordPress cắt sẵn đủ cỡ
+ * (32/180/192/512) cho tab trình duyệt, iOS và Android, rồi tự in thẻ qua
+ * wp_site_icon(). Hàm này KHÔNG can thiệp khi đó — has_site_icon() trả true thì
+ * thoát ngay, tránh in hai bộ thẻ icon chọi nhau.
+ *
+ * Chưa đặt Site Icon thì in emblem SVG của theme để trang không bao giờ hiện
+ * icon trắng mặc định. SVG được ưu tiên vì nét ở mọi độ phân giải chỉ với 1.8KB;
+ * Safari cũ không đọc favicon SVG nên khai thêm logo PNG làm apple-touch-icon.
+ *
+ * @return void
+ */
+function ecsges_favicon()
+{
+	if (has_site_icon()) {
+		return;
+	}
+	$svg = ecsges_img('favicon.svg');
+	printf(
+		'<link rel="icon" href="%1$s" type="image/svg+xml">' . "\n"
+			. '<link rel="apple-touch-icon" href="%1$s">' . "\n",
+		esc_url($svg)
+	);
+}
+add_action('wp_head', 'ecsges_favicon', 2);
+
 /* ------------------------------------------------------------------ *\
  * Helpers dùng lại (port từ các primitive React)
 \* ------------------------------------------------------------------ */
