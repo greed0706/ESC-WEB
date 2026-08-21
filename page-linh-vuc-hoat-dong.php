@@ -26,11 +26,7 @@ get_header();
 				'banner_title' => true,
 			)
 		);
-		// Breadcrumb đặt NGAY SAU banner (không đặt trên): banner là phần mở đầu
-		// của trang, chèn dải xám lên trên sẽ cắt ngang hero.
-		ecsges_breadcrumb();
-
-		get_template_part( 'template-parts/linh-vuc', 'sections' );
+				get_template_part( 'template-parts/linh-vuc', 'sections' );
 		?>
 	</main>
 <?php
