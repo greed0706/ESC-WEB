@@ -193,6 +193,12 @@
 
   &__layout {
     display: grid;
+    // BẮT BUỘC minmax(0, 1fr), KHÔNG để track mặc định `auto`: `auto` lấy
+    // min-content làm cận dưới, nên một ảnh trong bài rộng hơn màn hình
+    // (ví dụ ảnh gốc 800px) sẽ đẩy cả cột lên 800px và sinh thanh cuộn ngang
+    // trên mobile — `max-width: 100%` của ảnh không cứu được vì bề rộng track
+    // lại phụ thuộc vào chính ảnh.
+    grid-template-columns: minmax(0, 1fr);
     gap: 40px;
 
     @include bp(lg) {

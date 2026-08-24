@@ -43,7 +43,7 @@ $ecsges_tel = preg_replace('/\./', '', $ecsges_contact['phone']);
 		<div class="ecs-footer__grid">
 			<?php foreach ($ecsges_cols as $col): ?>
 				<nav class="ecs-footer__col" aria-label="<?php echo esc_attr($col['title']); ?>">
-					<h2 class="ecs-footer__col-title"><?php echo esc_html($col['title']); ?></h2>
+					<div class="ecs-footer__col-title"><?php echo esc_html($col['title']); ?></div>
 					<ul class="ecs-footer__list">
 						<?php foreach ($col['links'] as $link): ?>
 							<li>
@@ -59,7 +59,7 @@ $ecsges_tel = preg_replace('/\./', '', $ecsges_contact['phone']);
 
 			<div class="ecs-footer__col">
 				<?php // Tiêu đề cột = tên thực thể (thay chữ "LIÊN HỆ"), địa chỉ giữ nguyên bên dưới. ?>
-				<h2 class="ecs-footer__col-title ecs-footer__col-title--entity"><?php echo esc_html($ecsges_contact['entity']); ?></h2>
+				<div class="ecs-footer__col-title ecs-footer__col-title--entity"><?php echo esc_html($ecsges_contact['entity']); ?></div>
 				<ul class="ecs-footer__contact">
 					<li class="ecs-footer__contact-item">
 						<img src="<?php echo esc_url(ecsges_img('footer-pin.svg')); ?>" alt="" aria-hidden="true"
