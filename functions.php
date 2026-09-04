@@ -21,6 +21,8 @@ require_once get_template_directory() . '/inc/permalinks.php';
 // ecsges_breadcrumb_items() để dựng BreadcrumbList.
 require_once get_template_directory() . '/inc/breadcrumb.php';
 require_once get_template_directory() . '/inc/schema.php';
+// Nhãn mục lục của plugin ez-toc; cần i18n.php (ecsges_is_en) đã nạp ở trên.
+require_once get_template_directory() . '/inc/toc.php';
 
 /**
  * Theme setup.

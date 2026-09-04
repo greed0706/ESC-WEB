@@ -16,3 +16,5 @@
 // Sau 'posts': .ecs-doc__content dùng chung khối prose khai trong _posts.scss,
 // còn _doc.scss chỉ thêm phần bọc quanh nó.
 @use 'components/doc';
+// Mục lục ez-toc: ghi đè CSS của plugin, xem chú thích độ đặc hiệu trong file.
+@use 'components/toc';

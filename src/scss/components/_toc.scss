@@ -1,0 +1,256 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+/* ------------------------------------------------------------------ */
+/* Mục lục bài viết — plugin "Easy Table of Contents" (ez-toc).         */
+/*                                                                     */
+/* Markup do plugin sinh (không sửa được từ theme), rút gọn:            */
+/*   div#ez-toc-container.ez-toc-counter.ez-toc-container-direction     */
+/*     div.ez-toc-title-container                                      */
+/*       p.ez-toc-title  +  span.ez-toc-title-toggle > a.ez-toc-toggle  */
+/*     nav > ul.ez-toc-list > li > a.ez-toc-link                        */
+/*                            > ul.ez-toc-list-level-3 > li > a         */
+/*                                                                     */
+/* ĐỘ ĐẶC HIỆU — đọc trước khi sửa file này:                            */
+/* CSS của plugin (assets/css/screen.min.css + khối inline nó in ra     */
+/* wp_head) selector kiểu `div#ez-toc-container ul li a`, tức có ID.    */
+/* Class thường KHÔNG bao giờ thắng ID, và ta không kiểm soát được thứ  */
+/* tự enqueue giữa `eztoc` và `ecsges-main`. Nên mọi rule ở đây gắn vào */
+/* `div#ez-toc-container.ez-toc-container-direction` — thêm đúng một    */
+/* class vào chính phần tử mang ID để luôn cao hơn plugin một bậc, bất  */
+/* kể ai load trước. ĐỪNG bỏ phần `.ez-toc-container-direction` (class  */
+/* này plugin luôn gắn, không phụ thuộc phiên bản như `ez-toc-v2_0_85`) */
+/* và cũng đừng thay bằng `!important` — chỉ SVG mới cần, xem bên dưới. */
+/* ------------------------------------------------------------------ */
+
+$toc-border: #e6e6e6;
+
+div#ez-toc-container.ez-toc-container-direction {
+  // Plugin để `display: table; width: auto` nên khung co lại ôm lấy dòng
+  // dài nhất — nhìn như một mẩu bảng lạc giữa bài. Trả về khối chiếm trọn
+  // cột nội dung.
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 24px 0 32px;
+  padding: 18px 18px 20px;
+  background: #fff;
+  border: 1px solid $toc-border;
+  border-radius: 12px;
+  box-shadow: none;
+  font-family: $font-sans;
+
+  @include bp(md) {
+    padding: 22px 26px 24px;
+  }
+
+  /* --- Hàng tiêu đề --------------------------------------------- */
+
+  // Plugin dựng hàng này bằng `display: table` + `float: right` cho nút
+  // gấp. Chuyển sang flex: float bị bỏ qua trên flex item nên `float:
+  // right !important` của `.ez-toc-pull-right` tự vô hiệu, không cần đấu
+  // !important với nó.
+  .ez-toc-title-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding-bottom: 14px;
+    border-bottom: 1px solid $toc-border;
+  }
+
+  .ez-toc-title {
+    position: relative;
+    display: block; // đè `display: inline` + `display: initial` của plugin
+    flex: 1 1 auto;
+    margin: 0;
+    padding-left: 14px;
+    font-family: $font-display;
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 600;
+    color: $ink;
+
+    // Gạch dọc cam thay cho việc phóng to chữ — nhận diện thương hiệu mà
+    // không đẩy tiêu đề mục lục to ngang h2 của bài.
+    &::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 0;
+      width: 4px;
+      border-radius: 2px;
+      background: $brand;
+    }
+  }
+
+  /* --- Nút gấp/mở ----------------------------------------------- */
+
+  .ez-toc-title-toggle {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+  }
+
+  // `.ez-toc-btn-default` của plugin là nút gradient xám kiểu Bootstrap 2
+  // (có cả text-shadow và filter DXImageTransform). Gỡ sạch về nút phẳng.
+  a.ez-toc-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    background-image: none;
+    box-shadow: none;
+    text-shadow: none;
+    color: $muted;
+
+    &:hover,
+    &:focus-visible {
+      color: $brand;
+      text-decoration: none;
+    }
+  }
+
+  .ez-toc-js-icon-con {
+    display: flex;
+    left: 0;
+    width: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: $surface;
+    color: inherit;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  a.ez-toc-toggle:hover .ez-toc-js-icon-con,
+  a.ez-toc-toggle:focus-visible .ez-toc-js-icon-con {
+    background: rgba($brand, 0.12);
+  }
+
+  .ez-toc-icon-toggle-span {
+    gap: 2px;
+    width: 42px;
+    height: 32px;
+  }
+
+  // DUY NHẤT chỗ cần !important: plugin in thẳng `style="fill:#999;
+  // color:#999"` lên thẻ <svg>, mà inline style thì không selector nào
+  // thắng được. Ép về currentColor để icon đổi màu theo nút.
+  .ez-toc-icon-toggle-span svg {
+    color: inherit !important;
+    fill: currentColor !important;
+  }
+
+  /* --- Danh sách -------------------------------------------------- */
+
+  nav {
+    padding-top: 4px;
+  }
+
+  ul.ez-toc-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // Đè `margin-left: 1.5em` của plugin: thụt theo px để thẳng hàng với số
+  // thứ tự ("1.1." nằm dưới chữ của mục cha, không dưới số "1.").
+  ul ul {
+    margin: 4px 0 10px;
+    padding-left: 22px;
+    list-style: none;
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+    font-size: 17px;
+  }
+
+  ul.ez-toc-list > li + li {
+    margin-top: 10px;
+  }
+
+  ul ul li {
+    font-size: 16px;
+  }
+
+  ul ul li + li {
+    margin-top: 6px;
+  }
+
+  /* --- Liên kết ---------------------------------------------------- */
+
+  // `:visited` phải khai cùng chỗ với trạng thái thường: plugin đặt
+  // `#ez-toc-container a:visited { color: #9f9f9f }`, nên mục nào người
+  // đọc đã bấm sẽ mờ hẳn đi so với mục chưa bấm — nhìn như bị lỗi (đúng
+  // triệu chứng "mục lục trông chưa ổn"). Ở đây link đã đọc giữ nguyên màu.
+  ul li a,
+  ul li a:visited {
+    display: inline-flex;
+    align-items: baseline;
+    font-size: 17px;
+    line-height: 26px;
+    font-weight: 500;
+    color: $body;
+    text-decoration: none;
+    transition: color 0.18s ease;
+  }
+
+  ul li a:hover,
+  ul li a:focus-visible {
+    color: $brand;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  ul ul li a,
+  ul ul li a:visited {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    color: $muted-2;
+  }
+
+  ul ul li a:hover,
+  ul ul li a:focus-visible {
+    color: $brand;
+  }
+
+  // Mục đang đọc — front.js gắn `.active` lên <li> khi cuộn qua heading.
+  li.active > a,
+  li.active > a:visited {
+    color: $brand;
+    font-weight: 600;
+  }
+
+  /* --- Số thứ tự (::before do plugin sinh bằng counters()) --------- */
+
+  nav ul li a::before {
+    float: none; // đang là flex item, float chỉ gây rối
+    margin-right: 8px;
+    font-weight: 600;
+    color: $brand;
+  }
+
+  nav ul ul li a::before {
+    font-weight: 500;
+    color: $muted;
+  }
+
+  /* --- Trạng thái gấp (front.js gắn .toc_close + ẩn <nav>) --------- */
+
+  &.toc_close {
+    padding-bottom: 18px;
+
+    .ez-toc-title-container {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+  }
+}
